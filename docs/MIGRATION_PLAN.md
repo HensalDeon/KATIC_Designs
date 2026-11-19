@@ -273,12 +273,16 @@ Built in two parallel groups (About, Services), then integrated: the two page-lo
 
 **Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling noise. Neither page has reveal animations, as in the original; the motion-on audit is within 1.9% apart from deliberate fixes. All suites are green (250 unit, 213 e2e).
 
-### Phase 6: Service detail template and 8 pages (~2 days)
+### Phase 6: Service detail template and 8 pages (~2 days) ✅ done 2026-11-19
 
-- [ ] `ServicePageContent` schema (analysis/03 §4): SEO, hero, typed `sections[]` union, contact-form config, FAQs, plant.
-- [ ] `ServicePage` renderer maps section types to Phase 3 components inside a `SectionStack`.
-- [ ] Architecture-only blocks: `.ap` intro, `.sv` 9-row services list, `.pr` process + image row (fix the 512px column overflowing on mobile), `.ap2` projects.
-- [ ] Content files for all 8 pages from the per-page tables in analysis/03 §2. Shared pools (testimonials, related services, sector tiles, divisions, process stages) are referenced by id.
+Built in four overlapping groups: the template + turnkey + interior handed over its schema early, so architecture, factory/construction/renovation and exterior/property care were built in parallel on top of it.
+
+- [x] `ServicePageContent` schema (P6-01): SEO, hero, typed `sections[]` union, contact-form config, FAQs, plants. Registry in `src/content/service-pages/index.ts`; only built pages are prerendered, other slugs 404 (P6-02).
+- [x] `ServicePage` renderer maps section types to the Phase 3 components; tones by index with overrides.
+- [x] Architecture-only blocks in `src/components/service-page/arch/`: `.ap` intro (spacer removed, KI-L21), `.sv` 9-row services list into the form, `.pr` process + image row (stacks on phones, KI-L20), `.ap2` projects.
+- [x] Content for all 8 pages, verbatim, placeholders marked; new projects added to `src/content/projects.ts`. FAQ answers support inline links (P6-05); plants get their phone room statically (P6-04).
+
+**Exit:** met. All 8 pages prerender; every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling. No page has reveal animations, as in the original; the motion-on audit is within 1.5% once the no-auto-zoom fix is reverted. All suites are green (302 unit, 366 e2e).
 
 ### Phase 7: Works and Project detail (~1.5 days)
 

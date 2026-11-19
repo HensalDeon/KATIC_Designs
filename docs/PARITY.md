@@ -81,3 +81,37 @@ With the fixes reverted, every block passes at 1440 and 1024 (turnkey 1.08%, rev
 **Motion check (animations on, 1440):** no `[data-rv]` on the original and no `[data-reveal]` in the rebuild. Each section at the top of the viewport after 2.5s: hero, what we do and what we deliver 0.00–0.01%, interior 0.33%, turnkey 1.08%, exterior 0.12%, contact 0.01%; the four other blocks 14.9–20.5% from the KI-L18 fix (0.23–0.51% with it reverted). The architecture parallax matches the original to 0.0006px. Thumbnail hover (scale 1.06 over 0.6s) and the lightbox gallery per block are covered by `tests/e2e/services-page.spec.ts`.
 
 On touch devices the original has no `text-size-adjust`, so Chrome enlarges its 8.5–9.5px block taglines and photo labels to about 11px; the rebuild sets them to 11px on phones, which matches what it renders and KI-A10.
+
+---
+
+## Service pages (`/services/<slug>`): Phase 6, 2026-11-19
+
+All 8 pages are built from one template (P6-01). The 1440 column is the lead's re-run on the merged build; the other widths come from each page's own run. Bracketed numbers are with the fix reverted (`--css`) or the height shift compensated; at 768/390 they use a settled re-capture of the original (P6-03, KI-N12).
+
+### What is the same on every page
+
+| Section                             | 1440                | 1024              | 768 / 390         | Reason for non-pass                                                                                                              |
+| ----------------------------------- | ------------------- | ----------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Hero                                | 0.00–0.01%          | 5.4–9.4% [≤0.11%] | ≤0.73% / ≤2.46%   | 1024: title scales to 62px (KI-L16)                                                                                              |
+| Standard blocks that fit one screen | 0.00–1.16%          | ≤0.55%            | 2–18% [≤1.0%]     | 768/390: kickers, captions and meta raised to 11px (KI-A10), a few px taller each                                                |
+| Blocks the original shrinks to fit  | 13–69% [0.48–3.10%] | see below         | see below         | The original zooms them to one screen; the rebuild lets them grow (KI-L13)                                                       |
+| Testimonials                        | ≤1.47%              | 3.2–4.5% [≤0.34%] | 3.6–6.3%          | 1024: the last card spans instead of leaving an orphan (KI-L23); 390: 11px meta wraps (KI-A10)                                   |
+| Contact + FAQ                       | 13–28% [0.01–0.92%] | ≤1.30%            | 11–53% [0.5–4.3%] | 1440: no auto-zoom (KI-L13), 62–141px taller. 768/390: email and phone as a two-row list (KI-L11)                                |
+| Footer                              | 0.12–1.59%          | 0.14%             | ≤1.6% (settled)   | Sub-pixel offsets from the sections above. The stored phone captures are offset by the original's growing plant padding (KI-N11) |
+
+### Page-specific notes (1440 unless stated)
+
+| Page          | Notable sections                                                                                                                                                                                                             |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Architecture  | `.ap` 26.95% [0.04%], `.sv` services list 42.41% [0.08%] (KI-L13); process 0.82%; projects 1.14% (photo resampling). 1024 bespoke blocks ≤1.56% reverted (KI-N04 titles). 768/390: process photos stack (KI-L20) [≤0.21%]    |
+| Interior      | Everything ≤0.65% except the contact (17.25% [0.13%])                                                                                                                                                                        |
+| Factory       | "What we make" 28.25% and gallery 69.25% [3.10%] (KI-L13: the original zooms both and offsets them from the gutter); 1024 gallery is two columns (KI-L23); 768/390 gallery and product photos use the documented phone sizes |
+| Construction  | Feature grid 23.77% [0.82%] (KI-L13). The footer's 48.16% is a broken stored capture; 1.46% against the settled one                                                                                                          |
+| Turnkey       | Sectors 1.16% (photo resampling); contact 28.27% [0.72%]                                                                                                                                                                     |
+| Renovation    | Feature grid 20.03% [0.48%]; sectors 3.26% and process 1.83% (photo and anti-aliasing noise); before/after 5.19% (layout probed identical, photo resampling; ≤860: 63.6% / 56.3% from the documented 300px phone figures)    |
+| Exterior      | Sectors ×5 2.05% (`next/image` serves a 256w rendition of the 240px tiles; text identical); contact 19.03% [0.01%]. 390: dark projects 42.62% [0.06%], the 11px card meta wraps                                              |
+| Property care | `#pc-services` 26.75% [0.92%] (KI-L13); sectors 47.42% is the stored baseline offset by exactly that section's 222px [1.15% settled]; contact 22.44% [0.11%]                                                                 |
+
+**Motion check (animations on, 1440):** none of the eight original pages has `[data-rv]` and the rebuild has no `[data-reveal]` (asserted per page in `tests/e2e/service-pages.spec.ts`). With each section at the top of the viewport after 2.5s and the original's `fit()` zoom reverted, every section is within 1.47% (most ≤0.5%); as-is, the differences are the KI-L13 sections listed above. Feature and process line art draws on; the FAQ accordion, lightbox galleries, hover states, hero/row/FAQ contact buttons with service preselection, the factory's hidden service field and the plants (static in both, KI-L39) are covered by e2e.
+
+Known shared deviation, not fixed in P6: the "SECTOR" label in `SectorGrid` sits 2px lower than the original (within the passing figures).
