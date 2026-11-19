@@ -1,8 +1,5 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 
-import { builtDivisionSlugs } from "@/content/divisions/pages";
-import { DIVISION_SLUGS, routes } from "@/lib/routes";
-
 /**
  * Dubai location page (`/locations/dubai`, original `#p-dubai`). Values are the ORIGINAL's
  * rendered output, measured with a probe of `#p-dubai` at 1440 / 1024 / 768 / 390, written as the
@@ -145,10 +142,15 @@ test.describe("1440 canvas (zoom 1)", () => {
       .toBe(0);
   });
 
-  test("the hero CTA scrolls to the page's own form", async ({ page }) => {
+  test("the hero CTA scrolls to the page's own form and writes the location (PREFILL)", async ({
+    page,
+  }) => {
     await open(page);
+    const details = contact(page).getByLabel("Project Details");
+    await expect(details).toHaveValue("");
     await section(page, 0).getByRole("link", { name: "Start a Project" }).click();
     await expect(contact(page).getByLabel("Full Name")).toBeFocused();
+    await expect(details).toHaveValue("Location: Dubai, UAE\n");
   });
 
   test("KATIC in Dubai: photo column, pin box, title and paragraph", async ({ page }) => {
@@ -337,15 +339,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       .evaluateAll((els) => els.map((el) => el.getAttribute("href") ?? ""));
     const paths = [...new Set(hrefs.map((href) => href.split("#")[0] ?? ""))];
     expect(paths.length).toBeGreaterThan(10);
-    // Division pages are built one by one (Phase 8): every division link names a real division,
-    // and resolves once that page is in the registry.
-    const built = new Set(builtDivisionSlugs().map((slug) => routes.division(slug)));
-    const divisions = new Set(DIVISION_SLUGS.map((slug) => routes.division(slug)));
     for (const path of paths) {
-      if (path.startsWith("/divisions/")) {
-        expect(divisions.has(path), path).toBe(true);
-        if (!built.has(path)) continue;
-      }
       const response = await page.request.get(path);
       expect(response.status(), path).toBe(200);
     }

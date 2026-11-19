@@ -258,9 +258,10 @@ test.describe("1440 canvas (zoom 1)", () => {
       height: "40px",
       paddingLeft: "18px",
       fontSize: "12px",
-      fontWeight: "500",
+      // Active: black semibold on orange like Works (KI-A19), not the original's white 500.
+      fontWeight: "600",
       backgroundColor: ORANGE,
-      color: WHITE,
+      color: "rgb(0, 0, 0)",
     });
     await expectStyles(buttons.nth(1), {
       backgroundColor: WHITE,
@@ -297,7 +298,6 @@ test.describe("1440 canvas (zoom 1)", () => {
         .evaluateAll((els) => els.map((el) => el.getAttribute("href")?.split("#")[0] ?? "")),
     );
     for (const href of hrefs) {
-      if (href.startsWith("/divisions/") && href !== "/divisions/design") continue; // Phase 8, other branch
       const response = await page.request.get(href);
       expect(response.status(), href).toBe(200);
     }
@@ -314,6 +314,8 @@ test.describe("1440 canvas (zoom 1)", () => {
       const expected = expectedSlugs(area);
       await expect.poll(() => visibleSlugs(page)).toEqual(expected);
       await expect(filter(page, label)).toHaveAttribute("aria-pressed", "true");
+      // Black on orange like the Works filter, not the original's 3.4:1 white (KI-A19).
+      await expect(filter(page, label)).toHaveCSS("color", "rgb(0, 0, 0)");
       await expect(projects(page).locator("[aria-pressed=true]")).toHaveCount(1);
       await expect(count(page)).toHaveText(`${String(expected.length)} projects`);
       await expect(page).toHaveURL(

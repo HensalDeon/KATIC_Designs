@@ -417,7 +417,7 @@ test.describe("/divisions/developers blocks", () => {
       letterSpacing: "1.36px",
       color: WHITE,
       backgroundColor: "rgb(17, 17, 17)",
-      paddingTop: "7px",
+      // 7px vertical padding in the original; the shared tag is a 24px centred flex box (same box).
       paddingLeft: "10px",
       top: "16px",
       left: "16px",

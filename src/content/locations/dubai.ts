@@ -284,5 +284,7 @@ export const DUBAI_CONTACT = {
         options: ["Residential", "Commercial", "Institutional", "Hospitality"],
       },
     ],
+    // The original's PREFILL (`dubai: {loc:'Dubai, UAE'}`) on "go to contact".
+    prefillLocation: "Dubai, UAE",
   },
 } as const satisfies ContactSectionContent;

@@ -36,11 +36,12 @@ type IndiaProjectFilterProps = {
 
 /**
  * `.kcats button` (global 1918–1921): white with a light border, orange when on, a dark border on
- * hover. The active one keeps the original's white text.
+ * hover. The active one has black semibold text like the Works filter: the original's white on
+ * orange is 3.4:1 at 12px (KI-A19).
  */
 const FILTER_BUTTON = cn(
   "h-40 cursor-pointer border border-[#ddd] bg-white px-18 font-sans text-[12px] font-medium text-ink-2 transition-colors duration-200 hover:border-ink-2",
-  "aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-white",
+  "aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:font-semibold aria-pressed:text-black",
 );
 
 /**
