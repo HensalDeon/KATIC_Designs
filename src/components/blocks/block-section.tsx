@@ -85,6 +85,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
             image={block.image}
             kicker={block.kicker}
             title={<LineBreaks lines={block.title} />}
+            {...(context.titleClassName ? { titleClassName: context.titleClassName } : {})}
             {...(block.caption ? { caption: block.caption } : {})}
             {...(block.lead ? { lead: block.lead } : {})}
             {...(block.body ? { body: block.body } : {})}

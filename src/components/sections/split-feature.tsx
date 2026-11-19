@@ -23,6 +23,8 @@ export type SplitFeatureProps = {
   /** Use `<br />` for the original's authored line breaks. */
   readonly title: ReactNode;
   readonly titleAs?: ComponentProps<typeof SectionTitle>["as"];
+  /** Page-level title override (P1-04), e.g. Dubai's 1.14 line height. */
+  readonly titleClassName?: string;
   readonly lead?: ReactNode;
   readonly body?: ReactNode;
   /** Square-bullet list, two columns on the canvas and tablets. */
@@ -48,6 +50,7 @@ export function SplitFeature({
   kicker,
   title,
   titleAs,
+  titleClassName,
   lead,
   body,
   bullets,
@@ -90,7 +93,7 @@ export function SplitFeature({
 
       <div>
         <Kicker>{kicker}</Kicker>
-        <SectionTitle as={titleAs} className="mt-22">
+        <SectionTitle as={titleAs} className={cn("mt-22", titleClassName)}>
           {title}
         </SectionTitle>
         {lead ? (
