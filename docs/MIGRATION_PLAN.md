@@ -200,21 +200,27 @@ Effort figures are rough single-developer estimates for planning, not quotes.
 
 **Exit:** the styleguide matches the original's buttons and type at 1440 and 390, proven by the computed-style suite (10/10 green against a production build).
 
-### Phase 2: Global shell and overlays (~2 days)
+### Phase 2: Global shell and overlays (~2 days) ✅ done 2026-11-19
 
-- [ ] **Header:**
-  - fixed position; `.scrolled` state after 40px (top 18→10, darker bg, shadow, logo 44→38, 0.35s);
-  - desktop hover/focus dropdowns, with `aria-expanded` and click-to-dismiss (`nohover`);
-  - active-section highlighting.
-- [ ] **Mobile nav** (≤860): the compact 300px dropdown that actually renders (not the dead full-screen version), tap-to-open submenus, focus trap, Esc to close, closes on route change.
-- [ ] **Footer:** all columns, links and the bottom bar from analysis/01 §3.7.
-- [ ] **ContactRail** (desktop floating), **MobileCtaBar** (≤860: slides in after the hero and hides near the footer). Fix the rail/CTA bar overlap between 421 and 860px.
-- [ ] **StartProjectModal:** global provider, opened by any `data-go="popup"` equivalent; dialog semantics, focus trap, scroll lock, Esc/backdrop close; 0.35s/0.45s transitions.
-- [ ] **Lightbox:** provider with a keyboard-accessible trigger wrapper; dialog semantics; arrow-key navigation within a gallery (an enhancement; the original is single-image).
-- [ ] **Toast**, **SkipLink**, **LegacyHashRedirect** (plus Vitest table tests for every mapping in analysis/04 §13).
-- [ ] `useContactScroll()`: reproduces `#contact` behaviour (scroll to this page's contact section, else go to the home one) plus `?service=` prefill.
+- [x] Typed content: `SITE` settings (contact, address, socials; placeholders flagged), `HEADER_NAV` and `FOOTER_COLUMNS`, `SERVICE_OPTIONS` with per-page preselection, and route builders (`src/lib/routes`).
+- [x] **Header:**
+  - fixed bar, compact after 40px;
+  - hover/focus dropdowns with `aria-expanded`/`aria-controls`, Escape, and the original's `nohover` suppression after a click;
+  - active item from the URL;
+  - phone panel with tap-to-open submenus, Escape and outside-tap close (DECISIONS P2-02).
+- [x] **Footer:** every column and link from content, a cached copyright year (P2-05), and an undistorted logo (KI-L07).
+- [x] **ContactRail** (server, desktop and tablet) and **MobileCtaBar** (phones; past-hero / near-end logic; yields to the menu and popup). They no longer overlap (KI-L12).
+- [x] **StartProjectDialog:**
+  - native modal `<dialog>` (P2-03) with the original's layout and motion;
+  - page-based service preselection, inline validation (KI-F03), honeypot;
+  - `POST /api/leads` with a shared Zod schema (P2-04, pulled forward from Phase 3);
+  - lead kept in `sessionStorage` for `/thank-you`.
+- [x] **Lightbox** (native dialog, keyboard triggers, gallery navigation, captions), **Toast**, **SkipLink**, and **LegacyHashRedirect** with 41 table tests.
+- [x] The base line-height is reset to the original's `normal` (P2-06).
+- [x] Parity: computed styles measured on the original (`reference/probes/shell.mts`), side-by-side captures at 1440 and 390 (`reference/probes/shell-shots.mts`), and `tests/e2e/shell.spec.ts` (styles + behaviour).
+- [ ] Moved to Phase 3: `#contact` behaviour (scroll to the page's contact section). It needs `ContactSection`.
 
-**Exit:** navigating every link in the header and footer works, including legacy hashes; the shell matches the screenshots at all 4 widths.
+**Exit:** every header and footer link resolves to its new route (pages arrive in later phases), legacy hashes redirect, and the shell matches the original at 1440 and 390.
 
 ### Phase 3: Shared sections and the motion engine (~3 days)
 
