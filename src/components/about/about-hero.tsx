@@ -46,6 +46,7 @@ export function AboutHero({ content = ABOUT_HERO }: AboutHeroProps) {
           src={resolveImage(content.image.src)}
           alt={content.image.alt}
           preload
+          fetchPriority="high"
           sizes="100vw"
           className="size-full object-cover"
         />

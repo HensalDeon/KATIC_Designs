@@ -40,6 +40,7 @@ export function ServicesHero({ content = SERVICES_HERO }: ServicesHeroProps) {
           src={media[content.image.src].image}
           alt={content.image.alt}
           preload
+          fetchPriority="high"
           sizes="100vw"
           className="size-full object-cover"
         />

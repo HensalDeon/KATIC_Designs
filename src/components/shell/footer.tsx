@@ -8,6 +8,7 @@ import { StartProjectTrigger } from "@/components/shell/start-project-trigger";
 import { media } from "@/content/media";
 import { FOOTER_COLUMNS } from "@/content/navigation";
 import { SITE } from "@/content/site";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 const columnTitle = "mb-16 font-display text-[15px] font-semibold";
@@ -24,13 +25,18 @@ export function Footer() {
       <footer className="relative bg-black px-41 pt-48 pb-34 text-white shadow-footer max-md:px-22 max-md:pt-36 max-md:pb-28 max-xs:pb-72">
         <Link href={routes.home} aria-label="Katic Designs home" className="flex w-fit">
           {/* Intrinsic ratio at 28px tall; the original stretches it to 115px wide (KI-L07). */}
-          <Image src={media["brand/logo"].image} alt="" sizes="50px" className="h-28 w-auto" />
+          <Image
+            src={media["brand/logo"].image}
+            alt=""
+            sizes={fixedCanvasSizes(50)}
+            className="h-28 w-auto"
+          />
         </Link>
         <Image
           src={media["plants/banana-leaf-plant"].image}
           alt=""
           aria-hidden
-          sizes="216px"
+          sizes={fixedCanvasSizes(216)}
           className="pointer-events-none absolute top-20 right-48 z-3 max-h-252 w-216 object-contain max-lg:max-h-220 max-lg:w-189 max-md:top-14 max-md:right-14 max-md:max-h-112 max-md:w-96"
         />
 

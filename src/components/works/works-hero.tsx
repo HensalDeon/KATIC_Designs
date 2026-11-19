@@ -46,6 +46,7 @@ export function WorksHero({ content = WORKS_HERO }: WorksHeroProps) {
           src={resolveImage(content.image.src)}
           alt={content.image.alt}
           preload
+          fetchPriority="high"
           sizes="100vw"
           className="size-full object-cover"
         />
