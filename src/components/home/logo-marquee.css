@@ -1,0 +1,34 @@
+/*
+ * Plain CSS with namespaced classes, not a CSS Module: the Turbopack rule in next.config.ts
+ * (`"*.css"` → `as: "*.css"`) also catches `*.module.css` and emits it as global CSS with an
+ * empty class map, so modules silently do nothing in this project.
+ *
+ * Partner logo marquee (E19). The track holds the logo set four times, every logo followed by the same
+ * 16px margin, so −50% of the track is exactly two sets: the loop is seamless (fixes KI-L35, where
+ * a hard-coded −776px no longer matched the logo size).
+ */
+@keyframes logo-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-marquee-track {
+  animation: logo-marquee var(--marquee-duration, 18s) linear infinite;
+}
+
+.logo-marquee-viewport:hover .logo-marquee-track,
+.logo-marquee-track[data-paused] {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track {
+    animation: none;
+  }
+
+  /* Nothing moves, so there is nothing to pause. */
+  .logo-marquee-toggle {
+    display: none;
+  }
+}
