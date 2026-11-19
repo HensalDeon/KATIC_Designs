@@ -329,7 +329,7 @@ Built in three parallel groups (blog + article, news + thank-you, reviews).
 - [ ] Final cleanup: nothing ships or stays in the repo that the site doesn't need.
   - Delete components, variants and props no page uses (the P7-04 list: `FaqSection`, `CtaBand` reviews, `Chip`, `UnderlineLink`, `MoreLink`, `Button`, `PageHero` enquiry, unused primitive variants) and any media in `src/content/media.ts` no page references.
   - Delete scripts and test helpers that only served the build (keep what CI, `pnpm parity` and the asset pipeline still run).
-  - Local, git-ignored working folders: `.tmp/` (throwaway probes, deleted after every phase) and, once parity is signed off, `reference/` (original site, baseline captures, audit screenshots: 1.2 GB) — archive it outside the repo first if the client wants the evidence kept.
+  - Local, git-ignored working folders: `.tmp/` (throwaway probes, deleted after every phase). `reference/` (original site, baseline captures, audit screenshots: 1.2 GB) stays until the Laravel integration is done (decided 2026-11-20), then it and the scripts that only read it (`scripts/reference/`, `scripts/art/export-original-art.mts`, `pnpm ref:*`, `pnpm parity`) are removed in Phase 11.
 
 ### Phase 11: Laravel readiness (~1 day of front-end work; the backend itself is separate)
 
