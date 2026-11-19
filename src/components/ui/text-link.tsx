@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/lib/cn";
 
-const moreLinkVariants = cva("inline-flex items-center gap-10 text-fg uppercase", {
+export const moreLinkVariants = cva("inline-flex items-center gap-10 text-fg uppercase", {
   variants: {
     font: {
       /** `.k-more`: Inter 600 11px. */
@@ -19,15 +19,36 @@ const moreLinkVariants = cva("inline-flex items-center gap-10 text-fg uppercase"
 type MoreLinkProps = Omit<ComponentPropsWithoutRef<typeof Link>, "children"> &
   VariantProps<typeof moreLinkVariants> & { children: string };
 
+/** The orange arrow of `.k-more`: text-safe orange on white, brand orange on black (KI-A11). */
+export function MoreArrow({ className }: { className?: string }) {
+  return (
+    <b className={cn("text-kicker", className)} aria-hidden>
+      →
+    </b>
+  );
+}
+
 /** "Explore service →" style link with an orange arrow (`.k-more`). */
 export function MoreLink({ font, className, children, ...props }: MoreLinkProps) {
   return (
     <Link className={cn(moreLinkVariants({ font }), className)} {...props}>
       {children}
-      <b className="text-brand" aria-hidden>
-        →
-      </b>
+      <MoreArrow />
     </Link>
+  );
+}
+
+/** The `.k-more` label as plain text, for use inside a larger link (e.g. a whole card). */
+export function MoreLabel({
+  font,
+  className,
+  children,
+}: VariantProps<typeof moreLinkVariants> & { className?: string; children: string }) {
+  return (
+    <span className={cn(moreLinkVariants({ font }), className)}>
+      {children}
+      <MoreArrow className="font-black" />
+    </span>
   );
 }
 

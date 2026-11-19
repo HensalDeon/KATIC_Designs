@@ -2,6 +2,7 @@ import { cva } from "class-variance-authority";
 import Image from "next/image";
 import Link from "next/link";
 
+import { MoreLabel } from "@/components/ui/text-link";
 import { cn } from "@/lib/cn";
 
 import { canvasSizes, type ImageInput, resolveImage } from "./section-media";
@@ -125,14 +126,7 @@ function Card({
           {item.text}
         </p>
       ) : null}
-      {item.href ? (
-        <span className="mt-auto flex items-center gap-10 pt-16 font-sans text-[11px] font-semibold tracking-[0.12em] text-fg uppercase">
-          {moreLabel}
-          <b className="font-black text-brand-text in-data-[tone=dark]:text-brand" aria-hidden>
-            →
-          </b>
-        </span>
-      ) : null}
+      {item.href ? <MoreLabel className="mt-auto flex pt-16">{moreLabel}</MoreLabel> : null}
     </>
   );
   const cardClass = "flex w-full flex-col text-fg";

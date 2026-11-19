@@ -28,8 +28,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         role="status"
         aria-live="polite"
         className={cn(
-          "fixed bottom-24 left-1/2 z-999 -translate-x-1/2 bg-ink-2 px-20 py-12 font-sans text-[13px] text-white transition-transform duration-300",
-          visible ? "translate-y-0" : "translate-y-120",
+          "fixed bottom-24 left-1/2 z-999 -translate-x-1/2 bg-ink-2 px-20 py-12 font-sans text-[13px] text-white transition-[transform,visibility] duration-300",
+          // `invisible` once hidden, so the empty box never shows in full-page captures.
+          visible ? "visible translate-y-0" : "invisible translate-y-120",
         )}
       >
         {message}

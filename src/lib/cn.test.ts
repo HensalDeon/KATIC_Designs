@@ -32,3 +32,11 @@ describe("cn", () => {
     expect(classes(cn(input))).toEqual(classes(input));
   });
 });
+
+describe("cn: font size and leading are independent", () => {
+  it("keeps an earlier leading when a font size follows", () => {
+    expect(classes(cn("leading-[1.8]", "text-[16px]"))).toEqual(
+      classes("leading-[1.8] text-[16px]"),
+    );
+  });
+});

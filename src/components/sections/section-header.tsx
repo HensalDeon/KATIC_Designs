@@ -9,8 +9,8 @@ import { cn } from "@/lib/cn";
 export type SectionCta = {
   readonly label: string;
   readonly href: string;
-  /** `.ol` on light sections, `.dk` / `.dko` on dark ones. */
-  readonly variant?: "outline" | "dark" | "outline-light";
+  /** `.ol` on light sections, `.dk` / `.dko` on dark ones, `outline-ink` = `.dko` on light (home). */
+  readonly variant?: "outline" | "dark" | "outline-light" | "outline-ink";
 };
 
 export type SectionHeaderProps = {

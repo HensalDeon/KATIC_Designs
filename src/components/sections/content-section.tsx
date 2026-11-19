@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { Container } from "@/components/ui/container";
 import { Plant } from "@/components/ui/plant";
@@ -15,7 +15,7 @@ export type PlantSpec = {
   readonly width: number;
 };
 
-type ContentSectionProps = {
+type ContentSectionProps = Omit<ComponentPropsWithoutRef<"section">, "children" | "className"> & {
   readonly tone: Tone;
   readonly id?: string;
   /** Omit for sections without the standard `.kh` header. */
@@ -41,9 +41,10 @@ export function ContentSection({
   className,
   bodyClassName,
   children,
+  ...sectionProps
 }: ContentSectionProps) {
   return (
-    <Section tone={tone} id={id} className={cn(plant && "isolate", className)}>
+    <Section tone={tone} id={id} className={cn(plant && "isolate", className)} {...sectionProps}>
       {plant ? <Plant {...plant} behind /> : null}
       <Container>
         {header ? <SectionHeader {...header} /> : null}
