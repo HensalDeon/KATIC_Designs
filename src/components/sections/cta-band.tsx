@@ -40,6 +40,8 @@ type CtaBandProps = {
    */
   readonly renderImage?: (image: ReactElement) => ReactNode;
   readonly "data-testid"?: string;
+  /** Parity-tool match for the original's id-less `.ctasec` (`ctasec`, DECISIONS P5-01). */
+  readonly "data-parity"?: string;
 };
 
 /** The left-to-right shade over the image (`.ctasec::before`). */
@@ -117,6 +119,7 @@ export function CtaBand({
   imageClassName,
   renderImage,
   "data-testid": testId,
+  "data-parity": parity,
 }: CtaBandProps) {
   const background = (
     <Image
@@ -136,6 +139,7 @@ export function CtaBand({
       fullHeight={false}
       {...(id ? { id } : {})}
       data-testid={testId}
+      data-parity={parity}
       className={cn(
         "text-white before:absolute before:inset-0 before:z-1 before:content-[''] max-lg:pb-80 lg:h-[max(var(--svh),680px)] lg:pt-[max(0px,calc((var(--svh)_-_680px)/2))]",
         shadeVariants({ variant }),
