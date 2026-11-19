@@ -337,6 +337,7 @@ Built in three parallel groups (blog + article, news + thank-you, reviews).
 - [ ] `LaravelRepository` implementing the same interface: `fetch` with `next: { tags }`, Zod parsing at the boundary, typed errors, timeouts.
 - [ ] `/api/revalidate` route (signed secret) so Laravel can trigger on-demand ISR when content changes.
 - [ ] Switch repositories with `DATA_SOURCE=static|laravel`; `/api/leads` forwards to the Laravel endpoint.
+- [ ] Once the Laravel integration is done: delete `reference/` (kept until then, decided 2026-11-20) and the tooling that only reads it (`scripts/reference/`, `scripts/art/export-original-art.mts`, the `ref:*` and `parity*` scripts, `tests/visual/`), and update README and the build guide.
 
 **Total: ~21–25 developer-days** for front-end parity, plus client content turnaround.
 
