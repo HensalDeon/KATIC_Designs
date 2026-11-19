@@ -25,7 +25,7 @@ export const RELATED_SERVICES = {
     title: "Architectural Design",
     text: "Consultation, planning, architecture, elevations and spatial design.",
     image: "photos/brick-courtyard-house-dusk",
-    alt: "Architectural Design",
+    alt: "Brick courtyard house lit at dusk around a planted courtyard",
   },
   interior: {
     slug: "interior",
@@ -33,7 +33,7 @@ export const RELATED_SERVICES = {
     title: "Interior Design",
     text: "Interior planning, materials, furniture and execution.",
     image: "photos/living-room-tv-wall",
-    alt: "Interior Design",
+    alt: "Living room with a timber TV wall",
   },
   construction: {
     slug: "construction",
@@ -41,7 +41,7 @@ export const RELATED_SERVICES = {
     title: "Construction & Execution",
     text: "Residential and commercial construction, project coordination and finishing.",
     image: "photos/construction-team-drawings",
-    alt: "Construction & Execution",
+    alt: "Construction team reviewing drawings on site",
   },
   turnkey: {
     slug: "turnkey",
@@ -49,7 +49,7 @@ export const RELATED_SERVICES = {
     title: "Turnkey Projects",
     text: "Complete project delivery for residential, commercial and hospitality spaces.",
     image: "photos/formal-dining-room",
-    alt: "Turnkey Projects",
+    alt: "Formal dining room with a chandelier",
   },
   renovation: {
     slug: "renovation",
@@ -57,7 +57,7 @@ export const RELATED_SERVICES = {
     title: "Renovation & Remodeling",
     text: "Transforming existing spaces through renovation and redesign.",
     image: "photos/brick-house-arched-windows-night",
-    alt: "Renovation & Remodeling",
+    alt: "Brick house with arched windows lit at night",
   },
   exterior: {
     slug: "exterior",
@@ -65,7 +65,7 @@ export const RELATED_SERVICES = {
     title: "Exterior & Landscape Design",
     text: "Outdoor spaces, parks, facades and landscape planning.",
     image: "photos/house-rain-garden",
-    alt: "Exterior & Landscape Design",
+    alt: "Two-storey house with a rain garden and textured walls",
   },
   "property-care": {
     slug: "property-care",
@@ -73,7 +73,7 @@ export const RELATED_SERVICES = {
     title: "Property Care & Maintenance",
     text: "Property maintenance, repairs and ongoing support.",
     image: "photos/teak-stair-handrail",
-    alt: "Property Care & Maintenance",
+    alt: "Teak stair handrail detail",
   },
 } as const satisfies { readonly [S in RelatedServiceSlug]: RelatedService & { slug: S } };
 

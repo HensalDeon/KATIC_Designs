@@ -3,10 +3,14 @@
  * (reference/baseline, captured by `pnpm ref:capture`) and writes an HTML diff report.
  *
  *   pnpm parity --routes home --viewports desktop,mobile [--base http://127.0.0.1:3100] [--out dir]
+ *     [--css file]   (extra CSS injected into the new site, e.g. to revert a deliberate fix, P5-04)
+ *     [--baseline dir] (default reference/baseline)
  *
  * Sections are matched by the original's ids (pages keep them). Blocks without an id in the
  * original: the hero (matched to `[data-hero]`), the footer (matched to `[data-parity=footer]`) and
- * any other block, matched to `[data-parity="<its first class>"]` (e.g. About's `section.i1`).
+ * any other block, matched to `[data-parity="<its first class>"]` (e.g. About's `section.i1`); when
+ * several blocks share that class (the service pages' `section.ks`), the n-th block matches the
+ * n-th element.
  * Size differences count as mismatching pixels (both images are padded to the larger size), so a
  * section that grows or shrinks cannot pass. Scroll-scrub sections are compared from their
  * motion-on frames by their own suites and are skipped here.
@@ -31,7 +35,6 @@ import {
 } from "./routes";
 
 const ROOT = process.cwd();
-const BASELINE = path.join(ROOT, "reference/baseline");
 
 /** Fixed chrome hidden in both captures (the baseline hides the original's equivalents). */
 const HIDE_CHROME_CSS = `
@@ -61,9 +64,15 @@ const { values: args } = parseArgs({
     /** Report directory (worktrees cannot write into the symlinked reference/ folder). */
     out: { type: "string", default: "reference/parity" },
     threshold: { type: "string", default: "1" },
+    /** CSS injected into the new site only (measure with a deliberate fix reverted, DECISIONS P5-04). */
+    css: { type: "string" },
+    /** Baseline directory (default reference/baseline), e.g. a re-capture of selected routes. */
+    baseline: { type: "string", default: "reference/baseline" },
   },
 });
 const thresholdPct = Number(args.threshold);
+const BASELINE = path.resolve(ROOT, args.baseline);
+const EXTRA_CSS = args.css ? await readFile(path.resolve(process.cwd(), args.css), "utf8") : "";
 const OUT = path.resolve(ROOT, args.out);
 const routes = pick(PARITY_ROUTES, args.routes, (r) => r.id);
 const viewports = pick(
@@ -139,6 +148,7 @@ async function compareRoute(
     await Promise.all([...document.images].map((img) => img.decode().catch(() => undefined)));
   });
   await page.addStyleTag({ content: HIDE_CHROME_CSS });
+  if (EXTRA_CSS) await page.addStyleTag({ content: EXTRA_CSS });
   await page.waitForTimeout(400);
 
   const outDir = path.join(OUT, viewportId, route.id);
@@ -148,6 +158,8 @@ async function compareRoute(
   );
 
   const results: Result[] = [];
+  // Blocks sharing a parity class (e.g. the service pages' `section.ks`) match by occurrence.
+  const seen = new Map<string, number>();
   for (const section of manifest.sections) {
     const name = section.file.replace(/\.png$/, "");
     const base: Result = {
@@ -167,7 +179,9 @@ async function compareRoute(
         : /\bftw\b/.test(section.className)
           ? "[data-parity=footer]"
           : parityClassSelector(section.className);
-    const locator = selector ? page.locator(selector).first() : null;
+    const occurrence = selector ? (seen.get(selector) ?? 0) : 0;
+    if (selector) seen.set(selector, occurrence + 1);
+    const locator = selector ? page.locator(selector).nth(occurrence) : null;
     if (!locator || (await locator.count()) === 0) {
       results.push(base);
       continue;

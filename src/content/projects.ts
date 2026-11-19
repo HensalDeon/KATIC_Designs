@@ -235,6 +235,31 @@ const PROJECT_LIST = [
     cover: "photos/granite-kitchen",
     coverAlt: "Kitchen with granite worktops and white cabinets",
   },
+  // Service-page featured projects not shown elsewhere yet (docs/analysis/03 §2.2, §2.5); facts
+  // from their cards' meta line ("Residential · Interiors · Marine Drive, Kochi").
+  {
+    slug: "harbour-loft",
+    name: "Harbour Loft",
+    location: "Marine Drive, Kochi",
+    region: "kerala",
+    categories: ["residential", "interiors"],
+    type: "Residential",
+    scope: "Interiors",
+    cover: "photos/apartment-living-sea-view",
+    coverAlt: "Apartment living room with sea views",
+  },
+  {
+    slug: "desert-edge-villa",
+    // TODO(content): KI-D01 the Developers division page calls it "Desert Edge Villas".
+    name: "Desert Edge Villa",
+    location: "Al Khawaneej, Dubai",
+    region: "uae",
+    categories: ["residential", "villas"],
+    type: "Residential",
+    scope: "Turnkey",
+    cover: "photos/desert-villa-sunset",
+    coverAlt: "Desert villa with an infinity pool at sunset",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];

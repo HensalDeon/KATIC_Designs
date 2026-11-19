@@ -746,7 +746,8 @@ test.describe("390 phone", () => {
     await expectStyles(c.field("Full Name"), { height: "42px", fontSize: "16px" });
     await expectStyles(c.field("Project Details"), { height: "76px" });
     await expectStyles(c.question, { fontSize: "15.5px", paddingTop: "17px" });
-    // Original 1672.6px; the contact info is a two-row list instead of a wrapped row (KI-L11).
-    expect(await box(c.section, c.section)).toMatchObject({ h: 1642.6 });
+    // Original 1672.6px; the contact info is a two-row list instead of a wrapped row (KI-L11), and
+    // the form note is 11px instead of 10.5px (KI-A10, +1px).
+    expect(await box(c.section, c.section)).toMatchObject({ h: 1643.6 });
   });
 });

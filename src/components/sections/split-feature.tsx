@@ -82,7 +82,7 @@ export function SplitFeature({
           className="size-full object-cover"
         />
         {caption ? (
-          <span className="pointer-events-none absolute bottom-20 left-20 bg-[rgba(10,10,10,0.85)] px-12 py-9 font-sans text-[9px] font-semibold tracking-[0.2em] text-white uppercase">
+          <span className="pointer-events-none absolute bottom-20 left-20 bg-[rgba(10,10,10,0.85)] px-12 py-9 font-sans text-[9px] font-semibold tracking-[0.2em] text-white uppercase max-md:text-[11px]">
             {caption}
           </span>
         ) : null}

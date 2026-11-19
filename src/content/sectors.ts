@@ -27,7 +27,7 @@ export const SECTORS = {
     title: "Residential",
     text: "Homes, villas and apartments shaped around daily life.",
     image: "photos/canal-house-sunset",
-    alt: "Residential",
+    alt: "House beside a canal at sunset",
     category: "residential",
   },
   commercial: {
@@ -35,7 +35,7 @@ export const SECTORS = {
     title: "Commercial",
     text: "Workplaces, retail and mixed-use spaces built for business.",
     image: "photos/commercial-facade-dusk",
-    alt: "Commercial",
+    alt: "Industrial-style commercial building lit at dusk",
     category: "commercial",
   },
   institutional: {
@@ -43,7 +43,7 @@ export const SECTORS = {
     title: "Institutional",
     text: "Schools, healthcare and civic buildings for communities.",
     image: "photos/hillside-house-greenery",
-    alt: "Institutional",
+    alt: "House set into a green hillside",
     category: "institutional",
   },
   hospitality: {
@@ -51,7 +51,7 @@ export const SECTORS = {
     title: "Hospitality",
     text: "Hotels, wellness and leisure spaces made to welcome.",
     image: "photos/garden-veranda-chairs",
-    alt: "Hospitality",
+    alt: "Garden veranda with cane chairs",
     category: "hospitality",
   },
 } as const satisfies Record<SectorKey, SectorTile>;
@@ -65,5 +65,5 @@ export const OUTDOOR_ENVIRONMENTS_TILE = {
   title: "Outdoor environments",
   text: "Parks, campuses and public landscapes.",
   image: "photos/house-rain-garden",
-  alt: "Outdoor environments",
+  alt: "Two-storey house with a rain garden and textured walls",
 } as const satisfies SectorTile;
