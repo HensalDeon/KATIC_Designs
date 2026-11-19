@@ -249,7 +249,12 @@ function describeServicePage(spec: ServicePageSpec) {
         await questions.nth(1).click();
         await expect(questions.nth(1)).toHaveAttribute("aria-expanded", "true");
         await expect(questions.first()).toHaveAttribute("aria-expanded", "false");
-        await expect(section.getByRole("region").nth(1)).toBeVisible();
+        // Address the panels by `aria-controls`: a closed panel is hidden from the accessibility
+        // tree once its transition ends, so `getByRole("region").nth(1)` raced the close.
+        const panel = async (index: number) =>
+          page.locator(`#${await questions.nth(index).getAttribute("aria-controls")}`);
+        await expect(await panel(1)).toBeVisible();
+        await expect(await panel(0)).toBeHidden();
       });
 
       if (spec.related) {
