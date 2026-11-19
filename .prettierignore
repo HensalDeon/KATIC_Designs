@@ -12,4 +12,5 @@ public/
 # Reference material and frozen audit notes (line-referenced; keep byte-stable)
 reference/
 .claude/
+.impeccable/
 docs/analysis/
