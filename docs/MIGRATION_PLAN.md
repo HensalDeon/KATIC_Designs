@@ -183,19 +183,22 @@ Effort figures are rough single-developer estimates for planning, not quotes.
 
 **Exit:** `pnpm dev` runs; CI passes on an empty app; baseline screenshots exist.
 
-### Phase 1: Design system foundation (~1.5 days)
+### Phase 1: Design system foundation (~1.5 days) ✅ done 2026-11-19
 
-- [ ] `globals.css` `@theme`:
-  - colours: `--or #E8622C`, `--or-t #C24E1E` text-safe orange, pure black and white, greys from analysis/01 §1.1;
-  - fonts, easings `cubic-bezier(.2,.7,.2,1)` and `(.3,.7,.2,1)`, durations;
-  - breakpoints `xs 421 / md 861 / lg 1100`;
-  - container `--W 1268px` with 86 / 36 / 20 px gutters.
-- [ ] `ZoomRoot` + head bootstrap script (`--z`, `--svh`) + resize sync. Unit-test the maths and verify there is no layout flash (CLS 0).
-- [ ] Typography primitives (`Kicker`, `Heading` levels, `Lead`, body) matching the computed type scale in analysis/01 §2.2.
-- [ ] `Section` + `SectionStack` (tone alternation, one-screen min-height at ≥1100, the padding rhythm _as computed in the browser_), `Container`, `Button` (all variants: solid orange, outline, outline-on-dark, text arrow), `ArrowIcon`, `Chip`, `Plant` (static), icon set (22 `.nico` icons as React components).
-- [ ] A dev-only `/_styleguide` route rendering every primitive in both tones for quick visual checks (excluded from the build/sitemap).
+- [x] `globals.css` `@theme`, restricted to the design system (DECISIONS P1-01):
+  - brand colours (`brand #E8622C`, `brand-text #C24E1E`, hover, ink, cream, lines);
+  - tone-aware colours (`fg`, `fg-muted`, `fg-body`, `fg-mut`, `kicker`, `surface`) driven by `[data-tone]`;
+  - Jost/Inter, the two easings, elevation tokens, `xs 421 / md 861 / lg 1100` breakpoints, 1268/1296 containers, and a 1px spacing unit.
+- [x] Zoom: inline `<head>` script generated from `src/lib/zoom.ts`, a CSS fallback, and `.zoom-root` (P1-02). Unit tests cover the maths and the script itself. Verified at 1440/1920/390 with no console warnings.
+- [x] Primitives in `src/components/ui`:
+  - `Container`, `Section` (tone, `standard`/`home` rhythm, one-screen min-height, no auto-zoom per D4), `alternatingTone()`;
+  - `Kicker`, `SectionTitle`, `HeroTitle`, `Accent`, `Lead`, `Body`;
+  - `Button`/`ButtonLink` (7 colour variants × 5 sizes × 2 fonts, hover states), `MoreLink`, `UnderlineLink`, `Chip`, `Tag`, `Plant`;
+  - icons: `ArrowIcon`, `ServiceIcon` (all 27 `.nico` icons, verbatim paths).
+- [x] Dev-only `/styleguide` (`ENABLE_STYLEGUIDE=1` in production builds, `noindex`).
+- [x] Parity proof: `tests/e2e/design-system.spec.ts` checks rendered styles against values measured on the original at 1440, 1024 and 390 (P1-03). It also locks in KI-N04, KI-L16 and KI-A11.
 
-**Exit:** the styleguide matches the original's buttons and type side by side at 1440 and 390.
+**Exit:** the styleguide matches the original's buttons and type at 1440 and 390, proven by the computed-style suite (10/10 green against a production build).
 
 ### Phase 2: Global shell and overlays (~2 days)
 

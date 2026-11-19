@@ -37,6 +37,15 @@ pnpm dev              # http://localhost:3000
 | `pnpm ref:serve`                                               | Serve the original site at http://localhost:4310 for side-by-side comparison                        |
 | `pnpm ref:capture [--routes a,b] [--viewports desktop,mobile]` | Capture the per-section parity baseline from the original site into `reference/baseline/`           |
 
+## Design system
+
+- Tokens live in `src/app/globals.css` (Tailwind v4 `@theme`). The palette, type scale and breakpoints are restricted to the design system, and **1 spacing unit = 1px**.
+- Primitives live in `src/components/ui` (`Section`, `Container`, `Kicker`, `SectionTitle`, `HeroTitle`, `Lead`, `Body`, `Button`/`ButtonLink`, `MoreLink`, …) and `src/components/icons`.
+- Sections set `tone="light" | "dark"`; children use tone-aware colours (`text-fg`, `text-fg-muted`, `text-kicker`, `bg-surface`).
+- Desktop (≥1100px) is a fixed 1440px canvas scaled with CSS `zoom` (`src/lib/zoom.ts`).
+- Browse every primitive at **http://localhost:3000/styleguide** (dev only; production builds need `ENABLE_STYLEGUIDE=1`).
+- `tests/e2e/design-system.spec.ts` checks the primitives' rendered styles against values measured on the original site. To run it against a dev server you already have open: `E2E_BASE_URL=http://localhost:3000 pnpm test:e2e`.
+
 ## Reference material (`reference/`, git-ignored)
 
 The original site and everything derived from it stay out of git because they are large and regenerable:
