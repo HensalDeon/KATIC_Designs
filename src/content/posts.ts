@@ -2,7 +2,7 @@ import type { MediaId } from "./media";
 
 /**
  * Blog posts: the original's `POSTS` array (JS line 4401, docs/analysis/04 §5–6), copy verbatim.
- * Feeds the home blog teaser now and the blog listing, category and article pages later; in
+ * Feeds the home blog teaser and the blog listing, category and article pages (`src/components/blog`); in
  * Phase 11 the same shape comes from Laravel (`posts` table with a JSON block body).
  */
 
@@ -332,6 +332,16 @@ export function latestPosts(count: number): Post[] {
   return postsByDate().slice(0, count);
 }
 
+/**
+ * The `count` newest posts other than `slug`: the article aside's "Latest articles" (original
+ * `KB.article`, JS 4497: every other post, newest first, four of them).
+ */
+export function otherLatestPosts(slug: string, count: number): Post[] {
+  return postsByDate()
+    .filter((post) => post.slug !== slug)
+    .slice(0, count);
+}
+
 /** Posts in a category, newest first; every post for `"all"` (the original's "All" chip). */
 export function postsByCategory(slug: PostCategorySlug | "all"): Post[] {
   if (slug === "all") return postsByDate();
@@ -348,6 +358,68 @@ const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
 /** Display date as the original renders it (`en-GB`, e.g. "14 Oct 2026", "18 Sept 2026"). */
 export function formatPostDate(isoDate: string): string {
   return DATE_FORMAT.format(new Date(`${isoDate}T00:00:00Z`));
+}
+
+/**
+ * The blog listing (`#p-blog`, original lines 4054–4065, docs/analysis/04 §5): SEO (`data-title` /
+ * `data-desc`), the banner, and the grid's paging (`KB` state: 6 cards, then 3 more per click).
+ */
+export const BLOG_PAGE = {
+  seo: {
+    title: "Architecture & Interior Design Blog | Katic Designs",
+    description:
+      "Ideas on architecture, interiors, materials, construction and caring for homes in Kerala's climate.",
+  },
+  hero: {
+    image: "photos/brick-courtyard-house-dusk-panorama" satisfies MediaId,
+    kicker: "Journal",
+    title: { lines: ["Ideas on"], accent: "Building Well" },
+    lead: "Notes on architecture, interiors, materials, construction and caring for the spaces we live in.",
+  },
+  /** Accessible name of the grid (the original has no heading between the h1 and the card h3s, KI-A14). */
+  listHeading: "Articles",
+  categoryHeading: (name: PostCategoryName) => `${name} articles`,
+  /** Label of the category links (`.kcats`), shown on the category pages (KI-F13). */
+  categoriesLabel: "Blog categories",
+  allCategories: "All",
+  readMore: "Read Article",
+  loadMore: "Load More Articles",
+  pageSize: 6,
+  pageStep: 3,
+} as const;
+
+/** SEO of a category page (`/blog/category/<slug>`); the original has no per-category title. */
+export function blogCategorySeo(category: PostCategory): {
+  title: string;
+  description: string;
+} {
+  return {
+    title: `${category.name} Articles | Katic Designs Blog`,
+    description: BLOG_PAGE.seo.description,
+  };
+}
+
+/**
+ * The article page (`#p-article`, original lines 4066–4070, `KB.article` JS 4487–4499): aside and
+ * closing-line copy.
+ */
+export const ARTICLE_PAGE = {
+  breadcrumb: "Blog",
+  byline: "By",
+  latestHeading: "Latest articles",
+  latestCount: 4,
+  allArticles: "All Articles",
+  /** Appended after every body (`<p>Planning a project? <a data-go="contact">…</a>.</p>`). */
+  closing: { prompt: "Planning a project?", link: "Talk to the KATIC team" },
+} as const;
+
+/**
+ * Document title of an article as the original leaves it at runtime: `KB.article` sets
+ * "<title> | Katic Designs Blog" and then overwrites it with "<title> — Katic Designs" (JS 4498,
+ * KI-S02); the description is the excerpt.
+ */
+export function articleSeo(post: Post): { title: string; description: string } {
+  return { title: `${post.title} — Katic Designs`, description: post.excerpt };
 }
 
 /** Copy of the home page's blog teaser (`#home-blog`). */
