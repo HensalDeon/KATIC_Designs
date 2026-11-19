@@ -120,10 +120,13 @@ export const ARCHITECTURE_PAGE = {
         },
         {
           question: "Where does Katic take architecture projects?",
-          // TODO(content): the original links "Kochi" and "Dubai" inline to the location pages;
-          // FAQ answers are plain text, so the links are not reproduced.
-          answer:
-            "We work across Kerala — from our studio in Kochi — and across the UAE, including Dubai.",
+          answer: [
+            "We work across Kerala — from our studio in ",
+            { label: "Kochi", href: routes.location("india") },
+            " — and across the UAE, including ",
+            { label: "Dubai", href: routes.location("dubai") },
+            ".",
+          ],
           link: {
             label: "View architecture projects",
             href: routes.worksCategory("architecture"),

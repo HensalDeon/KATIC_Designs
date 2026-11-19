@@ -22,9 +22,13 @@ export type FaqLink =
       readonly service?: ServiceOption;
     };
 
+/** A run of answer text, or an inline link inside it (the original's underlined `<a>` in `.qb p`). */
+export type FaqAnswerPart = string | { readonly label: string; readonly href: string };
+
 export type FaqItem = {
   readonly question: string;
-  readonly answer: string;
+  /** Plain text, or text with inline links. */
+  readonly answer: string | readonly FaqAnswerPart[];
   readonly link?: FaqLink;
 };
 
@@ -152,7 +156,9 @@ export function Faq({ items, context = "combo", typography = "standard", classNa
             >
               <div className="min-h-0 overflow-hidden">
                 <div className="pr-60 pb-26">
-                  <p className={answerVariants({ context, typography })}>{item.answer}</p>
+                  <p className={answerVariants({ context, typography })}>
+                    <AnswerText answer={item.answer} />
+                  </p>
                   {item.link ? (
                     <AnswerLink
                       link={item.link}
@@ -166,6 +172,24 @@ export function Faq({ items, context = "combo", typography = "standard", classNa
         );
       })}
     </div>
+  );
+}
+
+function AnswerText({ answer }: { answer: FaqItem["answer"] }) {
+  if (typeof answer === "string") return answer;
+  return answer.map((part, index) =>
+    typeof part === "string" ? (
+      part
+    ) : (
+      <Link
+        // Parts are static content; their order never changes.
+        key={index}
+        href={part.href}
+        className="underline transition-colors duration-200 hover:text-brand"
+      >
+        {part.label}
+      </Link>
+    ),
   );
 }
 
