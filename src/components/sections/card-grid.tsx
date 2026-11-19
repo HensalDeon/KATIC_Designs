@@ -24,7 +24,7 @@ export type CardItem = {
   readonly meta?: string;
   /** Description under the title (service and product cards). */
   readonly text?: string;
-  /** Dark status chip over the image's top-left corner (`.kc .tg`), e.g. "Office", "Expanding". */
+  /** Status chip over the image's top-left corner (`.kc .tg`): "Office", "Expanding", "Completed". */
   readonly tag?: string;
   /** Overrides the grid's link label for this card (e.g. "Contact the Kochi office"). */
   readonly moreLabel?: string;

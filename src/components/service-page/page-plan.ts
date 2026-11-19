@@ -1,13 +1,24 @@
+import {
+  blockTone,
+  endingTone,
+  planBlocks,
+  type PlannedBlock,
+  withContactTarget as withContactHref,
+} from "@/components/blocks/block-plan";
 import type { SectionAction } from "@/components/sections/section-action";
 import type { ServicePageContent, ServiceSection } from "@/content/service-pages";
 import type { ServiceSlug } from "@/lib/routes";
-import { alternatingTone, type Tone } from "@/lib/tone";
+import type { Tone } from "@/lib/tone";
+
+/**
+ * Service-page names for the shared block plan (`src/components/blocks/block-plan.ts`): service
+ * pages alternate white/black after the hero, starting white, and end with the contact + FAQ in
+ * the opposite tone of the last section.
+ */
 
 /** A section with its resolved tone and a stable React key. */
-export type PlannedSection = {
+export type PlannedSection = Omit<PlannedBlock<ServiceSection>, "block" | "index"> & {
   readonly section: ServiceSection;
-  readonly tone: Tone;
-  readonly key: string;
 };
 
 /** The resolved order and tones of a service page, between the (dark) hero and the contact. */
@@ -16,22 +27,13 @@ export type ServicePagePlan = {
   readonly contact: { readonly id: string; readonly tone: Tone };
 };
 
-/**
- * Tone of the section at `index` (after the hero): white and black alternate starting with white,
- * as on every service page of the original (docs/analysis/03 §0). `section.tone` overrides it.
- */
+/** Tone of the section at `index` (after the hero); `section.tone` overrides it. */
 export function sectionTone(section: Pick<ServiceSection, "tone">, index: number): Tone {
-  return section.tone ?? alternatingTone(index, "light");
+  return blockTone(section, index);
 }
 
-/**
- * Tone of the contact + FAQ section: the opposite of the section above it (the original forces
- * it light with `data-fx` after a dark section, and leaves it dark otherwise). Right after the
- * dark hero, it is light.
- */
-export function contactTone(previous: Tone | undefined): Tone {
-  return previous === "light" ? "dark" : "light";
-}
+/** Tone of the contact + FAQ section: the opposite of the section above it. */
+export const contactTone = endingTone;
 
 /** The contact section's id, as the original renames it at runtime (`<slug>-contact`). */
 export function contactSectionId(slug: ServiceSlug): string {
@@ -39,16 +41,14 @@ export function contactSectionId(slug: ServiceSlug): string {
 }
 
 /** Order, keys and tones of every section of a page. */
-export function planServicePage(content: Pick<ServicePageContent, "slug" | "sections">) {
-  const sections = content.sections.map((section, index) => ({
-    section,
-    tone: sectionTone(section, index),
-    key: `${String(index)}-${section.type}`,
-  }));
+export function planServicePage(
+  content: Pick<ServicePageContent, "slug" | "sections">,
+): ServicePagePlan {
+  const plan = planBlocks(content.sections);
   return {
-    sections,
-    contact: { id: contactSectionId(content.slug), tone: contactTone(sections.at(-1)?.tone) },
-  } satisfies ServicePagePlan;
+    sections: plan.blocks.map(({ block, tone, key }) => ({ section: block, tone, key })),
+    contact: { id: contactSectionId(content.slug), tone: plan.endingTone },
+  };
 }
 
 /**
@@ -56,7 +56,5 @@ export function planServicePage(content: Pick<ServicePageContent, "slug" | "sect
  * content gives an explicit target.
  */
 export function withContactTarget(action: SectionAction, contactId: string): SectionAction {
-  return action.kind === "contact" && action.href === undefined
-    ? { ...action, href: `#${contactId}` }
-    : action;
+  return withContactHref(action, `#${contactId}`);
 }

@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import { LineBreaks } from "@/components/blocks/title-text";
 import { ZoomableImage } from "@/components/overlays/lightbox";
 import { resolveImage, type SectionImage } from "@/components/sections/section-image";
-import { LineBreaks } from "@/components/service-page/title-text";
 import { ButtonLink, buttonVariants } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";

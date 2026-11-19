@@ -1,6 +1,6 @@
-import { type DivisionSlug, routes } from "@/lib/routes";
+import { DIVISION_SLUGS, type DivisionSlug, routes } from "@/lib/routes";
 
-import type { MediaId } from "./media";
+import type { MediaId } from "../media";
 
 /**
  * The five KATIC divisions. Name, description and card image are identical in the header
@@ -72,4 +72,9 @@ export const DIVISIONS = {
 /** The divisions for `slugs`, in that order. */
 export function divisions(slugs: readonly DivisionSlug[]): Division[] {
   return slugs.map((slug) => DIVISIONS[slug]);
+}
+
+/** Every division but `slug`, in the site's division order (the division pages' closing grid). */
+export function otherDivisions(slug: DivisionSlug): DivisionSlug[] {
+  return DIVISION_SLUGS.filter((other) => other !== slug);
 }

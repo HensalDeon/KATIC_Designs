@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 
+import { LineBreaks } from "@/components/blocks/title-text";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { cn } from "@/lib/cn";
-
-import { LineBreaks } from "../title-text";
 
 /**
  * Section title of the architecture page (`#p-architecture .st`): 58px with a 1.14 line height at

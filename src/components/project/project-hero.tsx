@@ -1,8 +1,8 @@
 import Image from "next/image";
 
+import { AccentTitleText } from "@/components/blocks/title-text";
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { resolveImage } from "@/components/sections/section-image";
-import { AccentTitleText } from "@/components/service-page/title-text";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
 import type { ProjectHeroContent } from "@/content/project-details";
