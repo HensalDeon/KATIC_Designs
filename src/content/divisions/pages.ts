@@ -1,6 +1,10 @@
 import { DIVISION_SLUGS, type DivisionSlug } from "@/lib/routes";
 
+import { CARE_DIVISION_PAGE } from "./care";
 import { DESIGN_DIVISION_PAGE } from "./design";
+import { DEVELOPERS_DIVISION_PAGE } from "./developers";
+import { INFRASTRUCTURE_DIVISION_PAGE } from "./infrastructure";
+import { INTERIOR_DIVISION_PAGE } from "./interior";
 import type { DivisionPageContent } from "./types";
 
 export type { DivisionPageContent } from "./types";
@@ -11,10 +15,10 @@ export type { DivisionPageContent } from "./types";
  */
 export const DIVISION_PAGES: Readonly<Record<DivisionSlug, DivisionPageContent | undefined>> = {
   design: DESIGN_DIVISION_PAGE,
-  interior: undefined,
-  infrastructure: undefined,
-  developers: undefined,
-  care: undefined,
+  interior: INTERIOR_DIVISION_PAGE,
+  infrastructure: INFRASTRUCTURE_DIVISION_PAGE,
+  developers: DEVELOPERS_DIVISION_PAGE,
+  care: CARE_DIVISION_PAGE,
 };
 
 function isDivisionSlug(slug: string): slug is DivisionSlug {

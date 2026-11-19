@@ -433,6 +433,9 @@ test.describe("project links", () => {
       "exterior",
       "property-care",
     ].map((slug) => `/services/${slug}`),
+    ...["design", "interior", "infrastructure", "developers", "care"].map(
+      (slug) => `/divisions/${slug}`,
+    ),
     PATH,
   ];
 
