@@ -1,0 +1,36 @@
+/*
+ * Divisions carousel progress bar (original `dvxbar`, E28): fills over one autoplay interval
+ * (`--interval`, set from CAROUSEL_INTERVAL_MS); a hold freezes it where it is and the next
+ * interval restarts it, as in the original.
+ *
+ * A plain co-located stylesheet with `home-dvx-` names, not a CSS Module: see
+ * services-explorer.css.
+ */
+.home-dvx-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.home-dvx-bar[data-run] {
+  animation: home-dvx-fill var(--interval) linear forwards;
+}
+
+.home-dvx-bar[data-hold] {
+  animation-play-state: paused;
+}
+
+@keyframes home-dvx-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-dvx-bar[data-run] {
+    animation: none;
+  }
+}
