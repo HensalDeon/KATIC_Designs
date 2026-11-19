@@ -8,15 +8,14 @@ import { ReviewsProjects } from "@/components/reviews/reviews-projects";
 import { ReviewsStory } from "@/components/reviews/reviews-story";
 import { ReviewsTrust } from "@/components/reviews/reviews-trust";
 import { REVIEWS_SEO } from "@/content/reviews";
+import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /** Fully static: the build fails if anything here starts rendering per request. */
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  // The original's title already ends in "| Katic Designs".
-  title: { absolute: REVIEWS_SEO.title },
-  description: REVIEWS_SEO.description,
-};
+// The original's `data-title` / `data-desc` (the title already ends in the brand).
+export const metadata: Metadata = pageMetadata({ path: routes.reviews, ...REVIEWS_SEO });
 
 /**
  * Reviews (`#p-reviews`, original lines 4216–4379, docs/analysis/04 §9). Order and tones as the

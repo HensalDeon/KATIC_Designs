@@ -4,6 +4,7 @@ import type { DubaiOfficeContent } from "@/components/locations/dubai/dubai-offi
 import type { DubaiProjectsContent } from "@/components/locations/dubai/dubai-projects";
 import type { ContactSectionContent } from "@/components/sections/contact-section";
 import type { BlockBase, ContentBlock } from "@/content/blocks";
+import { OFFICES } from "@/content/site";
 import { routes } from "@/lib/routes";
 
 /**
@@ -213,7 +214,7 @@ export const DUBAI_BLOCKS = [
         value: "+971 0 000 0000",
         href: "tel:+97100000000",
       },
-      { term: "Email", value: "dubai@katicdesigns.com", href: "mailto:dubai@katicdesigns.com" },
+      { term: "Email", value: OFFICES.dubai.email, href: `mailto:${OFFICES.dubai.email}` },
       { term: "Hours", value: "Mon–Fri · 9:00 AM–6:00 PM GST" },
     ],
     directions: {

@@ -11,6 +11,8 @@ import {
   WorksSectors,
 } from "@/components/works/works-sections";
 import { WORKS_SEO } from "@/content/works";
+import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /**
  * Fully static: the portfolio filter reads `?category=` on the client (inside its own Suspense
@@ -18,11 +20,8 @@ import { WORKS_SEO } from "@/content/works";
  */
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  // The original's title already ends in "| Katic Designs".
-  title: { absolute: WORKS_SEO.title },
-  description: WORKS_SEO.description,
-};
+// The original's `data-title` / `data-desc` (the title already ends in the brand).
+export const metadata: Metadata = pageMetadata({ path: routes.works, ...WORKS_SEO });
 
 /**
  * Works (`#p-works`, original lines 3604–3781, docs/analysis/04 §1). Order and tones as the

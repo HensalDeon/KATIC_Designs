@@ -6,6 +6,7 @@ import { Inter, Jost } from "next/font/google";
 import { LightboxProvider } from "@/components/overlays/lightbox";
 import { StartProjectDialog } from "@/components/overlays/start-project-dialog";
 import { ToastProvider } from "@/components/overlays/toast";
+import { JsonLd } from "@/components/seo/json-ld";
 import { ContactRail } from "@/components/shell/contact-rail";
 import { Footer } from "@/components/shell/footer";
 import { Header } from "@/components/shell/header";
@@ -13,19 +14,15 @@ import { LegacyHashRedirect } from "@/components/shell/legacy-hash-redirect";
 import { MobileCtaBar } from "@/components/shell/mobile-cta-bar";
 import { ShellProvider } from "@/components/shell/shell-provider";
 import { SkipLink } from "@/components/shell/skip-link";
+import { siteJsonLd } from "@/lib/seo/json-ld";
+import { ROOT_METADATA } from "@/lib/seo/metadata";
 import { ZOOM_BOOTSTRAP_SCRIPT } from "@/lib/zoom";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Architects, Interior Designers & Builders in Kochi, Kerala | Katic Designs",
-    template: "%s | Katic Designs",
-  },
-  description:
-    "Katic Designs is an architecture, interior design and construction studio in Kochi, Kerala and Dubai. Design, build, turnkey homes and property care under one roof.",
-};
+/** Site-wide defaults (`metadataBase`, robots, Open Graph, Twitter); each page sets its own. */
+export const metadata: Metadata = ROOT_METADATA;
 
 export const viewport: Viewport = {
   themeColor: "#000000",
@@ -45,6 +42,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Runs before first paint so the 1440px desktop canvas never flashes unscaled (D1). */}
         <script dangerouslySetInnerHTML={{ __html: ZOOM_BOOTSTRAP_SCRIPT }} />
+        {/* Organization, both offices and the WebSite, on every page (pages add their own). */}
+        <JsonLd data={siteJsonLd()} />
       </head>
       <body>
         <SkipLink />
