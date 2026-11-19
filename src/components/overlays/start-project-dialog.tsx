@@ -17,13 +17,11 @@ import {
   BUDGETS,
   formDataToLead,
   LEAD_LOCATIONS,
-  type LeadField,
-  type LeadFieldErrors,
-  leadFieldErrors,
-  leadSchema,
+  loadLeadValidator,
   PROJECT_TYPES,
   TIMELINES,
-} from "@/lib/leads/schema";
+} from "@/lib/leads/fields";
+import type { LeadField, LeadFieldErrors } from "@/lib/leads/schema";
 import { routes } from "@/lib/routes";
 
 const POINTS = [
@@ -54,6 +52,8 @@ export function StartProjectDialog() {
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (enquiry.isOpen && !dialog.open) {
+      // The validator (zod) is its own chunk: fetch it while the visitor fills in the form.
+      void loadLeadValidator();
       dialog.showModal();
       // The original focuses the first field once the panel has settled.
       const field = formRef.current?.elements.namedItem("name");
@@ -74,9 +74,10 @@ export function StartProjectDialog() {
       path: window.location.pathname,
       title: document.title,
     });
-    const parsed = leadSchema.safeParse(candidate);
-    if (!parsed.success) {
-      const fieldErrors = leadFieldErrors(parsed.error);
+    const validateLead = await loadLeadValidator();
+    const parsed = validateLead(candidate);
+    if (!parsed.ok) {
+      const fieldErrors = parsed.errors;
       setErrors(fieldErrors);
       const first = FIELD_ORDER.find((field) => fieldErrors[field]);
       const element = first ? form.elements.namedItem(first) : null;
@@ -86,7 +87,7 @@ export function StartProjectDialog() {
 
     setErrors({});
     setSubmitting(true);
-    const response = await submitLead(parsed.data);
+    const response = await submitLead(parsed.lead);
     setSubmitting(false);
 
     if (!response.ok && response.status === "invalid") {
@@ -98,7 +99,7 @@ export function StartProjectDialog() {
       return;
     }
 
-    const lead = parsed.data;
+    const lead = parsed.lead;
     rememberLead(toLastLead(lead, response.ok ? "sent" : "unsent"));
     if (response.ok) trackLead({ service: lead.service, source: lead.source.path });
     form.reset();

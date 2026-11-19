@@ -2,29 +2,9 @@ import { z } from "zod";
 
 import { SERVICE_NOT_SURE, SERVICE_OPTIONS } from "@/content/services";
 
-/** Popup select options, verbatim from the original. */
-export const LEAD_LOCATIONS = ["Kerala", "Elsewhere in India", "Dubai / UAE", "Other"] as const;
-export const PROJECT_TYPES = [
-  "Home / Villa",
-  "Apartment",
-  "Commercial",
-  "Hospitality",
-  "Institutional",
-] as const;
-export const TIMELINES = [
-  "As soon as possible",
-  "Within 3 months",
-  "3–6 months",
-  "6–12 months",
-  "Just exploring",
-] as const;
-export const BUDGETS = [
-  "Under ₹50 lakh",
-  "₹50 lakh – ₹1 crore",
-  "₹1 – 3 crore",
-  "Above ₹3 crore",
-  "Prefer to discuss",
-] as const;
+import { BUDGETS, LEAD_LOCATIONS, PROJECT_TYPES, TIMELINES } from "./fields";
+
+export { BUDGETS, formDataToLead, LEAD_LOCATIONS, PROJECT_TYPES, TIMELINES } from "./fields";
 
 const optionalText = (max: number) => z.string().trim().max(max).optional();
 
@@ -71,25 +51,14 @@ export function leadFieldErrors(error: z.ZodError): LeadFieldErrors {
   );
 }
 
-/** Turns form data into a lead candidate, treating empty strings as "not provided". */
-export function formDataToLead(data: FormData, source: Lead["source"]): Record<string, unknown> {
-  const value = (name: string) => {
-    const raw = data.get(name);
-    return typeof raw === "string" && raw.trim() !== "" ? raw : undefined;
-  };
-  return {
-    name: value("name") ?? "",
-    email: value("email") ?? "",
-    phone: value("phone"),
-    service: value("service") ?? "",
-    location: value("location"),
-    projectType: value("projectType"),
-    timeline: value("timeline"),
-    budget: value("budget"),
-    details: value("details"),
-    company_website: value("company_website"),
-    source,
-  };
+/** Validates a lead candidate: the lead, or the first message per invalid field. */
+export function validateLead(
+  candidate: unknown,
+): { ok: true; lead: Lead } | { ok: false; errors: LeadFieldErrors } {
+  const parsed = leadSchema.safeParse(candidate);
+  return parsed.success
+    ? { ok: true, lead: parsed.data }
+    : { ok: false, errors: leadFieldErrors(parsed.error) };
 }
 
 /** Response contract of POST /api/leads. */
