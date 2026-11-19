@@ -155,3 +155,60 @@ Each filter state's grid was compared with the original's: the only difference i
 | Footer          | 0.60%          | 0.24%          | 0.90%          | 0.24%          |                                                                                      |
 
 **Motion check (animations on, 1440):** no `[data-rv]` on the original and no `[data-reveal]` in the rebuild. Each section within 0.30% except brief and related, which the original zooms (KI-L13): 0.07% and 0.04% with that reverted. The CTA parallax matches to 0.05px; the 10 gallery photos open as one lightbox group at full-screen size (KI-N13).
+
+---
+
+## Divisions (`/divisions/<slug>`): Phase 8, 2026-11-19
+
+Five pages from one template on the shared block system (P8-01). Bracketed numbers are with the fixes reverted; 768/390 use a same-method capture of both sites because the stored captures are scroll-offset (KI-N12). The 8 service pages were re-run at 1440 after the renderer was generalised: unchanged on all 83 sections.
+
+| Section                                          | 1440                                                              | 1024             | 768 / 390       | Notes                                                                                                                                 |
+| ------------------------------------------------ | ----------------------------------------------------------------- | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero                                             | 0.00%                                                             | 2.5–3.7% [≤0.2%] | ≤0.2%           | 1024: KI-L16. Infrastructure at 390 stays 2.37%: the original's narrower font subset wraps "KATIC Infrastructure" differently (P0-07) |
+| Six-tile feature grids (design, interior, infra) | 24.8–26.0% [0.43–0.49%]                                           | 0%               | 2–4% [≤0.01%]   | The original zooms them to 0.768 (KI-L13)                                                                                             |
+| Other blocks                                     | 0–1.7%; 2.2–3.2% on blocks after a zoomed grid (sub-pixel offset) | ≤0.71%           | 2–20% [0–2.15%] | 768/390: 11px tags, meta and kickers (KI-A10)                                                                                         |
+| Interior gallery                                 | —                                                                 | 53% [0.03%]      | 22–26% [≤0.18%] | Two columns below 1100px (KI-L23)                                                                                                     |
+| Footer                                           | ≤1.2%                                                             | 0.14%            | ≤0.25%          |                                                                                                                                       |
+
+Developers and Care have no zoomed block: every section ≤1.16% at 1440. **Motion check (1440):** no `[data-rv]` on the originals, no `[data-reveal]` in the rebuild; each block ≤1.16% except the KI-L13 grids (0.32–0.38% reverted). Draw-on, hovers, lightbox and plants are covered by `tests/e2e/divisions.spec.ts`.
+
+---
+
+## India (`/locations/india`): Phase 8, 2026-11-19
+
+† = against a settled re-capture of the original (P6-03); ‡ = 11px small text (KI-A10) reverted.
+
+| Section     | 1440  | 1024          | 768              | 390             | Notes                                                                                              |
+| ----------- | ----- | ------------- | ---------------- | --------------- | -------------------------------------------------------------------------------------------------- |
+| Hero        | 0.00% | 7.05% [0.20%] | 0.10%            | 0.24%           | 1024: KI-L16                                                                                       |
+| Intro split | 0.17% | 0.00%         | 2.49% [0.17%†‡]  | 3.90% [0.10%‡]  | KI-A10                                                                                             |
+| Locations   | 0.06% | 0.45%         | 18.53% [0.00%†‡] | 18.61% [0.78%‡] | KI-A10                                                                                             |
+| Services    | 0.25% | 0.07%         | 71.74% [0.11%†‡] | 13.76% [0.27%‡] | 768: the stored capture has the original's growing plant padding (KI-N11)                          |
+| Divisions   | 1.55% | 0.51%         | 0.99%            | 12.98% [0.43%‡] | 1440: photo resampling                                                                             |
+| Projects    | 0.67% | 0.16%         | 1.35% [0.17%†]   | 40.31% [0.42%‡] | 390: the 11px card meta wraps (+77px). Each filter state matches the original's cards (0.08–1.41%) |
+| Why KATIC   | 0.00% | 0.00%         | 2.17% [0.10%†]   | 3.28% [0.00%‡]  |                                                                                                    |
+| Approach    | 0.00% | 0.00%         | 0.00%            | 4.79% [0.00%‡]  |                                                                                                    |
+| Contact     | 0.01% | 0.02%         | 0.35%            | 0.21%           |                                                                                                    |
+| Footer      | 0.39% | 0.14%         | 0.98%            | 0.22%           |                                                                                                    |
+
+The active filter button is black on orange like Works (KI-A19), a few pixels of difference inside the projects figures. **Motion check (1440):** no `[data-rv]`/`[data-reveal]`; every section within 1.76% (most ≤0.32%) with the original's `fit()` zoom of the projects block (0.709, KI-L13) neutralised.
+
+---
+
+## Dubai (`/locations/dubai`): Phase 8, 2026-11-19
+
+| Section        | 1440          | 1024           | 768             | 390            | Notes                                                                                               |
+| -------------- | ------------- | -------------- | --------------- | -------------- | --------------------------------------------------------------------------------------------------- |
+| Hero           | 0.00%         | 7.87% [0.17%]  | 0.05%           | 0.22%          | 1024: KI-L16                                                                                        |
+| KATIC in Dubai | 3.80% [0.14%] | 5.54% [0.04%]  | 9.69% [0.11%]   | 10.38% [0.14%] | The cactus keeps its proportions and no longer covers the text and button (KI-L08, KI-L25)          |
+| Services       | 0.25%         | 30.17% [0.07%] | 10.07% [3.02%]  | 14.61% [0.28%] | KI-N04 / KI-A10; 768 residue: row offsets against the unsettled capture (layout within 1px, KI-N12) |
+| Divisions      | 1.55%         | 28.92% [0.47%] | 1.19%           | 14.31% [3.21%] | Same                                                                                                |
+| Cross-border   | 0.13%         | 6.25% [1.03%]  | 3.84% [4.09%]   | 4.16% [4.71%]  | Same; layout measured within 1px of the live original                                               |
+| Steps          | 0.17%         | 6.99% [0.00%]  | 3.54% [0.58%†]  | 5.14% [1.63%]  |                                                                                                     |
+| Why KATIC      | 0.00%         | 6.03% [0.00%]  | 2.30% [0.42%]   | 3.46% [0.63%]  |                                                                                                     |
+| Office         | 0.07%         | 24.19% [0.00%] | 9.56% [0.70%]   | 10.90% [1.93%] |                                                                                                     |
+| Project mosaic | 0.47%         | 32.36% [0.04%] | 11.85% [0.42%†] | 14.48% [5.36%] | 390: label and name no longer overlap (KI-L10)                                                      |
+| Contact        | 0.06%         | 1.43% [0.11%]  | 0.52% [0.08%]   | 0.34%          |                                                                                                     |
+| Footer         | 0.12%         | 0.86%          | 1.03%           | 1.08%          |                                                                                                     |
+
+**Motion check (1440):** no `[data-rv]`/`[data-reveal]`; every section within 0.38% except divisions 1.76% (photos) and the context block 3.80% (the cactus fix). The original's Dubai parallax selector targets a section that does not exist, so there is no parallax to reproduce.

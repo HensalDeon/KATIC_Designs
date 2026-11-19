@@ -293,10 +293,16 @@ Built in two parallel groups (Works listing, project page), then integrated.
 
 **Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on either page, as in the original; motion-on audit within 1.8% with the auto-zoom fix reverted. All suites are green (324 unit, 419 e2e).
 
-### Phase 8: Divisions and Locations (~2 days)
+### Phase 8: Divisions and Locations (~2 days) ✅ done 2026-11-19
 
-- [ ] `DivisionPage`, block-composed: shared hero, then 6–8 blocks from the vocabulary, then "other divisions". Five content files.
-- [ ] `LocationPage`: India (pure blocks with the Kochi / Rest-of-Kerala project filter) and Dubai (bespoke hero with bottom bar, context intro, office block, project mosaic; fixes the 92px cactus rule).
+Built in three parallel groups. The divisions group generalised the block renderer first and handed it over early, so India and Dubai were composed on it (P8-01).
+
+- [x] Shared block system (`ContentBlock`, `BlockStack`) used by service, division and location pages.
+- [x] `/divisions/[slug]`: five pages from content files, shared hero, 6–8 blocks, and an "Explore our divisions" grid of the other four. "Start a Project" opens the popup with the division's service (P8-02).
+- [x] `/locations/india`: blocks plus the Kochi / Rest-of-Kerala project filter (`?area=`, shared with Works' filter mechanism), contact with the India extra selects and location prefill (P8-03). Active filter contrast fixed (KI-A19).
+- [x] `/locations/dubai`: bespoke hero with the bottom bar, the Dubai context block (cactus fixed, KI-L08, KI-L25), the office block, the project mosaic (KI-L10), and its own contact section with the Dubai prefill.
+
+**Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on any of these pages, as in the original. All suites are green (379 unit, 559 e2e).
 
 ### Phase 9: Blog, Article, News, Reviews, Thank-you (~2 days)
 
