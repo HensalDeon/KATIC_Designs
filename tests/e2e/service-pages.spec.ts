@@ -25,14 +25,20 @@ type ServicePageSpec = {
   /** Sections after the hero: original id, or the `data-parity` class for blocks without one. */
   readonly sections: readonly (readonly [key: string, tone: Tone])[];
   readonly contactTone: Tone;
-  /** Process steps: title size and art height (dense rows of 6+ steps are smaller). */
-  readonly process: {
+  /**
+   * Process steps: title size and art height (dense rows of 6+ steps are smaller). Omit for pages
+   * without a process block (exterior).
+   */
+  readonly process?: {
     readonly heading: RegExp;
     readonly titleSize: string;
     readonly artHeight: string;
   };
-  /** Featured-project cards: image height on the canvas (c3 200px, c4 260px). */
-  readonly projects: {
+  /**
+   * Featured-project cards: image height on the canvas (c3 200px, c4 260px). Omit for pages without
+   * a projects block (property care).
+   */
+  readonly projects?: {
     readonly heading: RegExp;
     readonly imageHeight: string;
     readonly count: number;
@@ -152,25 +158,31 @@ function describeServicePage(spec: ServicePageSpec) {
           lineHeight: "64.96px",
           textTransform: "uppercase",
         });
-        const process = sectionByHeading(page, spec.process.heading);
-        await expectStyles(process.locator("li[data-step] h3").first(), {
-          fontSize: spec.process.titleSize,
-          color: WHITE,
-        });
-        await expectStyles(process.locator("li[data-step] svg").first(), {
-          height: spec.process.artHeight,
-        });
-        const projects = sectionByHeading(page, spec.projects.heading);
-        const cards = projects.locator("li a");
-        await expect(cards).toHaveCount(spec.projects.count);
-        await expectStyles(cards.first().locator("span").first(), {
-          height: spec.projects.imageHeight,
-        });
-        for (const href of await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href"))))
-          expect(href).toMatch(/^\/works\/[a-z-]+$/);
+        if (spec.process) {
+          const process = sectionByHeading(page, spec.process.heading);
+          await expectStyles(process.locator("li[data-step] h3").first(), {
+            fontSize: spec.process.titleSize,
+            color: WHITE,
+          });
+          await expectStyles(process.locator("li[data-step] svg").first(), {
+            height: spec.process.artHeight,
+          });
+        }
+        if (spec.projects) {
+          const projects = sectionByHeading(page, spec.projects.heading);
+          const cards = projects.locator("li a");
+          await expect(cards).toHaveCount(spec.projects.count);
+          await expectStyles(cards.first().locator("span").first(), {
+            height: spec.projects.imageHeight,
+          });
+          const hrefs = await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")));
+          for (const href of hrefs) expect(href).toMatch(/^\/works\/[a-z-]+$/);
+        }
       });
 
       test("process line art draws on when scrolled into view", async ({ page }) => {
+        test.skip(!spec.process, "no process block");
+        if (!spec.process) return;
         await open(page, spec.slug);
         const process = sectionByHeading(page, spec.process.heading);
         await expect(process.locator("[data-drawn]")).toHaveCount(0);
@@ -184,7 +196,10 @@ function describeServicePage(spec: ServicePageSpec) {
         await open(page, spec.slug);
         const service = contact(page).getByLabel("Service Needed");
         await expect(service).toHaveValue(spec.service);
-        await service.selectOption("Property Care & Maintenance");
+        // Pick another service first, so the click has something to change.
+        await service.selectOption(
+          spec.service === "Turnkey Projects" ? "Interior Design" : "Turnkey Projects",
+        );
         await page.evaluate(() => window.scrollTo(0, 0));
 
         await page
@@ -371,6 +386,187 @@ test.describe("/services/interior FAQ links", () => {
     await quote.click();
     await expect(faq.getByLabel("Full Name")).toBeFocused();
     await expect(faq.getByLabel("Service Needed")).toHaveValue("Interior Design");
+  });
+});
+
+describeServicePage({
+  slug: "exterior",
+  title: "Landscape & Exterior Design in Kerala | Katic Designs",
+  description:
+    "Facade, garden, courtyard and outdoor living design planned together with the building, for homes, campuses and commercial sites.",
+  service: "Exterior & Landscape Design",
+  heroCtas: [
+    { name: "Discuss Your Outdoor Space", href: "#exterior-contact" },
+    { name: "View Projects", href: "/works#works-list" },
+  ],
+  // The plant-hosting testimonials block is `section.pp-host.ks` in the original.
+  sections: [
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["pp-host", "light"],
+  ],
+  contactTone: "dark",
+  projects: { heading: /Outdoor spaces/, imageHeight: "200px", count: 3 },
+  related: {
+    heading: /alongside landscape/,
+    hrefs: RELATED("architecture", "interior", "construction"),
+  },
+  zoomImage: "Planted courtyard with a tree and timber balconies",
+});
+
+test.describe("/services/exterior specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("five sector tiles in one row; the outdoor tile is not a link", async ({ page }) => {
+    await open(page, "exterior");
+    const tiles = sectionByHeading(page, /Where we/).locator("li");
+    await expect(tiles).toHaveCount(5);
+    const boxes = await tiles.evaluateAll((all) =>
+      all.map((tile) => {
+        const { y, width, height } = tile.getBoundingClientRect();
+        return { y, width, height };
+      }),
+    );
+    for (const box of boxes) expect(box).toMatchObject({ y: boxes[0]?.y, height: 400 });
+    await expect(tiles.locator("a")).toHaveCount(4);
+    await expect(tiles.last()).toContainText("Outdoor environments");
+  });
+
+  test("the projects block is dark with a light outline button", async ({ page }) => {
+    await open(page, "exterior");
+    const projects = sectionByHeading(page, /Outdoor spaces/);
+    await expect(projects).toHaveAttribute("data-tone", "dark");
+    await expect(projects.getByRole("link", { name: /View All Projects/ })).toHaveAttribute(
+      "href",
+      "/works#works-list",
+    );
+  });
+
+  test("the testimonials host the ageratum plant in the bottom-left corner", async ({ page }) => {
+    await open(page, "exterior");
+    const testimonials = sectionByHeading(page, /In our clients/);
+    const plant = testimonials.locator("img[aria-hidden]");
+    await expect(plant).toHaveCount(1);
+    const [section, box] = [await testimonials.boundingBox(), await plant.boundingBox()];
+    expect(box?.x).toBe(section?.x);
+    expect(box?.width).toBe(222);
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeCloseTo(
+      (section?.y ?? 0) + (section?.height ?? 0),
+      0,
+    );
+  });
+
+  test("the FAQ links to property care", async ({ page }) => {
+    await open(page, "exterior");
+    const faq = page.locator("#exterior-contact");
+    await faq.getByRole("button", { name: /low maintenance/ }).click();
+    await expect(faq.getByRole("link", { name: /About property care/ })).toHaveAttribute(
+      "href",
+      "/services/property-care",
+    );
+  });
+});
+
+describeServicePage({
+  slug: "property-care",
+  title: "Property Maintenance & Repairs in Kerala | Katic Care",
+  description:
+    "Planned maintenance, repairs, pre-monsoon inspections and priority support for homes and commercial properties in Kerala and the UAE.",
+  service: "Property Care & Maintenance",
+  heroCtas: [
+    { name: "Request Support", href: "#property-care-contact" },
+    { name: "Our Services", href: "#pc-services" },
+  ],
+  sections: [
+    ["pp-host", "light"],
+    ["pc-services", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+  ],
+  contactTone: "dark",
+  process: { heading: /Assess\. Plan\./, titleSize: "30px", artHeight: "170px" },
+  related: {
+    heading: /alongside property care/,
+    hrefs: RELATED("construction", "renovation", "interior", "turnkey"),
+  },
+  zoomImage: "Bathroom with Kota stone and a courtyard view",
+});
+
+test.describe("/services/property-care specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("#pc-services deep-links to the services grid", async ({ page }) => {
+    await page.goto("/services/property-care#pc-services");
+    const services = page.locator("#pc-services");
+    await expect(services).toContainText("What we");
+    await expect
+      .poll(() => services.evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
+
+    await open(page, "property-care");
+    await page.locator("[data-hero]").getByRole("link", { name: "Our Services" }).click();
+    await expect(page).toHaveURL(/#pc-services$/);
+    await expect
+      .poll(() => services.evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
+  });
+
+  test("six service tiles in three columns draw on; four related services in one row", async ({
+    page,
+  }) => {
+    await open(page, "property-care");
+    const services = page.locator("#pc-services");
+    const tiles = services.locator("[data-feature]");
+    await expect(tiles).toHaveCount(6);
+    // The isometric icons draw on once the grid is in view.
+    await expect(services.locator("[data-drawn]")).toHaveCount(0);
+    await tiles.first().scrollIntoViewIfNeeded();
+    await expect(services.locator("[data-drawn]")).toHaveCount(1);
+    const tileTops = await tiles.evaluateAll((all) =>
+      all.map((tile) => tile.getBoundingClientRect().top),
+    );
+    expect(new Set(tileTops).size).toBe(2);
+    const related = sectionByHeading(page, /alongside property care/).locator("li");
+    await expect(related).toHaveCount(4);
+    const relatedTops = await related.evaluateAll((all) =>
+      all.map((card) => card.getBoundingClientRect().top),
+    );
+    expect(new Set(relatedTops).size).toBe(1);
+  });
+
+  test("the intro split hosts the fern in the bottom-right corner", async ({ page }) => {
+    await open(page, "property-care");
+    const intro = page.locator("main > section").nth(1);
+    const plant = intro.locator("img[aria-hidden]");
+    await expect(plant).toHaveCount(1);
+    const [section, box] = [await intro.boundingBox(), await plant.boundingBox()];
+    expect(box?.width).toBe(170);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeCloseTo(
+      (section?.x ?? 0) + (section?.width ?? 0),
+      0,
+    );
+  });
+
+  test("FAQ links: locations, and the form (KI-F07)", async ({ page }) => {
+    await open(page, "property-care");
+    const faq = page.locator("#property-care-contact");
+    await faq.getByRole("button", { name: /Which areas do you cover/ }).click();
+    await expect(faq.getByRole("link", { name: /See our locations/ })).toHaveAttribute(
+      "href",
+      "/locations/india",
+    );
+    await faq.getByRole("button", { name: /How fast do you respond/ }).click();
+    await faq.getByLabel("Service Needed").selectOption("Turnkey Projects");
+    await faq.getByRole("button", { name: /Request support/ }).click();
+    await expect(faq.getByLabel("Full Name")).toBeFocused();
+    await expect(faq.getByLabel("Service Needed")).toHaveValue("Property Care & Maintenance");
   });
 });
 

@@ -260,6 +260,40 @@ const PROJECT_LIST = [
     cover: "photos/desert-villa-sunset",
     coverAlt: "Desert villa with an infinity pool at sunset",
   },
+  // Exterior's featured projects (docs/analysis/03 §2.7); facts from their cards' meta line.
+  {
+    slug: "canopy-house",
+    name: "Canopy House",
+    location: "Thrippunithura, Kochi",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Architecture",
+    cover: "photos/brick-house-garden-path",
+    coverAlt: "Brick house behind a garden path",
+  },
+  {
+    slug: "jumeirah-courtyard-house",
+    name: "Jumeirah Courtyard House",
+    location: "Jumeirah, Dubai",
+    region: "uae",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Architecture",
+    cover: "photos/contemporary-villa-entrance",
+    coverAlt: "Contemporary villa with stone cladding and a landscaped entrance path",
+  },
+  {
+    slug: "river-edge-villa",
+    name: "River Edge Villa",
+    location: "Aluva, Kerala",
+    region: "kerala",
+    categories: ["residential", "villas"],
+    type: "Residential",
+    scope: "Villa",
+    cover: "photos/riverside-house-night",
+    coverAlt: "Riverside house glowing at night",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
