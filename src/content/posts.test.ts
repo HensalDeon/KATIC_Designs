@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { media } from "./media";
 import {
+  articleSeo,
+  blogCategorySeo,
   formatPostDate,
   getPost,
   getPostCategory,
   latestPosts,
+  otherLatestPosts,
   POST_CATEGORIES,
   postCategorySlug,
   POSTS,
@@ -82,5 +85,33 @@ describe("formatPostDate", () => {
     expect(formatPostDate("2026-10-14")).toBe("14 Oct 2026");
     expect(formatPostDate("2026-10-02")).toBe("2 Oct 2026");
     expect(formatPostDate("2026-09-18")).toBe("18 Sept 2026");
+  });
+});
+
+describe("article and category pages", () => {
+  it("lists the four newest other posts in an article's aside", () => {
+    expect(otherLatestPosts("planning-an-interior-that-lasts", 4).map((post) => post.slug)).toEqual(
+      [
+        "designing-for-kerala-monsoon",
+        "choosing-natural-stone",
+        "construction-quality-checklist",
+        "what-turnkey-really-means",
+      ],
+    );
+  });
+
+  it("titles an article as the original leaves it at runtime", () => {
+    const post = getPost("choosing-natural-stone");
+    if (!post) throw new Error("missing post");
+    expect(articleSeo(post)).toEqual({
+      title: "Choosing Natural Stone for Kerala Homes — Katic Designs",
+      description: post.excerpt,
+    });
+  });
+
+  it("titles a category page after its category", () => {
+    const category = getPostCategory("property-care");
+    if (!category) throw new Error("missing category");
+    expect(blogCategorySeo(category).title).toBe("Property Care Articles | Katic Designs Blog");
   });
 });
