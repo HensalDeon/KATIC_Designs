@@ -184,6 +184,57 @@ const PROJECT_LIST = [
     cover: "photos/office-reception",
     coverAlt: "Office reception with timber panelling",
   },
+  // The About page's "Selected works" mosaic (`#p-about .sw`, docs/analysis/02 §2.8), copy
+  // verbatim. Categories and type are inferred from the printed scope: the original's About tiles
+  // carry no filter data.
+  {
+    slug: "obsidian-lounge-kochi",
+    name: "Obsidian Lounge",
+    // TODO(content): KI-D01 the original also calls the Skopje interior on Home
+    // (`obsidian-lounge`) "Obsidian Lounge"; the client confirms which project this is.
+    location: "Kochi, Kerala",
+    region: "kerala",
+    categories: ["residential", "interiors"],
+    type: "Residential",
+    scope: "Residential Interior",
+    cover: "photos/open-pavilion-lounge-night",
+    coverAlt: "Open timber pavilion lounge at night",
+  },
+  {
+    slug: "villa-noor",
+    name: "Villa Noor",
+    location: "Abu Dhabi, UAE",
+    region: "uae",
+    categories: ["residential", "villas"],
+    type: "Villa",
+    scope: "Turnkey Residence",
+    cover: "photos/games-room-billiards",
+    coverAlt: "Games room with a billiards table",
+  },
+  {
+    slug: "the-courtyard-house",
+    name: "The Courtyard House",
+    // TODO(content): KI-D01 About prints Thrissur; the original project page says Kakkanad, Kochi
+    // and uses other images. The client confirms the facts (Phase 7 builds the page).
+    location: "Thrissur, Kerala",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Architecture",
+    cover: "photos/arched-courtyard-terrace",
+    coverAlt: "Courtyard terrace with arches and patterned tiles",
+  },
+  {
+    slug: "canvas-kitchen",
+    name: "Canvas Kitchen",
+    location: "Dubai, UAE",
+    region: "uae",
+    categories: ["residential", "interiors"],
+    type: "Interiors",
+    scope: "Interior Design",
+    cover: "photos/granite-kitchen",
+    coverAlt: "Kitchen with granite worktops and white cabinets",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
