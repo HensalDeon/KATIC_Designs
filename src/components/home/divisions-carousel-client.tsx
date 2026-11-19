@@ -16,13 +16,13 @@ import {
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { canvasSizes } from "@/components/sections/section-media";
+import { AutoplayToggle } from "@/components/ui/autoplay-toggle";
 import type { DivisionSlide } from "@/content/home/divisions";
 import { media } from "@/content/media";
+import { useAutoplay } from "@/hooks/use-autoplay";
 import { cn } from "@/lib/cn";
+import { swipeStep, wrapIndex } from "@/lib/motion";
 import type { DivisionSlug } from "@/lib/routes";
-
-import { swipeStep, useAutoplay, wrapIndex } from "./services-explorer-autoplay";
-import { AutoplayToggle } from "./services-explorer-toggle";
 
 /** E28: one division every 5s while ≥35% of the carousel is visible. */
 export const CAROUSEL_INTERVAL_MS = 5000;

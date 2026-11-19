@@ -17,13 +17,13 @@ import {
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { canvasSizes } from "@/components/sections/section-media";
 import { StartProjectTrigger } from "@/components/shell/start-project-trigger";
+import { AutoplayToggle } from "@/components/ui/autoplay-toggle";
 import type { ExplorerContent, ExplorerGroup, ExplorerService } from "@/content/home/explorer";
 import { media } from "@/content/media";
+import { useAutoplay } from "@/hooks/use-autoplay";
 import { cn } from "@/lib/cn";
+import { wrapIndex } from "@/lib/motion";
 import { routes } from "@/lib/routes";
-
-import { useAutoplay, wrapIndex } from "./services-explorer-autoplay";
-import { AutoplayToggle } from "./services-explorer-toggle";
 
 /** E27: one service every 6s while ≥30% of the section is visible. */
 export const EXPLORER_INTERVAL_MS = 6000;

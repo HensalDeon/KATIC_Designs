@@ -104,6 +104,24 @@ function stories(page: Page) {
   };
 }
 
+function contact(page: Page) {
+  const section = page.locator("#start");
+  const left = section.locator(":scope > div > div").first();
+  const right = section.locator(":scope > div > div").last();
+  return {
+    section,
+    heading: left.locator(":scope > h2"),
+    info: left.locator("dl"),
+    form: left.locator("form"),
+    label: left.locator("form label").first(),
+    send: left.getByRole("button", { name: "Send Enquiry" }),
+    faqKicker: right.locator(":scope > p").first(),
+    faqTitle: right.locator(":scope > h2"),
+    question: right.getByRole("button").first(),
+    field: (label: string) => left.getByLabel(label, { exact: true }),
+  };
+}
+
 /** Fake timers that only move with `clock.runFor` (no natural flow), installed before load. */
 async function freezeClock(page: Page) {
   await page.clock.install();
@@ -580,6 +598,12 @@ test.describe("1440 canvas", () => {
       textTransform: "uppercase",
     });
     await expect(section.locator("dl dt")).toHaveText(["Email", "Phone"]);
+    const c = contact(page);
+    // Every kicker on white uses the text-safe orange (KI-A11).
+    await expect(c.faqKicker).toHaveCSS("color", "rgb(194, 78, 30)");
+    // The original's Send arrow is → (ARW), not ↗.
+    await expect(c.send.locator("svg path")).toHaveAttribute("d", "M1 6h9M6.5 2.5 10 6l-3.5 3.5");
+    await expectStyles(c.field("Service Needed"), { height: "42px", paddingRight: "16px" });
     await expect(section.getByRole("button", { name: /\?$/ })).toHaveCount(6);
     // Collapsed answers are hidden from the accessibility tree; check the link in the DOM.
     await expect(section.locator("a", { hasText: "See our process" })).toHaveAttribute(
@@ -603,6 +627,31 @@ test.describe("1440 canvas", () => {
 
 test.describe("1024 (861–1099)", () => {
   test.use({ viewport: { width: 1024, height: 768 } });
+
+  test("contact: keeps the home sizes, same height as the original", async ({ page }) => {
+    await open(page);
+    const c = contact(page);
+    await expectStyles(c.section, { paddingTop: "104px", paddingBottom: "36px" });
+    await expectStyles(c.heading, { fontSize: "40px", marginTop: "14px", marginBottom: "14px" });
+    await expectStyles(c.info, { marginTop: "16px" });
+    await expectStyles(c.form, {
+      marginTop: "24px",
+      rowGap: "14px",
+      columnGap: "16px",
+      gridTemplateColumns: "468px 468px",
+    });
+    await expectStyles(c.label, { marginBottom: "6px" });
+    await expectStyles(c.field("Full Name"), { height: "42px" });
+    await expectStyles(c.field("Service Needed"), { height: "42px", paddingRight: "16px" });
+    await expectStyles(c.field("Project Details"), { height: "76px" });
+    await expectStyles(c.faqTitle, { marginTop: "14px", marginBottom: "22px" });
+    await expectStyles(c.question, {
+      fontSize: "15.5px",
+      paddingTop: "17px",
+      paddingBottom: "17px",
+    });
+    expect(await box(c.section, c.section)).toMatchObject({ h: 1392.6 });
+  });
 
   test("no horizontal overflow; stories grid stays inside the container (KI-L01)", async ({
     page,
@@ -687,12 +736,16 @@ test.describe("390 phone", () => {
     expect(await box(s.section, s.section)).toMatchObject({ h: 1087.3 });
   });
 
-  test("contact: home heading scale", async ({ page }) => {
+  test("contact: home sizes kept on phones", async ({ page }) => {
     await open(page);
-    const section = page.locator("#start");
-    await expectStyles(section, { paddingTop: "104px", paddingBottom: "36px" });
-    await expectStyles(section.getByRole("heading", { name: /Have a Project in/i }), {
-      fontSize: "30px",
-    });
+    const c = contact(page);
+    await expectStyles(c.section, { paddingTop: "104px", paddingBottom: "36px" });
+    await expectStyles(c.heading, { fontSize: "30px", marginTop: "14px", marginBottom: "14px" });
+    await expectStyles(c.form, { marginTop: "24px", rowGap: "14px" });
+    await expectStyles(c.field("Full Name"), { height: "42px", fontSize: "16px" });
+    await expectStyles(c.field("Project Details"), { height: "76px" });
+    await expectStyles(c.question, { fontSize: "15.5px", paddingTop: "17px" });
+    // Original 1672.6px; the contact info is a two-row list instead of a wrapped row (KI-L11).
+    expect(await box(c.section, c.section)).toMatchObject({ h: 1642.6 });
   });
 });

@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  type AutoplayConditions,
-  autoplayPhase,
-  swipeStep,
-  wrapIndex,
-} from "./services-explorer-autoplay";
+import { type AutoplayConditions, autoplayPhase, swipeStep, wrapIndex } from "./autoplay";
 
 const base: AutoplayConditions = {
   visible: true,

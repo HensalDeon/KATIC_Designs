@@ -38,7 +38,27 @@ export type EnquiryFormConfig = {
   readonly note?: string;
 };
 
-type EnquiryFormProps = EnquiryFormConfig & { readonly className?: string };
+/** `home` keeps the canvas field sizes and gaps below 1100px, as the original's home form does. */
+export type EnquiryFormTypography = "standard" | "home";
+
+type EnquiryFormProps = EnquiryFormConfig & {
+  readonly typography?: EnquiryFormTypography;
+  readonly className?: string;
+};
+
+/** Below 1100px inner pages enlarge the form (original tablet rules); home does not. */
+const BELOW_LG: Record<
+  EnquiryFormTypography,
+  { form: string; field: string; textarea: string; label: string }
+> = {
+  standard: {
+    form: "max-lg:mt-40 max-lg:gap-x-18 max-lg:gap-y-20",
+    field: "max-lg:h-46",
+    textarea: "max-lg:h-108",
+    label: "max-lg:mb-9",
+  },
+  home: { form: "", field: "", textarea: "", label: "" },
+};
 
 /** Field order decides which invalid field receives focus first. */
 const FIELD_ORDER: readonly LeadField[] = ["name", "email", "phone", "service"];
@@ -57,8 +77,12 @@ export function EnquiryForm({
   service: serviceField,
   extraFields = [],
   note = DEFAULT_NOTE,
+  typography = "standard",
   className,
 }: EnquiryFormProps) {
+  const sizes = BELOW_LG[typography];
+  const input = cn(inputClass, sizes.field);
+  const select = cn(selectClass, sizes.field);
   const { contact } = useShell();
   const router = useRouter();
   const pathname = usePathname();
@@ -153,21 +177,22 @@ export function EnquiryForm({
       noValidate
       onSubmit={(event) => void handleSubmit(event)}
       className={cn(
-        "relative mt-24 grid grid-cols-2 gap-x-16 gap-y-14 max-lg:mt-40 max-lg:gap-x-18 max-lg:gap-y-20 max-md:grid-cols-1",
+        "relative mt-24 grid grid-cols-2 gap-x-16 gap-y-14 max-md:grid-cols-1",
+        sizes.form,
         className,
       )}
     >
-      <Field label="Full Name" error={errors.name} {...ids("name")}>
+      <Field labelClassName={sizes.label} label="Full Name" error={errors.name} {...ids("name")}>
         <input
           {...fieldProps("name")}
           autoComplete="name"
           placeholder="Jane Doe"
           required
           aria-required
-          className={inputClass}
+          className={input}
         />
       </Field>
-      <Field label="Email" error={errors.email} {...ids("email")}>
+      <Field labelClassName={sizes.label} label="Email" error={errors.email} {...ids("email")}>
         <input
           {...fieldProps("email")}
           type="email"
@@ -175,22 +200,29 @@ export function EnquiryForm({
           placeholder="jane@email.com"
           required
           aria-required
-          className={inputClass}
+          className={input}
         />
       </Field>
-      <Field label="Phone" wide={isLastHalf(3)} error={errors.phone} {...ids("phone")}>
+      <Field
+        labelClassName={sizes.label}
+        label="Phone"
+        wide={isLastHalf(3)}
+        error={errors.phone}
+        {...ids("phone")}
+      >
         <input
           {...fieldProps("phone")}
           type="tel"
           inputMode="tel"
           autoComplete="tel"
           placeholder="+1 (000) 000-0000"
-          className={inputClass}
+          className={input}
         />
       </Field>
 
       {serviceField.mode === "select" ? (
         <Field
+          labelClassName={sizes.label}
           label="Service Needed"
           wide={isLastHalf(4)}
           error={errors.service}
@@ -202,7 +234,7 @@ export function EnquiryForm({
             aria-required
             value={selectedService}
             onChange={(event) => setChoice({ value: event.target.value, requestId: request?.id })}
-            className={selectClass}
+            className={select}
           >
             <option value="">Choose a service</option>
             {SERVICE_OPTIONS.map((option) => (
@@ -219,6 +251,7 @@ export function EnquiryForm({
         const position = halfFieldCount(serviceField, index + 1);
         return (
           <Field
+            labelClassName={sizes.label}
             key={field.name}
             label={field.label}
             wide={isLastHalf(position)}
@@ -228,7 +261,7 @@ export function EnquiryForm({
               name={extraFieldName(field.name)}
               id={`${baseId}-extra-${field.name}`}
               defaultValue=""
-              className={selectClass}
+              className={select}
             >
               <option value="">Select</option>
               {field.options.map((option) => (
@@ -239,11 +272,17 @@ export function EnquiryForm({
         );
       })}
 
-      <Field label="Project Details" wide error={errors.details} {...ids("details")}>
+      <Field
+        labelClassName={sizes.label}
+        label="Project Details"
+        wide
+        error={errors.details}
+        {...ids("details")}
+      >
         <textarea
           {...fieldProps("details")}
           placeholder="Tell us about your site, timeline, and budget range."
-          className={cn(inputClass, "h-76 resize-y py-14 align-baseline max-lg:h-108")}
+          className={cn(inputClass, "h-76 resize-y py-14 align-baseline", sizes.textarea)}
         />
       </Field>
 
@@ -262,7 +301,7 @@ export function EnquiryForm({
         className="col-span-full mt-4 flex h-50 cursor-pointer items-center justify-center gap-12 bg-brand font-display text-[14px] font-semibold text-mist transition-colors duration-200 hover:bg-[#f07040] disabled:opacity-70 in-data-[tone=dark]:text-ink-2"
       >
         {submitting ? "Sending…" : "Send Enquiry"}
-        <ArrowIcon direction="up-right" width={10} height={10} className="flex-none" />
+        <ArrowIcon direction="right" width={10} height={10} className="flex-none" />
       </button>
       <p className="col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc]">
         {note}
@@ -272,9 +311,9 @@ export function EnquiryForm({
 }
 
 const inputClass =
-  "h-42 w-full rounded-none border border-[#dcdcdc] bg-[#f5f5f5] px-16 font-display text-[14px] text-ink-2 transition-[border-color] duration-200 placeholder:text-[#666] aria-invalid:border-brand in-data-[tone=dark]:border-white in-data-[tone=dark]:bg-[#f8f7f3] max-lg:h-46 max-md:text-[16px]";
+  "h-42 w-full rounded-none border border-[#dcdcdc] bg-[#f5f5f5] px-16 font-display text-[14px] text-ink-2 transition-[border-color] duration-200 placeholder:text-[#666] aria-invalid:border-brand in-data-[tone=dark]:border-white in-data-[tone=dark]:bg-[#f8f7f3] max-md:text-[16px]";
 
-const selectClass = cn(inputClass, "cursor-pointer select-chevron pr-40 font-medium");
+const selectClass = cn(inputClass, "cursor-pointer select-chevron font-medium");
 
 function Field({
   id,
@@ -282,8 +321,10 @@ function Field({
   label,
   wide = false,
   error,
+  labelClassName,
   children,
 }: {
+  labelClassName: string;
   id: string;
   errorId: string;
   label: string;
@@ -295,7 +336,10 @@ function Field({
     <div className={cn("relative", wide && "col-span-full")}>
       <label
         htmlFor={id}
-        className="mb-6 block font-display text-[12px] font-medium text-[#444] in-data-[tone=dark]:text-mist max-lg:mb-9"
+        className={cn(
+          "mb-6 block font-display text-[12px] font-medium text-[#444] in-data-[tone=dark]:text-mist",
+          labelClassName,
+        )}
       >
         {label}
       </label>

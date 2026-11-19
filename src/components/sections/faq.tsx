@@ -52,12 +52,19 @@ const questionVariants = cva(
   {
     variants: {
       context: {
-        combo:
-          "py-17 text-[15.5px] leading-[1.45] text-black in-data-[tone=dark]:text-white max-lg:py-24 max-lg:text-[16.5px]",
+        combo: "py-17 text-[15.5px] leading-[1.45] text-black in-data-[tone=dark]:text-white",
         section: "py-26 text-[17px] leading-[1.45] text-ink-2",
       },
       typography: { standard: "font-sans", home: "font-display" },
     },
+    compoundVariants: [
+      // Inner pages enlarge the combo questions below 1100px; home keeps the canvas size.
+      {
+        context: "combo",
+        typography: "standard",
+        className: "max-lg:py-24 max-lg:text-[16.5px]",
+      },
+    ],
   },
 );
 

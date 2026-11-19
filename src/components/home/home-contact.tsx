@@ -1,6 +1,5 @@
 import { ContactFaq } from "@/components/sections/contact-faq";
 import { HOME_CONTACT, type HomeContactContent } from "@/content/home/contact";
-import { cn } from "@/lib/cn";
 
 type HomeContactProps = {
   readonly content?: HomeContactContent;
@@ -21,7 +20,7 @@ export function HomeContact({ content = HOME_CONTACT, className }: HomeContactPr
       id="start"
       typography="home"
       {...content}
-      className={cn("pt-104 pb-36 max-lg:pt-104 max-lg:pb-36", className)}
+      {...(className ? { className } : {})}
     />
   );
 }
