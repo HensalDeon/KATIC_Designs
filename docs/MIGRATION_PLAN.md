@@ -222,28 +222,29 @@ Effort figures are rough single-developer estimates for planning, not quotes.
 
 **Exit:** every header and footer link resolves to its new route (pages arrive in later phases), legacy hashes redirect, and the shell matches the original at 1440 and 390.
 
-### Phase 3: Shared sections and the motion engine (~3 days)
+### Phase 3: Shared sections and the motion engine (~3 days) ✅ done 2026-11-19
 
-Build once and use across 20+ pages. Each component gets a styleguide entry in both tones.
+Built once and used across 20+ pages. Every group has a styleguide page (`/styleguide/sections-a|b|c`, `/styleguide/motion`) and a computed-style e2e suite against values measured on the original (`reference/probes/sections.mts`).
 
-- [ ] Content sections:
-  - `PageHero` (standard / architecture / location variants), `SectionHeader`, `SplitFeature` (+`rev`), `RowList`, `FeatureGrid`;
-  - `ProcessSteps`, `SectorGrid`, `CardGrid` (project/service/product cards with hover zoom);
-  - `Gallery`, `BeforeAfter`, `DivisionsStrip`, `Testimonials`, `Stats` + `CountUp`, `CtaBand`.
-- [ ] `ContactFaq`: the merged two-column contact form + FAQ that the original builds at runtime.
-  - `EnquiryForm` is driven by per-page field config (service preselect, 2–3 extra selects, hidden-service mode for Factory).
-  - Zod validation, honeypot, toast on error, redirect to `/thank-you` with lead context in `sessionStorage`.
-  - Fixes: the factory CTA crash, the empty grid cell when the field count is odd, and unlabelled inputs.
-- [ ] `Faq` accordion: single-open, animated height, the original's icon rotation, proper `button` + `aria-controls`.
-- [ ] **Isometric art port:** `lib/art/*` generators produce `IsoStage` (7 stages) and `IsoIcon` (~60 icons with the regex picker). `DrawOn` is the client trigger (stroke-dash draw-on, 1.6s, staggered; IO threshold 0.2–0.25).
-- [ ] Motion hooks:
-  - `useInView` (once / threshold / rootMargin);
-  - `useScrollProgress` (one rAF-throttled loop, ResizeObserver, **zoom-aware**);
-  - `useReducedMotion` (live subscription).
-- [ ] `ParallaxImage` (inner-page formula `translateY(c·-24%) scale(1.3)`, and the home signature variant), `Reveal` (fade-up / clip-skew-blur / left / scale variants, 0.09s stagger capped at 6).
-- [ ] **Cross-browser spike:** verify the scroll-progress hook and parallax inside `zoom` at z = 0.76, 1 and 1.33 in Chrome, Safari and Firefox. Results are written into the decision log. This de-risks D1 before Home.
+- [x] `ContentSection` + `SectionHeader` (`.ks` / `.kh` / `.ctr`), the composition model for all inner pages (DECISIONS P3-02).
+- [x] Group A:
+  - `PageHero` (service and architecture variants, `data-hero`);
+  - `SplitFeature`, `RowList`, `FeatureGrid`, `ProcessSteps`;
+  - the shared master-process library (`src/content/process-stages.ts`).
+- [x] Group B:
+  - `SectorGrid`, `CardGrid` (project/service/product), `Gallery` (lightbox), `BeforeAfter`, `DivisionsStrip`, `Testimonials`, `CtaBand`;
+  - global content for sectors, related services, testimonials and divisions.
+- [x] Group C:
+  - `ContactFaq` with the inline `EnquiryForm` (select or hidden service, page-specific extra selects, shared lead schema);
+  - `Faq` / `FaqSection` accordion;
+  - `#contact` behaviour (`useContactScroll`, `ContactButton`, `ContactLink`).
+- [x] Isometric art engine, ported byte-identically (`@/lib/art`, `IsoArt`, `DrawOn`; P3-03), drawn automatically in feature grids and process rows.
+- [x] Motion:
+  - `useInView`, `useReducedMotion` (live), and `useScrollProgress` (viewport-px maths per the spike);
+  - `Reveal` (P3-04), `CountUp`, and `ParallaxImage` (inner and signature variants).
+- [x] Cross-browser zoom spike: **GO** (P3-01, docs/analysis/06), guarded by `tests/e2e/zoom-geometry.spec.ts` in Chromium, WebKit and (CI) Firefox. A real-device Safari/iPad check is tracked as KI-N06.
 
-**Exit:** styleguide parity for every section; the motion hooks have unit tests; the zoom spike is signed off.
+**Exit:** styleguide parity for every section (computed-style suites green), motion maths unit-tested, zoom spike signed off.
 
 ### Phase 4: Home page (~3–4 days, the hardest page)
 
