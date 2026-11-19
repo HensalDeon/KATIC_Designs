@@ -64,3 +64,49 @@ test("unknown pages answer 404", async ({ request }) => {
     expect((await request.get(path)).status(), path).toBe(404);
   }
 });
+
+/** Deep links used across the site (and by the legacy hash redirects). */
+const DEEP_LINKS = [
+  "/works#works-list",
+  "/locations/india#india-projects",
+  "/services/architecture#process",
+  "/services/renovation#ba",
+  "/services/property-care#pc-services",
+  "/about#about-founder",
+  "/services#svc-turnkey",
+  "/locations/dubai#dubai-office",
+];
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1024, height: 768 },
+  { width: 390, height: 844 },
+]) {
+  test.describe(`deep links at ${String(viewport.width)}`, () => {
+    test.use({ viewport, reducedMotion: "reduce" });
+
+    test("land with their content below the fixed header (KI-L06)", async ({ page }) => {
+      for (const link of DEEP_LINKS) {
+        await page.goto(link);
+        const id = link.split("#")[1] ?? "";
+        await expect
+          .poll(() =>
+            page.evaluate((target) => {
+              const section = document.getElementById(target);
+              const header = document.querySelector("header");
+              const first = section
+                ? [...section.querySelectorAll("h2, h3, p, a, button, img")].find(
+                    (el) => el.getBoundingClientRect().height > 0,
+                  )
+                : undefined;
+              if (!section || !header || !first) return -1;
+              return Math.round(
+                first.getBoundingClientRect().top - header.getBoundingClientRect().bottom,
+              );
+            }, id),
+          )
+          .toBeGreaterThanOrEqual(0);
+      }
+    });
+  });
+}

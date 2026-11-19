@@ -579,7 +579,8 @@ test.describe("1024 tablet (unzoomed)", () => {
     });
     expect((await cards.locator("li").first().boundingBox())?.width).toBeCloseTo(737.3, 0);
 
-    expect(await columns(news(page).locator("ul"))).toEqual([464, 464]);
+    // Three columns, not the original's two that orphaned the third card (KI-L27).
+    expect(await columns(news(page).locator("ul"))).toEqual([301.3, 301.3, 301.3]);
     await expectStyles(news(page).locator("ul img").first(), { height: "230px" });
     expect(await columns(news(page).locator(".grid").first())).toEqual([952]);
     await expectStyles(news(page).locator(".grid").first(), { rowGap: "28px" });

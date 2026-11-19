@@ -104,7 +104,9 @@ export function ServiceBlock({ block, parallax = false }: ServiceBlockProps) {
       spacing="none"
       fullHeight={false}
       className={cn(
-        "grid max-lg:grid-cols-[minmax(0,1fr)] lg:min-h-(--svh) lg:pt-104 lg:pb-36",
+        // Below 1100px the block starts 48px above its icon, under the 68–72px fixed header: deep
+        // links (`/services#svc-turnkey`) stop 40px early so the first line stays clear (KI-L06).
+        "grid max-lg:scroll-mt-40 max-lg:grid-cols-[minmax(0,1fr)] lg:min-h-(--svh) lg:pt-104 lg:pb-36",
         reverse ? "grid-cols-[1fr_576px]" : "grid-cols-[560px_1fr]",
       )}
     >

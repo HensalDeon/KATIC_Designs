@@ -29,7 +29,8 @@ export function NewsTeaser({ items = latestNews(3) }: NewsTeaserProps) {
           lead={copy.lead}
           cta={{ label: copy.cta, href: routes.news }}
         />
-        <ul className="mt-60 grid grid-cols-3 gap-24 max-lg:grid-cols-2 max-md:grid-cols-1">
+        {/* Three columns down to 861px: the original's two columns left the third card orphaned (KI-L27). */}
+        <ul className="mt-60 grid grid-cols-3 gap-24 max-md:grid-cols-1">
           {items.map((item) => (
             <li key={item.slug} className="flex">
               <NewsCard
