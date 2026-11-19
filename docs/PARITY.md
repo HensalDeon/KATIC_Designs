@@ -115,3 +115,43 @@ All 8 pages are built from one template (P6-01). The 1440 column is the lead's r
 **Motion check (animations on, 1440):** none of the eight original pages has `[data-rv]` and the rebuild has no `[data-reveal]` (asserted per page in `tests/e2e/service-pages.spec.ts`). With each section at the top of the viewport after 2.5s and the original's `fit()` zoom reverted, every section is within 1.47% (most ≤0.5%); as-is, the differences are the KI-L13 sections listed above. Feature and process line art draws on; the FAQ accordion, lightbox galleries, hover states, hero/row/FAQ contact buttons with service preselection, the factory's hidden service field and the plants (static in both, KI-L39) are covered by e2e.
 
 Known shared deviation, not fixed in P6: the "SECTOR" label in `SectorGrid` sits 2px lower than the original (within the passing figures).
+
+---
+
+## Works (`/works`): Phase 7, 2026-11-19
+
+Bracketed numbers are with the fix reverted (`--css`); † = against a settled re-capture of the original (P6-03).
+
+| Section      | 1440           | 1024           | 768             | 390             | Notes                                                                                                                                      |
+| ------------ | -------------- | -------------- | --------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Hero         | 0.00%          | 4.04% [0.07%]  | 0.17%           | 0.51%           | 1024: 62px title (KI-L16)                                                                                                                  |
+| Featured     | 46.52% [0.07%] | 25.85% [0.00%] | 8.20% [0.14%]   | 8.98% [0.89%]   | The original zooms it to 0.719 (KI-L13); 46px titles at 1024 (KI-N04); 11px meta (KI-A10)                                                  |
+| Sectors      | 0.40%          | 33.32% [0.40%] | 0.16%           | 0.45%           | 1024: KI-N04                                                                                                                               |
+| Portfolio    | 0.33%          | 78.86% [0.86%] | 34.52% [0.35%]  | 36.81% [0.46%]  | 1024: two columns instead of overflowing (KI-L28); the repeated sentence shown once (KI-C09); 11px meta (KI-A10)                           |
+| Case study   | 3.11% [1.26%]  | 8.28% [0.41%]  | 26.82% [0.82%]  | 27.50% [1.42%]  | Sub-pixel offset from the taller section above; 768/390 compared over the content rows because the original's plant padding grows (KI-N11) |
+| Capabilities | 38.05% [0.04%] | 51.29% [0.01%] | 49.92% [1.31%†] | 58.79% [1.43%]  | The original zooms it to 0.833 (KI-L13); KI-N04; the sentence repeated three times shown once (KI-C09, −100px on phones)                   |
+| Divisions    | 1.53%          | 28.92% [0.31%] | 45.73% [2.40%†] | 12.43% [1.23%†] | 1440: photo resampling; KI-N04; 11px kicker                                                                                                |
+| CTA band     | 0.07%          | 26.62% [0.05%] | 0.04%           | 0.77%           | 1024: the shared `CtaBand`'s 80px bottom padding below 1100px                                                                              |
+| Footer       | 0.15%          | 1.02%          | 0.36%           | 0.95%           |                                                                                                                                            |
+
+Each filter state's grid was compared with the original's: the only difference is the original's holes and empty rows (KI-L05).
+
+**Motion check (animations on, 1440):** no `[data-rv]` on the original Works page and no `[data-reveal]` in the rebuild. With the original's `fit()` zoom neutralised, every section is within 1.76% (as-is, featured and capabilities read 32% and 29% from KI-L13). The CTA parallax matches to 0.003px. The filter reflow animation is new (KI-F15) and is off under reduced motion.
+
+---
+
+## Project (`/works/the-courtyard-house`): Phase 7, 2026-11-19
+
+| Section         | 1440           | 1024           | 768            | 390            | Notes                                                                                |
+| --------------- | -------------- | -------------- | -------------- | -------------- | ------------------------------------------------------------------------------------ |
+| Hero            | 0.01%          | 3.05% [0.13%]  | 0.19%          | 0.39%          | 1024: KI-L16                                                                         |
+| Overview        | 0.12%          | 30.49% [0.04%] | 19.58% [0.11%] | 22.75% [0.37%] | KI-N04 / KI-A10                                                                      |
+| Design response | 0.17%          | 30.34% [0.00%] | 8.01% [0.08%]  | 9.43% [0.04%]  | Same; the repeated paragraph shown once (KI-C09)                                     |
+| Brief           | 52.80% [0.07%] | 40.72% [0.01%] | 48.94% [0.09%] | 47.60% [0.52%] | 1440: the original zooms it to 0.70 (KI-L13); phones: 340px photos (KI-L24) + KI-A10 |
+| Materials       | 0.12%          | 21.49% [0.05%] | 44.31% [0.13%] | 38.40% [0.41%] | KI-N04 / KI-L24 + KI-A10                                                             |
+| Gallery         | 1.17% [0.08%]  | 48.70% [0.46%] | 0.50%          | 0.12%          | 1440: sub-pixel offset from the taller brief                                         |
+| Related         | 0.14%          | 42.60% [0.04%] | 25.69% [0.01%] | 27.19% [0.01%] | KI-N04 / KI-A10; the repeated sentence shown once (KI-C09)                           |
+| CTA             | 0.10%          | 49.24% [0.07%] | 0.26%          | 0.22%          | 1024: `CtaBand`'s 80px bottom padding                                                |
+| Footer          | 0.60%          | 0.24%          | 0.90%          | 0.24%          |                                                                                      |
+
+**Motion check (animations on, 1440):** no `[data-rv]` on the original and no `[data-reveal]` in the rebuild. Each section within 0.30% except brief and related, which the original zooms (KI-L13): 0.07% and 0.04% with that reverted. The CTA parallax matches to 0.05px; the 10 gallery photos open as one lightbox group at full-screen size (KI-N13).

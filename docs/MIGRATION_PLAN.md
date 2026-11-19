@@ -284,13 +284,14 @@ Built in four overlapping groups: the template + turnkey + interior handed over 
 
 **Exit:** met. All 8 pages prerender; every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling. No page has reveal animations, as in the original; the motion-on audit is within 1.5% once the no-auto-zoom fix is reverted. All suites are green (302 unit, 366 e2e).
 
-### Phase 7: Works and Project detail (~1.5 days)
+### Phase 7: Works and Project detail (~1.5 days) ✅ done 2026-11-19
 
-- [ ] `/works`:
-  - hero, featured ("The Rain Court House" vs "Courtyard House" is a conflict to resolve with the client), filterable grid;
-  - **rebuild the filter layout** so filtered results reflow without gaps or orphans (the original leaves holes);
-  - filter state in `?category=` (shareable, back-button friendly), animated reflow, explore section, CTA band.
-- [ ] `/works/[slug]` + `generateStaticParams`: overview, design response, brief, materials, gallery (10 images, lightbox with prev/next), related projects, CTA. Courtyard House is the only real project for now; the other cards link to a slug once data exists (until then they link to it, as today, tracked in KNOWN_ISSUES).
+Built in two parallel groups (Works listing, project page), then integrated.
+
+- [x] `/works`: hero, featured project ("The Rain Court House" kept as rendered, KI-F10), sectors, the filterable grid, case study, capabilities, divisions and the CTA band. Filtered results reflow without holes (KI-L05); the filter lives in `?category=` with back/forward support and an animated reflow (KI-F15, P7-03).
+- [x] `/works/[slug]` (P7-01): the Courtyard House with overview, design response, brief, materials, the 10-photo gallery (one lightbox group), related projects and the CTA. Other projects link to it until they have content (P7-02, KI-F09).
+
+**Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on either page, as in the original; motion-on audit within 1.8% with the auto-zoom fix reverted. All suites are green (324 unit, 419 e2e).
 
 ### Phase 8: Divisions and Locations (~2 days)
 
