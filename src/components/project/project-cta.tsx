@@ -1,7 +1,7 @@
+import { LineBreaks } from "@/components/blocks/title-text";
 import { ParallaxImage } from "@/components/motion/parallax-image";
 import { CtaBand } from "@/components/sections/cta-band";
 import { resolveImage } from "@/components/sections/section-image";
-import { LineBreaks } from "@/components/service-page/title-text";
 import type { ProjectCtaContent } from "@/content/project-details";
 import { routes } from "@/lib/routes";
 

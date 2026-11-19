@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { LineBreaks } from "@/components/blocks/title-text";
 import { ActionButton, type SectionAction } from "@/components/sections/section-action";
 import { resolveImage, type SectionImage } from "@/components/sections/section-image";
 import { canvasSizes } from "@/components/sections/section-media";
@@ -11,7 +12,6 @@ import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/cn";
 import type { Tone } from "@/lib/tone";
 
-import { LineBreaks } from "../title-text";
 import { ARCH_TITLE } from "./arch-header";
 
 /** Content of the architecture introduction (`#p-architecture section.ap`). Plain data. */

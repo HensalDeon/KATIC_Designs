@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { Accent } from "@/components/ui/heading";
-import type { AccentTitle, TitleLines } from "@/content/service-pages";
+import type { AccentTitle, TitleLines } from "@/content/blocks";
 
 /** Authored title lines separated by `<br />` (the original's `<br>`). */
 export function LineBreaks({ lines }: { readonly lines: TitleLines }) {
