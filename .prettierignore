@@ -5,6 +5,7 @@ AGENTS.md
 .next/
 out/
 coverage/
+.tmp/
 playwright-report/
 test-results/
 public/
