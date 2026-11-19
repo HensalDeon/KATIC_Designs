@@ -39,8 +39,12 @@ export type EnquiryFormConfig = {
   readonly note?: string;
 };
 
-/** `home` keeps the canvas field sizes and gaps below 1100px, as the original's home form does. */
-export type EnquiryFormTypography = "standard" | "home";
+/**
+ * `standard` = the contact + FAQ combo on inner pages (enlarged below 1100px); `home` keeps the
+ * compact canvas sizes at every width, as the original's home form does; `plain` = the CONTACT
+ * template without a FAQ (About, Services): roomy fields at every width and a dark Send label.
+ */
+export type EnquiryFormTypography = "standard" | "home" | "plain";
 
 type EnquiryFormProps = EnquiryFormConfig & {
   readonly typography?: EnquiryFormTypography;
@@ -49,18 +53,28 @@ type EnquiryFormProps = EnquiryFormConfig & {
   readonly className?: string;
 };
 
-/** Below 1100px inner pages enlarge the form (original tablet rules); home does not. */
-const BELOW_LG: Record<
+/** Size and colour differences between the original's three contact forms. */
+const SIZES: Record<
   EnquiryFormTypography,
-  { form: string; field: string; textarea: string; label: string }
+  { form: string; field: string; textarea: string; label: string; submit: string; note: string }
 > = {
   standard: {
     form: "max-lg:mt-40 max-lg:gap-x-18 max-lg:gap-y-20",
     field: "max-lg:h-46",
     textarea: "max-lg:h-108",
     label: "max-lg:mb-9",
+    submit: "",
+    note: "",
   },
-  home: { form: "", field: "", textarea: "", label: "" },
+  home: { form: "", field: "", textarea: "", label: "", submit: "", note: "" },
+  plain: {
+    form: "mt-0 gap-x-18 gap-y-20",
+    field: "h-46",
+    textarea: "h-108",
+    label: "mb-9",
+    submit: "text-ink-2",
+    note: "text-[#666]",
+  },
 };
 
 /** Field order decides which invalid field receives focus first. */
@@ -84,7 +98,7 @@ export function EnquiryForm({
   reveal = false,
   className,
 }: EnquiryFormProps) {
-  const sizes = BELOW_LG[typography];
+  const sizes = SIZES[typography];
   const input = cn(inputClass, sizes.field);
   const select = cn(selectClass, sizes.field);
   const { contact } = useShell();
@@ -187,6 +201,7 @@ export function EnquiryForm({
       className={cn(
         "flex h-50 w-full cursor-pointer items-center justify-center gap-12 bg-brand font-display text-[14px] font-semibold text-mist transition-colors duration-200 hover:bg-[#f07040] disabled:opacity-70 in-data-[tone=dark]:text-ink-2",
         !reveal && "col-span-full mt-4",
+        sizes.submit,
       )}
     >
       {submitting ? "Sending…" : "Send Enquiry"}
@@ -333,7 +348,12 @@ export function EnquiryForm({
       </div>
 
       {reveal ? <Reveal className="col-span-full mt-4">{sendButton}</Reveal> : sendButton}
-      <p className="col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc]">
+      <p
+        className={cn(
+          "col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc]",
+          sizes.note,
+        )}
+      >
         {note}
       </p>
     </form>

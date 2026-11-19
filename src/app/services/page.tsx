@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
+import { ContactSection } from "@/components/sections/contact-section";
 import { ServiceBlock } from "@/components/services-page/service-block";
-import { ServicesContact } from "@/components/services-page/services-contact";
 import { ServicesHero } from "@/components/services-page/services-hero";
 import { WhatWeDeliver } from "@/components/services-page/what-we-deliver";
 import { WhatWeDo } from "@/components/services-page/what-we-do";
@@ -28,7 +28,7 @@ export default function ServicesPage() {
       {SERVICE_BLOCKS.map((block) => (
         <ServiceBlock key={block.slug} block={block} parallax={block.slug === "architecture"} />
       ))}
-      <ServicesContact />
+      <ContactSection id="services-contact" tone="dark" />
     </>
   );
 }

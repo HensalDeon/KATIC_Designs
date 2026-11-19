@@ -1,5 +1,4 @@
 import type { ServiceIconName } from "@/components/icons/service-icon";
-import type { ContactChannel, EnquiryFormConfig } from "@/components/sections/contact-faq";
 import type { SectionCta } from "@/components/sections/section-header";
 import type { SectionImage } from "@/components/sections/section-image";
 import { type DivisionSlug, routes } from "@/lib/routes";
@@ -301,20 +300,3 @@ export const ABOUT_WORKS = {
     { project: "canvas-kitchen", layout: "small" },
   ],
 } as const satisfies AboutWorksContent;
-
-export type AboutContactContent = {
-  readonly kicker: string;
-  readonly heading: readonly string[];
-  readonly lead: string;
-  readonly channels: readonly ContactChannel[];
-  readonly form: EnquiryFormConfig;
-};
-
-/** The original's CONTACT template as rendered on About (`#about-contact`, no FAQ). */
-export const ABOUT_CONTACT = {
-  kicker: "Get in Touch",
-  heading: ["Have a Project in", "Mind?"],
-  lead: "Tell us a little about your site, timeline, and the service you need — we’ll get back to you within one business day to schedule a first conversation.",
-  channels: ["email", "phone"],
-  form: { service: { mode: "select" } },
-} as const satisfies AboutContactContent;

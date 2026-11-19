@@ -1,6 +1,8 @@
 import type { ContactFaqProps } from "@/components/sections/contact-faq";
 import { routes } from "@/lib/routes";
 
+import { CONTACT_TEMPLATE } from "../contact";
+
 /**
  * Home contact + FAQ (`section.contact.combo#start`): the original's CONTACT template (JS 4654, as
  * rendered on home: email and phone only) merged with the home FAQ section (line 2913). Copy is
@@ -13,11 +15,7 @@ export type HomeContactContent = Pick<
 >;
 
 export const HOME_CONTACT = {
-  kicker: "Get in Touch",
-  heading: { lines: ["Have a Project in", "Mind?"] },
-  lead: "Tell us a little about your site, timeline, and the service you need — we’ll get back to you within one business day to schedule a first conversation.",
-  channels: ["email", "phone"],
-  form: { service: { mode: "select" } },
+  ...CONTACT_TEMPLATE,
   faq: {
     kicker: "Questions, answered",
     titleLines: ["Frequently asked", "questions"],

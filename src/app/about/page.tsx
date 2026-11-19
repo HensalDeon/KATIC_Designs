@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { AboutDivisions, AboutServices } from "@/components/about/about-cards";
-import { AboutContact } from "@/components/about/about-contact";
 import { AboutExperience } from "@/components/about/about-experience";
 import { AboutFounder } from "@/components/about/about-founder";
 import { AboutHero } from "@/components/about/about-hero";
@@ -9,6 +8,7 @@ import { AboutIntro } from "@/components/about/about-intro";
 import { AboutPhilosophy } from "@/components/about/about-philosophy";
 import { AboutTeam } from "@/components/about/about-team";
 import { AboutWorks } from "@/components/about/about-works";
+import { ContactSection } from "@/components/sections/contact-section";
 import { ABOUT_SEO } from "@/content/about";
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export default function AboutPage() {
       <AboutExperience />
       <AboutTeam />
       <AboutWorks />
-      <AboutContact />
+      <ContactSection id="about-contact" tone="light" />
     </>
   );
 }

@@ -262,16 +262,3 @@ export const SERVICE_BLOCKS = [
     ],
   },
 ] as const satisfies readonly ServiceBlockContent[];
-
-export type ServicesContactContent = {
-  readonly kicker: string;
-  readonly headingLines: readonly string[];
-  readonly lead: string;
-};
-
-/** The CONTACT template as rendered on Services (JS 4654): black, email and phone. */
-export const SERVICES_CONTACT = {
-  kicker: "Get in Touch",
-  headingLines: ["Have a Project in", "Mind?"],
-  lead: "Tell us a little about your site, timeline, and the service you need — we’ll get back to you within one business day to schedule a first conversation.",
-} as const satisfies ServicesContactContent;

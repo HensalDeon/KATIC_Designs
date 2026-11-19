@@ -8,15 +8,16 @@ import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
 import { media } from "@/content/media";
-import { SITE, whatsappUrl } from "@/content/site";
 import { cn } from "@/lib/cn";
 import type { Tone } from "@/lib/tone";
 
+import { CONTACT_CHANNELS, type ContactChannel } from "./contact-channels";
 import { ContactButton } from "./contact-link";
 import type { PlantSpec } from "./content-section";
 import { EnquiryForm, type EnquiryFormConfig } from "./enquiry-form";
 import { Faq, type FaqItem, type FaqTypography } from "./faq";
 
+export type { ContactChannel } from "./contact-channels";
 export type { EnquiryFormConfig } from "./enquiry-form";
 export type { FaqItem, FaqLink } from "./faq";
 
@@ -33,8 +34,6 @@ export type FaqContent = {
   readonly askLabel?: string;
   readonly items: readonly FaqItem[];
 };
-
-export type ContactChannel = "email" | "phone" | "whatsapp";
 
 export type ContactFaqProps = {
   /** Light when the section above is dark, dark otherwise (the page decides). */
@@ -232,11 +231,6 @@ function ContactInfo({
   channels: readonly ContactChannel[];
   typography: FaqTypography;
 }) {
-  const entries: Record<ContactChannel, { term: string; href: string; text: string }> = {
-    email: { term: "Email", href: `mailto:${SITE.email}`, text: SITE.email },
-    phone: { term: "Phone", href: SITE.phone.href, text: SITE.phone.display },
-    whatsapp: { term: "WhatsApp", href: whatsappUrl(), text: "Chat with our team" },
-  };
   return (
     <dl
       className={cn(
@@ -246,7 +240,7 @@ function ContactInfo({
       )}
     >
       {channels.map((channel) => {
-        const { term, href, text } = entries[channel];
+        const { term, href, text, external } = CONTACT_CHANNELS[channel];
         return (
           <div key={channel} className="contents">
             <dt>{term}</dt>
@@ -254,7 +248,7 @@ function ContactInfo({
               <a
                 href={href}
                 className="text-[14px] transition-colors duration-200 hover:text-brand max-lg:text-[15px]"
-                {...(channel === "whatsapp" ? { target: "_blank", rel: "noopener" } : {})}
+                {...(external ? { target: "_blank", rel: "noopener" } : {})}
               >
                 {text}
               </a>
