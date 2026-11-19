@@ -24,6 +24,9 @@ const TRAVEL = 1842; // 380 + 7·292 + 6·96 − 1268 + 110
 const START_X = 380;
 
 async function open(page: Page) {
+  // The hero video streams for as long as it plays (WebKit never goes network-idle); it is not
+  // under test here, so keep it off the wire.
+  await page.route("**/video/**", (route) => route.abort());
   await page.goto(URL);
   await page.evaluate(() => document.fonts.ready);
   // Hydrated once the client island has subscribed: the zoom script's --z is set before that.

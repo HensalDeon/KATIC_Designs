@@ -58,6 +58,8 @@ async function scrollPin(page: Page, fraction: number) {
 const stage = (page: Page) => page.locator("#home-process > div").first();
 
 async function openHome(page: Page) {
+  // The hero video streams while it plays, so the page would never go network-idle.
+  await page.route("**/video/**", (route) => route.abort());
   await page.goto("/");
   // Hydrated once the client island has subscribed (home-pinned.spec).
   await page.waitForLoadState("networkidle");
