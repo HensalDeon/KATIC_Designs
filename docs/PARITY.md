@@ -29,4 +29,6 @@ All 11 sections are built. 35 of 48 section × width captures are within 1%; eve
 | Contact + FAQ           | 1.43%       | ✓ (exact) | 9.84%  | 9.41% | Tablet/phone: email and phone are a two-row list (KI-L11), so 30px shorter and the content below shifts               |
 | Footer                  | 0.84%       | 0.86%     | 0.82%  | 0.57% | Logo keeps its proportions (KI-L07)                                                                                   |
 
+**Motion check (animations on, 1440):** each section was scrolled to the top of the viewport on both sites, given 2.5s to finish its reveals, and diffed. All sections are within 1.1%: about 1.00% (marquee position) and divisions 1.10% (carousel timing). The reveal inventory per section (count and variant) matches the original exactly and is enforced by `tests/e2e/home-reveals.spec.ts` (KI-N09).
+
 Deliberate additions not present in the original: pause controls on the hero video, the logo marquee, the services explorer and the divisions carousel (KI-A01).
