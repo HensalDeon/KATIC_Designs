@@ -27,6 +27,22 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
     },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
+    // Scroll geometry under the desktop canvas zoom in the other engines (docs/analysis/06).
+    {
+      name: "geometry-webkit",
+      testMatch: /zoom-geometry\.spec\.ts/,
+      use: { ...devices["Desktop Safari"] },
+    },
+    // Playwright's Firefox does not launch on recent macOS; CI (Linux) covers it.
+    ...(isCI
+      ? [
+          {
+            name: "geometry-firefox",
+            testMatch: /zoom-geometry\.spec\.ts/,
+            use: { ...devices["Desktop Firefox"] },
+          },
+        ]
+      : []),
   ],
   ...(externalBaseURL
     ? {}
