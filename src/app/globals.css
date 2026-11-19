@@ -131,6 +131,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* The original never sets line-height; Tailwind's preflight default (1.5) would shift every
+       element that relies on `normal`. */
+    line-height: normal;
   }
 
   body {
@@ -163,4 +166,18 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+/* ---------- overlays ---------- */
+/* A modal <dialog> marked data-lock-scroll freezes page scroll while it is open. */
+html:has(dialog[data-lock-scroll][open]) {
+  overflow: hidden;
+}
+
+/* Native select chevron used by enquiry forms (original popup `select`). */
+@utility select-chevron {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23111' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
 }

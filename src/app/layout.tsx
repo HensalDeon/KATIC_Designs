@@ -3,6 +3,16 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Jost } from "next/font/google";
 
+import { LightboxProvider } from "@/components/overlays/lightbox";
+import { StartProjectDialog } from "@/components/overlays/start-project-dialog";
+import { ToastProvider } from "@/components/overlays/toast";
+import { ContactRail } from "@/components/shell/contact-rail";
+import { Footer } from "@/components/shell/footer";
+import { Header } from "@/components/shell/header";
+import { LegacyHashRedirect } from "@/components/shell/legacy-hash-redirect";
+import { MobileCtaBar } from "@/components/shell/mobile-cta-bar";
+import { ShellProvider } from "@/components/shell/shell-provider";
+import { SkipLink } from "@/components/shell/skip-link";
 import { ZOOM_BOOTSTRAP_SCRIPT } from "@/lib/zoom";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
@@ -37,8 +47,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: ZOOM_BOOTSTRAP_SCRIPT }} />
       </head>
       <body>
-        {/* Everything inside is scaled at ≥1100px; overlays (rail, modal, lightbox) render outside. */}
-        <div className="zoom-root">{children}</div>
+        <SkipLink />
+        <ShellProvider>
+          <ToastProvider>
+            <LightboxProvider>
+              {/* Scaled at ≥1100px (D1). Overlays below render outside it, at real size. */}
+              <div className="zoom-root">
+                <Header />
+                <main id="main" tabIndex={-1} className="outline-none">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+              <ContactRail />
+              <MobileCtaBar />
+              <StartProjectDialog />
+              <LegacyHashRedirect />
+            </LightboxProvider>
+          </ToastProvider>
+        </ShellProvider>
       </body>
     </html>
   );
