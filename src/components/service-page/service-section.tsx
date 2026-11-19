@@ -34,10 +34,13 @@ import { withContactTarget } from "./page-plan";
 import { LineBreaks } from "./title-text";
 
 /**
- * The original's first class of every standard block (`section.ks`, `section.ks.slim`). The
- * blocks have no ids, so the parity tool matches them by this class and their order (P5-01).
+ * The original's first class of every standard block (`section.ks`, `section.ks.slim`, and
+ * `section.pp-host.ks` when it carries a plant). The blocks have no ids, so the parity tool matches
+ * them by this class and their order (P5-01).
  */
-const PARITY_CLASS = "ks";
+function parityClass(section: ServiceSection): "ks" | "pp-host" {
+  return section.type !== "divisions" && section.plant ? "pp-host" : "ks";
+}
 
 type ServiceSectionViewProps = {
   readonly section: ServiceSection;
@@ -67,7 +70,11 @@ export function ServiceSectionView({
 }: ServiceSectionViewProps) {
   const headerProps = (header: SectionHeaderContent) =>
     toHeaderProps(header, TITLE_LEADING[titleLeading]);
-  const base = { tone, "data-parity": PARITY_CLASS, ...(section.id ? { id: section.id } : {}) };
+  const base = {
+    tone,
+    "data-parity": parityClass(section),
+    ...(section.id ? { id: section.id } : {}),
+  };
   const shell = {
     ...base,
     ...(section.type !== "divisions" && section.plant ? { plant: section.plant } : {}),

@@ -308,6 +308,19 @@ const PROJECT_LIST = [
     cover: "photos/brick-house-arched-windows-night",
     coverAlt: "Brick house with arched windows lit at night",
   },
+  // Construction featured projects (docs/analysis/03 §2.4); facts from the card's meta line
+  // ("Institutional · Construction · Aluva, Kerala").
+  {
+    slug: "community-health-pavilion",
+    name: "Community Health Pavilion",
+    location: "Aluva, Kerala",
+    region: "kerala",
+    categories: ["institutional"],
+    type: "Institutional",
+    scope: "Construction",
+    cover: "photos/pavilion-fins-facade",
+    coverAlt: "Pavilion building with vertical fins and a garden",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
