@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 20
     env:
       NEXT_TELEMETRY_DISABLED: "1"
+      # Builds the dev-only /styleguide so the design-system e2e suite can run against it.
+      ENABLE_STYLEGUIDE: "1"
     steps:
       - uses: actions/checkout@v7
 

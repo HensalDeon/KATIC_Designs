@@ -2,10 +2,13 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = 3100;
 const isCI = Boolean(process.env["CI"]);
+/** Point the suite at an already running server (e.g. `pnpm dev`) instead of building one. */
+const externalBaseURL = process.env["E2E_BASE_URL"];
 
 /**
  * End-to-end tests against a production build (`next start`).
  * Locally the server is built and started on demand; in CI the workflow builds first.
+ * Set E2E_BASE_URL=http://localhost:3000 to run against a dev server you already have running.
  * The original-site baseline capture lives in tests/visual and is not part of this suite.
  */
 export default defineConfig({
@@ -15,7 +18,7 @@ export default defineConfig({
   retries: isCI ? 2 : 0,
   reporter: isCI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
-    baseURL: `http://127.0.0.1:${PORT}`,
+    baseURL: externalBaseURL ?? `http://127.0.0.1:${PORT}`,
     trace: "on-first-retry",
   },
   projects: [
@@ -25,10 +28,16 @@ export default defineConfig({
     },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
-  webServer: {
-    command: isCI ? `pnpm start --port ${PORT}` : `pnpm build && pnpm start --port ${PORT}`,
-    url: `http://127.0.0.1:${PORT}`,
-    reuseExistingServer: !isCI,
-    timeout: 180_000,
-  },
+  ...(externalBaseURL
+    ? {}
+    : {
+        webServer: {
+          command: isCI ? `pnpm start --port ${PORT}` : `pnpm build && pnpm start --port ${PORT}`,
+          url: `http://127.0.0.1:${PORT}`,
+          reuseExistingServer: !isCI,
+          timeout: 180_000,
+          // The dev-only styleguide is exercised by tests/e2e/design-system.spec.ts.
+          env: { ENABLE_STYLEGUIDE: "1" },
+        },
+      }),
 });
