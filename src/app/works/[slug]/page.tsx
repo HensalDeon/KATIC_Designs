@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectPage } from "@/components/project/project-page";
+import { JsonLd } from "@/components/seo/json-ld";
 import { builtProjectSlugs, getProjectDetail } from "@/content/project-details";
+import { routes } from "@/lib/routes";
+import { projectTrail } from "@/lib/seo/breadcrumbs";
+import { breadcrumbLd } from "@/lib/seo/json-ld";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /**
  * Project detail pages (`/works/<slug>`, original `#p-project`; DECISIONS P0-08). Only projects in
@@ -22,15 +27,17 @@ export function generateStaticParams(): { slug: string }[] {
 export async function generateMetadata({ params }: PageProps<"/works/[slug]">): Promise<Metadata> {
   const detail = getProjectDetail((await params).slug);
   if (!detail) notFound();
-  return {
-    // The original's `data-title` already ends in the brand.
-    title: { absolute: detail.seo.title },
-    description: detail.seo.description,
-  };
+  // The original's `data-title` (already ends in the brand) and `data-desc`.
+  return pageMetadata({ path: routes.project(detail.slug), ...detail.seo });
 }
 
 export default async function ProjectDetailPage({ params }: PageProps<"/works/[slug]">) {
   const detail = getProjectDetail((await params).slug);
   if (!detail) notFound();
-  return <ProjectPage detail={detail} />;
+  return (
+    <>
+      <ProjectPage detail={detail} />
+      <JsonLd data={breadcrumbLd(projectTrail(detail.slug))} />
+    </>
+  );
 }

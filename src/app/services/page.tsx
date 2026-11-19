@@ -6,11 +6,11 @@ import { ServicesHero } from "@/components/services-page/services-hero";
 import { WhatWeDeliver } from "@/components/services-page/what-we-deliver";
 import { WhatWeDo } from "@/components/services-page/what-we-do";
 import { SERVICE_BLOCKS, SERVICES_PAGE_SEO } from "@/content/services-page";
+import { routes } from "@/lib/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: { absolute: SERVICES_PAGE_SEO.title },
-  description: SERVICES_PAGE_SEO.description,
-};
+// The original's `data-title` / `data-desc` (the title already ends in the brand).
+export const metadata: Metadata = pageMetadata({ path: routes.services, ...SERVICES_PAGE_SEO });
 
 /**
  * Services overview (`#p-services`, docs/analysis/02 §3). Order and tones as rendered by the

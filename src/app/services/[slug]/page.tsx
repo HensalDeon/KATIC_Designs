@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/seo/json-ld";
 import { ServicePage } from "@/components/service-page/service-page";
 import { builtServiceSlugs, getServicePage } from "@/content/service-pages";
+import { routes } from "@/lib/routes";
+import { serviceTrail } from "@/lib/seo/breadcrumbs";
+import { breadcrumbLd, faqPageLd } from "@/lib/seo/json-ld";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /**
  * Service detail pages (`/services/<slug>`, original `#p-<slug>`; DECISIONS P0-08). Only the pages
@@ -24,15 +29,24 @@ export async function generateMetadata({
 }: PageProps<"/services/[slug]">): Promise<Metadata> {
   const content = getServicePage((await params).slug);
   if (!content) notFound();
-  return {
-    // The original's `data-title` already ends in the brand.
-    title: { absolute: content.seo.title },
-    description: content.seo.description,
-  };
+  // The original's `data-title` (already ends in the brand) and `data-desc`.
+  return pageMetadata({ path: routes.service(content.slug), ...content.seo });
 }
 
+/** Structured data: the breadcrumb trail and the FAQ that the contact section renders. */
 export default async function ServiceDetailPage({ params }: PageProps<"/services/[slug]">) {
   const content = getServicePage((await params).slug);
   if (!content) notFound();
-  return <ServicePage content={content} />;
+  const path = routes.service(content.slug);
+  return (
+    <>
+      <ServicePage content={content} />
+      <JsonLd
+        data={[
+          breadcrumbLd(serviceTrail(content.slug)),
+          faqPageLd(content.contact.faq.items, path),
+        ]}
+      />
+    </>
+  );
 }

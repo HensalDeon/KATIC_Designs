@@ -75,7 +75,7 @@ test.describe("listing at 1440", () => {
 
   test("hero then the white list, as the original; no contact section", async ({ page }) => {
     await open(page, "/blog");
-    const sections = await page.locator("main > *").evaluateAll((all) =>
+    const sections = await page.locator("main > :not(script)").evaluateAll((all) =>
       all.map((el) => ({
         key: el.hasAttribute("data-hero") ? "hero" : el.id,
         tone: el.getAttribute("data-tone"),
@@ -312,7 +312,7 @@ test.describe("articles at 1440", () => {
 
   test("cover then the white article section; no reveals", async ({ page }) => {
     await open(page, ARTICLE);
-    const blocks = await page.locator("main > *").evaluateAll((all) =>
+    const blocks = await page.locator("main > :not(script)").evaluateAll((all) =>
       all.map((el) => ({
         key: el.getAttribute("data-parity"),
         tone: el.getAttribute("data-tone"),

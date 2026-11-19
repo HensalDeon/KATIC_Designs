@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { DivisionPage } from "@/components/division-page/division-page";
+import { JsonLd } from "@/components/seo/json-ld";
 import { builtDivisionSlugs, getDivisionPage } from "@/content/divisions/pages";
+import { routes } from "@/lib/routes";
+import { divisionTrail } from "@/lib/seo/breadcrumbs";
+import { breadcrumbLd } from "@/lib/seo/json-ld";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /**
  * Division pages (`/divisions/<slug>`, original `#p-div-<slug>`; DECISIONS P0-08). Only the pages
@@ -24,15 +29,17 @@ export async function generateMetadata({
 }: PageProps<"/divisions/[slug]">): Promise<Metadata> {
   const content = getDivisionPage((await params).slug);
   if (!content) notFound();
-  return {
-    // The original's `data-title` is complete (it names the division, not the studio).
-    title: { absolute: content.seo.title },
-    description: content.seo.description,
-  };
+  // The original's `data-title` is complete (it names the division, not the studio).
+  return pageMetadata({ path: routes.division(content.slug), ...content.seo });
 }
 
 export default async function DivisionDetailPage({ params }: PageProps<"/divisions/[slug]">) {
   const content = getDivisionPage((await params).slug);
   if (!content) notFound();
-  return <DivisionPage content={content} />;
+  return (
+    <>
+      <DivisionPage content={content} />
+      <JsonLd data={breadcrumbLd(divisionTrail(content.slug))} />
+    </>
+  );
 }

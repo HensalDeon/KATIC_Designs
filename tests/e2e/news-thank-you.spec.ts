@@ -62,7 +62,11 @@ test.describe("/news", () => {
         "content",
         "Studio announcements, completed projects and updates from Katic Designs and its divisions.",
       );
-      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+      // The original's site-wide robots meta (only /thank-you is noindex).
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "index, follow, max-image-preview:large",
+      );
     });
 
     test("hero then the white news list; no reveals; no active nav item", async ({ page }) => {
