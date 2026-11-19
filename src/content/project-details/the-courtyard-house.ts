@@ -54,9 +54,8 @@ export const THE_COURTYARD_HOUSE: ProjectDetail = {
     title: ["An inward-", "looking plan,", "opened deliberately", "to sky and breeze."],
     paragraphs: [
       "Rather than place rooms along a corridor, the plan wraps daily life around the planted court. Each threshold—street to veranda, living room to garden, stair to bridge—gradually moves from public to private.",
-      // TODO(content): KI-C09 the original prints this paragraph twice; the client supplies the
-      // second paragraph or confirms it should go.
-      "Rather than place rooms along a corridor, the plan wraps daily life around the planted court. Each threshold—street to veranda, living room to garden, stair to bridge—gradually moves from public to private.",
+      // TODO(content): KI-C09 the original prints this paragraph twice; it is shown once until the
+      // client supplies the second paragraph.
     ],
     mainImage: {
       src: "photos/double-height-living-stair",
@@ -272,8 +271,8 @@ export const THE_COURTYARD_HOUSE: ProjectDetail = {
   related: {
     kicker: "Related projects",
     title: ["Homes shaped by", "climate, privacy", "and place."],
-    // TODO(content): KI-C09 the original repeats this sentence; the client confirms the lead.
-    lead: "Explore residential architecture and interior projects across Kochi and its surrounding neighbourhoods. Explore residential architecture and interior projects across Kochi and its surrounding neighbourhoods.",
+    // TODO(content): KI-C09 the original repeats this sentence; it is shown once.
+    lead: "Explore residential architecture and interior projects across Kochi and its surrounding neighbourhoods.",
     projects: [
       { project: "canopy-house", meta: "RESIDENTIAL · THRIPPUNITHURA" },
       { project: "river-edge-villa", meta: "RESIDENTIAL · ALUVA" },
