@@ -263,10 +263,15 @@ Built in three parallel groups (hero/teasers, pinned sections, interactive secti
 
 **Exit:** met. 35/48 section × width captures are within 1%, and every other one is explained in docs/PARITY.md. The pinned sections are checked from motion-on frames, and all suites (unit, e2e in Chromium and WebKit) are green.
 
-### Phase 5: About and Services overview (~1.5 days)
+### Phase 5: About and Services overview (~1.5 days) ✅ done 2026-11-19
 
-- About: hero (fix the upside-down vertical labels), who we are, philosophy + approach (fix the `.kh` two-column layout), services grid, divisions grid, founder, experience stats, management team, works mosaic with parallax.
-- Services: hero, what we do, what we deliver, 7 alternating service blocks (`.blk`) with lightbox images. Fixes: the 1024 hero type scale, phone `h2` sizing, the text-column gutter, and the image column hidden under the rail.
+Built in two parallel groups (About, Services), then integrated: the two page-local contact blocks became one shared `ContactSection` (P5-02).
+
+- [x] About (`/about`): hero with readable vertical labels (KI-L15), who we are, philosophy with parallax + approach in two columns (KI-L14), services and divisions grids, founder, experience stats, management team, works mosaic. Sections grow with their content instead of the original's auto-zoom (KI-L13). Four About projects were added to `src/content/projects.ts`.
+- [x] Services (`/services`): hero with the service index, what we do (heliconia plant clipped, KI-L32), what we deliver (kept as rendered, KI-L19), 7 alternating `.blk` blocks with one lightbox gallery each and the parallax-and-zoomable architecture photo (P5-03). Fixes: the gutter and the rail overlap (KI-L18), phone titles (KI-L17), 2×2 phone thumbnails (KI-L09).
+- [x] Shared: `ContactSection` + `src/content/contact.ts` (the CONTACT template copy, also used by Home), the `EnquiryForm` `plain` preset, the parity tool matching id-less blocks (P5-01).
+
+**Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling noise. Neither page has reveal animations, as in the original; the motion-on audit is within 1.9% apart from deliberate fixes. All suites are green (250 unit, 213 e2e).
 
 ### Phase 6: Service detail template and 8 pages (~2 days)
 
