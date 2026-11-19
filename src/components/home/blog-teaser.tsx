@@ -7,6 +7,7 @@ import { MoreArrow, moreLinkVariants } from "@/components/ui/text-link";
 import { media } from "@/content/media";
 import { formatPostDate, HOME_BLOG_TEASER, latestPosts, type Post } from "@/content/posts";
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 import { HomeSectionHeader } from "./home-section-header";
@@ -90,7 +91,7 @@ export function BlogTeaser({ posts = latestPosts(4) }: BlogTeaserProps) {
                     <Image
                       src={media[post.cover].image}
                       alt=""
-                      sizes="130px"
+                      sizes={fixedCanvasSizes(130)}
                       className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.06]"
                     />
                   </div>

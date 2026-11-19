@@ -7,6 +7,7 @@ import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
 import { type ClientStoriesContent, HOME_STORIES } from "@/content/home/stories";
+import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
 
 import { ClientStoriesRotator } from "./client-stories-client";
@@ -61,7 +62,16 @@ export function ClientStories({ content = HOME_STORIES, className }: ClientStori
             </Lead>
           </Reveal>
         </div>
-        <ClientStoriesRotator content={content} />
+        <ClientStoriesRotator
+          content={{
+            ...content,
+            stories: content.stories.map((story) => ({
+              ...story,
+              portrait: media[story.portrait].image,
+              project: media[story.project].image,
+            })),
+          }}
+        />
       </Container>
     </Section>
   );

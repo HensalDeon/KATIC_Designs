@@ -11,6 +11,7 @@ import { Lead } from "@/components/ui/text";
 import { HOME_ABOUT, type HomeAboutContent, type HomeStat } from "@/content/home/about";
 import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 import { LogoMarquee } from "./logo-marquee";
@@ -64,7 +65,7 @@ export function AboutTeaser({ content = HOME_ABOUT }: AboutTeaserProps) {
         src={media["plants/bougainvillea"].image}
         alt=""
         aria-hidden
-        sizes="171px"
+        sizes={fixedCanvasSizes(171)}
         className="pointer-events-none absolute top-0 right-0 z-3 h-200 w-auto max-md:-z-1 max-md:h-260 max-md:opacity-95"
       />
       <Container>
@@ -96,7 +97,13 @@ export function AboutTeaser({ content = HOME_ABOUT }: AboutTeaserProps) {
                 </Lead>
               </Reveal>
             ))}
-            <LogoMarquee heading={content.partnersKicker} logos={content.partners} />
+            <LogoMarquee
+              heading={content.partnersKicker}
+              logos={content.partners.map((partner) => ({
+                ...partner,
+                logo: media[partner.logo].image,
+              }))}
+            />
             <Reveal>
               <ButtonLink
                 href={routes.about}

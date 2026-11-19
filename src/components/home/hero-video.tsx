@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useInView } from "@/hooks/use-in-view";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useSaveData } from "@/hooks/use-save-data";
 
 import { HERO_MOBILE_QUERY } from "./hero-media";
 import { PlayPauseIcon } from "./play-pause-icon";
@@ -16,7 +17,10 @@ type HeroVideoProps = {
   readonly playLabel?: string;
 };
 
-const noSubscription = () => () => undefined;
+function subscribeLoad(onChange: () => void) {
+  window.addEventListener("load", onChange);
+  return () => window.removeEventListener("load", onChange);
+}
 
 function subscribeVisibility(onChange: () => void) {
   document.addEventListener("visibilitychange", onChange);
@@ -31,12 +35,12 @@ const UNLOCK_EVENTS = ["pointerdown", "touchstart", "scroll"] as const;
  *
  * - Plays the landscape or portrait cut by `HERO_MOBILE_QUERY`, switching live.
  * - Muted, looping, inline, `preload="metadata"`. The source is attached only after hydration
- *   and only once playback is wanted, so reduced-motion visitors download nothing and see the
- *   poster (KI-S05).
+ *   and the page's load event, and only once playback is wanted, so reduced-motion and save-data visitors (Data Saver or
+ *   `prefers-reduced-data`) download nothing and see the poster (KI-S05).
  * - Pauses while off screen, while the tab is hidden and when the page is hidden by navigation
  *   (Activity), and resumes afterwards.
- * - A visible pause/play button controls it (WCAG 2.2.2, KI-A01). Under reduced motion it starts
- *   paused and the button offers to play it.
+ * - A visible pause/play button controls it (WCAG 2.2.2, KI-A01). Under reduced motion or
+ *   save-data it starts paused and the button offers to play it.
  */
 export function HeroVideo({
   desktopSrc,
@@ -45,13 +49,15 @@ export function HeroVideo({
   playLabel = "Play background video",
 }: HeroVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const hydrated = useSyncExternalStore(
-    noSubscription,
-    () => true,
+  // `false` on the server and during hydration, so the source is only ever attached client-side.
+  const pageLoaded = useSyncExternalStore(
+    subscribeLoad,
+    () => document.readyState === "complete",
     () => false,
   );
   const mobile = useMediaQuery(HERO_MOBILE_QUERY);
   const reduced = useReducedMotion();
+  const saveData = useSaveData();
   const pageVisible = useSyncExternalStore(
     subscribeVisibility,
     () => document.visibilityState === "visible",
@@ -61,11 +67,13 @@ export function HeroVideo({
 
   /** The visitor's explicit choice; `null` until they press the button. */
   const [choice, setChoice] = useState<"play" | "pause" | null>(null);
-  const wantsPlay = choice === null ? !reduced : choice === "play";
+  const wantsPlay = choice === null ? !reduced && !saveData : choice === "play";
 
   // Attach the source the first time playback is wanted, then keep it (pausing must not reset it).
+  // Autoplay waits for the page's load event, so the ~2.5 MB file never competes with the page's
+  // own scripts, fonts and images; an explicit "play" starts it at once.
   const [armed, setArmed] = useState(false);
-  if (hydrated && wantsPlay && !armed) setArmed(true);
+  if (wantsPlay && !armed && (pageLoaded || choice === "play")) setArmed(true);
 
   const cut = mobile ? "mobile" : "desktop";
   const src = armed ? (mobile ? mobileSrc : desktopSrc) : undefined;

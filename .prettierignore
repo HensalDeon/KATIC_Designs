@@ -8,6 +8,7 @@ coverage/
 .tmp/
 playwright-report/
 test-results/
+.lighthouseci/
 public/
 
 # Reference material and frozen audit notes (line-referenced; keep byte-stable)

@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 
 import { media, type MediaId } from "@/content/media";
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 
 const CORNERS = {
   "top-left": "top-0 left-0",
@@ -31,7 +32,7 @@ export function Plant({ asset, corner, width, behind = false, className }: Plant
       src={media[asset].image}
       alt=""
       aria-hidden
-      sizes={`${width}px`}
+      sizes={fixedCanvasSizes(width, width * 0.58)}
       style={{ "--w": `${width}px` } as CSSProperties}
       className={cn(
         "pointer-events-none absolute h-auto w-(--w) max-md:w-[calc(var(--w)*0.58)]",

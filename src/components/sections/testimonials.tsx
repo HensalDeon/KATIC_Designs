@@ -2,6 +2,7 @@ import { cva } from "class-variance-authority";
 import Image from "next/image";
 
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 
 import { type ImageInput, resolveImage } from "./section-media";
 
@@ -105,7 +106,7 @@ export function Testimonials({ items, variant = "service", className }: Testimon
               <Image
                 src={resolveImage(item.avatar)}
                 alt=""
-                sizes="40px"
+                sizes={fixedCanvasSizes(40)}
                 className="size-40 shrink-0 rounded-[50%] object-cover"
               />
               <span className="font-sans">

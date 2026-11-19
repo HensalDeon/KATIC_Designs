@@ -16,16 +16,12 @@ import { Reveal } from "@/components/motion/reveal";
 import { useToast } from "@/components/overlays/toast";
 import { useShell } from "@/components/shell/shell-provider";
 import { SERVICE_OPTIONS } from "@/content/services";
+import { useInView } from "@/hooks/use-in-view";
 import { trackLead } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { rememberLead, submitLead, toLastLead } from "@/lib/leads/client";
-import {
-  formDataToLead,
-  type LeadField,
-  type LeadFieldErrors,
-  leadFieldErrors,
-  leadSchema,
-} from "@/lib/leads/schema";
+import { formDataToLead, loadLeadValidator } from "@/lib/leads/fields";
+import type { LeadField, LeadFieldErrors } from "@/lib/leads/schema";
 import { routes } from "@/lib/routes";
 
 import {
@@ -139,6 +135,14 @@ export function EnquiryForm({
   const [choice, setChoice] = useState<ServiceChoice>();
   const [submitting, setSubmitting] = useState(false);
   const detailsRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Fetch the validator (zod, its own chunk) once the form comes near, so it stays out of the
+  // page's initial JavaScript and submitting never waits for it.
+  const formNear = useInView(formRef, { rootMargin: "600px 0px" });
+  useEffect(() => {
+    if (formNear) void loadLeadValidator();
+  }, [formNear]);
 
   // A "go to contact" on this page writes the page's location into the details, once per arrival.
   const arrival = contact.arrival?.path === pathname ? contact.arrival.id : undefined;
@@ -178,9 +182,10 @@ export function EnquiryForm({
       }),
       ...(extra ? { extra } : {}),
     };
-    const parsed = leadSchema.safeParse(candidate);
-    if (!parsed.success) {
-      const fieldErrors = leadFieldErrors(parsed.error);
+    const validateLead = await loadLeadValidator();
+    const parsed = validateLead(candidate);
+    if (!parsed.ok) {
+      const fieldErrors = parsed.errors;
       setErrors(fieldErrors);
       const first = FIELD_ORDER.find((field) => fieldErrors[field]);
       const element = first ? form.elements.namedItem(first) : null;
@@ -190,7 +195,7 @@ export function EnquiryForm({
 
     setErrors({});
     setSubmitting(true);
-    const response = await submitLead(parsed.data);
+    const response = await submitLead(parsed.lead);
     setSubmitting(false);
 
     if (!response.ok && response.status === "invalid") {
@@ -202,7 +207,7 @@ export function EnquiryForm({
       return;
     }
 
-    const lead = parsed.data;
+    const lead = parsed.lead;
     rememberLead(toLastLead(lead, response.ok ? "sent" : "unsent"));
     if (response.ok) trackLead({ service: lead.service, source: lead.source.path });
     form.reset();
@@ -240,6 +245,7 @@ export function EnquiryForm({
 
   return (
     <form
+      ref={formRef}
       noValidate
       onSubmit={(event) => void handleSubmit(event)}
       className={cn(

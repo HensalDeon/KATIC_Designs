@@ -99,6 +99,7 @@ export function PageHero({
           src={resolveImage(image.src)}
           alt={image.alt}
           preload
+          fetchPriority="high"
           sizes="100vw"
           className="size-full object-cover"
         />

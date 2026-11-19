@@ -693,3 +693,28 @@ test.describe("reduced motion", () => {
     await expect(video(page)).toHaveAttribute("data-state", "playing");
   });
 });
+
+test.describe("save-data", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("hero video downloads nothing until the visitor asks for it", async ({ page }) => {
+    // Data Saver on (`navigator.connection.saveData`), as Chromium exposes it.
+    await page.addInitScript(() => {
+      const connection = Object.assign(new EventTarget(), { saveData: true });
+      Object.defineProperty(navigator, "connection", { get: () => connection });
+    });
+    const videoRequests: string[] = [];
+    page.on("request", (request) => {
+      if (request.url().includes("/video/")) videoRequests.push(request.url());
+    });
+    await open(page);
+    await expect(videoToggle(page)).toHaveAccessibleName("Play background video");
+    await expect(video(page)).not.toHaveAttribute("src", /.+/);
+    await expect(hero(page).locator("picture img")).toBeVisible();
+    expect(videoRequests).toEqual([]);
+
+    await videoToggle(page).click();
+    await expect(video(page)).toHaveAttribute("src", "/video/hero-desktop.mp4");
+    await expect(video(page)).toHaveAttribute("data-state", "playing");
+  });
+});

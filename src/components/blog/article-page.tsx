@@ -13,6 +13,7 @@ import {
   type Post,
   postCategorySlug,
 } from "@/content/posts";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 import { ArticleBody } from "./article-body";
@@ -36,6 +37,7 @@ function ArticleCover({ post }: { readonly post: Post }) {
         src={cover.image}
         alt={cover.description}
         preload
+        fetchPriority="high"
         sizes="100vw"
         className="size-full object-cover"
       />
@@ -80,7 +82,7 @@ function LatestArticles({ post }: { readonly post: Post }) {
               <Image
                 src={media[other.cover].image}
                 alt=""
-                sizes="84px"
+                sizes={fixedCanvasSizes(84)}
                 className="h-64 w-84 object-cover"
               />
               <span>

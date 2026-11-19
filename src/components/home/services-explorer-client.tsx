@@ -15,13 +15,13 @@ import {
 } from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
-import { canvasSizes } from "@/components/sections/section-media";
 import { StartProjectTrigger } from "@/components/shell/start-project-trigger";
 import { AutoplayToggle } from "@/components/ui/autoplay-toggle";
 import type { ExplorerContent, ExplorerGroup, ExplorerService } from "@/content/home/explorer";
-import { media } from "@/content/media";
 import { useAutoplay } from "@/hooks/use-autoplay";
 import { cn } from "@/lib/cn";
+import { canvasSizes } from "@/lib/media/sizes";
+import type { WithImages } from "@/lib/media/types";
 import { wrapIndex } from "@/lib/motion";
 import { routes } from "@/lib/routes";
 
@@ -31,8 +31,14 @@ export const EXPLORER_VISIBLE_THRESHOLD = 0.3;
 
 const GROUPS: readonly ExplorerGroup[] = ["Design", "Construction"];
 
+export type ResolvedExplorerService = WithImages<ExplorerService, "image">;
+export type ResolvedExplorerContent = Omit<ExplorerContent, "services"> & {
+  readonly services: readonly ResolvedExplorerService[];
+};
+
 type ServicesExplorerBodyProps = {
-  readonly content: ExplorerContent;
+  /** Content with each service photo resolved on the server (`WithImages`). */
+  readonly content: ResolvedExplorerContent;
   /** Kicker, title and lead (server-rendered). */
   readonly header: ReactNode;
 };
@@ -183,7 +189,7 @@ export function ServicesExplorerBody({ content, header }: ServicesExplorerBodyPr
           {services.map((service, i) => (
             <Image
               key={service.slug}
-              src={media[service.image].image}
+              src={service.image}
               alt={service.name}
               aria-hidden={i !== index}
               fill
@@ -239,8 +245,8 @@ function Caption({
   id,
   labelledBy,
 }: {
-  service: ExplorerService;
-  content: ExplorerContent;
+  service: ResolvedExplorerService;
+  content: ResolvedExplorerContent;
   active: boolean;
   id: string;
   labelledBy: string;

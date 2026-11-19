@@ -3,6 +3,7 @@ import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
 import { type ExplorerContent, HOME_EXPLORER } from "@/content/home/explorer";
+import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
 
 import { ServicesExplorerBody } from "./services-explorer-client";
@@ -35,7 +36,13 @@ export function ServicesExplorer({ content = HOME_EXPLORER, className }: Service
       className={cn("max-md:pt-104 max-md:pb-36 md:h-[max(var(--svh),720px)]", className)}
     >
       <ServicesExplorerBody
-        content={content}
+        content={{
+          ...content,
+          services: content.services.map((service) => ({
+            ...service,
+            image: media[service.image].image,
+          })),
+        }}
         header={
           <>
             <Kicker font="home">{content.kicker}</Kicker>

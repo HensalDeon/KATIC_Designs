@@ -24,6 +24,9 @@
     "ref:serve": "tsx tests/visual/serve-original.mts",
     "ref:capture": "tsx tests/visual/capture-original.mts",
     "parity": "tsx tests/visual/parity.mts",
+    "perf": "pnpm perf:mobile; status=$?; pnpm perf:desktop && exit $status",
+    "perf:mobile": "PERF_PRESET=mobile lhci autorun",
+    "perf:desktop": "PERF_PRESET=desktop lhci autorun",
     "prepare": "husky"
   },
   "dependencies": {
@@ -39,6 +42,7 @@
     "@axe-core/playwright": "4.14.0",
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
+    "@lhci/cli": "0.16.0",
     "@playwright/test": "1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "22.20.5",

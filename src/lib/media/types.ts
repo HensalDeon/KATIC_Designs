@@ -18,3 +18,10 @@ export type MediaAsset = {
   /** Key of the asset in the original single-file site (provenance only). */
   readonly sourceKey?: string;
 };
+
+/**
+ * `T` with its media-id fields `K` resolved to images. Server components resolve ids against the
+ * manifest (`src/content/media.ts`) and hand client islands this shape, so no client bundle ships
+ * the whole manifest.
+ */
+export type WithImages<T, K extends keyof T> = Omit<T, K> & Readonly<Record<K, ImageSource>>;
