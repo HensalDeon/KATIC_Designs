@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { SERVICE_ICON_NAMES, ServiceIcon } from "@/components/icons/service-icon";
+import { ZoomableImage } from "@/components/overlays/lightbox";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Chip, Tag } from "@/components/ui/chip";
 import { Container } from "@/components/ui/container";
@@ -12,6 +13,7 @@ import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
 import { Body, Lead } from "@/components/ui/text";
 import { MoreLink, UnderlineLink } from "@/components/ui/text-link";
+import { media } from "@/content/media";
 import type { Tone } from "@/lib/tone";
 
 /**
@@ -41,8 +43,8 @@ export default function StyleguidePage() {
   if (!ENABLED) notFound();
 
   return (
-    <main>
-      <Section tone="dark" spacing="none" fullHeight={false} className="py-80">
+    <>
+      <Section tone="dark" spacing="none" fullHeight={false} className="pt-160 pb-80">
         <Container data-testid="container">
           <Kicker>Design system</Kicker>
           <HeroTitle data-testid="hero-title" className="mt-22">
@@ -60,7 +62,7 @@ export default function StyleguidePage() {
       {(["light", "dark"] as const).map((tone) => (
         <Specimens key={tone} tone={tone} />
       ))}
-    </main>
+    </>
   );
 }
 
@@ -152,6 +154,26 @@ function Specimens({ tone }: { tone: Tone }) {
             <Tag data-testid={id("tag")}>Architecture</Tag>
           </div>
         </Group>
+
+        {tone === "light" ? (
+          <Group title="Lightbox gallery">
+            <div className="flex gap-16">
+              {(["photos/courtyard-reflecting-pool", "photos/kitchen-island-teak"] as const).map(
+                (id) => (
+                  <ZoomableImage
+                    key={id}
+                    image={media[id].image}
+                    alt={media[id].description}
+                    caption={media[id].description}
+                    group="styleguide"
+                    sizes="200px"
+                    className="h-140 w-200 object-cover"
+                  />
+                ),
+              )}
+            </div>
+          </Group>
+        ) : null}
 
         <Group title="Service icons">
           <ul className="grid grid-cols-9 gap-24 text-brand max-md:grid-cols-5">
