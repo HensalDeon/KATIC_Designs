@@ -1,6 +1,7 @@
 import { routes, type WorksCategory } from "@/lib/routes";
 
 import type { MediaId } from "./media";
+import { hasProjectDetail } from "./project-details";
 
 /**
  * Projects: the single source of truth for every project card, filter and (later) project page
@@ -355,6 +356,31 @@ const PROJECT_LIST = [
     cover: "photos/riverside-house-night",
     coverAlt: "Riverside house glowing at night",
   },
+  // The Courtyard House page's related projects (`#p-project .rl`, docs/analysis/04 §2) not shown
+  // elsewhere; facts from their cards ("ARCHITECTURE · EDAPPALLY"). Categories are inferred from
+  // that line: the original's cards carry no filter data.
+  {
+    slug: "linear-courtyard-home",
+    name: "Linear Courtyard Home",
+    location: "Edappally, Kochi",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Architecture",
+    cover: "photos/garden-path-modern-house",
+    coverAlt: "Stone garden path leading to a white modern house",
+  },
+  {
+    slug: "garden-fold-house",
+    name: "Garden Fold House",
+    location: "Kochi, Kerala",
+    region: "kerala",
+    categories: ["residential", "architecture", "interiors"],
+    type: "Residential",
+    scope: "Architecture + Interiors",
+    cover: "photos/narrow-urban-house-dusk",
+    coverAlt: "Narrow urban house lit at dusk",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
@@ -398,7 +424,18 @@ export function projectLocationLine(project: Project): string {
   return `${project.location} — ${project.scope}`;
 }
 
-/** Detail page URL (the original links every card to the generic `#project`). */
+/**
+ * The project every card links to while its own page does not exist: the original links all ~45
+ * project cards to its one project page (`href="#project"`, The Courtyard House).
+ */
+export const FALLBACK_PROJECT_SLUG = "the-courtyard-house" satisfies ProjectSlug;
+
+/**
+ * Where a project card links. A project with a built detail page (`src/content/project-details`)
+ * links to its own `/works/<slug>`; every other project keeps the original's behaviour and links to
+ * The Courtyard House page, so no card ever leads to a 404. Tracked as KI-F09 until every project
+ * has its page; adding a project to the detail registry switches its cards over automatically.
+ */
 export function projectHref(project: Project): string {
-  return routes.project(project.slug);
+  return routes.project(hasProjectDetail(project.slug) ? project.slug : FALLBACK_PROJECT_SLUG);
 }

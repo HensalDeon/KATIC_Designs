@@ -288,7 +288,8 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expect(tiles).toHaveCount(4);
     expect(await box(tiles.nth(0))).toMatchObject({ x: 86, width: 838, height: 460 });
     expect(await box(tiles.nth(1))).toMatchObject({ x: 942, width: 412, height: 747 });
-    await expect(tiles.nth(0)).toHaveAttribute("href", "/works/obsidian-lounge-kochi");
+    // No project page but The Courtyard House's exists yet; cards open it, as in the original (KI-F09).
+    await expect(tiles.nth(0)).toHaveAttribute("href", "/works/the-courtyard-house");
     await expect(tiles.nth(2)).toContainText("The Courtyard House");
     const title = works.locator("h2");
     await expectFont(title, JOST);
