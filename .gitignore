@@ -39,3 +39,6 @@ npm-debug.log*
 
 # Claude Code agent worktrees
 /.claude/worktrees/
+
+# Lighthouse CI working folder (pnpm perf)
+/.lighthouseci/
