@@ -1,7 +1,27 @@
 import { describe, expect, it } from "vitest";
 
 import { media } from "./media";
-import { formatNewsDate, latestNews, NEWS } from "./news";
+import { formatNewsDate, latestNews, NEWS, newsListing } from "./news";
+
+describe("newsListing", () => {
+  it("leads with the featured item, then the rest newest first", () => {
+    const { featured, rest } = newsListing();
+    expect(featured?.slug).toBe("dubai-design-studio");
+    expect(rest.map((item) => item.date)).toEqual([
+      "2026-10-14",
+      "2026-09-30",
+      "2026-09-12",
+      "2026-08-22",
+      "2026-08-05",
+    ]);
+  });
+
+  it("falls back to the newest item, and handles an empty list", () => {
+    const unflagged = NEWS.map(({ featured: _featured, ...item }) => item);
+    expect(newsListing(unflagged.toReversed()).featured?.slug).toBe("dubai-design-studio");
+    expect(newsListing([])).toEqual({ featured: undefined, rest: [] });
+  });
+});
 
 describe("NEWS", () => {
   it("has the six items of the original news page with unique slugs and real media", () => {
