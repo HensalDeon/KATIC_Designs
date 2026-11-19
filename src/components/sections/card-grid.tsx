@@ -17,6 +17,8 @@ export type CardItem = {
   readonly meta?: string;
   /** Description under the title (service and product cards). */
   readonly text?: string;
+  /** Badge over the image's top-left corner (`.im .tg`, e.g. a development's "Completed"). */
+  readonly tag?: string;
 };
 
 export type CardGridVariant = "project" | "service" | "product";
@@ -107,6 +109,11 @@ function Card({
           sizes={sizes}
           className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.04]"
         />
+        {item.tag ? (
+          <span className="absolute top-16 left-16 bg-ink-2 px-10 py-7 font-sans text-[8.5px] font-semibold tracking-[0.16em] text-white uppercase max-md:text-[11px]">
+            {item.tag}
+          </span>
+        ) : null}
       </span>
       {item.meta ? (
         <small className="mt-20 block font-sans text-[9px] font-semibold tracking-[0.16em] text-[#c0522a] uppercase in-data-[tone=dark]:text-brand max-md:text-[11px]">

@@ -382,6 +382,33 @@ const PROJECT_LIST = [
     cover: "photos/narrow-urban-house-dusk",
     coverAlt: "Narrow urban house lit at dusk",
   },
+  // Division-page featured projects not shown elsewhere (docs/analysis/04 §3); facts from their
+  // cards' meta line ("Commercial · Interiors · Mattancherry, Kochi"). Categories are inferred from
+  // that line: the original's cards carry no filter data.
+  {
+    slug: "mattancherry-studio",
+    name: "Mattancherry Studio",
+    location: "Mattancherry, Kochi",
+    region: "kerala",
+    categories: ["commercial", "interiors"],
+    type: "Commercial",
+    scope: "Interiors",
+    cover: "photos/heritage-studio-interior",
+    coverAlt: "Studio inside a heritage building with a timber roof",
+  },
+  {
+    slug: "hillside-commons",
+    name: "Hillside Commons",
+    // TODO(content): KI-D01 the card only says "Mixed-use · Kerala" (an upcoming development); the
+    // client confirms its town, type and scope.
+    location: "Kerala",
+    region: "kerala",
+    categories: ["residential", "commercial"],
+    type: "Commercial",
+    scope: "Development",
+    cover: "photos/hillside-house-greenery",
+    coverAlt: "House set into a green hillside",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
