@@ -1,7 +1,10 @@
 import { cva } from "class-variance-authority";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
+import { DrawOn } from "@/components/art/draw-on";
+import { IsoArt } from "@/components/art/iso-art";
 import { ServiceIcon, type ServiceIconName } from "@/components/icons/service-icon";
+import { type IconName, pickIcons } from "@/lib/art";
 import { cn } from "@/lib/cn";
 
 export type FeatureGridItem = {
@@ -9,10 +12,10 @@ export type FeatureGridItem = {
   readonly title: string;
   readonly text: string;
   /**
-   * Isometric 3D line icon for this tile (the original's `.ic3`), e.g. a server-rendered SVG from
-   * the art engine. It is stretched over the slot; the slot is rendered even when this is empty.
+   * Isometric 3D line icon (`.ic3`). Picked from the title like the original (unique per grid);
+   * set this only to override the pick.
    */
-  readonly art?: ReactNode;
+  readonly artIcon?: IconName;
 };
 
 /** The original sets `grid-template-columns: repeat(N, 1fr)` inline; 5 is used by divisions. */
@@ -29,40 +32,19 @@ const gridVariants = cva(
   },
 );
 
-/**
- * Art slot (`.kfeat .ic3`): 150px tall (120px in 5-column grids), bleeding 10px past the tile
- * padding, with the warm glow behind the drawing. On black the glow strengthens and the drawing
- * lifts on hover; on white the glow stays put (the original's `.onlight` rule wins there).
- */
-const artSlotVariants = cva(
-  [
-    "relative -mx-10 -mt-8 mb-14",
-    "bg-[radial-gradient(ellipse_62%_72%_at_50%_72%,rgba(232,98,44,0.08),rgba(255,255,255,0)_72%)]",
-    "in-data-[tone=dark]:bg-[radial-gradient(ellipse_55%_70%_at_50%_70%,rgba(150,58,22,0.38),rgba(0,0,0,0)_72%)]",
-    "in-data-[tone=dark]:group-hover/feature:bg-[radial-gradient(ellipse_60%_76%_at_50%_70%,rgba(200,76,28,0.62),rgba(0,0,0,0)_74%)]",
-    "transition-[background] duration-500",
-    "*:absolute *:inset-0 *:size-full *:transition-transform *:duration-500 *:ease-out-k group-hover/feature:*:-translate-y-4",
-  ],
-  {
-    variants: {
-      columns: { 3: "h-150", 4: "h-150", 5: "h-120" },
-    },
-  },
-);
-
 export type FeatureGridProps = Omit<ComponentPropsWithoutRef<"div">, "children"> & {
   readonly columns: 3 | 4 | 5;
   readonly items: readonly FeatureGridItem[];
-  /** Extra classes for each tile (e.g. draw-on state hooks). */
+  /** Extra classes for each tile. */
   readonly itemClassName?: string;
 };
 
 /**
- * Feature tiles (`.kfeat`) rendered inside a `ContentSection`: bordered cards with a 3D art slot,
- * a small orange line icon, a title and a short text. 3, 4 or 5 columns on the canvas, 2 below
- * 1100px, 1 on phones. The border turns orange on hover. `className` and the remaining props go
- * to the grid root, so a client wrapper can add the draw-on behaviour; tiles carry
- * `data-feature`, art slots `data-art-slot`.
+ * Feature tiles (`.kfeat`) rendered inside a `ContentSection`: bordered cards with an isometric
+ * 3D icon (`IsoArt`, drawn on with a 140ms stagger once 20% of the grid is visible), a small
+ * orange line icon, a title and a short text. 3, 4 or 5 columns on the canvas, 2 below 1100px, 1
+ * on phones. The border turns orange and the 3D icon lifts on hover. `className` and the
+ * remaining props go to the grid root; tiles carry `data-feature`.
  */
 export function FeatureGrid({
   columns,
@@ -71,22 +53,32 @@ export function FeatureGrid({
   itemClassName,
   ...props
 }: FeatureGridProps) {
+  const picked = pickIcons(items.map((item) => item.title));
+
   return (
-    <div className={cn(gridVariants({ columns }), className)} {...props}>
-      {items.map((item) => (
+    <DrawOn
+      threshold={0.2}
+      stagger={140}
+      className={cn(gridVariants({ columns }), className)}
+      {...props}
+    >
+      {items.map((item, index) => (
         <div
           key={item.title}
           data-feature
           className={cn(
-            "group/feature relative overflow-hidden border border-[#e3dfd7] bg-surface px-24 pt-22 pb-24 transition-[border-color] duration-200 hover:border-brand",
+            "group/feature group/iso-tile relative overflow-hidden border border-[#e3dfd7] bg-surface px-24 pt-22 pb-24 transition-[border-color] duration-200 hover:border-brand",
             "in-data-[tone=dark]:border-[#262626] in-data-[tone=dark]:bg-[#0c0c0c]",
             "max-lg:px-28 max-lg:pt-30 max-lg:pb-32",
             itemClassName,
           )}
         >
-          <div data-art-slot className={artSlotVariants({ columns })}>
-            {item.art}
-          </div>
+          <IsoArt
+            kind="icon"
+            name={item.artIcon ?? picked[index] ?? "layers"}
+            order={index}
+            className={columns === 5 ? "h-120" : undefined}
+          />
           <span className="block h-34 text-brand">
             <ServiceIcon name={item.icon} size={28} />
           </span>
@@ -96,6 +88,6 @@ export function FeatureGrid({
           <p className="mt-12 font-sans text-[13px] leading-[1.75] text-fg-body">{item.text}</p>
         </div>
       ))}
-    </div>
+    </DrawOn>
   );
 }

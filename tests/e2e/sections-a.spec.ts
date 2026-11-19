@@ -337,7 +337,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       backgroundColor: "rgb(12, 12, 12)",
       overflow: "hidden",
     });
-    const slot = card.locator("[data-art-slot]");
+    const slot = card.locator("[data-iso-art]");
     await expectStyles(slot, {
       width: "276.5px",
       height: "150px",
@@ -346,7 +346,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       backgroundImage:
         "radial-gradient(55% 70% at 50% 70%, rgba(150, 58, 22, 0.38), rgba(0, 0, 0, 0) 72%)",
     });
-    await expectStyles(card.locator("svg").first(), {
+    await expectStyles(card.locator("span > svg").first(), {
       width: "28px",
       height: "28px",
       color: "rgb(232, 98, 44)",
@@ -381,7 +381,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       borderTopColor: "rgb(227, 223, 215)",
       backgroundColor: "rgb(255, 255, 255)",
     });
-    await expectStyles(lightCard.locator("[data-art-slot]"), {
+    await expectStyles(lightCard.locator("[data-iso-art]"), {
       height: "150px",
       backgroundImage:
         "radial-gradient(62% 72% at 50% 72%, rgba(232, 98, 44, 0.08), rgba(255, 255, 255, 0) 72%)",
@@ -399,14 +399,14 @@ test.describe("1440 canvas (zoom 1)", () => {
       columnGap: "28px",
     });
     const step = five.locator("[data-step]").first();
-    await expectStyles(step.locator("[data-art-slot]"), {
+    await expectStyles(step.locator("[data-iso-art]"), {
       height: "170px",
       marginBottom: "20px",
       overflow: "hidden",
       backgroundImage:
         "radial-gradient(62% 72% at 50% 72%, rgba(150, 58, 22, 0.42), rgba(0, 0, 0, 0) 72%)",
     });
-    await expectStyles(step.locator("svg").first(), {
+    await expectStyles(step.locator("span > svg").first(), {
       width: "28px",
       height: "28px",
       color: "rgb(232, 98, 44)",
@@ -430,7 +430,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     });
     expect((await offset(step.locator("h3"), step)).y).toBe(170 + 20 + 34 + 10);
     await step.hover();
-    await expect(step.locator("[data-art-slot]")).toHaveCSS(
+    await expect(step.locator("[data-iso-art]")).toHaveCSS(
       "background-image",
       "radial-gradient(66% 78% at 50% 72%, rgba(190, 72, 26, 0.6), rgba(0, 0, 0, 0) 74%)",
     );
@@ -439,7 +439,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     const columns = await eight.evaluate((el) => getComputedStyle(el).gridTemplateColumns);
     expect(columns.split(" ")).toHaveLength(8);
     const dense = eight.locator("[data-step]").first();
-    await expectStyles(dense.locator("[data-art-slot]"), { height: "120px" });
+    await expectStyles(dense.locator("[data-iso-art]"), { height: "120px" });
     await expectStyles(dense.locator("h3"), {
       fontSize: "22px",
       lineHeight: "23.1px",
@@ -448,7 +448,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expectStyles(page.getByTestId("steps-6").locator("h3").first(), { fontSize: "22px" });
 
     const light = page.getByTestId("steps-light").locator("[data-step]").first();
-    await expectStyles(light.locator("[data-art-slot]"), {
+    await expectStyles(light.locator("[data-iso-art]"), {
       backgroundImage:
         "radial-gradient(62% 72% at 50% 72%, rgba(232, 98, 44, 0.1), rgba(255, 255, 255, 0) 72%)",
     });
@@ -497,7 +497,7 @@ test.describe("1024 (no zoom, tablet-landscape rules)", () => {
       paddingBottom: "32px",
       paddingLeft: "28px",
     });
-    await expectStyles(card.locator("[data-art-slot]"), { width: "429px", height: "150px" });
+    await expectStyles(card.locator("[data-iso-art]"), { width: "429px", height: "150px" });
     await expectStyles(card.locator("h3"), { marginTop: "16px" });
 
     const steps = page.getByTestId("steps-8");
@@ -506,7 +506,7 @@ test.describe("1024 (no zoom, tablet-landscape rules)", () => {
       rowGap: "28px",
       columnGap: "28px",
     });
-    await expectStyles(steps.locator("[data-art-slot]").first(), {
+    await expectStyles(steps.locator("[data-iso-art]").first(), {
       width: "462px",
       height: "120px",
     });
@@ -578,7 +578,7 @@ test.describe("390 phone", () => {
       gridTemplateColumns: "44px 286px 20px",
     });
     await expectStyles(page.getByTestId("feat-light"), { gridTemplateColumns: "350px" });
-    await expectStyles(page.getByTestId("feat-light").locator("[data-art-slot]").first(), {
+    await expectStyles(page.getByTestId("feat-light").locator("[data-iso-art]").first(), {
       width: "312px",
       height: "150px",
     });
