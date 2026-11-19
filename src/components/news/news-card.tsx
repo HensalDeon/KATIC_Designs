@@ -52,8 +52,9 @@ type NewsCardProps = {
 };
 
 /**
- * One news card (`a.knw`). The whole card is the link; its accessible name is the headline. The
- * photo carries a descriptive alt from the media library (KI-A13; the original repeated the
+ * One news card (`a.knw`). The whole card is the link, named by its content as the blog cards
+ * are: naming it by the headline alone hid the visible category, date and excerpt from the name
+ * (WCAG 2.5.3, axe `label-content-name-mismatch`). The photo carries a descriptive alt from the media library (KI-A13; the original repeated the
  * headline). Category and date are 11px on phones (KI-A10).
  */
 export function NewsCard({
@@ -66,7 +67,7 @@ export function NewsCard({
   const titleId = `news-${item.slug}-title`;
   const photo = media[item.image];
   return (
-    <Link href={href} aria-labelledby={titleId} className={cardVariants({ featured })}>
+    <Link href={href} className={cardVariants({ featured })}>
       <div className={cn(imageVariants({ featured }), imageClassName)}>
         <Image
           src={photo.image}
@@ -107,7 +108,7 @@ export function NewsCard({
         </p>
         <span
           className={cn(
-            "flex items-center gap-10 pt-18 font-display text-[11.5px] font-medium tracking-[0.14em] text-fg uppercase group-hover:text-brand",
+            "flex items-center gap-10 pt-18 font-display text-[11.5px] font-medium tracking-[0.14em] text-fg uppercase group-hover:text-kicker",
             featured ? "mt-28" : "mt-auto",
           )}
         >
