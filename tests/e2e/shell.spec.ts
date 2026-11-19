@@ -10,13 +10,16 @@ test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "viewport-specific suite runs once");
 });
 
+/** Any page carries the shell; /about is a plain inner page (one hero, no extra popup triggers). */
+const PAGE = "/about";
+
 const header = (page: Page) => page.locator(".zoom-root > header");
 
 test.describe("desktop 1440", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("header bar, then compact after 40px of scroll", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const bar = header(page);
     await expect(bar).toHaveCSS("top", "18px");
     await expect(bar).toHaveCSS("height", "62px");
@@ -35,7 +38,7 @@ test.describe("desktop 1440", () => {
   });
 
   test("dropdown opens on hover and keyboard focus, closes on Escape", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const services = header(page).getByRole("link", { name: "Services", exact: true });
     const menu = page.locator(`#${await services.getAttribute("aria-controls")}`);
 
@@ -61,7 +64,7 @@ test.describe("desktop 1440", () => {
   });
 
   test("contact rail with tooltips; no phone bar on desktop", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const rail = page.getByRole("navigation", { name: "Quick contact" }).first();
     await expect(rail).toBeVisible();
     await expect(rail).toHaveCSS("right", "22px");
@@ -73,7 +76,7 @@ test.describe("desktop 1440", () => {
   });
 
   test("footer card, six columns and an undistorted logo (KI-L07)", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const footer = page.locator("footer");
     await expect(footer).toHaveCSS("background-color", "rgb(0, 0, 0)");
     await expect(footer).toHaveCSS("padding-left", "41px");
@@ -89,7 +92,7 @@ test.describe("desktop 1440", () => {
   });
 
   test("skip link is the first stop and jumps to main", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "Skip to main content" });
     await expect(skip).toBeFocused();
@@ -99,15 +102,19 @@ test.describe("desktop 1440", () => {
   });
 
   test("lightbox: open, browse, close", async ({ page }) => {
-    await page.goto("/styleguide");
-    await page.getByRole("button", { name: /Enlarge image: Shaded courtyard/ }).click();
+    // The interior block on /services: one photo and four thumbnails in one group.
+    await page.goto("/services");
+    await page.getByRole("button", { name: /Enlarge image: Sofa with cushions/ }).click();
     const viewer = page.getByRole("dialog");
     await expect(viewer).toBeVisible();
     await expect(viewer).toHaveCSS("background-color", "rgba(0, 0, 0, 0.92)");
-    await expect(viewer.getByText("1 / 2")).toBeVisible();
+    await expect(viewer.getByText("1 / 5")).toBeVisible();
     await page.keyboard.press("ArrowRight");
-    await expect(viewer.getByText("2 / 2")).toBeVisible();
-    await expect(viewer.getByRole("img")).toHaveAttribute("alt", /Kitchen island/);
+    await expect(viewer.getByText("2 / 5")).toBeVisible();
+    await expect(viewer.getByRole("img")).toHaveAttribute(
+      "alt",
+      /Living room with a timber TV wall/,
+    );
     await page.keyboard.press("Escape");
     await expect(viewer).toBeHidden();
   });
@@ -134,7 +141,7 @@ test.describe("Start a Project popup", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("opens from the header, focuses the first field, closes on Escape", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const trigger = header(page).getByRole("button", { name: "Start a Project" });
     await trigger.click();
 
@@ -152,7 +159,7 @@ test.describe("Start a Project popup", () => {
   });
 
   test("shows inline errors instead of a toast (KI-F03)", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     await header(page).getByRole("button", { name: "Start a Project" }).click();
     const dialog = page.getByRole("dialog", { name: /Let’s build/ });
 
@@ -178,7 +185,7 @@ test.describe("Start a Project popup", () => {
       await route.fulfill({ status: 202, json: { ok: true, status: "sent" } });
     });
 
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     await header(page).getByRole("button", { name: "Start a Project" }).click();
     const dialog = page.getByRole("dialog", { name: /Let’s build/ });
     await dialog.getByLabel("Full name").fill("Jane Doe");
@@ -193,7 +200,7 @@ test.describe("Start a Project popup", () => {
       email: "jane@email.com",
       service: "Turnkey Projects",
       projectType: "Apartment",
-      source: { form: "popup", path: "/styleguide" },
+      source: { form: "popup", path: PAGE },
     });
     const lastLead = await page.evaluate(() => sessionStorage.getItem("katic:last-lead"));
     expect(JSON.parse(lastLead ?? "{}")).toMatchObject({ name: "Jane Doe", status: "sent" });
@@ -204,7 +211,7 @@ test.describe("phones 390", () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
 
   test("burger opens the panel; first tap expands a submenu; Escape closes", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const burger = page.getByRole("button", { name: "Menu" });
     await expect(header(page)).toHaveCSS("height", "58px");
     await expect(page.getByRole("navigation", { name: "Main" })).toBeHidden();
@@ -216,7 +223,7 @@ test.describe("phones 390", () => {
 
     const services = nav.getByRole("link", { name: "Services", exact: true });
     await services.tap();
-    await expect(page).toHaveURL(/\/styleguide$/); // first tap does not navigate
+    await expect(page).toHaveURL(/\/about$/); // first tap does not navigate
     await expect(services).toHaveAttribute("aria-expanded", "true");
     await expect(nav.getByRole("link", { name: "Turnkey Projects" })).toBeVisible();
 
@@ -226,11 +233,15 @@ test.describe("phones 390", () => {
   });
 
   test("quick-contact bar replaces the rail (KI-L12) and yields to the menu", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     await expect(page.getByRole("link", { name: "Chat on WhatsApp" })).toBeHidden();
 
     const bar = page.locator("nav[aria-label='Quick contact']").last();
-    await page.evaluate(() => window.scrollTo(0, 600));
+    // The bar appears once the page hero is scrolled past.
+    await page.evaluate(() => {
+      const hero = document.querySelector<HTMLElement>("[data-hero]");
+      window.scrollTo(0, (hero?.offsetHeight ?? 0) + 200);
+    });
     await expect(bar).toHaveAttribute("aria-hidden", "false");
     await expect(bar).toHaveCSS("bottom", "10px");
     await expect(bar.getByRole("button", { name: "Start a Project" })).toHaveCSS("height", "50px");
@@ -240,7 +251,7 @@ test.describe("phones 390", () => {
   });
 
   test("footer collapses to two columns", async ({ page }) => {
-    await page.goto("/styleguide");
+    await page.goto(PAGE);
     const columns = await page
       .locator("footer div.grid")
       .evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);

@@ -2,7 +2,7 @@ import { expect, type Locator, type Page, test } from "@playwright/test";
 
 /**
  * Home sections 0, 1, 2, 7 and 9 (hero, about teaser, signature project, news and blog teasers)
- * on /styleguide/home-h1, pinned to the computed styles measured on the ORIGINAL `#p-home`
+ * on the home page, pinned to the computed styles measured on the ORIGINAL `#p-home`
  * (coverage/probe-home.mts → reference values below, written as the browser reports them).
  * Also covers behaviour: the hero video cut and pause control, reduced motion, the seamless
  * marquee, count-up values, reveal wiring and link targets.
@@ -37,7 +37,7 @@ async function columns(locator: Locator): Promise<number[]> {
 }
 
 async function open(page: Page) {
-  await page.goto("/styleguide/home-h1");
+  await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 }
 

@@ -30,7 +30,7 @@ export default defineConfig({
     // Scroll geometry under the desktop canvas zoom in the other engines (docs/analysis/06).
     {
       name: "geometry-webkit",
-      testMatch: /(zoom-geometry|home-h2)\.spec\.ts/,
+      testMatch: /(zoom-geometry|home-pinned)\.spec\.ts/,
       use: { ...devices["Desktop Safari"] },
     },
     // Playwright's Firefox does not launch on recent macOS; CI (Linux) covers it.
@@ -38,7 +38,7 @@ export default defineConfig({
       ? [
           {
             name: "geometry-firefox",
-            testMatch: /(zoom-geometry|home-h2)\.spec\.ts/,
+            testMatch: /(zoom-geometry|home-pinned)\.spec\.ts/,
             use: { ...devices["Desktop Firefox"] },
           },
         ]

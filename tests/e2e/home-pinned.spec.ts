@@ -2,9 +2,9 @@ import { expect, type Page, test } from "@playwright/test";
 
 /**
  * The two pinned home sections (`PinnedShowcase` #home-works, `PinnedStages` #home-process) on
- * /styleguide/home-h2, against values measured on the original (docs/analysis/02 §1.4–1.5,
- * coverage probe at 1440×900 and 1920×1080). Engine-agnostic: meant to run in `desktop`
- * (Chromium) and, once added to its testMatch, `geometry-webkit` / `geometry-firefox`.
+ * the home page, against values measured on the original (docs/analysis/02 §1.4–1.5,
+ * coverage probe at 1440×900 and 1920×1080). Engine-agnostic: runs in `desktop`
+ * (Chromium), `geometry-webkit` and, in CI, `geometry-firefox`.
  *
  * Geometry is read in viewport px (getBoundingClientRect, innerHeight) and converted with the
  * canvas zoom where a canvas-px spec value is compared (docs/analysis/06).
@@ -15,7 +15,7 @@ test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "viewports are set per block");
 });
 
-const URL = "/styleguide/home-h2";
+const URL = "/";
 
 /** Card / stage counts and canvas constants of the original. */
 const CARDS = 11;

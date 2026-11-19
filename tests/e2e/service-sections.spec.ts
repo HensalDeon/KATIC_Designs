@@ -1,11 +1,22 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 
 /**
- * Pins the Phase 3 section components (hero, split, rows, feature grid, process steps) to the
- * computed styles measured on the ORIGINAL site (reference/probes/sections.json, read with
+ * Pins the shared section components of the service pages (hero, split, rows, feature grid,
+ * process steps) to the computed styles measured on the ORIGINAL site
+ * (reference/probes/sections.json, read with
  * `python3 reference/probes/summarize-sections.py hero,split,rows,feat,steps`; the architecture
  * hero was probed separately). Values are written as the browser reports them (px, rgb()).
- * Rendered on /styleguide/sections-a. Deliberate deviations are marked with their KNOWN_ISSUES id.
+ *
+ * Each configuration runs on the real page section that renders it:
+ * - standard hero, light split, dark rows, reversed split with CTA, 5 dark steps: /services/interior
+ * - architecture hero (single CTA, bottom caption): /services/architecture
+ * - light rows (all links), 8 dense dark steps, 4-column dark features: /services/turnkey
+ * - 3-column light features, dark split with a plant: /services/construction
+ * - 3-column dark features, light steps: /services/factory
+ * - 6 dense steps: /services/renovation
+ *
+ * Deliberate deviations are marked with their KNOWN_ISSUES id. The hero CTA (scroll to the form,
+ * service preselected) and the split lightbox are covered per page by service-pages.spec.ts.
  */
 
 type Expected = Partial<Record<keyof CSSStyleDeclaration & string, string>>;
@@ -38,13 +49,15 @@ async function offset(locator: Locator, origin: Locator) {
   return { x: a.x - b.x, y: a.y - b.y, width: a.width, height: a.height };
 }
 
-async function open(page: Page) {
-  await page.goto("/styleguide/sections-a");
+type Slug = "interior" | "architecture" | "turnkey" | "construction" | "factory" | "renovation";
+
+async function open(page: Page, slug: Slug) {
+  await page.goto(`/services/${slug}`);
   await page.evaluate(() => document.fonts.ready);
 }
 
-const hero = (page: Page, id: string) => {
-  const root = page.getByTestId(id);
+const hero = (page: Page) => {
+  const root = page.locator("main > [data-hero]");
   return {
     root,
     shade: root.locator(":scope > div").nth(1),
@@ -56,6 +69,34 @@ const hero = (page: Page, id: string) => {
   };
 };
 
+/** The section whose h2 (its header title, or the split's own title) matches `title`. */
+const section = (page: Page, title: RegExp) =>
+  page
+    .locator("main > section")
+    .filter({ has: page.getByRole("heading", { level: 2, name: title }) });
+
+/** `SplitFeature` root: the grid holding the image and text columns (the h2's grandparent). */
+const split = (page: Page, title: RegExp) => section(page, title).locator("h2").locator("../..");
+
+/** `RowList` root: the parent of the rows (each row's title is a `<b>`). */
+const rows = (scope: Locator) => scope.locator("b").first().locator("../..");
+
+/** `FeatureGrid` root: the parent of the `data-feature` tiles. */
+const features = (page: Page, title: RegExp) =>
+  section(page, title).locator("[data-feature]").first().locator("..");
+
+/** `ProcessSteps` root: the `<ol>` of `data-step` items. */
+const steps = (page: Page, title: RegExp) =>
+  section(page, title)
+    .locator("ol")
+    .filter({ has: page.locator("li[data-step]") });
+
+/** Interior "Our interior services" (dark; only the joinery row links). */
+const interiorRows = (page: Page) => rows(page.locator("#interior-services"));
+
+/** Bottom caption of the architecture hero (authored upper-case; the original's text). */
+const ARCH_CAPTION = "PRIVATE RESIDENCE · KOCHI";
+
 const DARK_LINE = "rgba(255, 255, 255, 0.18)";
 
 test.beforeEach(({}, testInfo) => {
@@ -66,9 +107,9 @@ test.beforeEach(({}, testInfo) => {
 test.describe("1440 canvas (zoom 1)", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  test("service hero (.hero.kh-hero)", async ({ page }) => {
-    await open(page);
-    const h = hero(page, "hero-service");
+  test("service hero (.hero.kh-hero) on /services/interior", async ({ page }) => {
+    await open(page, "interior");
+    const h = hero(page);
     await expect(h.root).toHaveAttribute("data-hero");
     await expectStyles(h.root, {
       height: "900px",
@@ -134,17 +175,9 @@ test.describe("1440 canvas (zoom 1)", () => {
     expect((await offset(h.buttons.first(), h.root)).y).toBeCloseTo(568.8, 0);
   });
 
-  test("primary hero CTA opens Start-a-Project with the page's service", async ({ page }) => {
-    await open(page);
-    await hero(page, "hero-service").buttons.first().click();
-    const dialog = page.getByRole("dialog");
-    await expect(dialog).toBeVisible();
-    await expect(dialog.getByLabel("Service needed")).toHaveValue("Interior Design");
-  });
-
-  test("architecture hero variant", async ({ page }) => {
-    await open(page);
-    const h = hero(page, "hero-architecture");
+  test("architecture hero variant on /services/architecture", async ({ page }) => {
+    await open(page, "architecture");
+    const h = hero(page);
     await expectStyles(h.shade, {
       backgroundImage:
         "linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.3) 55%, rgba(0, 0, 0, 0.15))",
@@ -164,7 +197,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expectStyles(h.buttons.first(), { height: "54px", paddingLeft: "24px" });
     expect((await offset(h.buttons.first(), h.root)).y).toBeCloseTo(640.5, 0);
 
-    const caption = h.root.getByText("Private residence · Kochi");
+    const caption = h.root.getByText(ARCH_CAPTION, { exact: true });
     await expectFont(caption, INTER);
     await expectStyles(caption, {
       fontSize: "10px",
@@ -177,16 +210,18 @@ test.describe("1440 canvas (zoom 1)", () => {
     expect(box.y + box.height).toBe(900 - 34);
   });
 
-  test("split feature (.ksplit) light, reverse and dark", async ({ page }) => {
-    await open(page);
-    const split = page.getByTestId("split-light");
-    await expectStyles(split, {
+  test("split feature (.ksplit) light, reverse (interior) and dark (construction)", async ({
+    page,
+  }) => {
+    await open(page, "interior");
+    const light = split(page, /^Beauty that/);
+    await expectStyles(light, {
       display: "grid",
       gridTemplateColumns: "602px 602px",
       columnGap: "64px",
       alignItems: "center",
     });
-    const im = split.locator(":scope > div").first();
+    const im = light.locator(":scope > div").first();
     await expectStyles(im, { width: "602px", height: "560px", overflow: "hidden" });
     await expectStyles(im.locator("img"), { width: "602px", height: "560px", objectFit: "cover" });
 
@@ -203,7 +238,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     const capBox = await offset(cap, im);
     expect(capBox).toMatchObject({ x: 20, y: 511, height: 29 });
 
-    const tx = split.locator(":scope > div").nth(1);
+    const tx = light.locator(":scope > div").nth(1);
     await expectStyles(tx.locator("h2"), { marginTop: "22px", fontSize: "58px" });
     await expectFont(tx.locator("h2 + p"), INTER);
     await expectStyles(tx.locator("h2 + p"), {
@@ -239,7 +274,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       "::before",
     );
 
-    const reverse = page.getByTestId("split-reverse");
+    const reverse = split(page, /^Made in our/);
     await expectStyles(reverse.locator(":scope > div").first(), { order: "2" });
     await expectStyles(reverse.getByRole("link", { name: "Visit the Factory" }), {
       marginTop: "30px",
@@ -249,21 +284,16 @@ test.describe("1440 canvas (zoom 1)", () => {
       backgroundColor: "rgb(255, 255, 255)",
     });
 
-    const dark = page.getByTestId("split-dark");
+    await open(page, "construction");
+    const dark = split(page, /^Planning, people/);
     await expectStyles(dark.locator("h2 + p"), { color: "rgb(255, 255, 255)" });
     await expectStyles(dark.locator("h2 + p + p"), { color: "rgb(170, 170, 170)" });
     await expectStyles(dark.locator("li").first(), { borderBottomColor: "rgb(38, 38, 38)" });
   });
 
-  test("split image opens the lightbox", async ({ page }) => {
-    await open(page);
-    await page.getByTestId("split-light").getByRole("button").click();
-    await expect(page.getByRole("dialog")).toBeVisible();
-  });
-
-  test("row list (.krows) dark and light", async ({ page }) => {
-    await open(page);
-    const dark = page.getByTestId("rows-dark");
+  test("row list (.krows) dark (interior) and light (turnkey)", async ({ page }) => {
+    await open(page, "interior");
+    const dark = interiorRows(page);
     const row = dark.locator(":scope > *").first();
     await expectStyles(row, {
       display: "grid",
@@ -303,7 +333,8 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute("href", "/services/factory");
 
-    const light = page.getByTestId("rows-light");
+    await open(page, "turnkey");
+    const light = rows(section(page, /^Complete project/));
     const lightRow = light.getByRole("link").first();
     await expectStyles(lightRow, {
       gridTemplateColumns: "64px 300px 880px 24px",
@@ -317,9 +348,11 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expect(lightRow.locator("b")).toHaveCSS("color", "rgb(232, 98, 44)");
   });
 
-  test("feature grid (.kfeat) 4 and 3 columns, both tones", async ({ page }) => {
-    await open(page);
-    const grid = page.getByTestId("feat-4");
+  test("feature grid (.kfeat) 4 columns dark (turnkey) and 3 columns light (construction)", async ({
+    page,
+  }) => {
+    await open(page, "turnkey");
+    const grid = features(page, /^Why one team/);
     await expectStyles(grid, {
       gridTemplateColumns: "306.5px 306.5px 306.5px 306.5px",
       rowGap: "14px",
@@ -373,7 +406,8 @@ test.describe("1440 canvas (zoom 1)", () => {
       "radial-gradient(60% 76% at 50% 70%, rgba(200, 76, 28, 0.62), rgba(0, 0, 0, 0) 74%)",
     );
 
-    const light = page.getByTestId("feat-light");
+    await open(page, "construction");
+    const light = features(page, /we\s*build/);
     const columns = await light.evaluate((el) => getComputedStyle(el).gridTemplateColumns);
     for (const width of columns.split(" ")) expect(parseFloat(width)).toBeCloseTo(413.33, 1);
     const lightCard = light.locator("[data-feature]").first();
@@ -390,9 +424,11 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expectStyles(lightCard.locator("p"), { color: "rgb(85, 85, 85)" });
   });
 
-  test("process steps (.ksteps.k3d) 5 and 8 columns, both tones", async ({ page }) => {
-    await open(page);
-    const five = page.getByTestId("steps-5");
+  test("process steps (.ksteps.k3d) 5 (interior), 8 (turnkey), 6 (renovation), light (factory)", async ({
+    page,
+  }) => {
+    await open(page, "interior");
+    const five = steps(page, /^How we take/);
     await expectStyles(five, {
       display: "grid",
       gridTemplateColumns: "231.188px 231.203px 231.203px 231.203px 231.188px",
@@ -435,7 +471,8 @@ test.describe("1440 canvas (zoom 1)", () => {
       "radial-gradient(66% 78% at 50% 72%, rgba(190, 72, 26, 0.6), rgba(0, 0, 0, 0) 74%)",
     );
 
-    const eight = page.getByTestId("steps-8");
+    await open(page, "turnkey");
+    const eight = steps(page, /^Eight stages/);
     const columns = await eight.evaluate((el) => getComputedStyle(el).gridTemplateColumns);
     expect(columns.split(" ")).toHaveLength(8);
     const dense = eight.locator("[data-step]").first();
@@ -445,9 +482,19 @@ test.describe("1440 canvas (zoom 1)", () => {
       lineHeight: "23.1px",
       letterSpacing: "0.11px",
     });
-    await expectStyles(page.getByTestId("steps-6").locator("h3").first(), { fontSize: "22px" });
 
-    const light = page.getByTestId("steps-light").locator("[data-step]").first();
+    await open(page, "renovation");
+    await expectStyles(
+      steps(page, /^From survey/)
+        .locator("h3")
+        .first(),
+      { fontSize: "22px" },
+    );
+
+    await open(page, "factory");
+    const light = steps(page, /^Every piece/)
+      .locator("[data-step]")
+      .first();
     await expectStyles(light.locator("[data-iso-art]"), {
       backgroundImage:
         "radial-gradient(62% 72% at 50% 72%, rgba(232, 98, 44, 0.1), rgba(255, 255, 255, 0) 72%)",
@@ -461,34 +508,37 @@ test.describe("1024 (no zoom, tablet-landscape rules)", () => {
   test.use({ viewport: { width: 1024, height: 768 } });
 
   test("hero is one screen tall without the canvas offset", async ({ page }) => {
-    await open(page);
-    const h = hero(page, "hero-service");
+    await open(page, "interior");
+    const h = hero(page);
     await expectStyles(h.root, { height: "768px", minHeight: "768px", paddingTop: "0px" });
     await expectStyles(h.container, { width: "952px", paddingTop: "190px" });
     // The original keeps 74px here; every hero scales to 62px below 1100px (KI-L16).
     await expectStyles(h.title, { fontSize: "62px" });
-    const arch = hero(page, "hero-architecture");
-    const caption = await offset(arch.root.getByText("Private residence · Kochi"), arch.root);
+
+    await open(page, "architecture");
+    const arch = hero(page);
+    const caption = await offset(arch.root.getByText(ARCH_CAPTION, { exact: true }), arch.root);
     expect(caption.x).toBe(36);
     expect(caption.y + caption.height).toBe(768 - 34);
   });
 
   test("sections collapse to one or two columns", async ({ page }) => {
-    await open(page);
-    const split = page.getByTestId("split-reverse");
-    await expectStyles(split, { gridTemplateColumns: "952px", rowGap: "28px" });
-    await expectStyles(split.locator(":scope > div").first(), {
+    await open(page, "interior");
+    const reverse = split(page, /^Made in our/);
+    await expectStyles(reverse, { gridTemplateColumns: "952px", rowGap: "28px" });
+    await expectStyles(reverse.locator(":scope > div").first(), {
       order: "0",
       width: "952px",
       height: "560px",
     });
-    await expectStyles(split.locator("ul"), { gridTemplateColumns: "464px 464px" });
+    await expectStyles(reverse.locator("ul"), { gridTemplateColumns: "464px 464px" });
 
-    const row = page.getByTestId("rows-dark").locator(":scope > *").first();
+    const row = interiorRows(page).locator(":scope > *").first();
     await expectStyles(row, { gridTemplateColumns: "44px 888px 20px" });
     await expectStyles(row.locator(":scope > span").nth(1), { gridColumn: "2" });
 
-    const feat = page.getByTestId("feat-dark");
+    await open(page, "factory");
+    const feat = features(page, /we\s*make/);
     await expectStyles(feat, { gridTemplateColumns: "467px 467px", columnGap: "18px" });
     const card = feat.locator("[data-feature]").first();
     await expectStyles(card, {
@@ -500,13 +550,14 @@ test.describe("1024 (no zoom, tablet-landscape rules)", () => {
     await expectStyles(card.locator("[data-iso-art]"), { width: "429px", height: "150px" });
     await expectStyles(card.locator("h3"), { marginTop: "16px" });
 
-    const steps = page.getByTestId("steps-8");
-    await expectStyles(steps, {
+    await open(page, "turnkey");
+    const eight = steps(page, /^Eight stages/);
+    await expectStyles(eight, {
       gridTemplateColumns: "462px 462px",
       rowGap: "28px",
       columnGap: "28px",
     });
-    await expectStyles(steps.locator("[data-iso-art]").first(), {
+    await expectStyles(eight.locator("[data-iso-art]").first(), {
       width: "462px",
       height: "120px",
     });
@@ -517,8 +568,8 @@ test.describe("390 phone", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("hero is bottom-aligned with stacked full-width buttons", async ({ page }) => {
-    await open(page);
-    const h = hero(page, "hero-service");
+    await open(page, "interior");
+    const h = hero(page);
     await expectStyles(h.root, {
       display: "flex",
       justifyContent: "flow-end", // `justify-end`; the original reports the same value
@@ -561,27 +612,30 @@ test.describe("390 phone", () => {
     // Content ends 40px above the bottom of the screen.
     const last = await offset(h.buttons.last(), h.root);
     expect(last.y + last.height).toBe(844 - 40);
-    await expect(
-      hero(page, "hero-architecture").root.getByText("Private residence · Kochi"),
-    ).toBeHidden();
+
+    await open(page, "architecture");
+    await expect(hero(page).root.getByText(ARCH_CAPTION, { exact: true })).toBeHidden();
   });
 
   test("single-column sections", async ({ page }) => {
-    await open(page);
-    const split = page.getByTestId("split-light");
-    await expectStyles(split, { gridTemplateColumns: "350px" });
-    await expectStyles(split.locator(":scope > div").first(), { height: "320px" });
-    await expectStyles(split.locator("ul"), { gridTemplateColumns: "350px" });
-    await expectStyles(split.locator("h2 + p"), { fontSize: "15px", lineHeight: "24.75px" });
+    await open(page, "interior");
+    const light = split(page, /^Beauty that/);
+    await expectStyles(light, { gridTemplateColumns: "350px" });
+    await expectStyles(light.locator(":scope > div").first(), { height: "320px" });
+    await expectStyles(light.locator("ul"), { gridTemplateColumns: "350px" });
+    await expectStyles(light.locator("h2 + p"), { fontSize: "15px", lineHeight: "24.75px" });
 
-    await expectStyles(page.getByTestId("rows-dark").locator(":scope > *").first(), {
+    await expectStyles(interiorRows(page).locator(":scope > *").first(), {
       gridTemplateColumns: "44px 286px 20px",
     });
-    await expectStyles(page.getByTestId("feat-light"), { gridTemplateColumns: "350px" });
-    await expectStyles(page.getByTestId("feat-light").locator("[data-iso-art]").first(), {
+    await expectStyles(steps(page, /^How we take/), { gridTemplateColumns: "350px" });
+
+    await open(page, "construction");
+    const feat = features(page, /we\s*build/);
+    await expectStyles(feat, { gridTemplateColumns: "350px" });
+    await expectStyles(feat.locator("[data-iso-art]").first(), {
       width: "312px",
       height: "150px",
     });
-    await expectStyles(page.getByTestId("steps-5"), { gridTemplateColumns: "350px" });
   });
 });

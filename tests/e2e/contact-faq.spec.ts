@@ -1,8 +1,9 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 
 /**
- * Contact + FAQ sections (/styleguide/sections-c): ContactFaq in both tones, the standalone FAQ
- * section, EnquiryForm (validation, submission, hidden-service mode) and "go to contact".
+ * Contact + FAQ section of the service pages: ContactFaq light (/services/interior) and dark
+ * (/services/turnkey), the FAQ accordion, EnquiryForm (validation, submission, hidden-service mode
+ * on /services/factory) and "go to contact".
  *
  * Expected styles are the original's computed values (reference/probes/sections.json, summarised
  * with `python3 reference/probes/summarize-sections.py contact,faq,plant`). The original shrinks
@@ -33,15 +34,16 @@ async function expectFont(locator: Locator, family: RegExp) {
   expect(await locator.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(family);
 }
 
-async function open(page: Page) {
-  await page.goto("/styleguide/sections-c");
+type Slug = "interior" | "turnkey" | "factory";
+
+async function open(page: Page, slug: Slug) {
+  await page.goto(`/services/${slug}`);
   await page.evaluate(() => document.fonts.ready);
 }
 
-/** Parts of one combo, by structure (the components take no test ids). */
-function combo(page: Page, name: "interior" | "turnkey" | "factory") {
-  const root = page.getByTestId(`combo-${name}`);
-  const section = root.locator("section");
+/** Parts of a service page's contact + FAQ section, by structure (the components take no test ids). */
+function combo(page: Page, slug: Slug) {
+  const section = page.locator(`#${slug}-contact`);
   const grid = section.locator(":scope > div");
   const left = grid.locator(":scope > div").first();
   const right = grid.locator(":scope > div").last();
@@ -82,7 +84,7 @@ test.describe("1440 canvas", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("light combo (interior): layout, intro and contact info", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expect(c.section).toHaveAttribute("id", "interior-contact");
     await expect(c.section).toHaveAttribute("data-contact-section", "");
@@ -145,7 +147,7 @@ test.describe("1440 canvas", () => {
   });
 
   test("light combo: form fields, button and note", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expectStyles(c.form, {
       marginTop: "24px",
@@ -207,7 +209,7 @@ test.describe("1440 canvas", () => {
   });
 
   test("light combo: FAQ column and plant", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expectFont(c.faqKicker, INTER);
     await expectStyles(c.faqKicker, {
@@ -253,12 +255,13 @@ test.describe("1440 canvas", () => {
       color: "rgb(0, 0, 0)",
       borderBottomColor: "rgb(187, 187, 187)",
     });
-    await expect(c.answerLink).toHaveAttribute("href", "/services/interior");
+    // KI-F08: the original links to the page itself (`#interior`); the rebuild to its services.
+    await expect(c.answerLink).toHaveAttribute("href", "#interior-services");
     await expectStyles(c.plant, { width: "230px", opacity: "0.9", zIndex: "-1" });
   });
 
   test("dark combo (turnkey): tone colours", async ({ page }) => {
-    await open(page);
+    await open(page, "turnkey");
     const c = combo(page, "turnkey");
     await expect(c.section).toHaveAttribute("id", "turnkey-contact");
     await expect(c.section).toHaveCSS("background-color", "rgb(0, 0, 0)");
@@ -285,32 +288,14 @@ test.describe("1440 canvas", () => {
   });
 
   test("an odd number of half fields never leaves an empty cell (KI-L22)", async ({ page }) => {
-    await open(page);
+    await open(page, "turnkey");
     // Turnkey: name, email, phone, service + 3 selects = 7, so Timeline spans both columns.
     const turnkey = combo(page, "turnkey");
     await expect(turnkey.field("Timeline")).toHaveCSS("width", "586px");
     await expect(turnkey.field("Budget Range")).toHaveCSS("width", "285px");
     // Interior: 6 half fields, all half width.
+    await open(page, "interior");
     await expect(combo(page, "interior").field("Possession")).toHaveCSS("width", "285px");
-  });
-
-  test("standalone FAQ section is white with a 400px sticky header column", async ({ page }) => {
-    await open(page);
-    const section = page.getByTestId("faq-section").locator("section");
-    await expect(section).toHaveCSS("background-color", "rgb(255, 255, 255)");
-    const grid = section.locator(":scope > div");
-    await expect(grid).toHaveCSS("grid-template-columns", "400px 772px");
-    await expect(grid.locator(":scope > div").first()).toHaveCSS("position", "sticky");
-    const question = section.getByRole("button").first();
-    await expectStyles(question, {
-      paddingTop: "26px",
-      fontSize: "17px",
-      color: "rgb(17, 17, 17)",
-    });
-    await expect(grid.locator(":scope > div:last-child > div").first()).toHaveCSS(
-      "border-top-color",
-      "rgb(232, 229, 223)",
-    );
   });
 });
 
@@ -318,7 +303,7 @@ test.describe("1024 (single column)", () => {
   test.use({ viewport: { width: 1024, height: 768 } });
 
   test("stacks the columns and uses the uncompacted sizes", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expectStyles(c.section, { paddingTop: "80px", paddingBottom: "80px" });
     await expectStyles(c.grid, { gridTemplateColumns: "952px", rowGap: "64px" });
@@ -360,7 +345,7 @@ test.describe("phones 390", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("one-column form, phone type sizes and the plant reserve", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expect(c.grid).toHaveCSS("grid-template-columns", "350px");
     await expect(c.heading).toHaveCSS("font-size", "38px");
@@ -378,7 +363,7 @@ test.describe("phones 390", () => {
   });
 
   test("contact info is a two-column definition list (KI-L11)", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expect(c.info).toHaveCSS("display", "grid");
     const rows = await c.info.evaluate((dl) =>
@@ -404,7 +389,7 @@ test.describe("FAQ accordion", () => {
   test("single-open with button headers, regions and a rotating icon (KI-A09)", async ({
     page,
   }) => {
-    await open(page);
+    await open(page, "interior");
     const faq = combo(page, "interior").faq;
     const questions = faq.getByRole("button", { expanded: true });
     await expect(questions).toHaveCount(1);
@@ -454,7 +439,7 @@ test.describe("FAQ accordion", () => {
   });
 
   test("answer links are real links or buttons (KI-F07)", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const faq = combo(page, "interior").faq;
     await faq.getByRole("button", { name: "How do you plan the budget?" }).click();
     const quote = faq.getByRole("button", { name: /Ask for a quote/ });
@@ -469,7 +454,7 @@ test.describe("enquiry form", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("labels every field and shows inline errors (KI-A03, KI-F03)", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     for (const label of [
       "Full Name",
@@ -510,7 +495,7 @@ test.describe("enquiry form", () => {
       payload = route.request().postDataJSON() as Record<string, unknown>;
       await route.fulfill({ status: 202, json: { ok: true, status: "sent" } });
     });
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await c.field("Full Name").fill("Jane Doe");
     await c.field("Email").fill("jane@email.com");
@@ -525,7 +510,7 @@ test.describe("enquiry form", () => {
       service: "Interior Design",
       details: "Two bedrooms.",
       extra: { Space: "Apartment" },
-      source: { form: "contact", path: "/styleguide/sections-c" },
+      source: { form: "contact", path: "/services/interior" },
     });
     expect(payload).not.toHaveProperty("budget");
     const lastLead = await page.evaluate(() => sessionStorage.getItem("katic:last-lead"));
@@ -546,7 +531,7 @@ test.describe("enquiry form", () => {
       payload = route.request().postDataJSON() as Record<string, unknown>;
       await route.fulfill({ status: 202, json: { ok: true, status: "sent" } });
     });
-    await open(page);
+    await open(page, "turnkey");
     const c = combo(page, "turnkey");
     await c.field("Full Name").fill("Jane Doe");
     await c.field("Email").fill("jane@email.com");
@@ -570,7 +555,7 @@ test.describe("enquiry form", () => {
       payload = route.request().postDataJSON() as Record<string, unknown>;
       await route.fulfill({ status: 202, json: { ok: true, status: "sent" } });
     });
-    await open(page);
+    await open(page, "factory");
     const c = combo(page, "factory");
     await expect(c.field("Service Needed")).toHaveCount(0);
     await expect(c.form.locator("input[type=hidden][name=service]")).toHaveValue("Interior Design");
@@ -593,15 +578,19 @@ test.describe("enquiry form", () => {
     await page.route("**/api/leads", (route) =>
       route.fulfill({ status: 429, json: { ok: false, status: "rate-limited" } }),
     );
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await c.field("Full Name").fill("Jane Doe");
     await c.field("Email").fill("jane@email.com");
     await c.send.click();
     await expect(page.getByRole("status")).toHaveText(/Too many enquiries/);
-    await expect(page).toHaveURL(/\/styleguide\/sections-c$/);
+    await expect(page).toHaveURL(/\/services\/interior$/);
   });
 });
+
+/** The hero's "Discuss Your Interior": a "go to contact" link preselecting Interior Design. */
+const heroContact = (page: Page) =>
+  page.locator("[data-hero]").getByRole("link", { name: "Discuss Your Interior" });
 
 test.describe("go to contact", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
@@ -609,41 +598,48 @@ test.describe("go to contact", () => {
   test("scrolls to the page's form, preselects the service and focuses the first field", async ({
     page,
   }) => {
-    await open(page);
+    await open(page, "interior");
     const c = combo(page, "interior");
     await expect(c.field("Service Needed")).toHaveValue("Interior Design");
-    await page.getByTestId("contact-button").click();
+    // The visitor's own choice, which the request overrides.
+    await c.field("Service Needed").selectOption("Turnkey Projects");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await heroContact(page).click();
 
     await expect(c.field("Full Name")).toBeFocused();
-    await expect(c.field("Service Needed")).toHaveValue("Turnkey Projects");
-    const top = await c.section.evaluate((el) => el.getBoundingClientRect().top);
-    expect(Math.abs(top)).toBeLessThan(4);
+    await expect(c.field("Service Needed")).toHaveValue("Interior Design");
+    // The scroll from the hero outlasts the 1s focus fallback, so wait for it to land.
+    await expect
+      .poll(() => c.section.evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
 
     // A later request overrides the visitor's own choice again.
     await c.field("Service Needed").selectOption("Construction & Execution");
     await page.evaluate(() => window.scrollTo(0, 0));
-    await page.getByTestId("contact-button").click();
-    await expect(c.field("Service Needed")).toHaveValue("Turnkey Projects");
+    await heroContact(page).click();
+    await expect(c.field("Service Needed")).toHaveValue("Interior Design");
   });
 
   test.describe("with reduced motion", () => {
     test.use({ reducedMotion: "reduce" });
 
     test("jumps instantly and focuses", async ({ page }) => {
-      await open(page);
-      await page.getByTestId("contact-button").click();
+      await open(page, "interior");
+      await heroContact(page).click();
       await expect(combo(page, "interior").field("Full Name")).toBeFocused();
     });
   });
 
+  // Every page with a "go to contact" trigger has its own contact section, so the fallback is
+  // exercised by removing the marker.
   test("goes to the home contact section when the page has none", async ({ page }) => {
-    await open(page);
+    await open(page, "interior");
     await page.evaluate(() => {
       document.querySelectorAll("[data-contact-section]").forEach((el) => {
         el.removeAttribute("data-contact-section");
       });
     });
-    await page.getByTestId("contact-button").click();
+    await heroContact(page).click();
     await expect(page).toHaveURL(/\/#start$/);
   });
 });
