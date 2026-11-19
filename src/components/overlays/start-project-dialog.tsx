@@ -12,7 +12,7 @@ import { SERVICE_NOT_SURE, SERVICE_OPTIONS } from "@/content/services";
 import { SITE } from "@/content/site";
 import { trackLead } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
-import { rememberLead, submitLead } from "@/lib/leads/client";
+import { rememberLead, submitLead, toLastLead } from "@/lib/leads/client";
 import {
   BUDGETS,
   formDataToLead,
@@ -99,14 +99,7 @@ export function StartProjectDialog() {
     }
 
     const lead = parsed.data;
-    rememberLead({
-      name: lead.name,
-      service: lead.service,
-      sourceTitle: lead.source.title,
-      sourcePath: lead.source.path,
-      status: response.ok ? "sent" : "unsent",
-      ...(lead.details ? { details: lead.details } : {}),
-    });
+    rememberLead(toLastLead(lead, response.ok ? "sent" : "unsent"));
     if (response.ok) trackLead({ service: lead.service, source: lead.source.path });
     form.reset();
     setChosenService("");

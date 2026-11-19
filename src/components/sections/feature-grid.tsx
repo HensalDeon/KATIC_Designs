@@ -37,6 +37,11 @@ export type FeatureGridProps = Omit<ComponentPropsWithoutRef<"div">, "children">
   readonly items: readonly FeatureGridItem[];
   /** Extra classes for each tile. */
   readonly itemClassName?: string;
+  /**
+   * Isometric 3D icons (default). `false` renders the plain tiles of `.kfeat.grid3` (thank-you),
+   * which the original excludes from the 3D icons.
+   */
+  readonly art?: boolean;
 };
 
 /**
@@ -51,9 +56,46 @@ export function FeatureGrid({
   items,
   className,
   itemClassName,
+  art = true,
   ...props
 }: FeatureGridProps) {
   const picked = pickIcons(items.map((item) => item.title));
+  const tiles = items.map((item, index) => (
+    <div
+      key={item.title}
+      data-feature
+      className={cn(
+        "group/feature group/iso-tile relative overflow-hidden border border-[#e3dfd7] bg-surface px-24 pt-22 pb-24 transition-[border-color] duration-200 hover:border-brand",
+        "in-data-[tone=dark]:border-[#262626] in-data-[tone=dark]:bg-[#0c0c0c]",
+        "max-lg:px-28 max-lg:pt-30 max-lg:pb-32",
+        itemClassName,
+      )}
+    >
+      {art ? (
+        <IsoArt
+          kind="icon"
+          name={item.artIcon ?? picked[index] ?? "layers"}
+          order={index}
+          className={columns === 5 ? "h-120" : undefined}
+        />
+      ) : null}
+      <span className="block h-34 text-brand">
+        <ServiceIcon name={item.icon} size={28} />
+      </span>
+      <h3 className="mt-10 font-sans text-[22px] leading-[1.3] font-normal max-lg:mt-16">
+        {item.title}
+      </h3>
+      <p className="mt-12 font-sans text-[13px] leading-[1.75] text-fg-body">{item.text}</p>
+    </div>
+  ));
+
+  if (!art) {
+    return (
+      <div className={cn(gridVariants({ columns }), className)} {...props}>
+        {tiles}
+      </div>
+    );
+  }
 
   return (
     <DrawOn
@@ -62,32 +104,7 @@ export function FeatureGrid({
       className={cn(gridVariants({ columns }), className)}
       {...props}
     >
-      {items.map((item, index) => (
-        <div
-          key={item.title}
-          data-feature
-          className={cn(
-            "group/feature group/iso-tile relative overflow-hidden border border-[#e3dfd7] bg-surface px-24 pt-22 pb-24 transition-[border-color] duration-200 hover:border-brand",
-            "in-data-[tone=dark]:border-[#262626] in-data-[tone=dark]:bg-[#0c0c0c]",
-            "max-lg:px-28 max-lg:pt-30 max-lg:pb-32",
-            itemClassName,
-          )}
-        >
-          <IsoArt
-            kind="icon"
-            name={item.artIcon ?? picked[index] ?? "layers"}
-            order={index}
-            className={columns === 5 ? "h-120" : undefined}
-          />
-          <span className="block h-34 text-brand">
-            <ServiceIcon name={item.icon} size={28} />
-          </span>
-          <h3 className="mt-10 font-sans text-[22px] leading-[1.3] font-normal max-lg:mt-16">
-            {item.title}
-          </h3>
-          <p className="mt-12 font-sans text-[13px] leading-[1.75] text-fg-body">{item.text}</p>
-        </div>
-      ))}
+      {tiles}
     </DrawOn>
   );
 }
