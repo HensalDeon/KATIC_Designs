@@ -325,6 +325,10 @@ Built in three parallel groups. The divisions group generalised the block render
   - `sitemap.xml`, `robots.txt`, OG images.
 - [ ] Performance: Lighthouse CI budgets, image `sizes` audit, video `preload="metadata"` + poster, font preloading.
 - [ ] Update KNOWN_ISSUES with final statuses; hand off a client content checklist.
+- [ ] Final cleanup: nothing ships or stays in the repo that the site doesn't need.
+  - Delete components, variants and props no page uses (the P7-04 list: `FaqSection`, `CtaBand` reviews, `Chip`, `UnderlineLink`, `MoreLink`, `Button`, `PageHero` enquiry, unused primitive variants) and any media in `src/content/media.ts` no page references.
+  - Delete scripts and test helpers that only served the build (keep what CI, `pnpm parity` and the asset pipeline still run).
+  - Local, git-ignored working folders: `.tmp/` (throwaway probes, deleted after every phase) and, once parity is signed off, `reference/` (original site, baseline captures, audit screenshots: 1.2 GB) — archive it outside the repo first if the client wants the evidence kept.
 
 ### Phase 11: Laravel readiness (~1 day of front-end work; the backend itself is separate)
 

@@ -5,6 +5,8 @@
 
 # testing
 /coverage
+# throwaway probes and reports while a phase is being verified (deleted when the phase is done)
+/.tmp/
 /test-results/
 /playwright-report/
 /blob-report/
