@@ -51,3 +51,5 @@ export function signatureCentre({ top, height }: ScrollRect, viewportHeight: num
 export function isInViewport({ top, height }: ScrollRect, viewportHeight: number): boolean {
   return top + height > 0 && top < viewportHeight;
 }
+
+export * from "./autoplay";

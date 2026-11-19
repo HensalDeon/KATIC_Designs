@@ -51,8 +51,13 @@ export type ContactFaqProps = {
   readonly faq: FaqContent;
   /** Decorative plant behind the content (`.pp-host`). */
   readonly plant?: PlantSpec;
-  /** `home` = the home page's type system (Jost 500 uppercase heading, Jost FAQ). */
+  /**
+   * `home` = the home page's type system (Jost 500 uppercase heading, Jost FAQ) and its compact
+   * sizes, which home keeps at every width (inner pages enlarge the form and FAQ below 1100px).
+   */
   readonly typography?: FaqTypography;
+  /** Section rhythm; defaults to `home` (104/36) with home typography, else `standard` (120/80). */
+  readonly spacing?: "standard" | "home";
   readonly className?: string;
 };
 
@@ -67,7 +72,7 @@ const headingVariants = cva("font-display text-black in-data-[tone=dark]:text-wh
     typography: {
       standard:
         "mt-14 mb-14 text-[44px] leading-none font-bold tracking-[0.005em] max-lg:mt-20 max-lg:mb-22 max-lg:text-[54px] max-md:text-[38px]",
-      home: "mt-14 mb-14 text-[40px] leading-[1.05] font-medium uppercase max-lg:mt-20 max-lg:mb-22 max-md:text-[30px]",
+      home: "mt-14 mb-14 text-[40px] leading-[1.05] font-medium uppercase max-md:text-[30px]",
     },
   },
 });
@@ -88,18 +93,19 @@ const faqKickerVariants = cva("", {
   variants: {
     typography: {
       standard: "text-black in-data-[tone=dark]:text-kicker max-md:text-[9.5px]",
-      home: "text-brand",
+      /** Text-safe orange on white, brand orange on black (KI-A11), like every other kicker. */
+      home: "text-kicker",
     },
   },
 });
 
 const faqTitleVariants = cva(
-  "mt-14 mb-22 font-display text-black uppercase in-data-[tone=dark]:text-white max-lg:mt-20 max-lg:mb-36",
+  "mt-14 mb-22 font-display text-black uppercase in-data-[tone=dark]:text-white",
   {
     variants: {
       typography: {
         standard:
-          "text-[36px] leading-[1.1] font-bold tracking-[0.005em] max-lg:text-[40px] max-md:text-[34px]",
+          "text-[36px] leading-[1.1] font-bold tracking-[0.005em] max-lg:mt-20 max-lg:mb-36 max-lg:text-[40px] max-md:text-[34px]",
         home: "text-[40px] leading-[1.05] font-medium max-md:text-[30px]",
       },
     },
@@ -113,7 +119,12 @@ const faqTitleVariants = cva(
  *
  * Tone: light (white, black type, light-grey fields) when preceded by a dark section, dark (black,
  * white type, warm-white fields) otherwise. Exception: the dark FAQ kicker uses the brand orange
- * instead of the original's #C24E1E, which fails contrast on black (KI-A11).
+ * instead of the original's #C24E1E, which fails contrast on black, and the home FAQ kicker uses
+ * the text-safe orange on white instead of the rendered #E8622C (KI-A11).
+ *
+ * `typography="home"` also keeps the canvas sizes below 1100px (headings, contact info, form
+ * fields and gaps, FAQ questions), as the original's home overrides do, and defaults the rhythm to
+ * the home one (104/36 at every width).
  *
  * `[data-contact-section]` makes it the target of "go to contact" (`useContactScroll`).
  */
@@ -128,12 +139,14 @@ export function ContactFaq({
   faq,
   plant,
   typography = "standard",
+  spacing = typography === "home" ? "home" : "standard",
   className,
 }: ContactFaqProps) {
   return (
     <Section
       tone={tone}
       id={id}
+      spacing={spacing}
       data-contact-section=""
       style={plant ? plantReserve(plant) : undefined}
       className={cn(plant && "isolate max-md:pb-[calc(80px+var(--plant-reserve))]", className)}
@@ -159,8 +172,8 @@ export function ContactFaq({
             ) : null}
           </h2>
           <p className={leadVariants({ typography })}>{lead}</p>
-          <ContactInfo channels={channels} />
-          <EnquiryForm {...form} />
+          <ContactInfo channels={channels} typography={typography} />
+          <EnquiryForm {...form} typography={typography} />
         </div>
 
         <div>
@@ -198,14 +211,26 @@ function plantReserve(plant: PlantSpec): CSSProperties {
  * wrapping row exactly like the original; on phones they become a two-column list with labels
  * baseline-aligned to their values (KI-L11).
  */
-function ContactInfo({ channels }: { channels: readonly ContactChannel[] }) {
+function ContactInfo({
+  channels,
+  typography,
+}: {
+  channels: readonly ContactChannel[];
+  typography: FaqTypography;
+}) {
   const entries: Record<ContactChannel, { term: string; href: string; text: string }> = {
     email: { term: "Email", href: `mailto:${SITE.email}`, text: SITE.email },
     phone: { term: "Phone", href: SITE.phone.href, text: SITE.phone.display },
     whatsapp: { term: "WhatsApp", href: whatsappUrl(), text: "Chat with our team" },
   };
   return (
-    <dl className="mt-16 flex flex-wrap gap-40 font-display text-[12px] text-[#333] in-data-[tone=dark]:text-[#ccc] max-lg:mt-28 max-md:grid max-md:grid-cols-[auto_minmax(0,1fr)] max-md:items-baseline max-md:gap-x-20 max-md:gap-y-14">
+    <dl
+      className={cn(
+        "mt-16 flex flex-wrap gap-40 font-display text-[12px] text-[#333] in-data-[tone=dark]:text-[#ccc]",
+        typography === "standard" && "max-lg:mt-28",
+        "max-md:grid max-md:grid-cols-[auto_minmax(0,1fr)] max-md:items-baseline max-md:gap-x-20 max-md:gap-y-14",
+      )}
+    >
       {channels.map((channel) => {
         const { term, href, text } = entries[channel];
         return (

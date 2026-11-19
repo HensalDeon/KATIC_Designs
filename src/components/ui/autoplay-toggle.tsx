@@ -1,8 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-
-import { AUTOPLAY_CONTROL_ATTR } from "./services-explorer-autoplay";
+import { AUTOPLAY_CONTROL_ATTR } from "@/lib/motion";
 
 type AutoplayToggleProps = {
   readonly paused: boolean;

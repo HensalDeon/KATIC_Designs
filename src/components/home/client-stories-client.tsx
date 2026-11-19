@@ -8,8 +8,7 @@ import type { ClientStoriesContent, ClientStory } from "@/content/home/stories";
 import { media } from "@/content/media";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
-
-import { wrapIndex } from "./services-explorer-autoplay";
+import { wrapIndex } from "@/lib/motion";
 
 /** E29: the outgoing quote fades out over 250ms, then the next one fades in over 250ms. */
 export const STORY_FADE_MS = 250;

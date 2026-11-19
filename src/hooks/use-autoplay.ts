@@ -12,53 +12,12 @@ import {
 
 import { useInView } from "@/hooks/use-in-view";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-
-/**
- * Auto-advance shared by the home services explorer (E27, 6s) and divisions carousel (E28, 5s).
- * It lives next to the explorer because home components may not add shared hooks yet; it is a
- * candidate for `src/hooks/use-autoplay.ts`.
- */
-
-/** `off`: never advances (out of view, reduced motion or paused); `held`: waits; `running`: ticks. */
-export type AutoplayPhase = "off" | "held" | "running";
-
-export type AutoplayConditions = {
-  /** Enough of the section is in view (IntersectionObserver threshold). */
-  readonly visible: boolean;
-  readonly reducedMotion: boolean;
-  /** Paused with the visible pause control (WCAG 2.2.2, KI-A01). */
-  readonly paused: boolean;
-  readonly hovered: boolean;
-  /** Keyboard or pointer focus is inside the widget (other than on the pause control). */
-  readonly focused: boolean;
-  /** The browser tab is in the background. */
-  readonly documentHidden: boolean;
-};
-
-export function autoplayPhase(c: AutoplayConditions): AutoplayPhase {
-  if (!c.visible || c.reducedMotion || c.paused) return "off";
-  if (c.hovered || c.focused || c.documentHidden) return "held";
-  return "running";
-}
-
-/** `index + step` wrapped into `0 … count − 1`. */
-export function wrapIndex(index: number, step: number, count: number): number {
-  return (((index + step) % count) + count) % count;
-}
-
-/** Whether a horizontal touch gesture is a swipe, and in which direction (original: > 45px). */
-export function swipeStep(dx: number, threshold = 45): -1 | 0 | 1 {
-  if (Math.abs(dx) <= threshold) return 0;
-  return dx < 0 ? 1 : -1;
-}
+import { AUTOPLAY_CONTROL_ATTR, type AutoplayPhase, autoplayPhase } from "@/lib/motion";
 
 function subscribeVisibility(onChange: () => void) {
   document.addEventListener("visibilitychange", onChange);
   return () => document.removeEventListener("visibilitychange", onChange);
 }
-
-/** Marks the pause control, so focusing it does not hold the rotation it controls. */
-export const AUTOPLAY_CONTROL_ATTR = "data-autoplay-control";
 
 type AutoplayOptions = {
   readonly ref: RefObject<HTMLElement | null>;
@@ -88,6 +47,7 @@ export type Autoplay = {
 };
 
 /**
+ * Auto-advance for rotating content (home services explorer E27, 6s; divisions carousel E28, 5s).
  * Advances every `interval` ms while the root is at least `threshold` visible, never under reduced
  * motion, and holds while hovered (mouse), while focus is inside or while the tab is hidden. A
  * hold restarts the full interval when it ends, as in the original.
