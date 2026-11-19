@@ -8,7 +8,7 @@ import { StartProjectTrigger } from "@/components/shell/start-project-trigger";
 import { media } from "@/content/media";
 import { FOOTER_COLUMNS } from "@/content/navigation";
 import { SITE } from "@/content/site";
-import { fixedCanvasSizes } from "@/lib/media/sizes";
+import { canvasVw, fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 const columnTitle = "mb-16 font-display text-[15px] font-semibold";
@@ -36,7 +36,8 @@ export function Footer() {
           src={media["plants/banana-leaf-plant"].image}
           alt=""
           aria-hidden
-          sizes={fixedCanvasSizes(216)}
+          // 216px on the canvas, 189px at ≤1099, 96px on phones (the classes below).
+          sizes={`(max-width: 860px) 96px, (max-width: 1099px) 189px, ${canvasVw(216)}`}
           className="pointer-events-none absolute top-20 right-48 z-3 max-h-252 w-216 object-contain max-lg:max-h-220 max-lg:w-189 max-md:top-14 max-md:right-14 max-md:max-h-112 max-md:w-96"
         />
 

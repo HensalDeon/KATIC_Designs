@@ -6,7 +6,7 @@
 const CANVAS_WIDTH = 1440;
 
 /** Viewport width (vw, rounded up) of something `canvasPx` wide on the zoomed 1440 canvas (D1). */
-function canvasVw(canvasPx: number): string {
+export function canvasVw(canvasPx: number): string {
   return `${String(Math.ceil((canvasPx / CANVAS_WIDTH) * 100))}vw`;
 }
 
