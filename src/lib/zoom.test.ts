@@ -30,10 +30,12 @@ describe("ZOOM_BOOTSTRAP_SCRIPT", () => {
   function run(clientWidth: number, innerHeight: number) {
     const vars = new Map<string, string>();
     const listeners: string[] = [];
+    const classes: string[] = [];
     runInNewContext(ZOOM_BOOTSTRAP_SCRIPT, {
       document: {
         documentElement: {
           clientWidth,
+          classList: { add: (name: string) => classes.push(name) },
           style: { setProperty: (name: string, value: string) => vars.set(name, value) },
         },
       },
@@ -41,7 +43,7 @@ describe("ZOOM_BOOTSTRAP_SCRIPT", () => {
       addEventListener: (type: string) => listeners.push(type),
       window: {},
     });
-    return { vars, listeners };
+    return { vars, listeners, classes };
   }
 
   it.each([
@@ -54,6 +56,10 @@ describe("ZOOM_BOOTSTRAP_SCRIPT", () => {
     const z = computeZoom(width);
     expect(vars.get("--z")).toBe(String(z));
     expect(vars.get("--svh")).toBe(`${computeSvh(height, z).toFixed(1)}px`);
+  });
+
+  it("marks the document as scripted", () => {
+    expect(run(1440, 900).classes).toEqual(["js"]);
   });
 
   it("keeps the values in sync on resize", () => {

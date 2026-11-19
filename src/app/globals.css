@@ -181,3 +181,40 @@ html:has(dialog[data-lock-scroll][open]) {
   background-repeat: no-repeat;
   background-position: right 14px center;
 }
+
+/* ---------- reveal on scroll (Reveal component, E16) ---------- */
+/* Hidden start states apply only when JavaScript runs (`html.js`, set by the zoom script). */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    transition:
+      opacity 1s var(--ease-out-k) var(--reveal-delay, 0s),
+      transform 1s var(--ease-out-k) var(--reveal-delay, 0s),
+      filter 1.2s var(--ease-out-k) var(--reveal-delay, 0s);
+  }
+
+  .js [data-reveal]:not([data-shown]) {
+    opacity: 0;
+  }
+
+  .js [data-reveal="fade-up"]:not([data-shown]) {
+    transform: translateY(46px);
+  }
+
+  .js [data-reveal="left"]:not([data-shown]) {
+    transform: translateX(-60px);
+  }
+
+  .js [data-reveal="scale"]:not([data-shown]) {
+    transform: scale(0.92);
+  }
+
+  .js [data-reveal="clip"] {
+    transform-origin: 0 0;
+    transition-duration: 1.2s;
+  }
+
+  .js [data-reveal="clip"]:not([data-shown]) {
+    transform: translateY(70px) skewY(4deg);
+    filter: blur(8px);
+  }
+}

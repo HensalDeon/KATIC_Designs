@@ -31,6 +31,7 @@ export function computeSvh(innerHeight: number, zoom: number): number {
 /**
  * Inline <head> script. Sets `--z` and `--svh` on <html> before first paint and keeps them in sync
  * on resize and when a scrollbar appears or disappears (ResizeObserver on the root element).
- * Plain ES5 with no dependencies, so it can be inlined verbatim.
+ * Also marks <html> with `js`, so reveal animations may start hidden without hiding content from
+ * visitors without JavaScript. Plain ES5 with no dependencies, so it can be inlined verbatim.
  */
-export const ZOOM_BOOTSTRAP_SCRIPT = `(function(){var d=document.documentElement;function s(){var w=d.clientWidth,z=w>=${ZOOM_MIN_WIDTH}?+(w/${DESIGN_WIDTH}).toFixed(4):1;d.style.setProperty("--z",String(z));d.style.setProperty("--svh",(innerHeight/z).toFixed(1)+"px")}s();addEventListener("resize",s);if(window.ResizeObserver)new ResizeObserver(s).observe(d)})();`;
+export const ZOOM_BOOTSTRAP_SCRIPT = `(function(){var d=document.documentElement;d.classList.add("js");function s(){var w=d.clientWidth,z=w>=${ZOOM_MIN_WIDTH}?+(w/${DESIGN_WIDTH}).toFixed(4):1;d.style.setProperty("--z",String(z));d.style.setProperty("--svh",(innerHeight/z).toFixed(1)+"px")}s();addEventListener("resize",s);if(window.ResizeObserver)new ResizeObserver(s).observe(d)})();`;
