@@ -554,6 +554,17 @@ test.describe("/services/property-care specifics", () => {
     );
   });
 
+  test("on phones the fern gets its own room below the content", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await open(page, "property-care");
+    const intro = page.locator("main > section").nth(1);
+    const plant = await intro.locator("img[aria-hidden]").boundingBox();
+    const padding = await intro.evaluate((el) => parseFloat(getComputedStyle(el).paddingBottom));
+    // Original JS 5285–5293: 80px + 95% of the 58%-size plant (KI-X06, done statically).
+    expect(plant?.width).toBeCloseTo(170 * 0.58, 0);
+    expect(padding).toBeCloseTo(80 + (plant?.height ?? 0) * 0.95, 0);
+  });
+
   test("FAQ links: locations, and the form (KI-F07)", async ({ page }) => {
     await open(page, "property-care");
     const faq = page.locator("#property-care-contact");
