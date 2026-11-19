@@ -1,8 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
 
 import { Container } from "@/components/ui/container";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
+import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
 import type { Tone } from "@/lib/tone";
 
@@ -28,6 +29,26 @@ type ContentSectionProps = Omit<ComponentPropsWithoutRef<"section">, "children" 
   readonly children?: ReactNode;
 };
 
+/** Phones render plants at 58% (`Plant`). */
+const PHONE_PLANT_SCALE = 0.58;
+
+/**
+ * Room the original gives a plant on phones (≤860px, JS 5285–5293): the section's padding grows
+ * by 95% of the plant's height at a bottom corner, 90% at a top corner, so the plant sits beside
+ * the content instead of over it.
+ */
+function phonePlantRoom(plant: PlantSpec): { style: CSSProperties; className: string } {
+  const { width, height } = media[plant.asset].image;
+  const top = plant.corner.startsWith("top");
+  const room = plant.width * PHONE_PLANT_SCALE * (height / width) * (top ? 0.9 : 0.95);
+  return {
+    style: { "--plant-room": `${room.toFixed(2)}px` } as CSSProperties,
+    className: top
+      ? "max-md:pt-[calc(80px+var(--plant-room))]"
+      : "max-md:pb-[calc(80px+var(--plant-room))]",
+  };
+}
+
 /**
  * The standard content section of inner pages (`.ks`): tone, one-screen rhythm on the canvas,
  * `SectionHeader`, then the body block 60px below. Body blocks (`SplitFeature`, `FeatureGrid`,
@@ -41,10 +62,18 @@ export function ContentSection({
   className,
   bodyClassName,
   children,
+  style,
   ...sectionProps
 }: ContentSectionProps) {
+  const room = plant ? phonePlantRoom(plant) : undefined;
   return (
-    <Section tone={tone} id={id} className={cn(plant && "isolate", className)} {...sectionProps}>
+    <Section
+      tone={tone}
+      id={id}
+      className={cn(plant && "isolate", room?.className, className)}
+      style={room ? { ...room.style, ...style } : style}
+      {...sectionProps}
+    >
       {plant ? <Plant {...plant} behind /> : null}
       <Container>
         {header ? <SectionHeader {...header} /> : null}

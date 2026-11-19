@@ -160,6 +160,11 @@ async function compareRoute(
   const results: Result[] = [];
   // Blocks sharing a parity class (e.g. the service pages' `section.ks`) match by occurrence.
   const seen = new Map<string, number>();
+  // A block the original gives an id is matched by that id, so it must not also take an
+  // occurrence of its class (renovation's `section.ks#ba` renders as `[data-parity=ks]#ba`).
+  const notMatchedById = manifest.sections
+    .flatMap((section) => (section.id ? [`:not(#${section.id})`] : []))
+    .join("");
   for (const section of manifest.sections) {
     const name = section.file.replace(/\.png$/, "");
     const base: Result = {
@@ -178,7 +183,7 @@ async function compareRoute(
         ? "[data-hero]"
         : /\bftw\b/.test(section.className)
           ? "[data-parity=footer]"
-          : parityClassSelector(section.className);
+          : parityClassSelector(section.className, notMatchedById);
     const occurrence = selector ? (seen.get(selector) ?? 0) : 0;
     if (selector) seen.set(selector, occurrence + 1);
     const locator = selector ? page.locator(selector).nth(occurrence) : null;
@@ -214,9 +219,9 @@ async function compareRoute(
 }
 
 /** `[data-parity="<first class>"]` for a baseline block without an id, or null. */
-function parityClassSelector(className: string): string | null {
+function parityClassSelector(className: string, suffix = ""): string | null {
   const first = className.split(/\s+/).find(Boolean);
-  return first ? `[data-parity="${first}"]` : null;
+  return first ? `[data-parity="${first}"]${suffix}` : null;
 }
 
 /** Pads both images to the larger size (padding = magenta, so it always mismatches) and diffs them. */
