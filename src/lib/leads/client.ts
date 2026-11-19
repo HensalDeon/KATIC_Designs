@@ -11,6 +11,10 @@ export type LastLead = {
   /** `unsent`: delivery failed, so /thank-you offers the email / WhatsApp fallback. */
   readonly status: "sent" | "unsent";
   readonly details?: string;
+  /** Which form sent it (optional: leads remembered before this field existed lack it). */
+  readonly form?: Lead["source"]["form"];
+  /** Answers to an inline form's page-specific selects (label → value). */
+  readonly extra?: Readonly<Record<string, string>>;
 };
 
 export async function submitLead(lead: Lead): Promise<LeadResponse> {
