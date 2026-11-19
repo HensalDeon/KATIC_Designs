@@ -77,8 +77,3 @@ export const PROCESS_STAGES = {
     icon: "shield",
   },
 } as const satisfies Record<ProcessStageId, ProcessStage>;
-
-/** The stages a page shows, in order (e.g. interior: discovery, concept, design, completion, handover). */
-export function processStages(ids: readonly ProcessStageId[]): ProcessStage[] {
-  return ids.map((id) => PROCESS_STAGES[id]);
-}

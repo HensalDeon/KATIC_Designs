@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 
 /**
- * Home sections of Phase 4 group H3 (/styleguide/home-h3): services explorer (E27), divisions
+ * Home sections of Phase 4 group H3 on the home page: services explorer (E27), divisions
  * carousel (E28), client stories (E29) and contact + FAQ.
  *
  * Expected styles are the original's computed values at 1440, 1024 and 390, measured on #home
@@ -43,7 +43,7 @@ async function box(locator: Locator, root: Locator) {
 }
 
 async function open(page: Page) {
-  await page.goto("/styleguide/home-h3");
+  await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 }
 
@@ -621,7 +621,7 @@ test.describe("1440 canvas", () => {
       name: "Jane Doe",
       email: "jane@email.com",
       service: "Turnkey Projects",
-      source: { form: "contact", path: "/styleguide/home-h3" },
+      source: { form: "contact", path: "/" },
     });
   });
 });
