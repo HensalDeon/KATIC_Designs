@@ -195,7 +195,7 @@ Effort figures are rough single-developer estimates for planning, not quotes.
   - `Kicker`, `SectionTitle`, `HeroTitle`, `Accent`, `Lead`, `Body`;
   - `Button`/`ButtonLink` (7 colour variants × 5 sizes × 2 fonts, hover states), `MoreLink`, `UnderlineLink`, `Chip`, `Tag`, `Plant`;
   - icons: `ArrowIcon`, `ServiceIcon` (all 27 `.nico` icons, verbatim paths).
-- [x] Dev-only `/styleguide` (`ENABLE_STYLEGUIDE=1` in production builds, `noindex`).
+- [x] Dev-only `/styleguide` (`ENABLE_STYLEGUIDE=1` in production builds, `noindex`). Removed in Phase 7 once real pages used every component; its suites run on those pages (P7-04).
 - [x] Parity proof: `tests/e2e/design-system.spec.ts` checks rendered styles against values measured on the original at 1440, 1024 and 390 (P1-03). It also locks in KI-N04, KI-L16 and KI-A11.
 
 **Exit:** the styleguide matches the original's buttons and type at 1440 and 390, proven by the computed-style suite (10/10 green against a production build).
