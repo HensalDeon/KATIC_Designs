@@ -28,7 +28,7 @@ npm-debug.log*
 *.log
 
 # Reference material from the original single-file site (large, regenerable)
-/reference/
+/reference
 
 # misc
 .DS_Store
