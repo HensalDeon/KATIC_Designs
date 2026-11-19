@@ -37,7 +37,7 @@ export function RowList({ items, className, "data-testid": testId }: RowListProp
             <b
               className={cn(
                 "font-sans text-[22px] font-normal",
-                item.href && "group-hover:text-brand",
+                item.href && "group-hover:text-kicker",
               )}
             >
               {item.title}

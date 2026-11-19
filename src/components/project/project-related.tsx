@@ -47,7 +47,7 @@ export function ProjectRelated({ content }: { readonly content: ProjectRelatedCo
                     />
                   </div>
                   <h3 className="mt-20 font-sans text-[20.5px] font-normal">{project.name}</h3>
-                  <p className="mt-8 font-sans text-[8.5px] font-semibold tracking-[0.16em] text-[#c0522a] max-md:text-[11px]">
+                  <p className="mt-8 font-sans text-[8.5px] font-semibold tracking-[0.16em] text-brand max-md:text-[11px]">
                     {meta}
                   </p>
                   <span className="mt-18 inline-block font-sans text-[10.5px] font-semibold tracking-[0.12em] max-md:text-[11px]">

@@ -82,7 +82,7 @@ export function ArchServices({
                     <span className="grid place-items-center text-brand">
                       <ServiceIcon name={item.icon} size={28} />
                     </span>
-                    <span className="font-sans text-[20px] text-fg group-hover:text-brand">
+                    <span className="font-sans text-[20px] text-fg group-hover:text-kicker">
                       {item.title}
                     </span>
                     <i

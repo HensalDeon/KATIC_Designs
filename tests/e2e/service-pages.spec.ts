@@ -265,8 +265,15 @@ function describeServicePage(spec: ServicePageSpec) {
           expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual(
             related.hrefs,
           );
+          // Hover text is the text-safe orange on white, the brand orange on black (KI-A11).
+          const dark = await cards
+            .first()
+            .evaluate((el) => el.closest("[data-tone]")?.getAttribute("data-tone") === "dark");
           await cards.first().hover();
-          await expect(cards.first().locator("h3")).toHaveCSS("color", ORANGE);
+          await expect(cards.first().locator("h3")).toHaveCSS(
+            "color",
+            dark ? ORANGE : "rgb(194, 78, 30)",
+          );
         });
       }
 
@@ -859,7 +866,7 @@ test.describe("/services/renovation before & after", () => {
     await expect(ba.locator("h3")).toHaveText(["The Old Mill Renewal", "Kottayam Family Home"]);
     await expect(ba.locator("figure span")).toHaveText(["BEFORE", "AFTER", "BEFORE", "AFTER"]);
     await expectStyles(ba.locator("figure span").nth(0), { backgroundColor: "rgb(17, 17, 17)" });
-    await expectStyles(ba.locator("figure span").nth(1), { backgroundColor: ORANGE });
+    await expectStyles(ba.locator("figure span").nth(1), { backgroundColor: "rgb(197, 83, 37)" });
     const figures = await ba.locator("figure").evaluateAll((all) =>
       all.map((figure) => {
         const r = figure.getBoundingClientRect();

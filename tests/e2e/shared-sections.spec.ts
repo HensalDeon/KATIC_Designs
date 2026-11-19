@@ -205,7 +205,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     const card = projectsC4(page).locator("a").first();
     await expectStyles(card.locator("img"), { transitionDuration: "0.8s" });
     await card.hover();
-    await expect(card.locator("h3")).toHaveCSS("color", BRAND);
+    await expect(card.locator("h3")).toHaveCSS("color", "rgb(194, 78, 30)");
   });
 
   test("gallery", async ({ page }) => {
@@ -260,7 +260,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       letterSpacing: "1.8px",
       backgroundColor: "rgb(17, 17, 17)",
     });
-    await expectStyles(chip.last(), { backgroundColor: BRAND });
+    await expectStyles(chip.last(), { backgroundColor: "rgb(197, 83, 37)" });
     await expectStyles(pair.locator("h3"), { fontSize: "24px", fontWeight: "400" });
     await expectStyles(pair.locator("small"), {
       marginTop: "10px",
@@ -285,7 +285,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       fontSize: "11px",
       fontWeight: "500",
       letterSpacing: "2.42px",
-      color: BRAND,
+      color: "rgb(194, 78, 30)",
     });
     const first = light.locator("a").first();
     await expectStyles(first, {
@@ -410,7 +410,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       fontSize: "12.5px",
       fontWeight: "600",
       columnGap: "14px",
-      backgroundColor: BRAND,
+      backgroundColor: "rgb(197, 83, 37)",
     });
     const call = wrap.locator(":scope > div");
     await expectStyles(call, {

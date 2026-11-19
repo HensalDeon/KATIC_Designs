@@ -189,8 +189,8 @@ test.describe("1440 canvas", () => {
       marginTop: "4px",
       fontSize: "14px",
       fontWeight: "600",
-      color: "rgb(238, 238, 238)",
-      backgroundColor: "rgb(232, 98, 44)",
+      color: "rgb(255, 255, 255)",
+      backgroundColor: "rgb(197, 83, 37)",
       columnGap: "12px",
     });
     await expectStyles(c.note, {

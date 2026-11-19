@@ -231,7 +231,7 @@ test.describe("1440 canvas (zoom 1)", () => {
 
     await open(page, "/works");
     await expectStyles(page.getByRole("link", { name: "View Case Study" }), {
-      backgroundColor: "rgb(232, 98, 44)",
+      backgroundColor: "rgb(197, 83, 37)",
       color: "rgb(255, 255, 255)",
     });
 
@@ -260,7 +260,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     await open(page, "/works");
     const primary = page.getByRole("link", { name: "View Case Study" });
     await primary.hover();
-    await expect(primary).toHaveCSS("background-color", "rgb(212, 82, 30)");
+    await expect(primary).toHaveCSS("background-color", "rgb(179, 75, 33)");
   });
 
   test("links and labels", async ({ page }) => {

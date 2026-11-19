@@ -59,7 +59,7 @@ export function MobileCtaBar() {
       <button
         type="button"
         onClick={() => enquiry.open()}
-        className={cn(pill, "bg-brand px-12 whitespace-nowrap")}
+        className={cn(pill, "bg-brand-fill px-12 whitespace-nowrap")}
       >
         Start a Project
         <ArrowIcon className="flex-none" />

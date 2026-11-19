@@ -62,7 +62,7 @@ export function BlogTeaser({ posts = latestPosts(4) }: BlogTeaserProps) {
                   sizes="(max-width: 1099px) 100vw, 683px"
                   className="size-full object-cover transition-transform duration-900 group-hover:scale-[1.04]"
                 />
-                <span className="absolute top-20 left-20 bg-brand px-10 py-7 font-display text-[9px] font-semibold tracking-[0.18em] text-white uppercase max-md:text-[11px]">
+                <span className="absolute top-20 left-20 bg-brand-fill px-10 py-7 font-display text-[9px] font-semibold tracking-[0.18em] text-white uppercase max-md:text-[11px]">
                   {copy.featuredLabel}
                 </span>
               </div>

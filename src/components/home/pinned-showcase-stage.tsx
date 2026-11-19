@@ -75,7 +75,7 @@ const CARD = cn(
 
 const TAB = cn(
   "flex h-35 cursor-pointer items-center border border-[#cfccc6] bg-white px-19 font-display text-[11.5px] font-medium tracking-[0.16em] text-ink-2 uppercase hover:border-ink-2 max-md:flex-none",
-  "aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:px-20 aria-pressed:text-white",
+  "aria-pressed:border-brand-fill aria-pressed:bg-brand-fill aria-pressed:px-20 aria-pressed:text-white",
 );
 
 /**

@@ -38,7 +38,7 @@ const PALETTES: Record<`${Tone}-${ServiceBlockContent["contrast"]}`, Palette> = 
     darkCta: true,
   },
   "light-high": {
-    header: "border-[rgba(0,0,0,0.3)] text-[#888]",
+    header: "border-[rgba(0,0,0,0.3)] text-[#767676]",
     title: "text-black",
     text: "text-[#333]",
     darkCta: true,

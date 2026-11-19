@@ -22,6 +22,8 @@ const ARTICLE = "/blog/designing-for-kerala-monsoon";
 const WHITE = "rgb(255, 255, 255)";
 const ORANGE = "rgb(232, 98, 44)";
 const SMALL_ORANGE = "rgb(192, 82, 42)";
+/** Text-safe orange on white (KI-A11): the hovered card title. */
+const SMALL_ORANGE_SAFE = "rgb(194, 78, 30)";
 /** Text-safe orange for small text on white (KI-A11). */
 const TEXT_ORANGE = "rgb(194, 78, 30)";
 
@@ -168,7 +170,7 @@ test.describe("listing at 1440", () => {
     expect(await box(category, card)).toMatchObject({ y: 278, h: 11 });
     const date = card.locator("time");
     await expect(date).toHaveText("14 Oct 2026");
-    await expectStyles(date, { color: "rgb(136, 136, 136)" });
+    await expectStyles(date, { color: "rgb(118, 118, 118)" });
     const title = card.locator("h3");
     await expectStyles(title, { fontSize: "22px", lineHeight: "28.6px", fontWeight: "400" });
     expect(await box(title, card)).toMatchObject({ y: 301, h: 57.2 });
@@ -184,7 +186,9 @@ test.describe("listing at 1440", () => {
 
     // Hover: the photo zooms to 1.04, the title turns orange.
     await card.hover();
-    await expect.poll(() => title.evaluate((el) => getComputedStyle(el).color)).toBe(ORANGE);
+    await expect
+      .poll(() => title.evaluate((el) => getComputedStyle(el).color))
+      .toBe(SMALL_ORANGE_SAFE);
     await expect.poll(() => image.evaluate((el) => getComputedStyle(el).scale)).toBe("1.04");
   });
 
@@ -337,7 +341,7 @@ test.describe("articles at 1440", () => {
     const section = articleSection(page);
     const crumb = section.getByRole("navigation", { name: "Breadcrumb" });
     expect(await box(crumb, section)).toMatchObject({ x: 86, y: 120, h: 14 });
-    await expectStyles(crumb, { fontSize: "11px", color: "rgb(136, 136, 136)" });
+    await expectStyles(crumb, { fontSize: "11px", color: "rgb(118, 118, 118)" });
     await expect(crumb.getByRole("link", { name: "Blog" })).toHaveAttribute("href", "/blog");
     await expect(crumb.getByRole("link", { name: "Architecture" })).toHaveAttribute(
       "href",

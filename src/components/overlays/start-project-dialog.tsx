@@ -311,7 +311,7 @@ export function StartProjectDialog() {
                 type="submit"
                 disabled={submitting}
                 aria-busy={submitting || undefined}
-                className="inline-flex h-46 items-center gap-14 bg-brand px-24 font-display text-[12.5px] font-medium tracking-[0.16em] text-white uppercase transition-colors duration-200 hover:bg-ink-2 disabled:opacity-70 max-md:h-52 max-md:justify-center max-md:px-30"
+                className="inline-flex h-46 items-center gap-14 bg-brand-fill px-24 font-display text-[12.5px] font-medium tracking-[0.16em] text-white uppercase transition-colors duration-200 hover:bg-ink-2 disabled:opacity-70 max-md:h-52 max-md:justify-center max-md:px-30"
               >
                 {submitting ? "Sending…" : "Send Enquiry"}
                 <ArrowIcon width={12} height={12} />

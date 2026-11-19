@@ -309,7 +309,11 @@ test.describe("/thank-you", () => {
       });
 
       const whatsapp = action(page, "Continue on WhatsApp");
-      await expectStyles(whatsapp, { height: "52px", backgroundColor: ORANGE, color: WHITE });
+      await expectStyles(whatsapp, {
+        height: "52px",
+        backgroundColor: "rgb(197, 83, 37)",
+        color: WHITE,
+      });
       await expectStyles(action(page, "Explore Projects"), {
         height: "52px",
         backgroundColor: WHITE,
