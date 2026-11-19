@@ -61,7 +61,7 @@ test.describe("1440 canvas", () => {
 
   test("sections keep the original order, ids and alternating tones", async ({ page }) => {
     await open(page);
-    const sections = await page.locator("main > *").evaluateAll((all) =>
+    const sections = await page.locator("main > :not(script)").evaluateAll((all) =>
       all.map((el) => {
         const sectionEl = el.matches("section") ? el : el.querySelector("section");
         return {
