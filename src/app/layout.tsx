@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Jost } from "next/font/google";
 
+import { ZOOM_BOOTSTRAP_SCRIPT } from "@/lib/zoom";
+
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
@@ -21,10 +23,23 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // data-scroll-behavior: keep CSS smooth scrolling for in-page anchors while
-    // route changes jump instantly (Next 16 no longer does this by default).
-    <html lang="en" data-scroll-behavior="smooth" className={`${jost.variable} ${inter.variable}`}>
-      <body className="bg-white font-sans text-black antialiased">{children}</body>
+    // data-scroll-behavior: keep CSS smooth scrolling for in-page anchors while route changes jump
+    // instantly (Next 16 no longer does this by default).
+    // suppressHydrationWarning: the zoom script sets --z/--svh on <html> before React hydrates.
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${jost.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Runs before first paint so the 1440px desktop canvas never flashes unscaled (D1). */}
+        <script dangerouslySetInnerHTML={{ __html: ZOOM_BOOTSTRAP_SCRIPT }} />
+      </head>
+      <body>
+        {/* Everything inside is scaled at ≥1100px; overlays (rail, modal, lightbox) render outside. */}
+        <div className="zoom-root">{children}</div>
+      </body>
     </html>
   );
 }

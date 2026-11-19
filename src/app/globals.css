@@ -1,10 +1,166 @@
 @import "tailwindcss";
 
 /*
- * Design tokens are introduced in Phase 1 (see docs/MIGRATION_PLAN.md §6).
- * Font families are wired here because next/font exposes them as CSS variables.
+ * Katic Designs design system.
+ * Values are the *rendered* values of the original site (docs/analysis/01 §1–2, measured with
+ * reference/probes), not its source CSS, which overrides itself in several layers.
+ *
+ * Conventions
+ * - Desktop is authored on a fixed 1440px canvas and scaled with `zoom` at ≥1100px (.zoom-root).
+ * - Spacing unit is 1px (`h-52` = 52px, `gap-22` = 22px) because the design is specified in px.
+ * - Breakpoints are desktop-first: `max-lg:` ≤1099, `max-md:` ≤860, `max-xs:` ≤420.
+ * - Colours come from this theme only; Tailwind's default palette is removed on purpose.
+ */
+
+@theme {
+  /* ---------- reset defaults we don't want ---------- */
+  --breakpoint-*: initial;
+  --text-*: initial;
+  --shadow-*: initial;
+
+  /* ---------- breakpoints (original media queries) ---------- */
+  --breakpoint-xs: 421px; /* max-xs = ≤420 */
+  --breakpoint-md: 861px; /* max-md = ≤860 (phone layout, burger nav) */
+  --breakpoint-lg: 1100px; /* max-lg = ≤1099; lg = zoomed desktop canvas (keep = ZOOM_MIN_WIDTH) */
+
+  /* ---------- spacing: 1 unit = 1px ---------- */
+  --spacing: 1px;
+
+  /* ---------- type ---------- */
+  --font-display: var(--font-jost), "Futura PT", "Futura", system-ui, sans-serif; /* --fut */
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif; /* --int */
+
+  /* ---------- layout ---------- */
+  --container-site: 1268px; /* .wrap */
+  --container-wide: 1296px; /* .wrap.w72 */
+
+  /* ---------- motion ---------- */
+  --ease-out-k: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-draw: cubic-bezier(0.3, 0.7, 0.2, 1);
+
+  /* ---------- elevation ---------- */
+  --shadow-header: 0 14px 34px rgba(0, 0, 0, 0.28);
+  --shadow-dropdown: 0 24px 50px rgba(0, 0, 0, 0.45);
+  --shadow-footer: 0 26px 50px rgba(0, 0, 0, 0.28);
+  --shadow-rail: 0 6px 18px rgba(0, 0, 0, 0.25);
+  --shadow-mcta: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-card-active: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+/*
+ * Colour tokens. Declared `inline` so utilities use the values directly; this matters for the
+ * tone-aware colours, which must resolve var(--tone-*) on the element itself (inside the nearest
+ * [data-tone]) rather than once at :root. The reset lives here because `--color-*: initial`
+ * clears colour tokens from every @theme block.
  */
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --color-*: initial;
+
+  --color-white: #fff;
+  --color-black: #000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-brand: #e8622c; /* --or: accents, buttons, kicker on dark */
+  --color-brand-hover: #d4521e;
+  --color-brand-text: #c24e1e; /* --or-t: small orange text on white (AA) */
+
+  --color-ink: #0b0b0b; /* body text */
+  --color-ink-2: #111; /* headings and button text on light */
+  --color-panel: #1a1a1a; /* tag background */
+  --color-cream: #f7f4ef; /* light button */
+  --color-line: #cfcbc3; /* outline button border */
+  --color-chip-line: #ccc;
+  --color-mut: #5e5b55; /* base paragraph on light */
+  --color-mist: #eee; /* hero lead on imagery */
+
+  /* Tone-aware colours (see [data-tone] below). */
+  --color-fg: var(--tone-fg);
+  --color-fg-muted: var(--tone-muted);
+  --color-fg-body: var(--tone-body);
+  --color-fg-mut: var(--tone-mut);
+  --color-kicker: var(--tone-kicker);
+  --color-surface: var(--tone-surface);
+}
+
+/* ---------- tones: every section is pure white or pure black (D3) ---------- */
+:root,
+[data-tone="light"] {
+  --tone-surface: #fff;
+  --tone-fg: #111;
+  --tone-muted: #555; /* section lead */
+  --tone-body: #555; /* section paragraph */
+  --tone-mut: #5e5b55; /* base paragraph */
+  --tone-kicker: #c24e1e; /* text-safe orange (KI-A11) */
+  --tone-focus: #e8622c;
+}
+
+[data-tone="dark"] {
+  --tone-surface: #000;
+  --tone-fg: #fff;
+  --tone-muted: #bbb;
+  --tone-body: #aaa;
+  --tone-mut: rgba(255, 255, 255, 0.62);
+  --tone-kicker: #e8622c;
+  --tone-focus: #fff;
+}
+
+/* ---------- desktop canvas scaling (D1) ---------- */
+/*
+ * --z and --svh are set before first paint by the inline script in the root layout
+ * (src/lib/zoom.ts). The CSS values below are the no-JS fallback; they differ from the JS values
+ * only by the scrollbar width, because 100vw includes the scrollbar and clientWidth does not.
+ */
+:root {
+  --z: 1;
+  --svh: 100svh;
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --z: tan(atan2(100vw, 1440px));
+    --svh: calc(100svh / var(--z));
+  }
+
+  .zoom-root {
+    zoom: var(--z);
+  }
+}
+
+/* ---------- base ---------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #fff;
+    color: #0b0b0b; /* ink */
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--tone-focus);
+    outline-offset: 3px;
+  }
+
+  :is(input, select, textarea):focus-visible {
+    outline-offset: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
