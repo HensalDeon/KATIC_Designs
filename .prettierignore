@@ -1,0 +1,14 @@
+# Generated / vendored
+pnpm-lock.yaml
+next-env.d.ts
+AGENTS.md
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+public/
+
+# Reference material and frozen audit notes (line-referenced; keep byte-stable)
+reference/
+docs/analysis/
