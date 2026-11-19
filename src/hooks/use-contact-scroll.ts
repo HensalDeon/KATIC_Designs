@@ -39,8 +39,8 @@ function afterScroll(callback: () => void): void {
  * "Go to contact" (the original `#contact` / `data-go="contact"` behaviour, JS 4753–4763).
  *
  * If the current page has a contact section (`[data-contact-section]`), it smooth-scrolls there
- * (instantly with reduced motion), preselects `service` in the inline form, and focuses the first
- * field once the scroll has settled. Otherwise it navigates to the home page's contact section
+ * (instantly with reduced motion), preselects `service` in the inline form, lets the form apply its
+ * page prefill (`ContactArrival`), and focuses the first field once the scroll has settled. Otherwise it navigates to the home page's contact section
  * (`/#start`), carrying the service along.
  */
 export function useContactScroll(): (service?: ServiceOption) => void {
@@ -56,6 +56,7 @@ export function useContactScroll(): (service?: ServiceOption) => void {
     }
 
     if (service) contact.preselect(service, window.location.pathname);
+    contact.arrive(window.location.pathname);
     const focusFirstField = () => {
       section.querySelector<HTMLElement>(FIRST_FIELD)?.focus({ preventScroll: true });
     };

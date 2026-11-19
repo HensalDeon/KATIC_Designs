@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 
 import { Container } from "@/components/ui/container";
+import { Accent } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
 import { CONTACT_TEMPLATE } from "@/content/contact";
 import type { Tone } from "@/lib/tone";
@@ -12,8 +13,8 @@ import { EnquiryForm, type EnquiryFormConfig } from "./enquiry-form";
 export type ContactSectionContent = {
   /** Eyebrow with the orange dot (`.gt`). */
   readonly kicker: string;
-  /** Heading lines (the original's `<br>` breaks). */
-  readonly heading: { readonly lines: readonly string[] };
+  /** Heading lines (the original's `<br>` breaks); `accent` is an extra orange last line (India). */
+  readonly heading: { readonly lines: readonly string[]; readonly accent?: string };
   readonly lead: string;
   readonly channels: readonly ContactChannel[];
   readonly form: EnquiryFormConfig;
@@ -53,6 +54,12 @@ export function ContactSection({ id, tone, content = CONTACT_TEMPLATE }: Contact
                 {line}
               </Fragment>
             ))}
+            {content.heading.accent ? (
+              <>
+                <br />
+                <Accent>{content.heading.accent}</Accent>
+              </>
+            ) : null}
           </h2>
           <p className="max-w-430 font-display text-[15px] leading-[1.85] text-[#555] in-data-[tone=dark]:text-[rgba(255,255,255,0.82)]">
             {content.lead}

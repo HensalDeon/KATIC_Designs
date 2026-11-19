@@ -18,6 +18,16 @@ export type ContactRequest = {
   readonly service: ServiceOption;
 };
 
+/**
+ * One "go to contact" on the page at `path`, with or without a service (the original's
+ * `contact()`, which always runs `prefill()`). Forms with a page prefill (India's
+ * "Location: India", `EnquiryFormConfig.prefillLocation`) apply it once per `id`.
+ */
+export type ContactArrival = {
+  readonly id: number;
+  readonly path: string;
+};
+
 type ShellState = {
   /** Mobile navigation panel (≤860px). */
   readonly menuOpen: boolean;
@@ -34,6 +44,9 @@ type ShellState = {
   readonly contact: {
     readonly request: ContactRequest | undefined;
     readonly preselect: (service: ServiceOption, path: string) => void;
+    /** The latest "go to contact" (any page, with or without a service). */
+    readonly arrival: ContactArrival | undefined;
+    readonly arrive: (path: string) => void;
   };
 };
 
@@ -46,6 +59,7 @@ export function ShellProvider({ children }: { children: ReactNode }) {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [explicitService, setExplicitService] = useState<ServiceOption | undefined>();
   const [contactRequest, setContactRequest] = useState<ContactRequest | undefined>();
+  const [contactArrival, setContactArrival] = useState<ContactArrival | undefined>();
 
   const value: ShellState = {
     menuOpen,
@@ -64,6 +78,10 @@ export function ShellProvider({ children }: { children: ReactNode }) {
       request: contactRequest,
       preselect: (service, path) => {
         setContactRequest((previous) => ({ id: (previous?.id ?? 0) + 1, path, service }));
+      },
+      arrival: contactArrival,
+      arrive: (path) => {
+        setContactArrival((previous) => ({ id: (previous?.id ?? 0) + 1, path }));
       },
     },
   };

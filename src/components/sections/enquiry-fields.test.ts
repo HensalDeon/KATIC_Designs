@@ -7,6 +7,7 @@ import {
   type EnquirySelectField,
   extraFieldName,
   halfFieldCount,
+  withLocationLine,
 } from "./enquiry-fields";
 
 const TURNKEY: readonly EnquirySelectField[] = [
@@ -67,5 +68,21 @@ describe("halfFieldCount", () => {
     expect(halfFieldCount({ mode: "select" }, 2)).toBe(6); // interior: even, no spanning
     expect(halfFieldCount({ mode: "select" }, 3)).toBe(7); // turnkey: odd (KI-L22)
     expect(halfFieldCount({ mode: "hidden", service: "Interior Design" }, 2)).toBe(5); // factory
+  });
+});
+
+describe("withLocationLine (the original's PREFILL loc)", () => {
+  it("writes the location on the first line of empty details", () => {
+    expect(withLocationLine("", "India")).toBe("Location: India\n");
+  });
+
+  it("keeps what the visitor typed below it", () => {
+    expect(withLocationLine("A villa in Thrissur", "India")).toBe(
+      "Location: India\nA villa in Thrissur\n",
+    );
+  });
+
+  it("never adds a second location line", () => {
+    expect(withLocationLine("Location: India\n", "India")).toBe("Location: India\n");
   });
 });

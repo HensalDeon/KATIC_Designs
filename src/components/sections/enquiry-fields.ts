@@ -55,3 +55,12 @@ const FIXED_HALF_FIELDS = 3;
 export function halfFieldCount(service: EnquiryServiceField, extras: number): number {
   return FIXED_HALF_FIELDS + (service.mode === "select" ? 1 : 0) + extras;
 }
+
+/**
+ * The details text with "Location: <location>" as its first line, as the original's `prefill()`
+ * writes it (JS 4752); unchanged when it already has a location line.
+ */
+export function withLocationLine(details: string, location: string): string {
+  if (details.includes("Location:")) return details;
+  return `${`Location: ${location}\n${details}`.trim()}\n`;
+}

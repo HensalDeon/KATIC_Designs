@@ -1,7 +1,15 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { type ReactNode, type SubmitEvent, useId, useState } from "react";
+import {
+  type ReactNode,
+  type SubmitEvent,
+  useEffect,
+  useEffectEvent,
+  useId,
+  useRef,
+  useState,
+} from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { Reveal } from "@/components/motion/reveal";
@@ -26,6 +34,7 @@ import {
   type EnquiryServiceField,
   extraFieldName,
   halfFieldCount,
+  withLocationLine,
 } from "./enquiry-fields";
 
 export type { EnquirySelectField, EnquiryServiceField } from "./enquiry-fields";
@@ -37,6 +46,11 @@ export type EnquiryFormConfig = {
   readonly extraFields?: readonly EnquirySelectField[];
   /** Small print under the button. */
   readonly note?: string;
+  /**
+   * Written as "Location: <value>" at the top of the details when a "go to contact" arrives on the
+   * page (the original's `PREFILL` `loc`, e.g. India's `{ loc: "India" }`, JS 4749–4752).
+   */
+  readonly prefillLocation?: string;
 };
 
 /**
@@ -94,6 +108,7 @@ export function EnquiryForm({
   service: serviceField,
   extraFields = [],
   note = DEFAULT_NOTE,
+  prefillLocation,
   typography = "standard",
   reveal = false,
   className,
@@ -112,6 +127,18 @@ export function EnquiryForm({
   const [errors, setErrors] = useState<LeadFieldErrors>({});
   const [choice, setChoice] = useState<ServiceChoice>();
   const [submitting, setSubmitting] = useState(false);
+  const detailsRef = useRef<HTMLTextAreaElement>(null);
+
+  // A "go to contact" on this page writes the page's location into the details, once per arrival.
+  const arrival = contact.arrival?.path === pathname ? contact.arrival.id : undefined;
+  const applyLocation = useEffectEvent(() => {
+    const details = detailsRef.current;
+    if (details && prefillLocation)
+      details.value = withLocationLine(details.value, prefillLocation);
+  });
+  useEffect(() => {
+    if (arrival !== undefined) applyLocation();
+  }, [arrival]);
 
   // A "go to contact" request for this page preselects its service, overriding an earlier choice;
   // until then the visitor's choice wins over the page's default.
@@ -334,6 +361,7 @@ export function EnquiryForm({
       >
         <textarea
           {...fieldProps("details")}
+          ref={detailsRef}
           placeholder="Tell us about your site, timeline, and budget range."
           className={cn(inputClass, "h-76 resize-y py-14 align-baseline", sizes.textarea)}
         />
