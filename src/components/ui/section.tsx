@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/cn";
 import type { Tone } from "@/lib/tone";
@@ -29,7 +29,7 @@ const sectionVariants = cva("relative overflow-hidden bg-surface text-fg", {
   defaultVariants: { spacing: "standard", fullHeight: true },
 });
 
-type SectionProps = ComponentPropsWithoutRef<"section"> &
+type SectionProps = ComponentProps<"section"> &
   VariantProps<typeof sectionVariants> & {
     tone: Tone;
   };
