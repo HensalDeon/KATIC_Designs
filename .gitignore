@@ -34,3 +34,6 @@ npm-debug.log*
 .DS_Store
 *.pem
 .vercel
+
+# Claude Code agent worktrees
+/.claude/worktrees/
