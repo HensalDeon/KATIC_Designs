@@ -7,7 +7,12 @@ export default defineConfig({
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
   test: {
-    include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.ts", "tests/unit/**/*.test.{ts,tsx}"],
+    include: [
+      "src/**/*.test.{ts,tsx}",
+      "scripts/**/*.test.ts",
+      "tests/unit/**/*.test.{ts,tsx}",
+      "tests/visual/**/*.test.ts",
+    ],
     environment: "node",
     restoreMocks: true,
   },

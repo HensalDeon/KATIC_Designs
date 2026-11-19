@@ -1,0 +1,35 @@
+/*
+ * Revert KI-A10 (small text raised to 11px on tablets and phones) for parity measurement only.
+ *
+ *   pnpm parity --live --no-text-fix --css tests/visual/reverts/small-text.css \
+ *     --routes about --viewports tablet,mobile
+ *
+ * The original raises its own sub-11px text to 11px at ≤860px at runtime (`mtext()`), so against
+ * the settled live original (`--live`) our 11px already matches and this file is not needed. Use
+ * it with `--no-text-fix` (both sites at authored sizes) or against the stored baseline, which was
+ * captured with that fixer toggled off (KI-N12).
+ *
+ * Every raised element carries its desktop size and the phone override in the same class list
+ * (`text-[9px] … max-md:text-[11px]`), so one rule per desktop size restores the original's value
+ * at ≤860px without touching anything else. Sizes at or above 11px are not KI-A10 and are left
+ * alone (e.g. the service testimonials' 11.5px meta).
+ *
+ * Unlayered rules beat Tailwind's `@layer utilities`, so no `!important` is needed.
+ */
+@media (width < 861px) {
+  [class~="max-md:text-[11px]"][class~="text-[8.5px]"] {
+    font-size: 8.5px;
+  }
+  [class~="max-md:text-[11px]"][class~="text-[9px]"] {
+    font-size: 9px;
+  }
+  [class~="max-md:text-[11px]"][class~="text-[9.5px]"] {
+    font-size: 9.5px;
+  }
+  [class~="max-md:text-[11px]"][class~="text-[10px]"] {
+    font-size: 10px;
+  }
+  [class~="max-md:text-[11px]"][class~="text-[10.5px]"] {
+    font-size: 10.5px;
+  }
+}

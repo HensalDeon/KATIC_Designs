@@ -1,0 +1,43 @@
+/*
+ * Revert the title-scale fixes at 861–1099px (the 1024 viewport) for parity measurement only.
+ *
+ *   pnpm parity --live --css tests/visual/reverts/titles.css --routes about --viewports laptop
+ *
+ * KI-L16: every hero title scales to 62px below 1100px (`HeroTitle`, `max-lg:text-[62px]`); the
+ * original only scales Home's and keeps the desktop size elsewhere: 76px (About, Services,
+ * Architecture, Reviews), 74px (service, division, location, blog and news banners), 78px (Works,
+ * Project). The desktop size is in the same class list, so one rule per size restores it.
+ *
+ * KI-N04: section titles (`SectionTitle`, `max-lg:text-[46px]`) scale to 46px below 1100px; the
+ * original keeps 58px on the pages listed below, where page rules (`#p-about .st` …) out-specify
+ * its global 46px rule. Measured with `pnpm parity:probe --selector .st --viewports laptop` on every
+ * route; at ≤860px both sites use 34px, so nothing to revert there.
+ *
+ * Scoped by `<html data-parity-route>`, which `pnpm parity` / `parity:probe` set on the new site.
+ * Unlayered rules beat Tailwind's `@layer utilities`, so no `!important` is needed.
+ */
+@media (861px <= width < 1100px) {
+  /* KI-L16 */
+  :root:not([data-parity-route="home"]) h1[class~="max-lg:text-[62px]"][class~="text-[74px]"] {
+    font-size: 74px;
+  }
+  :root:not([data-parity-route="home"]) h1[class~="max-lg:text-[62px]"][class~="text-[76px]"] {
+    font-size: 76px;
+  }
+  :root:not([data-parity-route="home"]) h1[class~="max-lg:text-[62px]"][class~="text-[78px]"] {
+    font-size: 78px;
+  }
+
+  /* KI-N04 */
+  :root:is(
+      [data-parity-route="about"],
+      [data-parity-route="architecture"],
+      [data-parity-route="works"],
+      [data-parity-route="project"],
+      [data-parity-route="dubai"],
+      [data-parity-route="reviews"]
+    )
+    [class~="max-lg:text-[46px]"][class~="text-[58px]"] {
+    font-size: 58px;
+  }
+}

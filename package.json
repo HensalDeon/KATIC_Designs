@@ -27,6 +27,7 @@
     "perf": "pnpm perf:mobile; status=$?; pnpm perf:desktop && exit $status",
     "perf:mobile": "PERF_PRESET=mobile lhci autorun",
     "perf:desktop": "PERF_PRESET=desktop lhci autorun",
+    "parity:probe": "tsx tests/visual/probe.mts",
     "prepare": "husky"
   },
   "dependencies": {

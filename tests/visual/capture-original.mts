@@ -11,7 +11,13 @@
  *   manifest.json           section metadata (id, classes, position, background)
  *
  * Capture conditions: reduced motion (the original then shows the video poster and disables
- * autoplay/reveals), all images of the active page force-loaded, fonts settled, DPR 1.
+ * autoplay/reveals), all images of the active page force-loaded, fonts loaded, DPR 1, and the
+ * layout settled (block heights stable across two checks 500ms apart) with the original's runtime
+ * scripts in their after-load state (`lib/pages.ts`).
+ *
+ *   --out dir   output root (default reference/baseline), e.g. a settled re-capture of a few
+ *               routes for `pnpm parity --baseline <dir>` (P6-03). `pnpm parity --live` compares
+ *               against the live original directly and usually makes this unnecessary.
  */
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -19,6 +25,15 @@ import { parseArgs } from "node:util";
 
 import { type Browser, chromium, type Page } from "@playwright/test";
 
+import { blockFileStem, pick } from "./lib/options";
+import {
+  BLOCKS_SELECTOR,
+  HIDE_CHROME_CSS as HIDE_CHROME,
+  listOriginalBlocks,
+  newParityContext,
+  openSettled,
+  type OriginalBlockRecord,
+} from "./lib/pages";
 import {
   PARITY_ROUTES,
   PARITY_VIEWPORTS,
@@ -29,35 +44,27 @@ import {
 } from "./routes";
 import { startOriginalServer } from "./serve-original.mjs";
 
-const OUT_ROOT = path.join(process.cwd(), "reference/baseline");
-
 /** Fixed chrome that would otherwise overlay every section screenshot. */
-const HIDE_CHROME_CSS = `
-  .hdr, .rail.grail, .mcta, .toast, .skip-link, .kprog { visibility: hidden !important; }
-`;
+const HIDE_CHROME_CSS = HIDE_CHROME.original;
 
-type SectionRecord = {
-  readonly file: string;
-  readonly domIndex: number;
-  readonly tag: string;
-  readonly id: string | null;
-  readonly className: string;
-  readonly top: number;
-  readonly height: number;
-  readonly background: string;
-};
-
-type KaticWindow = Window & { KATIC_LOADIMG?: (img: HTMLImageElement) => void };
+type SectionRecord = OriginalBlockRecord & { readonly file: string };
 
 const { values: args } = parseArgs({
   options: {
     routes: { type: "string" },
     viewports: { type: "string" },
+    out: { type: "string", default: "reference/baseline" },
   },
 });
 
-const routes = selectRoutes(args.routes);
-const viewports = selectViewports(args.viewports);
+const OUT_ROOT = path.resolve(process.cwd(), args.out);
+const routes = pick(PARITY_ROUTES, args.routes, (r) => r.id, "route");
+const viewports = pick(
+  Object.keys(PARITY_VIEWPORTS) as ParityViewportId[],
+  args.viewports,
+  (v) => v,
+  "viewport",
+);
 
 const server = await startOriginalServer();
 const browser = await chromium.launch();
@@ -75,13 +82,7 @@ try {
 
 async function captureViewport(browser: Browser, viewportId: ParityViewportId): Promise<void> {
   const viewport = PARITY_VIEWPORTS[viewportId];
-  const context = await browser.newContext({
-    viewport: { width: viewport.width, height: viewport.height },
-    deviceScaleFactor: 1,
-    isMobile: viewport.touch,
-    hasTouch: viewport.touch,
-    reducedMotion: "reduce",
-  });
+  const context = await newParityContext(browser, viewportId);
 
   try {
     for (const route of routes) {
@@ -118,38 +119,9 @@ async function captureViewport(browser: Browser, viewportId: ParityViewportId): 
   }
 }
 
-/** Loads a route on the original site and brings it to a stable, fully-loaded state. */
+/** Loads a route on the original site and brings it to a settled, fully-loaded state. */
 async function openRoute(page: Page, route: ParityRoute): Promise<void> {
-  await page.goto(`${server.url}${route.hash}`, { waitUntil: "load", timeout: 120_000 });
-
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    const load = (window as KaticWindow).KATIC_LOADIMG;
-    document.querySelectorAll<HTMLImageElement>(".page.active img").forEach((img) => {
-      img.loading = "eager"; // lazy images inside horizontal scrollers would never load otherwise
-      if (img.dataset["img"]) load?.(img);
-    });
-
-    // Walk the page so IntersectionObserver-driven content (line-art draw-on etc.) settles.
-    const step = Math.round(window.innerHeight * 0.6);
-    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
-      window.scrollTo(0, y);
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-    window.scrollTo(0, 0);
-  });
-
-  await page
-    .waitForFunction(
-      () =>
-        [...document.querySelectorAll<HTMLImageElement>(".page.active img")].every(
-          (img) => img.complete,
-        ),
-      undefined,
-      { timeout: 30_000 },
-    )
-    .catch(() => console.warn(`  ! ${route.id}: some images did not finish loading`));
-  await page.waitForTimeout(400);
+  await openSettled(page, `${server.url}${route.hash}`, "original");
 }
 
 async function captureSections(page: Page, dir: string): Promise<SectionRecord[]> {
@@ -160,38 +132,13 @@ async function captureSections(page: Page, dir: string): Promise<SectionRecord[]
   });
   await page.addStyleTag({ content: HIDE_CHROME_CSS });
 
-  const blocks = await page.evaluate(() =>
-    [...document.querySelectorAll(".page.active > *")]
-      .map((el, domIndex) => {
-        const rect = el.getBoundingClientRect();
-        const style = getComputedStyle(el);
-        return {
-          domIndex,
-          // Fixed or hidden blocks (e.g. the header on pages without a hero) are not page flow;
-          // the header is covered by 00-first-screen.png.
-          inFlow:
-            style.position !== "fixed" && style.visibility !== "hidden" && style.display !== "none",
-          tag: el.tagName.toLowerCase(),
-          id: el.id || null,
-          className: typeof el.className === "string" ? el.className : "",
-          top: Math.round(rect.top + window.scrollY),
-          height: Math.round(rect.height),
-          background: style.backgroundColor,
-        };
-      })
-      .filter(
-        (block) =>
-          block.inFlow && block.height > 0 && block.tag !== "script" && block.tag !== "style",
-      )
-      .map(({ inFlow: _inFlow, ...block }) => block),
-  );
+  const blocks = await listOriginalBlocks(page);
 
   const records: SectionRecord[] = [];
   for (const [n, block] of blocks.entries()) {
-    const label = block.id ?? block.className.split(/\s+/).find(Boolean) ?? block.tag;
-    const file = `${String(n + 1).padStart(2, "0")}-${slug(label)}.png`;
+    const file = `${blockFileStem(n, block)}.png`;
     await page
-      .locator(".page.active > *")
+      .locator(BLOCKS_SELECTOR.original)
       .nth(block.domIndex)
       .screenshot({
         path: path.join(dir, file),
@@ -260,30 +207,4 @@ async function captureScrubSections(
     await context.close();
   }
   return files;
-}
-
-function selectRoutes(list: string | undefined): readonly ParityRoute[] {
-  if (!list) return PARITY_ROUTES;
-  const wanted = list.split(",").map((s) => s.trim());
-  const unknown = wanted.filter((id) => !PARITY_ROUTES.some((r) => r.id === id));
-  if (unknown.length > 0) throw new Error(`Unknown route(s): ${unknown.join(", ")}`);
-  return PARITY_ROUTES.filter((r) => wanted.includes(r.id));
-}
-
-function selectViewports(list: string | undefined): readonly ParityViewportId[] {
-  const all = Object.keys(PARITY_VIEWPORTS) as ParityViewportId[];
-  if (!list) return all;
-  const wanted = list.split(",").map((s) => s.trim());
-  const unknown = wanted.filter((id) => !(id in PARITY_VIEWPORTS));
-  if (unknown.length > 0) throw new Error(`Unknown viewport(s): ${unknown.join(", ")}`);
-  return all.filter((id) => wanted.includes(id));
-}
-
-function slug(value: string): string {
-  return (
-    value
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "") || "block"
-  );
 }
