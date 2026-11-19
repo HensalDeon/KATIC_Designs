@@ -148,7 +148,7 @@ export function Card({
       ) : null}
       <h3
         className={cn(
-          "mt-14 font-sans text-[23px] leading-[1.25] font-normal group-hover:text-brand",
+          "mt-14 font-sans text-[23px] leading-[1.25] font-normal group-hover:text-kicker",
           item.meta ? "max-lg:mt-8" : "max-lg:mt-20",
         )}
       >

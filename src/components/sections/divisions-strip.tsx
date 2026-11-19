@@ -40,7 +40,7 @@ export function DivisionsStrip({
       {...sectionProps}
     >
       <nav aria-label={label}>
-        <p className="mb-26 font-display text-[11px] font-medium tracking-[0.22em] text-brand uppercase">
+        <p className="mb-26 font-display text-[11px] font-medium tracking-[0.22em] text-kicker uppercase">
           {label}
         </p>
         <ul>

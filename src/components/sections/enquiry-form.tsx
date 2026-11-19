@@ -88,7 +88,8 @@ const SIZES: Record<
     field: "h-46",
     textarea: "h-108",
     label: "mb-9",
-    submit: "text-ink-2",
+    // Dark text on the brand orange (5.6:1), as the original renders this form.
+    submit: "bg-brand text-ink-2 hover:bg-[#f07040]",
     note: "text-[#666]",
   },
   local: {
@@ -227,7 +228,7 @@ export function EnquiryForm({
       disabled={submitting}
       aria-busy={submitting || undefined}
       className={cn(
-        "flex h-50 w-full cursor-pointer items-center justify-center gap-12 bg-brand font-display text-[14px] font-semibold text-mist transition-colors duration-200 hover:bg-[#f07040] disabled:opacity-70 in-data-[tone=dark]:text-ink-2",
+        "flex h-50 w-full cursor-pointer items-center justify-center gap-12 bg-brand-fill font-display text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-brand-fill-hover disabled:opacity-70 in-data-[tone=dark]:bg-brand in-data-[tone=dark]:text-ink-2 in-data-[tone=dark]:hover:bg-[#f07040]",
         !reveal && "col-span-full mt-4",
         sizes.submit,
       )}

@@ -345,7 +345,7 @@ test.describe("1440 canvas (zoom 1)", () => {
     await expectStyles(lightRow.locator(":scope > *").nth(2), { color: "rgb(85, 85, 85)" });
     await expectStyles(lightRow.locator("i"), { height: "23px", color: "rgb(232, 98, 44)" });
     await lightRow.hover();
-    await expect(lightRow.locator("b")).toHaveCSS("color", "rgb(232, 98, 44)");
+    await expect(lightRow.locator("b")).toHaveCSS("color", "rgb(194, 78, 30)");
   });
 
   test("feature grid (.kfeat) 4 columns dark (turnkey) and 3 columns light (construction)", async ({

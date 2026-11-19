@@ -151,7 +151,7 @@ function describeDivisionPage(spec: DivisionPageSpec) {
         test(`"${cta.name}" opens the popup with ${cta.service}`, async ({ page }) => {
           await open(page, spec.slug);
           const button = page.getByRole("button", { name: cta.name });
-          await expectStyles(button, { backgroundColor: ORANGE, height: "52px" });
+          await expectStyles(button, { backgroundColor: "rgb(197, 83, 37)", height: "52px" });
           await button.click();
           await expect(popup(page).getByLabel("Service needed")).toHaveValue(cta.service);
         });
@@ -194,8 +194,15 @@ function describeDivisionPage(spec: DivisionPageSpec) {
         await expect(page.locator(`main a[href="/divisions/${spec.slug}"]`)).toHaveCount(0);
         await expectStyles(links.first().locator("span").first(), { height: "260px" });
         await expect(links.first()).toContainText("Explore Division");
+        // Hover text is the text-safe orange on white, the brand orange on black (KI-A11).
+        const dark = await links
+          .first()
+          .evaluate((el) => el.closest("[data-tone]")?.getAttribute("data-tone") === "dark");
         await links.first().hover();
-        await expect(links.first().locator("h3")).toHaveCSS("color", ORANGE);
+        await expect(links.first().locator("h3")).toHaveCSS(
+          "color",
+          dark ? ORANGE : "rgb(194, 78, 30)",
+        );
       });
 
       if (spec.projects) {

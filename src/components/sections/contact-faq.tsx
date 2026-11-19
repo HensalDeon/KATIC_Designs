@@ -236,7 +236,7 @@ function ContactInfo({
             <dd className="mt-2 text-[15px] font-medium text-black in-data-[tone=dark]:text-white max-md:mt-0">
               <a
                 href={href}
-                className="text-[14px] transition-colors duration-200 hover:text-brand max-lg:text-[15px]"
+                className="text-[14px] transition-colors duration-200 hover:text-kicker max-lg:text-[15px]"
                 {...(external ? { target: "_blank", rel: "noopener" } : {})}
               >
                 {text}
@@ -259,7 +259,7 @@ function FaqIntro({ faq, className }: { faq: FaqContent; className?: string }) {
         </p>
       ) : null}
       {faq.askLabel ? (
-        <ContactButton className="mt-18 inline-block cursor-pointer border-b border-current pb-3 font-sans text-[13px] font-medium text-fg transition-colors duration-200 hover:text-brand">
+        <ContactButton className="mt-18 inline-block cursor-pointer border-b border-current pb-3 font-sans text-[13px] font-medium text-fg transition-colors duration-200 hover:text-kicker">
           {faq.askLabel}
         </ContactButton>
       ) : null}

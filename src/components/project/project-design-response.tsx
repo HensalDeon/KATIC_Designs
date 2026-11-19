@@ -87,7 +87,8 @@ export function ProjectDesignResponse({
           variant="primary"
           className="mt-84"
           textClassName="text-[22.5px] leading-[1.4]"
-          buttonClassName="text-black"
+          // Black on the brand orange (6.2:1) as the original renders it; no darker fill needed.
+          buttonClassName="bg-brand text-black hover:bg-brand-hover"
         />
       </Container>
     </Section>

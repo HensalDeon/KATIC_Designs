@@ -514,7 +514,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       top: "20px",
       left: "20px",
       fontSize: "9px",
-      backgroundColor: BRAND,
+      backgroundColor: "rgb(197, 83, 37)",
     });
     await expectStyles(featured.locator("h3"), {
       marginTop: "8px",

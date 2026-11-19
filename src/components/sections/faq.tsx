@@ -52,7 +52,7 @@ const itemVariants = cva("border-b first:border-t", {
 });
 
 const questionVariants = cva(
-  "flex w-full cursor-pointer items-center justify-between gap-32 text-left font-normal transition-colors duration-200 hover:text-brand",
+  "flex w-full cursor-pointer items-center justify-between gap-32 text-left font-normal transition-colors duration-200 hover:text-kicker",
   {
     variants: {
       context: {
@@ -86,7 +86,7 @@ const answerVariants = cva("", {
 });
 
 const linkVariants = cva(
-  "mt-10 inline-block cursor-pointer border-b transition-colors duration-200 hover:border-brand hover:text-brand",
+  "mt-10 inline-block cursor-pointer border-b transition-colors duration-200 hover:border-brand hover:text-kicker",
   {
     variants: {
       context: {
@@ -185,7 +185,7 @@ function AnswerText({ answer }: { answer: FaqItem["answer"] }) {
         // Parts are static content; their order never changes.
         key={index}
         href={part.href}
-        className="underline transition-colors duration-200 hover:text-brand"
+        className="underline transition-colors duration-200 hover:text-kicker"
       >
         {part.label}
       </Link>

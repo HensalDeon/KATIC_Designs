@@ -40,7 +40,7 @@ function Block({ block }: { readonly block: PostBlock }) {
             sizes={FIGURE_SIZES}
             className="h-420 w-full object-cover max-md:h-300"
           />
-          <figcaption className="mt-10 font-sans text-[12px] text-[#888]">
+          <figcaption className="mt-10 font-sans text-[12px] text-[#767676]">
             {block.caption}
           </figcaption>
         </figure>

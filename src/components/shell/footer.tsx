@@ -43,7 +43,7 @@ export function Footer() {
           Katic Designs is a residential and interior design studio offering turnkey architecture,
           construction, interior design, exterior design, and landscaping under one roof.
         </p>
-        <StartProjectTrigger className="mt-22 inline-flex h-47 items-center gap-12 bg-brand px-24 font-display text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-hover">
+        <StartProjectTrigger className="mt-22 inline-flex h-47 items-center gap-12 bg-brand-fill px-24 font-display text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-fill-hover">
           Start a Project
           <ArrowIcon />
         </StartProjectTrigger>

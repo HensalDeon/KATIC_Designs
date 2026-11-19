@@ -100,13 +100,20 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
         onClose={close}
         className="fixed inset-0 m-0 size-full max-h-none max-w-none items-center justify-center border-0 bg-[rgba(0,0,0,0.92)] p-0 backdrop:bg-transparent open:flex"
       >
-        {/* Clicking anywhere outside the controls closes the viewer, as in the original. */}
+        {/* First in the DOM so the dialog's initial focus lands on it (it is positioned, so the
+            order changes nothing on screen). */}
         <button
           type="button"
-          aria-label="Close image viewer"
+          aria-label="Close"
           onClick={close}
-          className="absolute inset-0 cursor-zoom-out"
-        />
+          className="absolute top-22 right-26 z-1 size-48 border border-white/30 text-[22px] text-white max-md:top-12 max-md:right-12"
+        >
+          ×
+        </button>
+        {/* Clicking anywhere outside the controls closes the viewer, as in the original. A pointer
+            shortcut only: keyboard users have Escape and the Close button, so it is not a second
+            focusable "close" control for screen readers. */}
+        <div aria-hidden onClick={close} className="absolute inset-0 cursor-zoom-out" />
         {current ? (
           <figure className="pointer-events-none relative grid justify-items-center gap-14">
             <Image
@@ -157,14 +164,6 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
             </button>
           </>
         ) : null}
-        <button
-          type="button"
-          aria-label="Close"
-          onClick={close}
-          className="absolute top-22 right-26 z-1 size-48 border border-white/30 text-[22px] text-white max-md:top-12 max-md:right-12"
-        >
-          ×
-        </button>
       </dialog>
     </LightboxContext>
   );

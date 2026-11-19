@@ -197,7 +197,7 @@ test.describe("1440 canvas", () => {
     const palette = {
       architecture: ["rgb(85, 85, 85)", "rgb(11, 11, 11)", "rgb(255, 255, 255)"],
       interior: ["rgb(170, 170, 170)", "rgb(244, 244, 244)", "rgb(0, 0, 0)"],
-      construction: ["rgb(136, 136, 136)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"],
+      construction: ["rgb(118, 118, 118)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"],
       exterior: ["rgb(119, 119, 119)", "rgb(255, 255, 255)", "rgb(255, 255, 255)"],
     } as const;
     for (const [slug, [header, title, button]] of Object.entries(palette)) {

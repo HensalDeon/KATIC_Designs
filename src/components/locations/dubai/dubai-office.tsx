@@ -70,7 +70,7 @@ export function DubaiOffice({
                   {detail.href ? (
                     <a
                       href={detail.href}
-                      className="transition-colors duration-200 hover:text-brand"
+                      className="transition-colors duration-200 hover:text-kicker"
                     >
                       {detail.value}
                     </a>

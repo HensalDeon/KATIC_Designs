@@ -30,11 +30,11 @@ export function PostCard({ post }: { readonly post: Post }) {
       </span>
       <span className="mt-18 flex justify-between font-sans text-[9px] font-semibold tracking-[0.16em] uppercase max-md:text-[11px]">
         <span className="text-[#c0522a]">{post.category}</span>
-        <time dateTime={post.publishedAt} className="text-[#888]">
+        <time dateTime={post.publishedAt} className="text-[#767676]">
           {formatPostDate(post.publishedAt)}
         </time>
       </span>
-      <h3 className="mt-12 font-sans text-[22px] leading-[1.3] font-normal group-hover:text-brand">
+      <h3 className="mt-12 font-sans text-[22px] leading-[1.3] font-normal group-hover:text-kicker">
         {post.title}
       </h3>
       <p className="mt-10 font-sans text-[13px] leading-[1.75] text-fg-body">{post.excerpt}</p>

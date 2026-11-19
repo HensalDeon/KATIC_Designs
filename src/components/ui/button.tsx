@@ -27,7 +27,7 @@ export const buttonVariants = cva(
         /** `.dko` on a light section (home divisions): dark outline. */
         "outline-ink": "border border-ink-2 bg-transparent text-ink-2",
         /** `.orf`: brand orange → darker orange. */
-        primary: "bg-brand text-white hover:bg-brand-hover",
+        primary: "bg-brand-fill text-white hover:bg-brand-fill-hover",
       },
       size: {
         /** `.btn`: 52px, Inter 500 13.5px. */

@@ -329,7 +329,7 @@ test.describe("1440 canvas (zoom 1)", () => {
       "Kerala, India",
       "Elsewhere in India",
     ]);
-    await expectStyles(root.locator("button[type=submit]"), { color: "rgb(238, 238, 238)" });
+    await expectStyles(root.locator("button[type=submit]"), { color: "rgb(255, 255, 255)" });
   });
 
   test("internal links resolve (no 404)", async ({ page }) => {

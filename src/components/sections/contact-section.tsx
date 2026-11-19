@@ -112,7 +112,7 @@ export function ContactSection({
                   <dd className="mt-2 mb-18 text-[15px] font-medium text-black in-data-[tone=dark]:text-white">
                     <a
                       href={href}
-                      className="transition-colors duration-200 hover:text-brand"
+                      className="transition-colors duration-200 hover:text-kicker"
                       {...(external ? { target: "_blank", rel: "noopener" } : {})}
                     >
                       {text}

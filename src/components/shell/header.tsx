@@ -82,6 +82,15 @@ export function Header() {
         setExpandedKey(null);
         burgerRef.current?.focus();
       } else {
+        // Focus inside the closing dropdown would fall back to the page: return it to the
+        // dropdown's trigger (WAI fly-out). Focusing the trigger re-opens the dropdown through
+        // onFocus, so the state is cleared after it.
+        const active = document.activeElement;
+        const trigger =
+          active instanceof HTMLElement
+            ? active.closest("[data-nav-entry]")?.querySelector<HTMLElement>(":scope > a")
+            : null;
+        if (trigger && trigger !== active) trigger.focus();
         setOpenKey(null);
       }
     };
@@ -126,6 +135,26 @@ export function Header() {
         />
       </Link>
 
+      {/* Before the panel it controls, so Tab moves from the burger into the open menu (the
+          panel is positioned absolutely on phones; the burger is hidden on desktop). */}
+      <button
+        ref={burgerRef}
+        type="button"
+        aria-label={menuOpen ? "Close menu" : "Menu"}
+        aria-expanded={menuOpen}
+        aria-controls={navId}
+        onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
+        className="relative z-70 hidden size-40 text-white max-md:grid max-md:place-items-center"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden focusable={false}>
+          <path
+            d={menuOpen ? "M6 6l12 12M18 6 6 18" : "M3 7h18M3 12h18M3 17h18"}
+            stroke="currentColor"
+            strokeWidth={1.6}
+          />
+        </svg>
+      </button>
+
       <nav
         id={navId}
         aria-label="Main"
@@ -154,30 +183,12 @@ export function Header() {
         <button
           type="button"
           onClick={() => enquiry.open()}
-          className="ml-16 flex h-44 items-center gap-12 bg-brand px-22 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-hover max-md:mt-12 max-md:ml-0 max-md:w-full max-md:justify-center max-md:text-[13px]"
+          className="ml-16 flex h-44 items-center gap-12 bg-brand-fill px-22 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-brand-fill-hover max-md:mt-12 max-md:ml-0 max-md:w-full max-md:justify-center max-md:text-[13px]"
         >
           Start a Project
           <ArrowIcon width={10} height={10} />
         </button>
       </nav>
-
-      <button
-        ref={burgerRef}
-        type="button"
-        aria-label={menuOpen ? "Close menu" : "Menu"}
-        aria-expanded={menuOpen}
-        aria-controls={navId}
-        onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
-        className="relative z-70 hidden size-40 text-white max-md:grid max-md:place-items-center"
-      >
-        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden focusable={false}>
-          <path
-            d={menuOpen ? "M6 6l12 12M18 6 6 18" : "M3 7h18M3 12h18M3 17h18"}
-            stroke="currentColor"
-            strokeWidth={1.6}
-          />
-        </svg>
-      </button>
     </header>
   );
 }
@@ -218,6 +229,7 @@ function NavEntry({
     // link, and keyboard users open the dropdown through focus, so no role is needed here.
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
+      data-nav-entry=""
       onPointerEnter={dropdown ? onPointerEnter : undefined}
       onPointerLeave={dropdown ? onPointerLeave : undefined}
       onFocus={dropdown ? onFocusWithin : undefined}

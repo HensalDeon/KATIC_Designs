@@ -328,7 +328,7 @@ function Slide({
         <p className="text-[14.5px] leading-[1.7] text-[#444]">{slide.description}</p>
         <Link
           href={slide.href}
-          className="mt-16 inline-flex items-center gap-10 border-b border-[#1d1d1b] pb-4 text-[11.5px] font-medium tracking-[0.14em] text-[#1d1d1b] uppercase transition-[color,border-color] duration-300 hover:border-brand hover:text-brand"
+          className="mt-16 inline-flex items-center gap-10 border-b border-[#1d1d1b] pb-4 text-[11.5px] font-medium tracking-[0.14em] text-[#1d1d1b] uppercase transition-[color,border-color] duration-300 hover:border-brand hover:text-kicker"
         >
           {exploreLabel}
           <ArrowIcon direction="up-right" width={10} height={10} className="flex-none" />

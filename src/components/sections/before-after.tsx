@@ -32,7 +32,7 @@ const chipVariants = cva(
     variants: {
       stage: {
         before: "bg-ink-2",
-        after: "bg-brand",
+        after: "bg-brand-fill",
       },
     },
   },

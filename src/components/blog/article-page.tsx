@@ -19,7 +19,7 @@ import { ArticleBody } from "./article-body";
 
 /** Phone tap area of the breadcrumb links (`html body #p-article .crumb a`, ≤860px). */
 const CRUMB_LINK =
-  "hover:text-brand max-md:-mx-4 max-md:-my-10 max-md:inline-block max-md:px-4 max-md:py-10";
+  "hover:text-kicker max-md:-mx-4 max-md:-my-10 max-md:inline-block max-md:px-4 max-md:py-10";
 
 /**
  * The cover photo (`div.kart-cover`): 520px, 300px on phones, under a top-down darkening so the
@@ -84,12 +84,12 @@ function LatestArticles({ post }: { readonly post: Post }) {
                 className="h-64 w-84 object-cover"
               />
               <span>
-                <span className="block font-sans text-[13.5px] leading-[1.4] font-medium group-hover:text-brand">
+                <span className="block font-sans text-[13.5px] leading-[1.4] font-medium group-hover:text-kicker">
                   {other.title}
                 </span>
                 <time
                   dateTime={other.publishedAt}
-                  className="mt-4 block font-sans text-[11px] text-[#888]"
+                  className="mt-4 block font-sans text-[11px] text-[#767676]"
                 >
                   {formatPostDate(other.publishedAt)}
                 </time>
@@ -124,7 +124,10 @@ export function ArticlePage({ post }: { readonly post: Post }) {
       <Section tone="light" data-parity="ks" className="overflow-clip">
         <Container className="grid grid-cols-[7fr_3fr] items-start gap-64 max-lg:grid-cols-[minmax(0,1fr)] max-lg:gap-28">
           <article aria-labelledby={titleId} className="min-w-0">
-            <nav aria-label="Breadcrumb" className="font-sans text-[11px] font-medium text-[#888]">
+            <nav
+              aria-label="Breadcrumb"
+              className="font-sans text-[11px] font-medium text-[#767676]"
+            >
               <Link href={routes.blog} className={CRUMB_LINK}>
                 {ARTICLE_PAGE.breadcrumb}
               </Link>

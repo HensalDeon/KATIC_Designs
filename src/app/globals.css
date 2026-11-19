@@ -64,6 +64,11 @@
   --color-brand: #e8622c; /* --or: accents, buttons, kicker on dark */
   --color-brand-hover: #d4521e;
   --color-brand-text: #c24e1e; /* --or-t: small orange text on white (AA) */
+  /* Orange behind white text (buttons, tags). White on --or is 3.4:1, below AA; this is the
+     lightest shade of the brand orange that reaches 4.5:1, close enough to stay within the parity
+     tolerance (KI-A11). Hover darkens it, as --or → #d4521e did. */
+  --color-brand-fill: #c55325;
+  --color-brand-fill-hover: #b34b21;
 
   --color-ink: #0b0b0b; /* body text */
   --color-ink-2: #111; /* headings and button text on light */
