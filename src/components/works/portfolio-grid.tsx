@@ -1,19 +1,11 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import {
-  type CSSProperties,
-  type ReactNode,
-  Suspense,
-  useEffect,
-  useEffectEvent,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, type ReactNode, useRef, useState } from "react";
 
+import { UrlParamFilter } from "@/components/filters/url-param-filter";
 import type { ShowcaseFilter } from "@/content/home/works";
 import type { ProjectCategory } from "@/content/projects";
+import { useFlipReflow } from "@/hooks/use-flip-reflow";
 import { cn } from "@/lib/cn";
 
 import {
@@ -82,126 +74,43 @@ const FILTER_BUTTON = cn(
   "aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:font-semibold aria-pressed:text-black",
 );
 
-/** Reflow timing: subtle, on the site's ease-out curve. */
-const MOVE_MS = 520;
-const EASE = "cubic-bezier(0.2, 0.7, 0.2, 1)";
-
-type Point = { readonly x: number; readonly y: number };
-
-/** Canvas scale (`--z`, set by the zoom script); transforms inside the canvas are in canvas px. */
-function canvasZoom(): number {
-  const zoom = Number.parseFloat(
-    getComputedStyle(document.documentElement).getPropertyValue("--z"),
-  );
-  return zoom > 0 ? zoom : 1;
-}
-
-/** Each card's position relative to the grid, in canvas px (independent of scrolling). */
-function measure(grid: HTMLElement): Map<string, Point> {
-  const origin = grid.getBoundingClientRect();
-  const zoom = canvasZoom();
-  const points = new Map<string, Point>();
-  for (const item of grid.querySelectorAll<HTMLElement>("[data-card]")) {
-    const rect = item.getBoundingClientRect();
-    points.set(item.dataset["card"] ?? "", {
-      x: (rect.left - origin.left) / zoom,
-      y: (rect.top - origin.top) / zoom,
-    });
-  }
-  return points;
-}
-
 /**
  * Client part of the Works portfolio (`.fl` + `[data-filter-target]`, E21-style filter): toggle
  * buttons (`aria-pressed`, KI-A07), a live "N projects" count for screen readers and the reflowing
  * card grid (KI-L05).
  *
  * The filter lives in the URL (`?category=`, KI-F15): a click pushes a history entry without a
- * reload, and the URL is read back through `useSearchParams` (inside a Suspense boundary, so the
+ * reload, and the URL is read back through `UrlParamFilter` (inside a Suspense boundary, so the
  * page stays static and the server renders every project), which also covers back/forward, deep
  * links and the legacy `#works/works-list/<f>` redirect. Unknown values show everything.
  *
- * Cards that stay slide to their new place and new ones fade in (FLIP, Web Animations); nothing
- * moves with reduced motion or on the first sync with the URL.
+ * Cards that stay slide to their new place and new ones fade in (`useFlipReflow`); nothing moves
+ * with reduced motion or on the first sync with the URL.
  */
 export function PortfolioGrid({ filters, filtersLabel, cards, listId }: PortfolioGridProps) {
   const [filter, setFilter] = useState<WorksFilterValue>("all");
   const gridRef = useRef<HTMLUListElement>(null);
-  /** Card positions before the next change (grid-relative canvas px). */
-  const previous = useRef<Map<string, Point>>(new Map());
-  const animateNext = useRef(false);
+  const prepareReflow = useFlipReflow(gridRef, filter);
 
   const visible = cards.filter((card) => filter === "all" || card.categories.includes(filter));
   const slots = portfolioSlots(visible.length);
 
-  useLayoutEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-    const items = [...grid.querySelectorAll<HTMLElement>("[data-card]")];
-    for (const item of items) for (const animation of item.getAnimations()) animation.cancel();
-    const next = measure(grid);
-    const animate =
-      animateNext.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    animateNext.current = false;
-    if (animate) {
-      let entering = 0;
-      for (const item of items) {
-        const slug = item.dataset["card"] ?? "";
-        const from = previous.current.get(slug);
-        const to = next.get(slug);
-        if (!to) continue;
-        if (from) {
-          const dx = from.x - to.x;
-          const dy = from.y - to.y;
-          if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) continue;
-          item.animate(
-            [
-              { transform: `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)` },
-              { transform: "none" },
-            ],
-            { duration: MOVE_MS, easing: EASE },
-          );
-        } else {
-          item.animate(
-            [
-              { opacity: 0, transform: "translateY(24px)" },
-              { opacity: 1, transform: "none" },
-            ],
-            {
-              duration: MOVE_MS,
-              delay: 80 + Math.min(entering, 5) * 40,
-              easing: EASE,
-              fill: "backwards",
-            },
-          );
-          entering += 1;
-        }
-      }
-    }
-    previous.current = next;
-  }, [filter]);
-
   const select = (next: WorksFilterValue) => {
     if (next === filter) return;
-    // Start from where the cards are now (mid-animation included).
-    const grid = gridRef.current;
-    if (grid) previous.current = measure(grid);
-    animateNext.current = true;
+    prepareReflow({ animate: true, measure: true });
     setFilter(next);
     window.history.pushState(null, "", worksFilterHref(next));
   };
 
   const syncFromUrl = (next: WorksFilterValue, initial: boolean) => {
     if (next === filter) return;
-    animateNext.current = !initial;
+    prepareReflow({ animate: !initial });
     setFilter(next);
   };
 
   return (
     <>
-      <Suspense fallback={null}>
-        <UrlFilter onChange={syncFromUrl} />
-      </Suspense>
+      <UrlParamFilter param="category" parse={parseWorksCategory} onChange={syncFromUrl} />
       <div
         role="group"
         aria-label={filtersLabel}
@@ -244,27 +153,4 @@ export function PortfolioGrid({ filters, filtersLabel, cards, listId }: Portfoli
       </ul>
     </>
   );
-}
-
-/**
- * Reads `?category=` and reports it (first call: the value on arrival). Isolated in its own Suspense
- * boundary so only this null-rendering component waits for the URL on a static page.
- */
-function UrlFilter({
-  onChange,
-}: {
-  readonly onChange: (filter: WorksFilterValue, initial: boolean) => void;
-}) {
-  const filter = parseWorksCategory(useSearchParams().get("category"));
-  const initial = useRef(true);
-  // Runs only when the URL changes. A click updates the grid before the router commits the pushed
-  // URL; re-running on every new `onChange` would report the stale URL and undo the click.
-  const report = useEffectEvent((next: WorksFilterValue) => {
-    onChange(next, initial.current);
-    initial.current = false;
-  });
-  useEffect(() => {
-    report(filter);
-  }, [filter]);
-  return null;
 }

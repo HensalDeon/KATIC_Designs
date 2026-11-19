@@ -5,11 +5,18 @@ import Link from "next/link";
 import { MoreLabel } from "@/components/ui/text-link";
 import { cn } from "@/lib/cn";
 
+import { ContactLink } from "./contact-link";
 import { canvasSizes, type ImageInput, resolveImage } from "./section-media";
 
 export type CardItem = {
   /** Omit for a non-link card (no hover effects, no "more" label). */
   readonly href?: string;
+  /**
+   * The card is a "go to contact" (the original's `a.kc href="#contact"`, India's Kochi office): a
+   * click scrolls to the page's enquiry form and applies its prefill; `href` (`#<page>-contact`)
+   * is the target without JavaScript.
+   */
+  readonly contact?: boolean;
   readonly image: ImageInput;
   readonly alt: string;
   readonly title: string;
@@ -17,8 +24,10 @@ export type CardItem = {
   readonly meta?: string;
   /** Description under the title (service and product cards). */
   readonly text?: string;
-  /** Badge over the image's top-left corner (`.im .tg`, e.g. a development's "Completed"). */
+  /** Status chip over the image's top-left corner (`.kc .tg`): "Office", "Expanding", "Completed". */
   readonly tag?: string;
+  /** Overrides the grid's link label for this card (e.g. "Contact the Kochi office"). */
+  readonly moreLabel?: string;
 };
 
 export type CardGridVariant = "project" | "service" | "product";
@@ -30,7 +39,8 @@ const DEFAULT_MORE_LABEL: Record<CardGridVariant, string> = {
   product: "View Project",
 };
 
-const gridVariants = cva("grid gap-24 max-lg:grid-cols-2 max-md:grid-cols-1", {
+/** The grid (`.kc-grid.cN`): N columns on the canvas, two below 1100px, one on phones. */
+export const cardGridVariants = cva("grid gap-24 max-lg:grid-cols-2 max-md:grid-cols-1", {
   variants: {
     columns: {
       2: "grid-cols-2",
@@ -58,6 +68,16 @@ function canvasCardWidth(columns: CardGridColumns): number {
   return (1268 - 24 * (columns - 1)) / columns;
 }
 
+/** `sizes` of a card image in a grid of `columns`. */
+export function cardGridSizes(columns: CardGridColumns): string {
+  return canvasSizes(canvasCardWidth(columns), "50vw");
+}
+
+/** The link label of a grid's cards ("View Project", "Explore Service", or the override). */
+export function cardMoreLabel(variant: CardGridVariant, override?: string): string {
+  return override ?? DEFAULT_MORE_LABEL[variant];
+}
+
 type CardGridProps = {
   /** `project`: meta + title; `service`: title + description; `product`: title + description. */
   readonly variant: CardGridVariant;
@@ -70,16 +90,16 @@ type CardGridProps = {
 
 /**
  * Image cards (`.kc-grid.c2|c3|c4|c5` of `.kc`): project, related-service and product cards, plus
- * division cards with a custom `moreLabel`. Hovering a linked card scales its image to 1.04 over
- * .8s and turns the title orange. Two columns below 1100px, one on phones. Renders inside
- * `ContentSection` (`.kbody`).
+ * division cards with a custom `moreLabel` and location cards with a status `tag`. Hovering a
+ * linked card scales its image to 1.04 over .8s and turns the title orange. Two columns below
+ * 1100px, one on phones. Renders inside `ContentSection` (`.kbody`).
  */
 export function CardGrid({ variant, columns, items, moreLabel, className }: CardGridProps) {
-  const label = moreLabel ?? DEFAULT_MORE_LABEL[variant];
-  const sizes = canvasSizes(canvasCardWidth(columns), "50vw");
+  const label = cardMoreLabel(variant, moreLabel);
+  const sizes = cardGridSizes(columns);
 
   return (
-    <ul className={cn(gridVariants({ columns }), className)}>
+    <ul className={cn(cardGridVariants({ columns }), className)}>
       {items.map((item) => (
         <li key={`${item.title}-${item.href ?? ""}`} className="flex">
           <Card item={item} columns={columns} sizes={sizes} moreLabel={label} />
@@ -89,16 +109,22 @@ export function CardGrid({ variant, columns, items, moreLabel, className }: Card
   );
 }
 
-function Card({
+/**
+ * One card of a `CardGrid` (`.kc`), for grids that place their cards themselves (India's filtered
+ * projects). Render it inside an `<li className="flex">` of a `cardGridVariants` list.
+ */
+export function Card({
   item,
   columns,
   sizes,
   moreLabel,
 }: {
-  item: CardItem;
-  columns: CardGridColumns;
-  sizes: string;
-  moreLabel: string;
+  readonly item: CardItem;
+  readonly columns: CardGridColumns;
+  /** `cardGridSizes(columns)`. */
+  readonly sizes: string;
+  /** `cardMoreLabel(variant)`; `item.moreLabel` overrides it. */
+  readonly moreLabel: string;
 }) {
   const content = (
     <>
@@ -110,7 +136,7 @@ function Card({
           className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.04]"
         />
         {item.tag ? (
-          <span className="absolute top-16 left-16 bg-ink-2 px-10 py-7 font-sans text-[8.5px] font-semibold tracking-[0.16em] text-white uppercase max-md:text-[11px]">
+          <span className="absolute top-16 left-16 flex h-24 items-center bg-ink-2 px-10 font-sans text-[8.5px] font-semibold tracking-[0.16em] text-white uppercase max-md:text-[11px]">
             {item.tag}
           </span>
         ) : null}
@@ -133,11 +159,20 @@ function Card({
           {item.text}
         </p>
       ) : null}
-      {item.href ? <MoreLabel className="mt-auto flex pt-16">{moreLabel}</MoreLabel> : null}
+      {item.href ? (
+        <MoreLabel className="mt-auto flex pt-16">{item.moreLabel ?? moreLabel}</MoreLabel>
+      ) : null}
     </>
   );
   const cardClass = "flex w-full flex-col text-fg";
 
+  if (item.href && item.contact) {
+    return (
+      <ContactLink href={item.href} className={cn("group", cardClass)}>
+        {content}
+      </ContactLink>
+    );
+  }
   return item.href ? (
     <Link href={item.href} className={cn("group", cardClass)}>
       {content}

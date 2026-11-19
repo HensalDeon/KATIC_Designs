@@ -382,6 +382,19 @@ const PROJECT_LIST = [
     cover: "photos/narrow-urban-house-dusk",
     coverAlt: "Narrow urban house lit at dusk",
   },
+  // India's project grid (`#p-india #india-projects`, docs/analysis/04 §7) not shown elsewhere;
+  // facts from their cards' meta line ("Residential · Architecture · Panampilly Nagar, Kochi").
+  {
+    slug: "canal-house",
+    name: "Canal House",
+    location: "Panampilly Nagar, Kochi",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Architecture",
+    cover: "photos/canal-house-sunset",
+    coverAlt: "House beside a canal at sunset",
+  },
   // Division-page featured projects not shown elsewhere (docs/analysis/04 §3); facts from their
   // cards' meta line ("Commercial · Interiors · Mattancherry, Kochi"). Categories are inferred from
   // that line: the original's cards carry no filter data.
