@@ -2,7 +2,7 @@
  * Pixel parity: compares each section of the NEW site with the ORIGINAL's baseline
  * (reference/baseline, captured by `pnpm ref:capture`) and writes an HTML diff report.
  *
- *   pnpm parity --routes home --viewports desktop,mobile [--base http://127.0.0.1:3100]
+ *   pnpm parity --routes home --viewports desktop,mobile [--base http://127.0.0.1:3100] [--out dir]
  *
  * Sections are matched by the original's ids (pages keep them). Two blocks have no id in the
  * original: the hero (matched to `[data-hero]`) and the footer (matched to `[data-parity=footer]`).
@@ -31,7 +31,6 @@ import {
 
 const ROOT = process.cwd();
 const BASELINE = path.join(ROOT, "reference/baseline");
-const OUT = path.join(ROOT, "reference/parity");
 
 /** Fixed chrome hidden in both captures (the baseline hides the original's equivalents). */
 const HIDE_CHROME_CSS = `
@@ -58,10 +57,13 @@ const { values: args } = parseArgs({
     routes: { type: "string" },
     viewports: { type: "string" },
     base: { type: "string", default: "http://127.0.0.1:3100" },
+    /** Report directory (worktrees cannot write into the symlinked reference/ folder). */
+    out: { type: "string", default: "reference/parity" },
     threshold: { type: "string", default: "1" },
   },
 });
 const thresholdPct = Number(args.threshold);
+const OUT = path.resolve(ROOT, args.out);
 const routes = pick(PARITY_ROUTES, args.routes, (r) => r.id);
 const viewports = pick(
   Object.keys(PARITY_VIEWPORTS) as ParityViewportId[],
