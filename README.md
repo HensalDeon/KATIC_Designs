@@ -23,19 +23,20 @@ pnpm dev              # http://localhost:3000
 
 ## Scripts
 
-| Script                                                         | What it does                                                                                        |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `pnpm dev` / `build` / `start`                                 | Next.js dev server / production build / serve the build                                             |
-| `pnpm check`                                                   | typecheck + lint + format check + unit tests (run before opening a PR)                              |
-| `pnpm typecheck`                                               | Generate route types, then `tsc --noEmit`                                                           |
-| `pnpm lint` / `lint:fix`                                       | ESLint (strict type-checked, jsx-a11y strict, import sorting), zero warnings allowed                |
-| `pnpm format` / `format:check`                                 | Prettier (+ Tailwind class sorting)                                                                 |
-| `pnpm test` / `test:watch`                                     | Vitest unit tests                                                                                   |
-| `pnpm test:e2e`                                                | Playwright e2e against a production build (builds and starts it locally)                            |
-| `pnpm assets:sync`                                             | Copy images and videos from `reference/` under semantic names and regenerate `src/content/media.ts` |
-| `pnpm ref:extract [--download]`                                | Rebuild `reference/original/` (stripped HTML + extracted assets) from the original site             |
-| `pnpm ref:serve`                                               | Serve the original site at http://localhost:4310 for side-by-side comparison                        |
-| `pnpm ref:capture [--routes a,b] [--viewports desktop,mobile]` | Capture the per-section parity baseline from the original site into `reference/baseline/`           |
+| Script                                                                 | What it does                                                                                                                                                           |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm dev` / `build` / `start`                                         | Next.js dev server / production build / serve the build                                                                                                                |
+| `pnpm check`                                                           | typecheck + lint + format check + unit tests (run before opening a PR)                                                                                                 |
+| `pnpm typecheck`                                                       | Generate route types, then `tsc --noEmit`                                                                                                                              |
+| `pnpm lint` / `lint:fix`                                               | ESLint (strict type-checked, jsx-a11y strict, import sorting), zero warnings allowed                                                                                   |
+| `pnpm format` / `format:check`                                         | Prettier (+ Tailwind class sorting)                                                                                                                                    |
+| `pnpm test` / `test:watch`                                             | Vitest unit tests                                                                                                                                                      |
+| `pnpm test:e2e`                                                        | Playwright e2e against a production build (builds and starts it locally)                                                                                               |
+| `pnpm assets:sync`                                                     | Copy images and videos from `reference/` under semantic names and regenerate `src/content/media.ts`                                                                    |
+| `pnpm ref:extract [--download]`                                        | Rebuild `reference/original/` (stripped HTML + extracted assets) from the original site                                                                                |
+| `pnpm ref:serve`                                                       | Serve the original site at http://localhost:4310 for side-by-side comparison                                                                                           |
+| `pnpm ref:capture [--routes a,b] [--viewports desktop,mobile]`         | Capture the per-section parity baseline from the original site into `reference/baseline/`                                                                              |
+| `pnpm parity [--routes a,b] [--viewports desktop,mobile] [--base URL]` | Compare each section of the new site (a running production server, default http://127.0.0.1:3100) with the original baseline; report in `reference/parity/report.html` |
 
 ## Design system
 
