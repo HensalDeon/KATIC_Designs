@@ -64,6 +64,8 @@ export const routes = {
       ? `/locations/india?area=${area}#${INDIA_PROJECTS_ID}`
       : `/locations/india#${INDIA_PROJECTS_ID}`,
   news: "/news",
+  /** A news item's permalink on /news (there are no news detail pages yet, KI-F11). */
+  newsItem: (slug: string) => `/news#${slug}`,
   blog: "/blog",
   blogCategory: (category: string) => `/blog/category/${category}`,
   article: (slug: string) => `/blog/${slug}`,

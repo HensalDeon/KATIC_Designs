@@ -1,9 +1,11 @@
+import type { PageHeroContent, TitleLines } from "./blocks";
 import type { MediaId } from "./media";
 
 /**
  * Studio news (`.knw` cards on the home page and `/news`, docs/analysis/04 §4), copy verbatim.
- * The original has no news detail pages: every card links to the news page itself (KI-F11).
- * Laravel serves this list in Phase 11.
+ * The original has no news detail pages and no article copy: every card links to the news page
+ * itself (KI-F11). Until there is content, each `/news` card links to its own permalink on the
+ * page (`routes.newsItem`). Laravel serves this list in Phase 11.
  */
 export const NEWS_CATEGORIES = [
   "Studio",
@@ -91,6 +93,19 @@ export function latestNews(count: number): NewsItem[] {
   return [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
 }
 
+/**
+ * `/news` listing: the lead card (`.knw.big`) is the newest item flagged `featured` (the newest
+ * item when none is), followed by every other item, newest first.
+ */
+export function newsListing(items: readonly NewsItem[] = NEWS): {
+  readonly featured: NewsItem | undefined;
+  readonly rest: readonly NewsItem[];
+} {
+  const sorted = [...items].sort((a, b) => b.date.localeCompare(a.date));
+  const featured = sorted.find((item) => item.featured) ?? sorted[0];
+  return { featured, rest: sorted.filter((item) => item !== featured) };
+}
+
 const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",
   month: "short",
@@ -115,3 +130,45 @@ export const HOME_NEWS_TEASER = {
   cta: "View All News",
   readMore: "Read more",
 } as const;
+
+/** `data-title` / `data-desc` of `#p-news` (the title already ends in "| Katic Designs"). */
+export const NEWS_SEO = {
+  title: "News & Updates | Katic Designs",
+  description:
+    "Studio announcements, completed projects and updates from Katic Designs and its divisions.",
+} as const;
+
+export type NewsPageContent = {
+  readonly hero: PageHeroContent;
+  readonly list: {
+    readonly id: string;
+    readonly kicker: string;
+    readonly title: TitleLines;
+    /**
+     * The lead around the studio email address, which becomes a mailto link (plain text in the
+     * original, docs/analysis/04 §14.8).
+     */
+    readonly lead: { readonly before: string; readonly after: string };
+    readonly readMore: string;
+    /** Shown when there is no news (docs/analysis/04 §14.37). TODO(content): client copy. */
+    readonly empty: string;
+  };
+};
+
+/** Copy of `#p-news` (original lines 4048–4053), verbatim. */
+export const NEWS_PAGE = {
+  hero: {
+    image: { src: "photos/modern-house-rain-dusk", alt: "Modern house on a rain-soaked evening" },
+    kicker: "News & updates",
+    title: { lines: ["News from"], accent: "KATIC" },
+    lead: "Studio announcements, completed projects and updates from our design, interiors, construction, development and care teams.",
+  },
+  list: {
+    id: "news-list",
+    kicker: "Latest",
+    title: ["What’s new", "at KATIC"],
+    lead: { before: "For press and media enquiries, write to us at ", after: "." },
+    readMore: "Read more",
+    empty: "There is no news to share yet. Please check back soon.",
+  },
+} as const satisfies NewsPageContent;

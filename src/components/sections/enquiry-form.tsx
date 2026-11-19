@@ -18,7 +18,7 @@ import { useShell } from "@/components/shell/shell-provider";
 import { SERVICE_OPTIONS } from "@/content/services";
 import { trackLead } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
-import { rememberLead, submitLead } from "@/lib/leads/client";
+import { rememberLead, submitLead, toLastLead } from "@/lib/leads/client";
 import {
   formDataToLead,
   type LeadField,
@@ -202,16 +202,7 @@ export function EnquiryForm({
     }
 
     const lead = parsed.data;
-    rememberLead({
-      name: lead.name,
-      service: lead.service,
-      sourceTitle: lead.source.title,
-      sourcePath: lead.source.path,
-      status: response.ok ? "sent" : "unsent",
-      form: lead.source.form,
-      ...(lead.details ? { details: lead.details } : {}),
-      ...(lead.extra ? { extra: lead.extra } : {}),
-    });
+    rememberLead(toLastLead(lead, response.ok ? "sent" : "unsent"));
     if (response.ok) trackLead({ service: lead.service, source: lead.source.path });
     form.reset();
     setChoice(undefined);
