@@ -183,6 +183,11 @@ type ZoomableImageProps = Omit<ComponentPropsWithoutRef<typeof Image>, "src" | "
   group?: string;
   caption?: string;
   buttonClassName?: string;
+  /**
+   * Custom image rendering inside the trigger (e.g. a `ParallaxImage` that is also zoomable). When
+   * given, it replaces the default `Image`; the lightbox still opens `image`.
+   */
+  children?: ReactNode;
 };
 
 /** An image that opens the lightbox (`img[data-zoom]` in the original), operable by keyboard. */
@@ -192,6 +197,7 @@ export function ZoomableImage({
   group,
   caption,
   buttonClassName,
+  children,
   ...imageProps
 }: ZoomableImageProps) {
   const open = use(LightboxContext);
@@ -210,7 +216,7 @@ export function ZoomableImage({
       data-lightbox-caption={caption}
       className={cn("block cursor-zoom-in", buttonClassName)}
     >
-      <Image src={image} alt={alt} {...imageProps} />
+      {children ?? <Image src={image} alt={alt} {...imageProps} />}
     </button>
   );
 }
