@@ -20,7 +20,13 @@ describe("service page registry", () => {
   });
 
   it("lists the built pages in the site's service order", () => {
-    expect(builtServiceSlugs()).toEqual(["interior", "turnkey"]);
+    expect(builtServiceSlugs()).toEqual([
+      "interior",
+      "factory",
+      "construction",
+      "turnkey",
+      "renovation",
+    ]);
   });
 
   it("returns nothing for unknown or unbuilt slugs", () => {
@@ -40,7 +46,12 @@ describe.each(pages.map((page) => [page.slug, page] as const))("%s content", (sl
 
   it("preselects the page's service from the hero and in the form", () => {
     expect(page.hero.primaryCta).toMatchObject({ kind: "contact", service });
-    expect(page.contact.form.service).toEqual({ mode: "select", defaultService: service });
+    // Factory files every lead under its service with a hidden field (KI-F01, KI-C14).
+    expect(page.contact.form.service).toEqual(
+      slug === "factory"
+        ? { mode: "hidden", service }
+        : { mode: "select", defaultService: service },
+    );
   });
 
   it("has unique section ids that never collide with the contact id", () => {

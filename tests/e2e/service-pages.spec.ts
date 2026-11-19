@@ -21,23 +21,31 @@ type ServicePageSpec = {
   readonly description: string;
   /** Option the hero CTA preselects in the enquiry form (`data-svc`). */
   readonly service: string;
+  /**
+   * `hidden`: the form has no service select and files every lead under `service` (Factory,
+   * KI-F01). Default `select`.
+   */
+  readonly serviceField?: "select" | "hidden";
   readonly heroCtas: readonly [HeroCta, ...HeroCta[]];
   /** Sections after the hero: original id, or the `data-parity` class for blocks without one. */
   readonly sections: readonly (readonly [key: string, tone: Tone])[];
   readonly contactTone: Tone;
-  /** Process steps: title size and art height (dense rows of 6+ steps are smaller). */
-  readonly process: {
+  /** Process steps: title size and art height (dense rows of 6+ steps are smaller). Omit if none. */
+  readonly process?: {
     readonly heading: RegExp;
     readonly titleSize: string;
     readonly artHeight: string;
   };
-  /** Featured-project cards: image height on the canvas (c3 200px, c4 260px). */
-  readonly projects: {
+  /** Featured-project cards: image height on the canvas (c3 200px, c4 260px). Omit if none. */
+  readonly projects?: {
     readonly heading: RegExp;
     readonly imageHeight: string;
     readonly count: number;
   };
-  readonly related: { readonly heading: RegExp; readonly hrefs: readonly string[] };
+  /** Omit if the page has no related services. */
+  readonly related?: { readonly heading: RegExp; readonly hrefs: readonly string[] };
+  /** Whether the page has the testimonials block (default true). */
+  readonly testimonials?: boolean;
   /** A zoomable split photo (its alt). */
   readonly zoomImage: string;
 };
@@ -152,39 +160,54 @@ function describeServicePage(spec: ServicePageSpec) {
           lineHeight: "64.96px",
           textTransform: "uppercase",
         });
-        const process = sectionByHeading(page, spec.process.heading);
-        await expectStyles(process.locator("li[data-step] h3").first(), {
-          fontSize: spec.process.titleSize,
-          color: WHITE,
-        });
-        await expectStyles(process.locator("li[data-step] svg").first(), {
-          height: spec.process.artHeight,
-        });
-        const projects = sectionByHeading(page, spec.projects.heading);
-        const cards = projects.locator("li a");
-        await expect(cards).toHaveCount(spec.projects.count);
-        await expectStyles(cards.first().locator("span").first(), {
-          height: spec.projects.imageHeight,
-        });
-        for (const href of await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href"))))
-          expect(href).toMatch(/^\/works\/[a-z-]+$/);
+        if (spec.process) {
+          const process = sectionByHeading(page, spec.process.heading);
+          // Process steps are white on dark sections and ink on light ones (Factory).
+          const tone = await process.getAttribute("data-tone");
+          await expectStyles(process.locator("li[data-step] h3").first(), {
+            fontSize: spec.process.titleSize,
+            color: tone === "light" ? "rgb(17, 17, 17)" : WHITE,
+          });
+          await expectStyles(process.locator("li[data-step] svg").first(), {
+            height: spec.process.artHeight,
+          });
+        }
+        if (spec.projects) {
+          const projects = sectionByHeading(page, spec.projects.heading);
+          const cards = projects.locator("li a");
+          await expect(cards).toHaveCount(spec.projects.count);
+          await expectStyles(cards.first().locator("span").first(), {
+            height: spec.projects.imageHeight,
+          });
+          for (const href of await cards.evaluateAll((all) =>
+            all.map((a) => a.getAttribute("href")),
+          ))
+            expect(href).toMatch(/^\/works\/[a-z-]+$/);
+        }
       });
 
-      test("process line art draws on when scrolled into view", async ({ page }) => {
-        await open(page, spec.slug);
-        const process = sectionByHeading(page, spec.process.heading);
-        await expect(process.locator("[data-drawn]")).toHaveCount(0);
-        await process.locator("li[data-step]").first().scrollIntoViewIfNeeded();
-        await expect(process.locator("[data-drawn]")).toHaveCount(1);
-      });
+      if (spec.process) {
+        const heading = spec.process.heading;
+        test("process line art draws on when scrolled into view", async ({ page }) => {
+          await open(page, spec.slug);
+          const process = sectionByHeading(page, heading);
+          await expect(process.locator("[data-drawn]")).toHaveCount(0);
+          await process.locator("li[data-step]").first().scrollIntoViewIfNeeded();
+          await expect(process.locator("[data-drawn]")).toHaveCount(1);
+        });
+      }
 
       test("the hero CTA scrolls to the form and preselects the page's service", async ({
         page,
       }) => {
         await open(page, spec.slug);
-        const service = contact(page).getByLabel("Service Needed");
+        const hidden = spec.serviceField === "hidden";
+        const service = hidden
+          ? contact(page).locator('input[type="hidden"][name="service"]')
+          : contact(page).getByLabel("Service Needed");
         await expect(service).toHaveValue(spec.service);
-        await service.selectOption("Property Care & Maintenance");
+        if (hidden) await expect(contact(page).getByLabel("Service Needed")).toHaveCount(0);
+        else await service.selectOption("Property Care & Maintenance");
         await page.evaluate(() => window.scrollTo(0, 0));
 
         await page
@@ -216,15 +239,18 @@ function describeServicePage(spec: ServicePageSpec) {
         await expect(section.getByRole("region").nth(1)).toBeVisible();
       });
 
-      test("related services link to their pages and highlight on hover", async ({ page }) => {
-        await open(page, spec.slug);
-        const cards = sectionByHeading(page, spec.related.heading).locator("li a");
-        expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual(
-          spec.related.hrefs,
-        );
-        await cards.first().hover();
-        await expect(cards.first().locator("h3")).toHaveCSS("color", ORANGE);
-      });
+      if (spec.related) {
+        const related = spec.related;
+        test("related services link to their pages and highlight on hover", async ({ page }) => {
+          await open(page, spec.slug);
+          const cards = sectionByHeading(page, related.heading).locator("li a");
+          expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual(
+            related.hrefs,
+          );
+          await cards.first().hover();
+          await expect(cards.first().locator("h3")).toHaveCSS("color", ORANGE);
+        });
+      }
 
       test("split photos open in the lightbox", async ({ page }) => {
         await open(page, spec.slug);
@@ -245,6 +271,10 @@ function describeServicePage(spec: ServicePageSpec) {
         await open(page, spec.slug);
         await expectStyles(page.locator("[data-hero] h1"), { fontSize: "62px" });
         await expectStyles(page.locator("main > section h2").nth(1), { fontSize: "46px" });
+        if (spec.testimonials === false) {
+          await expect(sectionByHeading(page, /In our clients/)).toHaveCount(0);
+          return;
+        }
         const quotes = sectionByHeading(page, /In our clients/).locator("li");
         const [first, last] = [
           await quotes.first().boundingBox(),
@@ -371,6 +401,251 @@ test.describe("/services/interior FAQ links", () => {
     await quote.click();
     await expect(faq.getByLabel("Full Name")).toBeFocused();
     await expect(faq.getByLabel("Service Needed")).toHaveValue("Interior Design");
+  });
+});
+
+describeServicePage({
+  slug: "factory",
+  title: "Custom Furniture & Joinery Manufacturing in Kerala | Katic Designs",
+  description:
+    "Kitchens, wardrobes, panelling, doors and custom furniture made in the Katic Designs workshop and installed by our own teams.",
+  service: "Interior Design",
+  serviceField: "hidden",
+  heroCtas: [
+    { name: "Enquire About Manufacturing", href: "#factory-contact" },
+    { name: "Back to Interior Design", href: "/services/interior" },
+  ],
+  sections: [
+    ["pp-host", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+  ],
+  contactTone: "light",
+  process: { heading: /Every piece/, titleSize: "30px", artHeight: "170px" },
+  testimonials: false,
+  zoomImage: "Teak stair handrail detail",
+});
+
+test.describe("/services/factory specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("gallery: 3 + 2 grid, captions, browsable in the lightbox", async ({ page }) => {
+    await open(page, "factory");
+    const gallery = sectionByHeading(page, /Inside the/);
+    const figures = gallery.locator("figure");
+    await expect(figures.locator("figcaption")).toHaveText([
+      "Model & mock-ups",
+      "Timber screens",
+      "Handrail detail",
+      "Teak screen",
+      "Joinery in place",
+    ]);
+    const boxes = await figures.evaluateAll((all) =>
+      all.map((figure) => {
+        const r = figure.getBoundingClientRect();
+        return { w: Math.round(r.width), h: r.height };
+      }),
+    );
+    expect(boxes.map(({ h }) => h)).toEqual([320, 320, 320, 320, 320]);
+    expect(boxes[4]?.w).toBeGreaterThan((boxes[0]?.w ?? 0) * 2);
+    await figures.first().getByRole("button").click();
+    const viewer = page.getByRole("dialog");
+    await expect(viewer.locator("figcaption")).toHaveText(/MODEL & MOCK-UPS\s*1 \/ 5/i);
+    await page.keyboard.press("ArrowRight");
+    await expect(viewer.locator("figcaption")).toHaveText(/TIMBER SCREENS\s*2 \/ 5/i);
+    await page.keyboard.press("Escape");
+    await expect(viewer).toBeHidden();
+  });
+
+  test("finished products link to their project; no related or testimonials", async ({ page }) => {
+    await open(page, "factory");
+    const cards = sectionByHeading(page, /Made here/).locator("li a");
+    await expect(cards.locator("h3")).toHaveText([
+      "Kitchen island & cabinetry",
+      "Bedroom screen & wardrobe",
+      "Dining joinery",
+    ]);
+    for (const href of await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href"))))
+      expect(href).toBe("/works/the-courtyard-house");
+    await expect(sectionByHeading(page, /Services that work/)).toHaveCount(0);
+  });
+
+  test("the hidden form spans its odd field (KI-L22) and the FAQ link goes to the form (KI-F07)", async ({
+    page,
+  }) => {
+    await open(page, "factory");
+    const section = page.locator("#factory-contact");
+    const form = section.locator("form");
+    const [product, quantity] = [
+      await form.getByLabel("Product").boundingBox(),
+      await form.getByLabel("Quantity").boundingBox(),
+    ];
+    expect(quantity?.width).toBeGreaterThan((product?.width ?? 0) * 1.9);
+    await section.getByRole("button", { name: /Is there a minimum order/ }).click();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await section.getByRole("button", { name: /Discuss your order/ }).click();
+    await expect(section.getByLabel("Full Name")).toBeFocused();
+    await expect(section.locator('input[type="hidden"][name="service"]')).toHaveValue(
+      "Interior Design",
+    );
+  });
+});
+
+describeServicePage({
+  slug: "construction",
+  title: "Construction Company in Kochi, Kerala | Construction & Execution | Katic Designs",
+  description:
+    "Residential and commercial construction built to the drawing, with site management, MEP coordination and stage-wise quality checks across Kerala.",
+  service: "Construction & Execution",
+  heroCtas: [
+    { name: "Request a Build Quote", href: "#construction-contact" },
+    { name: "View Projects", href: "/works#works-list" },
+  ],
+  // The services grid comes before the intro split, which is therefore dark (as rendered).
+  sections: [
+    ["ks", "light"],
+    ["pp-host", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+  ],
+  contactTone: "light",
+  projects: { heading: /Built by/, imageHeight: "200px", count: 3 },
+  related: {
+    heading: /alongside construction/,
+    hrefs: RELATED("architecture", "interior", "turnkey"),
+  },
+  zoomImage: "House under construction in a forest clearing",
+});
+
+test.describe("/services/construction specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("services grid first, then the dark split with its plant", async ({ page }) => {
+    await open(page, "construction");
+    const sections = page.locator("main > section");
+    await expect(sections.nth(1).getByRole("heading", { level: 2 })).toHaveText(/What we\s*build/);
+    const split = sections.nth(2);
+    await expect(split.getByRole("heading", { level: 2 })).toHaveText(/Planning, people/);
+    await expect(split.locator("li")).toHaveText([
+      "Detailed programme",
+      "Dedicated site lead",
+      "Skilled workmanship",
+      "Stage-wise QC checks",
+    ]);
+    await expect(split.locator('img[alt=""]')).toHaveCount(1);
+  });
+
+  test("the FAQ quote link preselects construction (KI-F07)", async ({ page }) => {
+    await open(page, "construction");
+    const section = page.locator("#construction-contact");
+    await section.getByRole("button", { name: /How is the budget planned/ }).click();
+    await section.getByLabel("Service Needed").selectOption("Turnkey Projects");
+    await section.getByRole("button", { name: /Request a build quote/ }).click();
+    await expect(section.getByLabel("Full Name")).toBeFocused();
+    await expect(section.getByLabel("Service Needed")).toHaveValue("Construction & Execution");
+    await expect(section.getByLabel("Built-up area")).toBeVisible();
+  });
+});
+
+describeServicePage({
+  slug: "renovation",
+  title: "Home Renovation & Remodeling in Kochi, Kerala | Katic Designs",
+  description:
+    "Renovate and remodel homes and buildings with better light, layouts, kitchens, bathrooms and facades while keeping the character worth saving.",
+  service: "Renovation & Remodeling",
+  heroCtas: [
+    { name: "Plan a Renovation", href: "#renovation-contact" },
+    { name: "See Transformations", href: "#ba" },
+  ],
+  sections: [
+    ["pp-host", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ba", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+  ],
+  contactTone: "light",
+  process: { heading: /From survey/, titleSize: "22px", artHeight: "120px" },
+  related: {
+    heading: /alongside renovation/,
+    hrefs: RELATED("interior", "construction", "turnkey"),
+  },
+  zoomImage: "Brick house with arched windows lit at night",
+});
+
+test.describe("/services/renovation before & after", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("See Transformations lands on #ba", async ({ page }) => {
+    await open(page, "renovation");
+    await page.locator("[data-hero]").getByRole("link", { name: "See Transformations" }).click();
+    await expect(page).toHaveURL(/#ba$/);
+    await expect
+      .poll(() => page.locator("#ba").evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
+  });
+
+  test("pairs: chips, captions, geometry and the lightbox (KI-F17 static)", async ({ page }) => {
+    await open(page, "renovation");
+    const ba = page.locator("#ba");
+    await expect(ba.locator("h3")).toHaveText(["The Old Mill Renewal", "Kottayam Family Home"]);
+    await expect(ba.locator("figure span")).toHaveText(["BEFORE", "AFTER", "BEFORE", "AFTER"]);
+    await expectStyles(ba.locator("figure span").nth(0), { backgroundColor: "rgb(17, 17, 17)" });
+    await expectStyles(ba.locator("figure span").nth(1), { backgroundColor: ORANGE });
+    const figures = await ba.locator("figure").evaluateAll((all) =>
+      all.map((figure) => {
+        const r = figure.getBoundingClientRect();
+        return { x: r.x, width: r.width, height: r.height };
+      }),
+    );
+    // Original: 436 × 250 figures at 86 and 540 on the canvas.
+    expect(figures.slice(0, 2)).toEqual([
+      { x: 86, width: 436, height: 250 },
+      { x: 540, width: 436, height: 250 },
+    ]);
+    await ba.getByRole("button", { name: /Enlarge image: After: brick house/ }).click();
+    const viewer = page.getByRole("dialog");
+    await expect(viewer.locator("figcaption")).toHaveText(/AFTER · The Old Mill Renewal\s*2 \/ 4/i);
+    await page.keyboard.press("ArrowRight");
+    await expect(viewer.locator("figcaption")).toHaveText(
+      /BEFORE · Kottayam Family Home\s*3 \/ 4/i,
+    );
+    await page.keyboard.press("Escape");
+    await expect(viewer).toBeHidden();
+  });
+
+  test("the FAQ link books a site assessment (KI-F07)", async ({ page }) => {
+    await open(page, "renovation");
+    const section = page.locator("#renovation-contact");
+    await section.getByRole("button", { name: /Do you assess the site first/ }).click();
+    await section.getByRole("button", { name: /Book a site assessment/ }).click();
+    await expect(section.getByLabel("Full Name")).toBeFocused();
+    await expect(section.getByLabel("Service Needed")).toHaveValue("Renovation & Remodeling");
+  });
+});
+
+test.describe("/services/renovation phone", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("pairs stack, before above after, with the text last", async ({ page }) => {
+    await open(page, "renovation");
+    const pair = page.locator("#ba figure").first().locator("..");
+    const [before, after, text] = await Promise.all([
+      pair.locator("figure").nth(0).boundingBox(),
+      pair.locator("figure").nth(1).boundingBox(),
+      pair.locator("h3").boundingBox(),
+    ]);
+    expect(before?.width).toBe(350);
+    expect(after?.y).toBeGreaterThan((before?.y ?? 0) + (before?.height ?? 0));
+    expect(text?.y).toBeGreaterThan((after?.y ?? 0) + (after?.height ?? 0));
   });
 });
 

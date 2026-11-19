@@ -1,6 +1,9 @@
 import { SERVICE_SLUGS, type ServiceSlug } from "@/lib/routes";
 
+import { CONSTRUCTION_PAGE } from "./construction";
+import { FACTORY_PAGE } from "./factory";
 import { INTERIOR_PAGE } from "./interior";
+import { RENOVATION_PAGE } from "./renovation";
 import { TURNKEY_PAGE } from "./turnkey";
 import type { ServicePageContent } from "./types";
 
@@ -14,10 +17,10 @@ export type * from "./types";
 export const SERVICE_PAGES: Readonly<Record<ServiceSlug, ServicePageContent | undefined>> = {
   architecture: undefined,
   interior: INTERIOR_PAGE,
-  factory: undefined,
-  construction: undefined,
+  factory: FACTORY_PAGE,
+  construction: CONSTRUCTION_PAGE,
   turnkey: TURNKEY_PAGE,
-  renovation: undefined,
+  renovation: RENOVATION_PAGE,
   exterior: undefined,
   "property-care": undefined,
 };
