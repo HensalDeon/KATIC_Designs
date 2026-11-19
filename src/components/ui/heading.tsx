@@ -25,7 +25,7 @@ const sectionTitleVariants = cva(
 type HeadingLevel = "h1" | "h2" | "h3";
 
 type SectionTitleProps = ComponentPropsWithoutRef<"h2"> &
-  VariantProps<typeof sectionTitleVariants> & { as?: HeadingLevel };
+  VariantProps<typeof sectionTitleVariants> & { as?: HeadingLevel | undefined };
 
 export function SectionTitle({
   as: Tag = "h2",
