@@ -2,8 +2,10 @@ import { SERVICE_SLUGS, type ServiceSlug } from "@/lib/routes";
 
 import { ARCHITECTURE_PAGE } from "./architecture";
 import { CONSTRUCTION_PAGE } from "./construction";
+import { EXTERIOR_PAGE } from "./exterior";
 import { FACTORY_PAGE } from "./factory";
 import { INTERIOR_PAGE } from "./interior";
+import { PROPERTY_CARE_PAGE } from "./property-care";
 import { RENOVATION_PAGE } from "./renovation";
 import { TURNKEY_PAGE } from "./turnkey";
 import type { ServicePageContent } from "./types";
@@ -22,8 +24,8 @@ export const SERVICE_PAGES: Readonly<Record<ServiceSlug, ServicePageContent | un
   construction: CONSTRUCTION_PAGE,
   turnkey: TURNKEY_PAGE,
   renovation: RENOVATION_PAGE,
-  exterior: undefined,
-  "property-care": undefined,
+  exterior: EXTERIOR_PAGE,
+  "property-care": PROPERTY_CARE_PAGE,
 };
 
 function isServiceSlug(slug: string): slug is ServiceSlug {

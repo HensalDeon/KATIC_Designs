@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { type CSSProperties, Fragment, type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 import { Reveal, type RevealVariant } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
@@ -7,13 +7,12 @@ import { Accent } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
-import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
 import type { Tone } from "@/lib/tone";
 
 import { CONTACT_CHANNELS, type ContactChannel } from "./contact-channels";
 import { ContactButton } from "./contact-link";
-import type { PlantSpec } from "./content-section";
+import { phonePlantRoom, type PlantSpec } from "./content-section";
 import { EnquiryForm, type EnquiryFormConfig } from "./enquiry-form";
 import { Faq, type FaqItem, type FaqTypography } from "./faq";
 
@@ -64,10 +63,6 @@ export type ContactFaqProps = {
 };
 
 const DEFAULT_CHANNELS: readonly ContactChannel[] = ["email", "phone", "whatsapp"];
-
-/** Phones render plants at 58% (`Plant`); the host reserves 95% of that height below content. */
-const PHONE_PLANT_SCALE = 0.58;
-const PLANT_RESERVE = 0.95;
 
 const headingVariants = cva("font-display text-black in-data-[tone=dark]:text-white", {
   variants: {
@@ -145,14 +140,15 @@ export function ContactFaq({
   spacing = typography === "home" ? "home" : "standard",
   className,
 }: ContactFaqProps) {
+  const room = plant ? phonePlantRoom(plant) : undefined;
   return (
     <Section
       tone={tone}
       id={id}
       spacing={spacing}
       data-contact-section=""
-      style={plant ? plantReserve(plant) : undefined}
-      className={cn(plant && "isolate max-md:pb-[calc(80px+var(--plant-reserve))]", className)}
+      style={room?.style}
+      className={cn(plant && "isolate", room?.className, className)}
     >
       {plant ? <Plant {...plant} behind className="opacity-90" /> : null}
       <Container className="grid grid-cols-2 items-start gap-96 max-lg:grid-cols-1 max-lg:gap-64">
@@ -210,13 +206,6 @@ export function ContactFaq({
       </Container>
     </Section>
   );
-}
-
-/** Extra bottom padding on phones so the plant never covers the form (original JS 5285–5293). */
-function plantReserve(plant: PlantSpec): CSSProperties {
-  const { width, height } = media[plant.asset].image;
-  const reserve = plant.width * PHONE_PLANT_SCALE * (height / width) * PLANT_RESERVE;
-  return { "--plant-reserve": `${reserve.toFixed(2)}px` } as CSSProperties;
 }
 
 /**

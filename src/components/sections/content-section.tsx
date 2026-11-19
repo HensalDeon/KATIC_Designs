@@ -37,7 +37,7 @@ const PHONE_PLANT_SCALE = 0.58;
  * by 95% of the plant's height at a bottom corner, 90% at a top corner, so the plant sits beside
  * the content instead of over it.
  */
-function phonePlantRoom(plant: PlantSpec): { style: CSSProperties; className: string } {
+export function phonePlantRoom(plant: PlantSpec): { style: CSSProperties; className: string } {
   const { width, height } = media[plant.asset].image;
   const top = plant.corner.startsWith("top");
   const room = plant.width * PHONE_PLANT_SCALE * (height / width) * (top ? 0.9 : 0.95);

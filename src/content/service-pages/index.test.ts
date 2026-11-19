@@ -20,14 +20,7 @@ describe("service page registry", () => {
   });
 
   it("lists the built pages in the site's service order", () => {
-    expect(builtServiceSlugs()).toEqual([
-      "architecture",
-      "interior",
-      "factory",
-      "construction",
-      "turnkey",
-      "renovation",
-    ]);
+    expect(builtServiceSlugs()).toEqual([...SERVICE_SLUGS]);
   });
 
   it("returns nothing for unknown or unbuilt slugs", () => {

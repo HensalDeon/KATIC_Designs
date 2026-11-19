@@ -215,8 +215,12 @@ function describeServicePage(spec: ServicePageSpec) {
           ? contact(page).locator('input[type="hidden"][name="service"]')
           : contact(page).getByLabel("Service Needed");
         await expect(service).toHaveValue(spec.service);
+        // Pick another service first, so the click has something to change.
         if (hidden) await expect(contact(page).getByLabel("Service Needed")).toHaveCount(0);
-        else await service.selectOption("Property Care & Maintenance");
+        else
+          await service.selectOption(
+            spec.service === "Turnkey Projects" ? "Interior Design" : "Turnkey Projects",
+          );
         await page.evaluate(() => window.scrollTo(0, 0));
 
         await page
@@ -900,6 +904,198 @@ test.describe("/services/renovation phone", () => {
     expect(before?.width).toBe(350);
     expect(after?.y).toBeGreaterThan((before?.y ?? 0) + (before?.height ?? 0));
     expect(text?.y).toBeGreaterThan((after?.y ?? 0) + (after?.height ?? 0));
+  });
+});
+
+describeServicePage({
+  slug: "exterior",
+  title: "Landscape & Exterior Design in Kerala | Katic Designs",
+  description:
+    "Facade, garden, courtyard and outdoor living design planned together with the building, for homes, campuses and commercial sites.",
+  service: "Exterior & Landscape Design",
+  heroCtas: [
+    { name: "Discuss Your Outdoor Space", href: "#exterior-contact" },
+    { name: "View Projects", href: "/works#works-list" },
+  ],
+  // The plant-hosting testimonials block is `section.pp-host.ks` in the original.
+  sections: [
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["pp-host", "light"],
+  ],
+  contactTone: "dark",
+  projects: { heading: /Outdoor spaces/, imageHeight: "200px", count: 3 },
+  related: {
+    heading: /alongside landscape/,
+    hrefs: RELATED("architecture", "interior", "construction"),
+  },
+  zoomImage: "Planted courtyard with a tree and timber balconies",
+});
+
+test.describe("/services/exterior specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("five sector tiles in one row; the outdoor tile is not a link", async ({ page }) => {
+    await open(page, "exterior");
+    const tiles = sectionByHeading(page, /Where we/).locator("li");
+    await expect(tiles).toHaveCount(5);
+    const boxes = await tiles.evaluateAll((all) =>
+      all.map((tile) => {
+        const { y, width, height } = tile.getBoundingClientRect();
+        return { y, width, height };
+      }),
+    );
+    for (const box of boxes) expect(box).toMatchObject({ y: boxes[0]?.y, height: 400 });
+    await expect(tiles.locator("a")).toHaveCount(4);
+    await expect(tiles.last()).toContainText("Outdoor environments");
+  });
+
+  test("the projects block is dark with a light outline button", async ({ page }) => {
+    await open(page, "exterior");
+    const projects = sectionByHeading(page, /Outdoor spaces/);
+    await expect(projects).toHaveAttribute("data-tone", "dark");
+    await expect(projects.getByRole("link", { name: /View All Projects/ })).toHaveAttribute(
+      "href",
+      "/works#works-list",
+    );
+  });
+
+  test("the testimonials host the ageratum plant in the bottom-left corner", async ({ page }) => {
+    await open(page, "exterior");
+    const testimonials = sectionByHeading(page, /In our clients/);
+    const plant = testimonials.locator("img[aria-hidden]");
+    await expect(plant).toHaveCount(1);
+    const [section, box] = [await testimonials.boundingBox(), await plant.boundingBox()];
+    expect(box?.x).toBe(section?.x);
+    expect(box?.width).toBe(222);
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeCloseTo(
+      (section?.y ?? 0) + (section?.height ?? 0),
+      0,
+    );
+  });
+
+  test("the FAQ links to property care", async ({ page }) => {
+    await open(page, "exterior");
+    const faq = page.locator("#exterior-contact");
+    await faq.getByRole("button", { name: /low maintenance/ }).click();
+    await expect(faq.getByRole("link", { name: /About property care/ })).toHaveAttribute(
+      "href",
+      "/services/property-care",
+    );
+  });
+});
+
+describeServicePage({
+  slug: "property-care",
+  title: "Property Maintenance & Repairs in Kerala | Katic Care",
+  description:
+    "Planned maintenance, repairs, pre-monsoon inspections and priority support for homes and commercial properties in Kerala and the UAE.",
+  service: "Property Care & Maintenance",
+  heroCtas: [
+    { name: "Request Support", href: "#property-care-contact" },
+    { name: "Our Services", href: "#pc-services" },
+  ],
+  sections: [
+    ["pp-host", "light"],
+    ["pc-services", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+  ],
+  contactTone: "dark",
+  process: { heading: /Assess\. Plan\./, titleSize: "30px", artHeight: "170px" },
+  related: {
+    heading: /alongside property care/,
+    hrefs: RELATED("construction", "renovation", "interior", "turnkey"),
+  },
+  zoomImage: "Bathroom with Kota stone and a courtyard view",
+});
+
+test.describe("/services/property-care specifics", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("#pc-services deep-links to the services grid", async ({ page }) => {
+    await page.goto("/services/property-care#pc-services");
+    const services = page.locator("#pc-services");
+    await expect(services).toContainText("What we");
+    await expect
+      .poll(() => services.evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
+
+    await open(page, "property-care");
+    await page.locator("[data-hero]").getByRole("link", { name: "Our Services" }).click();
+    await expect(page).toHaveURL(/#pc-services$/);
+    await expect
+      .poll(() => services.evaluate((el) => Math.abs(el.getBoundingClientRect().top)))
+      .toBeLessThan(4);
+  });
+
+  test("six service tiles in three columns draw on; four related services in one row", async ({
+    page,
+  }) => {
+    await open(page, "property-care");
+    const services = page.locator("#pc-services");
+    const tiles = services.locator("[data-feature]");
+    await expect(tiles).toHaveCount(6);
+    // The isometric icons draw on once the grid is in view.
+    await expect(services.locator("[data-drawn]")).toHaveCount(0);
+    await tiles.first().scrollIntoViewIfNeeded();
+    await expect(services.locator("[data-drawn]")).toHaveCount(1);
+    const tileTops = await tiles.evaluateAll((all) =>
+      all.map((tile) => tile.getBoundingClientRect().top),
+    );
+    expect(new Set(tileTops).size).toBe(2);
+    const related = sectionByHeading(page, /alongside property care/).locator("li");
+    await expect(related).toHaveCount(4);
+    const relatedTops = await related.evaluateAll((all) =>
+      all.map((card) => card.getBoundingClientRect().top),
+    );
+    expect(new Set(relatedTops).size).toBe(1);
+  });
+
+  test("the intro split hosts the fern in the bottom-right corner", async ({ page }) => {
+    await open(page, "property-care");
+    const intro = page.locator("main > section").nth(1);
+    const plant = intro.locator("img[aria-hidden]");
+    await expect(plant).toHaveCount(1);
+    const [section, box] = [await intro.boundingBox(), await plant.boundingBox()];
+    expect(box?.width).toBe(170);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeCloseTo(
+      (section?.x ?? 0) + (section?.width ?? 0),
+      0,
+    );
+  });
+
+  test("on phones the fern gets its own room below the content", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await open(page, "property-care");
+    const intro = page.locator("main > section").nth(1);
+    const plant = await intro.locator("img[aria-hidden]").boundingBox();
+    const padding = await intro.evaluate((el) => parseFloat(getComputedStyle(el).paddingBottom));
+    // Original JS 5285–5293: 80px + 95% of the 58%-size plant (KI-X06, done statically).
+    expect(plant?.width).toBeCloseTo(170 * 0.58, 0);
+    expect(padding).toBeCloseTo(80 + (plant?.height ?? 0) * 0.95, 0);
+  });
+
+  test("FAQ links: locations, and the form (KI-F07)", async ({ page }) => {
+    await open(page, "property-care");
+    const faq = page.locator("#property-care-contact");
+    await faq.getByRole("button", { name: /Which areas do you cover/ }).click();
+    await expect(faq.getByRole("link", { name: /See our locations/ })).toHaveAttribute(
+      "href",
+      "/locations/india",
+    );
+    await faq.getByRole("button", { name: /How fast do you respond/ }).click();
+    await faq.getByLabel("Service Needed").selectOption("Turnkey Projects");
+    await faq.getByRole("button", { name: /Request support/ }).click();
+    await expect(faq.getByLabel("Full Name")).toBeFocused();
+    await expect(faq.getByLabel("Service Needed")).toHaveValue("Property Care & Maintenance");
   });
 });
 
