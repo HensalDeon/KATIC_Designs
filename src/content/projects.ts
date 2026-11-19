@@ -362,6 +362,7 @@ const PROJECT_LIST = [
   {
     slug: "linear-courtyard-home",
     name: "Linear Courtyard Home",
+    // TODO(content): KI-D01 the original card only says "EDAPPALLY"; "Kochi" is inferred.
     location: "Edappally, Kochi",
     region: "kerala",
     categories: ["residential", "architecture"],
