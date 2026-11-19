@@ -111,6 +111,23 @@ test.describe("desktop 1440", () => {
     await page.keyboard.press("Escape");
     await expect(viewer).toBeHidden();
   });
+
+  test("lightbox: a small source photo is shown as large as the screen allows", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/services");
+    // A 326×326 thumbnail of the architecture block.
+    await page
+      .getByRole("button", { name: /Enlarge image/ })
+      .nth(1)
+      .click();
+    const image = page.getByRole("dialog").getByRole("img");
+    await expect(image).toBeVisible();
+    // Square image: limited by 86vh (774px), centred.
+    await expect.poll(async () => (await image.boundingBox())?.height).toBeCloseTo(774, 0);
+    expect((await image.boundingBox())?.width).toBeCloseTo(774, 0);
+  });
 });
 
 test.describe("Start a Project popup", () => {

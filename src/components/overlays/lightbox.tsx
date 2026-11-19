@@ -116,7 +116,14 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               height={current.height}
               alt={current.alt}
               sizes="90vw"
-              className="h-auto max-h-[86vh] w-auto max-w-[90vw] shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+              // Sized explicitly: the image fits 90vw × 86vh at its own aspect ratio. Left to its
+              // intrinsic size, a small source (most are 326–480px) came out a third of that,
+              // because `sizes` makes the browser treat it as a 3840w candidate.
+              style={{
+                width: `min(90vw, calc(86vh * ${current.width} / ${current.height}))`,
+                aspectRatio: `${current.width} / ${current.height}`,
+              }}
+              className="h-auto shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
             />
             {showCaption ? (
               <figcaption className="font-sans text-[13px] text-white/80">
