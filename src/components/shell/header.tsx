@@ -7,10 +7,11 @@ import { type PointerEvent, useEffect, useId, useRef, useState } from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { useShell } from "@/components/shell/shell-provider";
-import { media } from "@/content/media";
 import { activeNavKey, HEADER_NAV, type NavItem, type NavKey } from "@/content/navigation";
 import { useScrollSnapshot } from "@/hooks/use-scroll-snapshot";
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
+import type { ImageSource } from "@/lib/media/types";
 import { routes } from "@/lib/routes";
 
 /** Scroll distance after which the header compacts (original `hdrState`). */
@@ -21,8 +22,11 @@ const PHONE_QUERY = "(max-width: 860px)";
  * Site header (`.hdr`). Fixed bar on the zoomed canvas; compacts after 40px of scroll.
  * Desktop: dropdowns open on hover or keyboard focus. Phones (≤860px): burger toggles a compact
  * panel; the first tap on an item with a submenu opens it, the second navigates.
+ *
+ * The logo comes in from the (server) root layout, so this island does not pull the whole media
+ * manifest into every page's JavaScript.
  */
-export function Header() {
+export function Header({ logo }: { readonly logo: ImageSource }) {
   const pathname = usePathname();
   const { menuOpen, setMenuOpen, enquiry } = useShell();
   const scrolled = useScrollSnapshot(() => window.scrollY > SCROLLED_AFTER, false);
@@ -118,10 +122,13 @@ export function Header() {
         className="flex items-center gap-12"
       >
         <Image
-          src={media["brand/logo"].image}
+          src={logo}
           alt=""
-          priority
-          sizes="78px"
+          // Above the fold on every page, but small and never the hero: load it at once, after the
+          // page's one high-priority image. (`low` also keeps React from emitting a preload for it.)
+          loading="eager"
+          fetchPriority="low"
+          sizes={fixedCanvasSizes(78)}
           className={cn("w-auto transition-[height] duration-350", scrolled ? "h-38" : "h-44")}
         />
       </Link>

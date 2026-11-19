@@ -6,16 +6,22 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import type { ClientStoriesContent, ClientStory } from "@/content/home/stories";
-import { media } from "@/content/media";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
+import type { WithImages } from "@/lib/media/types";
 import { wrapIndex } from "@/lib/motion";
 
 /** E29: the outgoing quote fades out over 250ms, then the next one fades in over 250ms. */
 export const STORY_FADE_MS = 250;
 
+export type ResolvedClientStory = WithImages<ClientStory, "portrait" | "project">;
+export type ResolvedClientStoriesContent = Omit<ClientStoriesContent, "stories"> & {
+  readonly stories: readonly ResolvedClientStory[];
+};
+
 type ClientStoriesRotatorProps = {
-  readonly content: ClientStoriesContent;
+  /** Content with both photos of each story resolved on the server (`WithImages`). */
+  readonly content: ResolvedClientStoriesContent;
 };
 
 const fadeClass = "transition-opacity duration-250";
@@ -167,11 +173,11 @@ function StoryCard({
   captionClassName,
 }: {
   part: "portrait" | "project";
-  stories: readonly ClientStory[];
+  stories: readonly ResolvedClientStory[];
   index: number;
   visible: string;
-  image: (story: ClientStory) => ClientStory["portrait"];
-  alt: (story: ClientStory) => string;
+  image: (story: ResolvedClientStory) => ResolvedClientStory["portrait"];
+  alt: (story: ResolvedClientStory) => string;
   caption: string;
   pill?: string;
   className?: string;
@@ -188,7 +194,7 @@ function StoryCard({
       {stories.map((story, i) => (
         <Image
           key={story.quote}
-          src={media[image(story)].image}
+          src={image(story)}
           alt={alt(story)}
           aria-hidden={i !== index}
           fill

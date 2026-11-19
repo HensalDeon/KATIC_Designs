@@ -8,15 +8,19 @@ import { type CSSProperties, useState } from "react";
 import { Reveal } from "@/components/motion/reveal";
 import { Kicker } from "@/components/ui/kicker";
 import type { Partner } from "@/content/home/about";
-import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
+import { fixedCanvasSizes } from "@/lib/media/sizes";
+import type { WithImages } from "@/lib/media/types";
 
 import { PlayPauseIcon } from "./play-pause-icon";
+
+/** A partner with its logo resolved on the server, so this island does not import the media manifest. */
+export type ResolvedPartner = WithImages<Partner, "logo">;
 
 type LogoMarqueeProps = {
   /** Kicker above the strip (`.kick.pk`), e.g. "General Partners". */
   readonly heading: string;
-  readonly logos: readonly Partner[];
+  readonly logos: readonly ResolvedPartner[];
   /** Seconds for the strip to travel one logo set (original 18s); the animation spans two sets. */
   readonly durationS?: number;
   readonly className?: string;
@@ -34,7 +38,7 @@ function LogoSet({
   logos,
   clone,
 }: {
-  readonly logos: readonly Partner[];
+  readonly logos: readonly ResolvedPartner[];
   readonly clone: boolean;
 }) {
   return (
@@ -42,9 +46,9 @@ function LogoSet({
       {logos.map((partner) => (
         <li key={partner.name} className="mr-16 flex-none">
           <Image
-            src={media[partner.logo].image}
+            src={partner.logo}
             alt={clone ? "" : partner.name}
-            sizes="150px"
+            sizes={fixedCanvasSizes(150)}
             className="h-72 w-150 border border-[#eee] object-cover"
           />
         </li>

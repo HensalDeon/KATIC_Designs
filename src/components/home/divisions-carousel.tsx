@@ -7,6 +7,7 @@ import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
 import { type DivisionsCarouselContent, HOME_DIVISIONS } from "@/content/home/divisions";
+import { media } from "@/content/media";
 
 import { DivisionsCarouselBody } from "./divisions-carousel-client";
 
@@ -64,7 +65,7 @@ export function DivisionsCarousel({ content = HOME_DIVISIONS, className }: Divis
           </div>
         </div>
         <DivisionsCarouselBody
-          slides={content.slides}
+          slides={content.slides.map((slide) => ({ ...slide, image: media[slide.image].image }))}
           label={content.label}
           exploreLabel={content.exploreLabel}
         />

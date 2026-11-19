@@ -15,12 +15,12 @@ import {
 } from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
-import { canvasSizes } from "@/components/sections/section-media";
 import { AutoplayToggle } from "@/components/ui/autoplay-toggle";
 import type { DivisionSlide } from "@/content/home/divisions";
-import { media } from "@/content/media";
 import { useAutoplay } from "@/hooks/use-autoplay";
 import { cn } from "@/lib/cn";
+import { canvasSizes } from "@/lib/media/sizes";
+import type { WithImages } from "@/lib/media/types";
 import { swipeStep, wrapIndex } from "@/lib/motion";
 import type { DivisionSlug } from "@/lib/routes";
 
@@ -48,8 +48,11 @@ const LINE_DELAYS = [
   "group-data-active/slide:delay-140",
 ] as const;
 
+export type ResolvedDivisionSlide = WithImages<DivisionSlide, "image">;
+
 type DivisionsCarouselBodyProps = {
-  readonly slides: readonly DivisionSlide[];
+  /** Slides with their photo resolved on the server (`WithImages`). */
+  readonly slides: readonly ResolvedDivisionSlide[];
   /** Accessible name of the carousel. */
   readonly label: string;
   readonly exploreLabel: string;
@@ -139,7 +142,7 @@ export function DivisionsCarouselBody({ slides, label, exploreLabel }: Divisions
         {slides.map((slide, i) => (
           <Image
             key={slide.slug}
-            src={media[slide.image].image}
+            src={slide.image}
             alt={slide.name}
             aria-hidden={i !== index}
             fill
@@ -266,7 +269,7 @@ function Slide({
   exploreLabel,
 }: {
   ref: (element: HTMLDivElement | null) => void;
-  slide: DivisionSlide;
+  slide: ResolvedDivisionSlide;
   position: number;
   count: number;
   active: boolean;

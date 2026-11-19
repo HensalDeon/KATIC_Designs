@@ -13,6 +13,7 @@ import { LegacyHashRedirect } from "@/components/shell/legacy-hash-redirect";
 import { MobileCtaBar } from "@/components/shell/mobile-cta-bar";
 import { ShellProvider } from "@/components/shell/shell-provider";
 import { SkipLink } from "@/components/shell/skip-link";
+import { media } from "@/content/media";
 import { ZOOM_BOOTSTRAP_SCRIPT } from "@/lib/zoom";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
@@ -53,7 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <LightboxProvider>
               {/* Scaled at ≥1100px (D1). Overlays below render outside it, at real size. */}
               <div className="zoom-root">
-                <Header />
+                <Header logo={media["brand/logo"].image} />
                 <main id="main" tabIndex={-1} className="outline-none">
                   {children}
                 </main>
