@@ -26,7 +26,7 @@ const WIDTHS = [
 const UNLINKED = ["/thank-you"];
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop", "widths are set per test");
+  test.skip(testInfo.project.name !== "a11y", "widths are set per test");
 });
 
 test.use({ reducedMotion: "reduce" });

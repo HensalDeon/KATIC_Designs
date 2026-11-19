@@ -11,6 +11,9 @@ const externalBaseURL = process.env["E2E_BASE_URL"];
  * Set E2E_BASE_URL=http://localhost:3000 to run against a dev server you already have running.
  * The original-site baseline capture lives in tests/visual and is not part of this suite.
  */
+/** The accessibility suites (`tests/e2e/a11y*.spec.ts`). */
+const A11Y_SPECS = /a11y[^/]*\.spec\.ts/;
+
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,
@@ -24,9 +27,17 @@ export default defineConfig({
   projects: [
     {
       name: "desktop",
+      testIgnore: A11Y_SPECS,
       use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
     },
-    { name: "mobile", use: { ...devices["Pixel 7"] } },
+    { name: "mobile", testIgnore: A11Y_SPECS, use: { ...devices["Pixel 7"] } },
+    // axe on every page and state, keyboard paths, reduced motion (Phase 10): the slowest suites,
+    // kept in their own project so day-to-day runs stay fast. CI runs every project.
+    {
+      name: "a11y",
+      testMatch: A11Y_SPECS,
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
+    },
     // Scroll geometry under the desktop canvas zoom in the other engines (docs/analysis/06).
     {
       name: "geometry-webkit",

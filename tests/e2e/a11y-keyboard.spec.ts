@@ -8,7 +8,7 @@ import { expect, type Locator, type Page, test } from "@playwright/test";
  */
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== "desktop", "widths are set per test");
+  test.skip(testInfo.project.name !== "a11y", "widths are set per test");
 });
 
 const DESKTOP = { width: 1440, height: 900 } as const;

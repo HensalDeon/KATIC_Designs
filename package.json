@@ -18,6 +18,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:e2e:fast": "playwright test --project=desktop --project=mobile --project=geometry-webkit",
+    "test:e2e:a11y": "playwright test --project=a11y",
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test",
     "assets:sync": "tsx scripts/assets/sync-assets.ts",
     "ref:extract": "tsx scripts/reference/extract-original.mts",

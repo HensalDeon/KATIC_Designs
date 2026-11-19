@@ -8,15 +8,19 @@ A pixel-perfect Next.js 16 rebuild of the single-file Katic Designs site (`refer
 
 ## Commands
 
-| Task                   | Command                                                                                                               |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Static checks          | `pnpm check` (typecheck, lint with 0 warnings, format, unit tests)                                                    |
-| Production server      | `pnpm build && pnpm start --port <yours>` (never 3000: the user's dev server; never 3100: Playwright's default)       |
-| Your e2e               | `E2E_BASE_URL=http://127.0.0.1:<port> pnpm exec playwright test tests/e2e/<yours>.spec.ts --project=desktop`          |
-| Parity vs the original | `pnpm parity --routes <ids> --base http://127.0.0.1:<port> --out .tmp/parity` (route ids in `tests/visual/routes.ts`) |
-| Serve the original     | `startOriginalServer(port)` from `tests/visual/serve-original.mts` on your own free port (4310 may be taken)          |
+| Task                   | Command                                                                                                                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Static checks          | `pnpm check` (typecheck, lint with 0 warnings, format, unit tests)                                                                                                                                    |
+| Iterate                | `pnpm dev`; one production build for final numbers: `pnpm build && pnpm start --port <yours>` (never 3000: the user's dev server; never 3100: Playwright's default)                                   |
+| Your e2e               | `E2E_BASE_URL=http://127.0.0.1:<port> pnpm exec playwright test tests/e2e/<yours>.spec.ts --project=desktop`                                                                                          |
+| Everyday e2e           | `pnpm test:e2e:fast` (desktop, mobile, WebKit geometry); accessibility suites: `pnpm test:e2e:a11y`; everything (CI): `pnpm test:e2e`                                                                 |
+| Parity, as-is          | `pnpm parity --live --routes <ids> --base http://127.0.0.1:<port> --out .tmp/p` (route ids in `tests/visual/routes.ts`; `--live` captures the original settled, so no stale-baseline offsets)         |
+| Parity, fixes reverted | add `--no-fit` (neutralises the original's auto-zoom, KI-L13) and `--css tests/visual/reverts/titles.css` (KI-N04 / KI-L16). Against the live original KI-A10 needs no revert: it renders 11px itself |
+| Motion check           | `pnpm parity --motion --no-fit --routes <ids> --base … --out .tmp/m`                                                                                                                                  |
+| Measure a style        | `pnpm parity:probe --route <id> --selector "<css>" [--base … --ours "<css>"]`                                                                                                                         |
+| Performance            | `pnpm perf` (Lighthouse CI, budgets in `lighthouserc.cjs`)                                                                                                                                            |
 
-Run the full e2e suite only when you change shared code (`src/components/{ui,sections,blocks,shell,overlays,motion}`, `src/lib`, `src/hooks`, shared content); otherwise run your spec plus the specs of pages you touched. The lead runs the full suite at every merge. Iterate on `pnpm dev`; use one production build for final numbers.
+Run the full e2e suite only when you change shared code (`src/components/{ui,sections,blocks,shell,overlays,motion}`, `src/lib`, `src/hooks`, shared content); otherwise run your spec plus the specs of pages you touched. The lead runs the full suite at every merge.
 
 ## Rules that are not negotiable
 
@@ -46,7 +50,7 @@ Run the full e2e suite only when you change shared code (`src/components/{ui,sec
 
 ## Proving a page matches the original
 
-1. **Measure** the original's computed styles and rects at 1440 / 1024 / 768 / 390.
+1. **Measure** the original's computed styles and rects at 1440 / 1024 / 768 / 390 (`pnpm parity:probe`).
 2. **Pixel parity** per section at the four widths: pass ≤1%, review ≤2%. Sections without an original id carry `data-parity="<original first class>"` (P5-01, P6-04). Every non-pass needs a reason: a KNOWN_ISSUES fix (re-measured with the fix reverted, P5-04) or image resampling.
 3. **Motion:** compare the reveal inventory with the original (`[data-rv]` vs `[data-reveal]`), then a motion-on diff with each section at the viewport top after 2.5s.
 4. **E2E:** metadata, section order / ids / tones, key computed styles (values measured on the original), interactions, no `[data-reveal]` outside Home, no horizontal overflow at the four widths. Links are covered site-wide by `tests/e2e/site-links.spec.ts`.
