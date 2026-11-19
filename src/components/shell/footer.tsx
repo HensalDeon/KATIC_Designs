@@ -17,9 +17,12 @@ const columnLink =
 /** Site footer (`.ftw > .ft + .fbar`): black card on white, link columns, credits and socials. */
 export function Footer() {
   return (
-    <div className="bg-white px-36 pt-28 max-md:px-12 max-md:pt-20 max-xs:pb-72">
+    <div
+      data-parity="footer"
+      className="bg-white px-36 pt-28 max-md:px-12 max-md:pt-20 max-xs:pb-72"
+    >
       <footer className="relative bg-black px-41 pt-48 pb-34 text-white shadow-footer max-md:px-22 max-md:pt-36 max-md:pb-28 max-xs:pb-72">
-        <Link href={routes.home} aria-label="Katic Designs home" className="inline-block">
+        <Link href={routes.home} aria-label="Katic Designs home" className="flex w-fit">
           {/* Intrinsic ratio at 28px tall; the original stretches it to 115px wide (KI-L07). */}
           <Image src={media["brand/logo"].image} alt="" sizes="50px" className="h-28 w-auto" />
         </Link>

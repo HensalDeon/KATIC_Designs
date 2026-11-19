@@ -23,6 +23,7 @@
     "ref:extract": "tsx scripts/reference/extract-original.mts",
     "ref:serve": "tsx tests/visual/serve-original.mts",
     "ref:capture": "tsx tests/visual/capture-original.mts",
+    "parity": "tsx tests/visual/parity.mts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "@playwright/test": "1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "22.20.5",
+    "@types/pngjs": "6.0.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "babel-plugin-react-compiler": "1.0.0",
@@ -50,6 +52,8 @@
     "eslint-plugin-simple-import-sort": "14.0.0",
     "husky": "9.1.7",
     "lint-staged": "16.4.0",
+    "pixelmatch": "8.0.0",
+    "pngjs": "7.0.0",
     "prettier": "3.10.1",
     "prettier-plugin-tailwindcss": "0.8.1",
     "tailwindcss": "4.3.3",
