@@ -24,6 +24,7 @@
     "ref:serve": "tsx tests/visual/serve-original.mts",
     "ref:capture": "tsx tests/visual/capture-original.mts",
     "parity": "tsx tests/visual/parity.mts",
+    "parity:probe": "tsx tests/visual/probe.mts",
     "prepare": "husky"
   },
   "dependencies": {

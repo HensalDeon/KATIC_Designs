@@ -29,6 +29,7 @@ const CONTENT_TYPES: Readonly<Record<string, string>> = {
   ".woff2": "font/woff2",
 };
 
+/** Starts the server on `port` (`0` = any free port; the returned `url` has the real one). */
 export async function startOriginalServer(
   port = 4310,
 ): Promise<{ url: string; close: () => Promise<void> }> {
@@ -64,8 +65,10 @@ export async function startOriginalServer(
     server.listen(port, "127.0.0.1", resolve);
   });
 
+  const address = server.address();
+  const actualPort = typeof address === "object" && address ? address.port : port;
   return {
-    url: `http://127.0.0.1:${port}/`,
+    url: `http://127.0.0.1:${actualPort}/`,
     close: () => new Promise<void>((resolve) => server.close(() => resolve())),
   };
 }
