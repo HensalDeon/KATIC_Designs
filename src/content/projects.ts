@@ -382,6 +382,20 @@ const PROJECT_LIST = [
     cover: "photos/narrow-urban-house-dusk",
     coverAlt: "Narrow urban house lit at dusk",
   },
+  // The Dubai page's project mosaic (`#p-dubai .s5`, docs/analysis/04 §8) not shown elsewhere;
+  // facts from its card ("PRIVATE RESIDENCE", "Palm Jumeirah, Dubai · INTERIOR DESIGN").
+  // Categories are inferred from that line: the original's cards carry no filter data.
+  {
+    slug: "palm-residence",
+    name: "Palm Residence",
+    location: "Palm Jumeirah, Dubai",
+    region: "uae",
+    categories: ["residential", "interiors"],
+    type: "Residential",
+    scope: "Interior Design",
+    cover: "photos/sea-view-living-room",
+    coverAlt: "Living room with curved sofas and floor-to-ceiling sea views",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
