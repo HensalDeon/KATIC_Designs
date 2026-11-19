@@ -589,13 +589,10 @@ test.describe("/services/architecture bespoke blocks", () => {
     }) => {
       await open(page, "architecture");
       const cards = projects(page).locator("li a");
-      expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual([
-        "/works/the-courtyard-house",
-        "/works/palm-ridge-villa",
-        "/works/nila-workspace",
-        "/works/house-of-monsoon",
-        "/works/the-old-mill-renewal",
-      ]);
+      // Only The Courtyard House has its own page; the others open it, as in the original (KI-F09).
+      expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual(
+        Array.from({ length: 5 }, () => "/works/the-courtyard-house"),
+      );
       expect(await cards.nth(1).locator("img").boundingBox()).toMatchObject({
         width: 606.5,
         height: 420,
