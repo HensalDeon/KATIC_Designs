@@ -164,17 +164,26 @@ async function captureSections(page: Page, dir: string): Promise<SectionRecord[]
     [...document.querySelectorAll(".page.active > *")]
       .map((el, domIndex) => {
         const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
         return {
           domIndex,
+          // Fixed or hidden blocks (e.g. the header on pages without a hero) are not page flow;
+          // the header is covered by 00-first-screen.png.
+          inFlow:
+            style.position !== "fixed" && style.visibility !== "hidden" && style.display !== "none",
           tag: el.tagName.toLowerCase(),
           id: el.id || null,
           className: typeof el.className === "string" ? el.className : "",
           top: Math.round(rect.top + window.scrollY),
           height: Math.round(rect.height),
-          background: getComputedStyle(el).backgroundColor,
+          background: style.backgroundColor,
         };
       })
-      .filter((block) => block.height > 0 && block.tag !== "script" && block.tag !== "style"),
+      .filter(
+        (block) =>
+          block.inFlow && block.height > 0 && block.tag !== "script" && block.tag !== "style",
+      )
+      .map(({ inFlow: _inFlow, ...block }) => block),
   );
 
   const records: SectionRecord[] = [];
