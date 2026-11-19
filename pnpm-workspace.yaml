@@ -1,0 +1,9 @@
+# pnpm settings (pnpm 10 reads these from the workspace file)
+saveExact: true
+engineStrict: true
+
+# Only packages listed with `true` may run install scripts.
+allowBuilds:
+  esbuild: false
+  sharp: false
+  unrs-resolver: false

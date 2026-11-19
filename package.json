@@ -1,0 +1,57 @@
+{
+  "name": "katic-designs",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": ">=22.12 <23"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "next typegen && tsc --noEmit",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test",
+    "assets:sync": "tsx scripts/assets/sync-assets.ts",
+    "ref:extract": "tsx scripts/reference/extract-original.mts",
+    "ref:serve": "tsx tests/visual/serve-original.mts",
+    "ref:capture": "tsx tests/visual/capture-original.mts",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "@playwright/test": "1.65.1",
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.6",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "prettier": "3.10.1",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "tailwindcss": "4.3.3",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0",
+    "vitest": "5.1.1"
+  }
+}

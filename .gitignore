@@ -1,0 +1,36 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/tests/visual/__output__/
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# env files (.env.example is committed)
+.env*
+!.env.example
+
+# debug
+npm-debug.log*
+.pnpm-debug.log*
+*.log
+
+# Reference material from the original single-file site (large, regenerable)
+/reference/
+
+# misc
+.DS_Store
+*.pem
+.vercel
