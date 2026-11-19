@@ -56,9 +56,11 @@ export type EnquiryFormConfig = {
 /**
  * `standard` = the contact + FAQ combo on inner pages (enlarged below 1100px); `home` keeps the
  * compact canvas sizes at every width, as the original's home form does; `plain` = the CONTACT
- * template without a FAQ (About, Services): roomy fields at every width and a dark Send label.
+ * template without a FAQ (About, Services): roomy fields at every width and a dark Send label;
+ * `local` = a page's own contact markup (Dubai): `plain` sizes with the light Send label and a
+ * darker note.
  */
-export type EnquiryFormTypography = "standard" | "home" | "plain";
+export type EnquiryFormTypography = "standard" | "home" | "plain" | "local";
 
 type EnquiryFormProps = EnquiryFormConfig & {
   readonly typography?: EnquiryFormTypography;
@@ -88,6 +90,14 @@ const SIZES: Record<
     label: "mb-9",
     submit: "text-ink-2",
     note: "text-[#666]",
+  },
+  local: {
+    form: "mt-0 gap-x-18 gap-y-20",
+    field: "h-46",
+    textarea: "h-108",
+    label: "mb-9",
+    submit: "",
+    note: "",
   },
 };
 
