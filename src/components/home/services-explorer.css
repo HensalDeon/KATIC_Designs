@@ -1,0 +1,32 @@
+/*
+ * Services explorer progress bar (original `svxbar`, E27): fills over one autoplay interval
+ * (`--interval`, set from EXPLORER_INTERVAL_MS) and only while the rotation runs; a hold empties it
+ * and the next interval starts it again, as in the original.
+ *
+ * A plain co-located stylesheet with `home-svx-` names, not a CSS Module: the Turbopack rule in
+ * next.config.ts (`"*.css" → as: "*.css"`) turns `*.module.css` into global CSS without exporting
+ * class names, so module classes resolve to `undefined`.
+ */
+.home-svx-bar {
+  display: block;
+  height: 100%;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.home-svx-bar[data-run] {
+  animation: home-svx-fill var(--interval) linear forwards;
+}
+
+@keyframes home-svx-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-svx-bar[data-run] {
+    animation: none;
+  }
+}
