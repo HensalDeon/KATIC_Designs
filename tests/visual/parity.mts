@@ -4,8 +4,9 @@
  *
  *   pnpm parity --routes home --viewports desktop,mobile [--base http://127.0.0.1:3100] [--out dir]
  *
- * Sections are matched by the original's ids (pages keep them). Two blocks have no id in the
- * original: the hero (matched to `[data-hero]`) and the footer (matched to `[data-parity=footer]`).
+ * Sections are matched by the original's ids (pages keep them). Blocks without an id in the
+ * original: the hero (matched to `[data-hero]`), the footer (matched to `[data-parity=footer]`) and
+ * any other block, matched to `[data-parity="<its first class>"]` (e.g. About's `section.i1`).
  * Size differences count as mismatching pixels (both images are padded to the larger size), so a
  * section that grows or shrinks cannot pass. Scroll-scrub sections are compared from their
  * motion-on frames by their own suites and are skipped here.
@@ -165,7 +166,7 @@ async function compareRoute(
         ? "[data-hero]"
         : /\bftw\b/.test(section.className)
           ? "[data-parity=footer]"
-          : null;
+          : parityClassSelector(section.className);
     const locator = selector ? page.locator(selector).first() : null;
     if (!locator || (await locator.count()) === 0) {
       results.push(base);
@@ -196,6 +197,12 @@ async function compareRoute(
     });
   }
   return results;
+}
+
+/** `[data-parity="<first class>"]` for a baseline block without an id, or null. */
+function parityClassSelector(className: string): string | null {
+  const first = className.split(/\s+/).find(Boolean);
+  return first ? `[data-parity="${first}"]` : null;
 }
 
 /** Pads both images to the larger size (padding = magenta, so it always mismatches) and diffs them. */
