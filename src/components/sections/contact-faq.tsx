@@ -94,7 +94,7 @@ const leadVariants = cva(
 const faqKickerVariants = cva("", {
   variants: {
     typography: {
-      standard: "text-black in-data-[tone=dark]:text-kicker max-md:text-[9.5px]",
+      standard: "text-black in-data-[tone=dark]:text-kicker",
       /** Text-safe orange on white, brand orange on black (KI-A11), like every other kicker. */
       home: "text-kicker",
     },

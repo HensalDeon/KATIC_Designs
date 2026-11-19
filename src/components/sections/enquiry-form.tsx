@@ -350,7 +350,7 @@ export function EnquiryForm({
       {reveal ? <Reveal className="col-span-full mt-4">{sendButton}</Reveal> : sendButton}
       <p
         className={cn(
-          "col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc]",
+          "col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc] max-md:text-[11px]",
           sizes.note,
         )}
       >

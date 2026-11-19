@@ -368,7 +368,8 @@ test.describe("phones 390", () => {
     await expect(c.field("Full Name")).toHaveCSS("font-size", "16px");
     await expect(c.field("Service Needed")).toHaveCSS("font-size", "16px");
     await expectStyles(c.faqTitle, { fontSize: "34px", lineHeight: "37.4px" });
-    await expect(c.faqKicker).toHaveCSS("font-size", "9.5px");
+    // The original's runtime fixer raises it to 11px on phones; the rebuild sets it (KI-A10).
+    await expect(c.faqKicker).toHaveCSS("font-size", "11px");
     // Bottom padding reserves 95% of the 58%-size plant (original: 263.07px).
     const padding = await c.section.evaluate((el) =>
       parseFloat(getComputedStyle(el).paddingBottom),
