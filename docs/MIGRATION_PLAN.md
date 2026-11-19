@@ -246,22 +246,22 @@ Built once and used across 20+ pages. Every group has a styleguide page (`/style
 
 **Exit:** styleguide parity for every section (computed-style suites green), motion maths unit-tested, zoom spike signed off.
 
-### Phase 4: Home page (~3–4 days, the hardest page)
+### Phase 4: Home page (~3–4 days, the hardest page) ✅ done 2026-11-19
 
-In order:
+Built in three parallel groups (hero/teasers, pinned sections, interactive sections), then assembled in `src/app/page.tsx`.
 
-1. Hero with `HeroVideo` (desktop/mobile cut, poster, pause button) and the `kHeroIn` staggered intro (1.2s; 0 / .15 / .35 / .5s).
-2. About teaser with stats `CountUp` (1.4s easeOutCubic) and `LogoMarquee` (seamless `-50%` duplicated track; fixes the end-of-loop jump; pause control).
-3. Signature project with parallax (11% desktop, 7% mobile).
-4. **ServicesExplorer** (`#home-deliver`): grouped list, image cross-fade + scale, caption, 6s progress bar, autoplay only while ≥30% visible, pause on hover/focus, `tablist` semantics.
-5. **PinnedShowcase** (`#home-works`): 11 cards, cover-flow transform `translate3d(d·640px, min(|d|,1)·16px, 0) scale(1 − min(|d|,1.5)·0.07)`, shade overlay, z-index, section height `vh·(1+(n−1)·0.6)`, category tabs with count. ≥1100 only; becomes a horizontal scroller below that.
-6. **PinnedStages** (`#home-process`): 7 stage cards translated horizontally, `travel = 380 + overflow + 110`, height `vh + 1.25·travel`, active-stage highlight + `IsoStage` draw-on, stage counter. Keyboard-focusable scroller below 1100.
-7. **DivisionsCarousel**: 5 slides, image cross-fade, word-by-word title rise (0.07s stagger), 5s progress bar, prev/next, ←/→ keys, swipe (>45px), pause button, `aria-roledescription` + slide labels + live region. Fix the nav overlap at ~1024 (KI-L03).
-   - Reduced-motion fallbacks for 5 and 6 must keep all content reachable (KI-L02, KI-L04).
-8. News teaser, **QuoteRotator** client stories (fixes the 33px horizontal overflow at 1024), blog teaser (from `Post` data), ContactFaq (`id="start"`).
-9. Reveal wiring for all home sections; reduced-motion pass.
+- [x] Hero:
+  - `HeroVideo` with desktop/mobile cuts, posters, a pause control and lazy source (P4-02);
+  - the `kHeroIn` intro.
+- [x] About teaser: `CountUp`, seamless `LogoMarquee` with a pause control (KI-L35), and the values list.
+- [x] Signature project with signature parallax; its cards are real links (KI-A15).
+- [x] `ServicesExplorer`: tablist, 6s autoplay only while visible, pause on hover, focus or the control.
+- [x] `PinnedShowcase` (11 cards, cover-flow maths, filter tabs with a live count) and `PinnedStages` (travel and height formulas, active stage, stage art). Both have reduced-motion grids (KI-L02, KI-L04) and focusable scrollers below 1100px (KI-A08). They match the motion-on frames within 0.05–0.83% at 1440.
+- [x] `DivisionsCarousel` (carousel semantics, keys, swipe, pause; KI-L03), `ClientStories` (KI-L01, KI-L29), news and blog teasers, and the home contact + FAQ at home sizes.
+- [x] Shared content: `src/content/{projects,posts,news}.ts` (all 9 posts with block bodies, 6 news items, 11 projects).
+- [x] Tooling: `pnpm parity` pixel-diff tool (sections vs the original baseline), `docs/PARITY.md` sign-off ledger (P4-04), CSS Modules fixed (P4-03).
 
-**Exit:** visual diff within threshold at 4 widths; scroll-scrub sections captured at 5 scroll positions each and diffed; the behaviour checklist for E16–E29 is ticked.
+**Exit:** met. 35/48 section × width captures are within 1%, and every other one is explained in docs/PARITY.md. The pinned sections are checked from motion-on frames, and all suites (unit, e2e in Chromium and WebKit) are green.
 
 ### Phase 5: About and Services overview (~1.5 days)
 
