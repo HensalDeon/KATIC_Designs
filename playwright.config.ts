@@ -52,8 +52,6 @@ export default defineConfig({
           url: `http://127.0.0.1:${PORT}`,
           reuseExistingServer: !isCI,
           timeout: 180_000,
-          // The dev-only styleguide is exercised by tests/e2e/design-system.spec.ts.
-          env: { ENABLE_STYLEGUIDE: "1" },
         },
       }),
 });

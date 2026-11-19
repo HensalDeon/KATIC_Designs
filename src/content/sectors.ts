@@ -56,9 +56,6 @@ export const SECTORS = {
   },
 } as const satisfies Record<SectorKey, SectorTile>;
 
-/** The four sector tiles in their original order. */
-export const SECTOR_TILES: readonly SectorTile[] = SECTOR_KEYS.map((key) => SECTORS[key]);
-
 /** Exterior & Landscape's extra, non-link tile (`.ksec div.t`). */
 export const OUTDOOR_ENVIRONMENTS_TILE = {
   label: "ENVIRONMENT",
