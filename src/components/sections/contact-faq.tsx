@@ -201,7 +201,7 @@ export function ContactFaq({
             </h2>
           </MaybeReveal>
           <FaqIntro faq={faq} className="-mt-8 mb-28" />
-          <Faq items={faq.items} context="combo" typography={typography} />
+          <Faq items={faq.items} typography={typography} />
         </div>
       </Container>
     </Section>
@@ -264,39 +264,6 @@ function FaqIntro({ faq, className }: { faq: FaqContent; className?: string }) {
         </ContactButton>
       ) : null}
     </div>
-  );
-}
-
-type FaqSectionProps = {
-  readonly faq: FaqContent;
-  readonly id?: string;
-  readonly className?: string;
-};
-
-/**
- * Standalone FAQ section (`.ks.kfaq-sec`, always white): sticky header column (400px) beside the
- * accordion, one column below 1100px. On service pages the original folds it into the contact
- * section (`ContactFaq`); this keeps the block available on its own.
- */
-export function FaqSection({ faq, id, className }: FaqSectionProps) {
-  return (
-    <Section tone="light" id={id} className={className}>
-      <Container className="grid grid-cols-[400px_minmax(0,1fr)] items-start gap-96 max-lg:grid-cols-1 max-lg:gap-40">
-        <div className="sticky top-120 max-lg:static">
-          <Kicker className="max-md:text-[9.5px]">{faq.kicker}</Kicker>
-          <h2 className="mt-20 font-display text-[46px] leading-[1.1] font-bold tracking-[0.005em] text-ink-2 uppercase max-md:text-[34px]">
-            {faq.titleLines.map((line, index) => (
-              <Fragment key={line}>
-                {index > 0 ? <br /> : null}
-                {line}
-              </Fragment>
-            ))}
-          </h2>
-          <FaqIntro faq={faq} className="mt-22" />
-        </div>
-        <Faq items={faq.items} context="section" />
-      </Container>
-    </Section>
   );
 }
 

@@ -12,9 +12,8 @@ const kickerVariants = cva(
   "flex items-center gap-12 text-kicker uppercase before:flex-none before:bg-brand before:content-[''] max-md:text-[11px]",
   {
     variants: {
-      /** `display` = `.kick` (Jost), `sans` = `.kick.int` (Inter, inner pages), `home` = home page scale. */
+      /** `sans` = `.kick.int` (Inter, inner pages), `home` = home page scale. */
       font: {
-        display: "font-display text-[10.5px] font-medium tracking-[0.22em]",
         sans: "font-sans text-[9.5px] font-medium tracking-[0.2em]",
         home: "font-display text-[11px] font-medium tracking-[0.22em]",
       },

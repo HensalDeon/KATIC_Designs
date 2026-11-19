@@ -18,8 +18,6 @@ export const buttonVariants = cva(
         light: "bg-cream text-ink-2 hover:bg-white",
         /** `.ol`: white with warm grey border → dark border. */
         outline: "border border-line bg-white text-ink-2 hover:border-ink-2",
-        /** `.olc`: transparent outline on light. */
-        "outline-clear": "border border-line bg-transparent text-ink-2",
         /** `.dk`: near-black with translucent white border → white border. */
         dark: "border border-[rgba(255,255,255,0.28)] bg-ink-2 text-white hover:border-white",
         /** `.dko`: transparent outline on dark/imagery. */
@@ -38,8 +36,6 @@ export const buttonVariants = cva(
         hero: "h-54 gap-22 px-26 text-[12.5px] font-semibold",
         /** `.btn.sm`: 46px. */
         sm: "h-46 px-22 text-[12.5px]",
-        /** `.btn.xs`: 40px. */
-        xs: "h-40 px-20 text-[11.5px]",
       },
       font: {
         sans: "",

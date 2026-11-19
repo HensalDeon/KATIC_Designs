@@ -1,6 +1,4 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import Link from "next/link";
-import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/lib/cn";
 
@@ -16,25 +14,12 @@ export const moreLinkVariants = cva("inline-flex items-center gap-10 text-fg upp
   defaultVariants: { font: "sans" },
 });
 
-type MoreLinkProps = Omit<ComponentPropsWithoutRef<typeof Link>, "children"> &
-  VariantProps<typeof moreLinkVariants> & { children: string };
-
 /** The orange arrow of `.k-more`: text-safe orange on white, brand orange on black (KI-A11). */
 export function MoreArrow({ className }: { className?: string }) {
   return (
     <b className={cn("text-kicker", className)} aria-hidden>
       →
     </b>
-  );
-}
-
-/** "Explore service →" style link with an orange arrow (`.k-more`). */
-export function MoreLink({ font, className, children, ...props }: MoreLinkProps) {
-  return (
-    <Link className={cn(moreLinkVariants({ font }), className)} {...props}>
-      {children}
-      <MoreArrow />
-    </Link>
   );
 }
 
@@ -49,18 +34,5 @@ export function MoreLabel({
       {children}
       <MoreArrow className="font-black" />
     </span>
-  );
-}
-
-/** Underlined orange uppercase link (`.tlink`). */
-export function UnderlineLink({ className, ...props }: ComponentPropsWithoutRef<typeof Link>) {
-  return (
-    <Link
-      className={cn(
-        "inline-block border-b border-brand pb-2 font-display text-[10px] font-medium tracking-[0.2em] text-brand uppercase max-md:text-[11px]",
-        className,
-      )}
-      {...props}
-    />
   );
 }

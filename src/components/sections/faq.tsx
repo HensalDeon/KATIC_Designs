@@ -32,52 +32,27 @@ export type FaqItem = {
   readonly link?: FaqLink;
 };
 
-/**
- * Where the accordion sits:
- * - `combo`: right column of `ContactFaq` (`.contact.combo .kc-r`), light or dark by tone;
- * - `section`: the standalone white FAQ section (`.ks.kfaq-sec`).
- */
-export type FaqContext = "combo" | "section";
-
 /** `home` swaps Inter for Jost, as the home page's type system does. */
 export type FaqTypography = "standard" | "home";
 
-const itemVariants = cva("border-b first:border-t", {
-  variants: {
-    context: {
-      combo: "border-[#d9d9d9] in-data-[tone=dark]:border-[#262626]",
-      section: "border-[#e8e5df]",
-    },
-  },
-});
+/** Item borders (`.contact.combo .kc-r .qa`), light or dark by the section tone. */
+const ITEM = "border-b border-[#d9d9d9] first:border-t in-data-[tone=dark]:border-[#262626]";
 
 const questionVariants = cva(
-  "flex w-full cursor-pointer items-center justify-between gap-32 text-left font-normal transition-colors duration-200 hover:text-kicker",
+  "flex w-full cursor-pointer items-center justify-between gap-32 py-17 text-left text-[15.5px] leading-[1.45] font-normal text-black transition-colors duration-200 hover:text-kicker in-data-[tone=dark]:text-white",
   {
     variants: {
-      context: {
-        combo: "py-17 text-[15.5px] leading-[1.45] text-black in-data-[tone=dark]:text-white",
-        section: "py-26 text-[17px] leading-[1.45] text-ink-2",
+      // Inner pages enlarge the questions below 1100px; home keeps the canvas size.
+      typography: {
+        standard: "font-sans max-lg:py-24 max-lg:text-[16.5px]",
+        home: "font-display",
       },
-      typography: { standard: "font-sans", home: "font-display" },
     },
-    compoundVariants: [
-      // Inner pages enlarge the combo questions below 1100px; home keeps the canvas size.
-      {
-        context: "combo",
-        typography: "standard",
-        className: "max-lg:py-24 max-lg:text-[16.5px]",
-      },
-    ],
   },
 );
 
-const answerVariants = cva("", {
+const answerVariants = cva("text-[#656565] in-data-[tone=dark]:text-[#9a9a9a]", {
   variants: {
-    context: {
-      combo: "text-[#656565] in-data-[tone=dark]:text-[#9a9a9a]",
-      section: "text-[#666]",
-    },
     typography: {
       standard: "font-sans text-[14px] leading-[1.85]",
       home: "font-display text-[14.5px] leading-[1.7]",
@@ -86,14 +61,9 @@ const answerVariants = cva("", {
 });
 
 const linkVariants = cva(
-  "mt-10 inline-block cursor-pointer border-b transition-colors duration-200 hover:border-brand hover:text-kicker",
+  "mt-10 inline-block cursor-pointer border-b border-[#bbb] text-black transition-colors duration-200 hover:border-brand hover:text-kicker in-data-[tone=dark]:border-[#444] in-data-[tone=dark]:text-white",
   {
     variants: {
-      context: {
-        combo:
-          "border-[#bbb] text-black in-data-[tone=dark]:border-[#444] in-data-[tone=dark]:text-white",
-        section: "border-[#ccc] text-ink-2",
-      },
       typography: {
         standard: "font-sans text-[12px] font-medium",
         home: "font-display text-[11.5px] font-medium tracking-[0.14em] uppercase",
@@ -104,7 +74,6 @@ const linkVariants = cva(
 
 type FaqProps = {
   readonly items: readonly FaqItem[];
-  readonly context?: FaqContext;
   readonly typography?: FaqTypography;
   readonly className?: string;
 };
@@ -116,7 +85,7 @@ type FaqProps = {
  * collapsed answer is `visibility: hidden` once closed: out of the tab order and the accessibility
  * tree (KI-A09). The "+" turns into "×" by rotating 45° (.3s).
  */
-export function Faq({ items, context = "combo", typography = "standard", className }: FaqProps) {
+export function Faq({ items, typography = "standard", className }: FaqProps) {
   const baseId = useId();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -127,11 +96,7 @@ export function Faq({ items, context = "combo", typography = "standard", classNa
         const buttonId = `${baseId}-q${index}`;
         const panelId = `${baseId}-a${index}`;
         return (
-          <div
-            key={item.question}
-            data-open={open || undefined}
-            className={itemVariants({ context })}
-          >
+          <div key={item.question} data-open={open || undefined} className={ITEM}>
             <h3>
               <button
                 type="button"
@@ -139,7 +104,7 @@ export function Faq({ items, context = "combo", typography = "standard", classNa
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(open ? null : index)}
-                className={questionVariants({ context, typography })}
+                className={questionVariants({ typography })}
               >
                 {item.question}
                 <PlusIcon open={open} />
@@ -156,14 +121,11 @@ export function Faq({ items, context = "combo", typography = "standard", classNa
             >
               <div className="min-h-0 overflow-hidden">
                 <div className="pr-60 pb-26">
-                  <p className={answerVariants({ context, typography })}>
+                  <p className={answerVariants({ typography })}>
                     <AnswerText answer={item.answer} />
                   </p>
                   {item.link ? (
-                    <AnswerLink
-                      link={item.link}
-                      className={linkVariants({ context, typography })}
-                    />
+                    <AnswerLink link={item.link} className={linkVariants({ typography })} />
                   ) : null}
                 </div>
               </div>
