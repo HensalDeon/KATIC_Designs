@@ -26,6 +26,16 @@ export type DivisionSlug = (typeof DIVISION_SLUGS)[number];
 export const LOCATION_SLUGS = ["india", "dubai"] as const;
 export type LocationSlug = (typeof LOCATION_SLUGS)[number];
 
+/**
+ * India project filters (the original's `data-f` on `#india-projects`): Kochi and the rest of
+ * Kerala (`kerala`, KI-F22).
+ */
+export const INDIA_AREAS = ["kochi", "kerala"] as const;
+export type IndiaArea = (typeof INDIA_AREAS)[number];
+
+/** Id of India's filterable project grid section (kept from the original). */
+export const INDIA_PROJECTS_ID = "india-projects";
+
 /** Works filters (original `data-f` values). */
 export const WORKS_CATEGORIES = [
   "residential",
@@ -48,6 +58,11 @@ export const routes = {
   project: (slug: string) => `/works/${slug}`,
   division: (slug: DivisionSlug) => `/divisions/${slug}`,
   location: (slug: LocationSlug) => `/locations/${slug}`,
+  /** India's project grid, filtered to `area` (`?area=`), or showing every project. */
+  indiaProjects: (area?: IndiaArea) =>
+    area
+      ? `/locations/india?area=${area}#${INDIA_PROJECTS_ID}`
+      : `/locations/india#${INDIA_PROJECTS_ID}`,
   news: "/news",
   blog: "/blog",
   blogCategory: (category: string) => `/blog/category/${category}`,

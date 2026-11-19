@@ -1,6 +1,8 @@
 import {
   DIVISION_SLUGS,
   type DivisionSlug,
+  INDIA_AREAS,
+  type IndiaArea,
   routes,
   SERVICE_SLUGS,
   type ServiceSlug,
@@ -51,7 +53,8 @@ export function resolveLegacyHash(hash: string): string | null {
       return anchor ? routes.article(anchor) : routes.blog;
     case "india":
     case "kochi":
-      if (filter && anchor) return `${routes.location("india")}?area=${filter}#${anchor}`;
+      // The router clicks the page's filter button (JS 4744); `all` and unknown values show all.
+      if (filter && isIndiaArea(filter)) return routes.indiaProjects(filter);
       return withAnchor(routes.location("india"));
     case "dubai":
       return withAnchor(routes.location("dubai"));
@@ -74,4 +77,8 @@ function isDivisionSlug(value: string): value is DivisionSlug {
 
 function isWorksCategory(value: string): value is WorksCategory {
   return (WORKS_CATEGORIES as readonly string[]).includes(value);
+}
+
+function isIndiaArea(value: string): value is IndiaArea {
+  return (INDIA_AREAS as readonly string[]).includes(value);
 }

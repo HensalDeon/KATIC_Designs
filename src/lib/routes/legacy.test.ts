@@ -42,6 +42,11 @@ describe("resolveLegacyHash", () => {
     ["#india", "/locations/india"],
     ["#kochi", "/locations/india"],
     ["#india/india-projects/kerala", "/locations/india?area=kerala#india-projects"],
+    ["#india/india-projects/kochi", "/locations/india?area=kochi#india-projects"],
+    ["#kochi/india-projects/kochi", "/locations/india?area=kochi#india-projects"],
+    ["#india/india-projects/all", "/locations/india#india-projects"],
+    ["#india/india-projects/dubai", "/locations/india#india-projects"],
+    ["#india/india-projects", "/locations/india#india-projects"],
     ["#dubai", "/locations/dubai"],
     ["#dubai/dubai-context", "/locations/dubai#dubai-context"],
     // misc
