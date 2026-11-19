@@ -22,6 +22,8 @@ export type SectionHeaderProps = {
   /** `split` = `.kh` (title left, lead right); `center` = `.ctr`. */
   readonly align?: "split" | "center";
   readonly titleAs?: ComponentProps<typeof SectionTitle>["as"];
+  /** Page-level title override (P1-04), e.g. architecture's 1.14 line height. */
+  readonly titleClassName?: string;
   readonly className?: string;
 };
 
@@ -37,13 +39,14 @@ export function SectionHeader({
   cta,
   align = "split",
   titleAs,
+  titleClassName,
   className,
 }: SectionHeaderProps) {
   if (align === "center") {
     return (
       <div className={cn("text-center", className)}>
         <Kicker align="center">{kicker}</Kicker>
-        <SectionTitle as={titleAs} className="mt-22">
+        <SectionTitle as={titleAs} className={cn("mt-22", titleClassName)}>
           {title}
         </SectionTitle>
         {lead ? <Lead className="mx-auto mt-20 max-w-640 leading-[1.75]">{lead}</Lead> : null}
@@ -61,7 +64,7 @@ export function SectionHeader({
     >
       <div>
         <Kicker>{kicker}</Kicker>
-        <SectionTitle as={titleAs} className="mt-22">
+        <SectionTitle as={titleAs} className={cn("mt-22", titleClassName)}>
           {title}
         </SectionTitle>
       </div>

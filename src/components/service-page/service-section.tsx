@@ -25,6 +25,11 @@ import { TESTIMONIALS_HEADER } from "@/content/service-pages/shared";
 import { testimonials } from "@/content/testimonials";
 import type { Tone } from "@/lib/tone";
 
+import { ARCH_TITLE } from "./arch/arch-header";
+import { ArchIntro } from "./arch/arch-intro";
+import { ArchProcess } from "./arch/arch-process";
+import { ArchProjects } from "./arch/arch-projects";
+import { ArchServices } from "./arch/arch-services";
 import { withContactTarget } from "./page-plan";
 import { LineBreaks } from "./title-text";
 
@@ -39,7 +44,12 @@ type ServiceSectionViewProps = {
   readonly tone: Tone;
   /** Id of the page's contact section, the no-JavaScript target of "go to contact" CTAs. */
   readonly contactId: string;
+  /** The page's section-title line height (`ServicePageContent.sectionTitleLeading`). */
+  readonly titleLeading?: "standard" | "relaxed";
 };
+
+/** Title classes per page leading; `relaxed` is architecture's `#p-architecture .st` (1.14). */
+const TITLE_LEADING = { standard: undefined, relaxed: ARCH_TITLE } as const;
 
 /**
  * Renders one section of a service page with the shared section library (Phase 3): a
@@ -49,7 +59,14 @@ type ServiceSectionViewProps = {
  * The switch is exhaustive: adding a member to `ServiceSection` fails the build until it has a
  * case here.
  */
-export function ServiceSectionView({ section, tone, contactId }: ServiceSectionViewProps) {
+export function ServiceSectionView({
+  section,
+  tone,
+  contactId,
+  titleLeading = "standard",
+}: ServiceSectionViewProps) {
+  const headerProps = (header: SectionHeaderContent) =>
+    toHeaderProps(header, TITLE_LEADING[titleLeading]);
   const base = { tone, "data-parity": PARITY_CLASS, ...(section.id ? { id: section.id } : {}) };
   const shell = {
     ...base,
@@ -156,17 +173,41 @@ export function ServiceSectionView({ section, tone, contactId }: ServiceSectionV
           <Testimonials items={testimonials(section.testimonials)} />
         </ContentSection>
       );
+    case "archIntro":
+      return <ArchIntro content={section} tone={tone} {...idProps(section)} data-parity="ap" />;
+    case "archServices":
+      return (
+        <ArchServices
+          content={section}
+          tone={tone}
+          {...idProps(section)}
+          contactHref={`#${contactId}`}
+        />
+      );
+    case "archProcess":
+      return <ArchProcess content={section} tone={tone} {...idProps(section)} />;
+    case "archProjects":
+      return <ArchProjects content={section} tone={tone} {...idProps(section)} />;
     default:
       return assertNever(section);
   }
 }
 
-function headerProps({ kicker, title, lead, cta }: SectionHeaderContent): SectionHeaderProps {
+/** The section's own id, when the content gives one (the arch blocks default to the original's). */
+function idProps({ id }: Pick<ServiceSection, "id">): { id?: string } {
+  return id ? { id } : {};
+}
+
+function toHeaderProps(
+  { kicker, title, lead, cta }: SectionHeaderContent,
+  titleClassName: string | undefined,
+): SectionHeaderProps {
   return {
     kicker,
     title: <LineBreaks lines={title} />,
     ...(lead ? { lead } : {}),
     ...(cta ? { cta } : {}),
+    ...(titleClassName ? { titleClassName } : {}),
   };
 }
 
