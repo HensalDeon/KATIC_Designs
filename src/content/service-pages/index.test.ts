@@ -20,12 +20,12 @@ describe("service page registry", () => {
   });
 
   it("lists the built pages in the site's service order", () => {
-    expect(builtServiceSlugs()).toEqual(["interior", "turnkey"]);
+    expect(builtServiceSlugs()).toEqual(["architecture", "interior", "turnkey"]);
   });
 
   it("returns nothing for unknown or unbuilt slugs", () => {
     expect(getServicePage("nope")).toBeUndefined();
-    expect(getServicePage("architecture")).toBeUndefined();
+    expect(getServicePage("factory")).toBeUndefined();
     expect(getServicePage("constructor")).toBeUndefined();
   });
 });
@@ -51,8 +51,13 @@ describe.each(pages.map((page) => [page.slug, page] as const))("%s content", (sl
 
   it("references existing projects only", () => {
     for (const section of page.sections) {
-      if (section.type !== "projects") continue;
-      for (const item of section.items) expect(isProjectSlug(item.project)).toBe(true);
+      const items =
+        section.type === "projects"
+          ? section.items
+          : section.type === "archProjects"
+            ? [section.featured, ...section.grid]
+            : [];
+      for (const item of items) expect(isProjectSlug(item.project)).toBe(true);
     }
   });
 

@@ -39,7 +39,13 @@ export function ServicePage({ content }: ServicePageProps) {
         {...(hero.caption ? { caption: hero.caption } : {})}
       />
       {plan.sections.map(({ section, tone, key }) => (
-        <ServiceSectionView key={key} section={section} tone={tone} contactId={plan.contact.id} />
+        <ServiceSectionView
+          key={key}
+          section={section}
+          tone={tone}
+          contactId={plan.contact.id}
+          titleLeading={content.sectionTitleLeading ?? "standard"}
+        />
       ))}
       <ContactFaq
         tone={plan.contact.tone}

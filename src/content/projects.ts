@@ -260,6 +260,54 @@ const PROJECT_LIST = [
     cover: "photos/desert-villa-sunset",
     coverAlt: "Desert villa with an infinity pool at sunset",
   },
+  // The Architecture page's featured projects (`#p-architecture .ap2`, docs/analysis/03 §1.15);
+  // facts from their cards' meta line ("Kakkanad, Kerala · Villa Design"). Categories are inferred
+  // from that line: the original's cards carry no filter data.
+  {
+    slug: "palm-ridge-villa",
+    name: "Palm Ridge Villa",
+    location: "Kakkanad, Kerala",
+    region: "kerala",
+    categories: ["residential", "villas", "architecture"],
+    type: "Villa",
+    scope: "Villa Design",
+    cover: "photos/hillside-villa-sunset",
+    coverAlt: "Villa on a hillside with palm trees at sunset",
+  },
+  {
+    slug: "nila-workspace",
+    name: "Nila Workspace",
+    location: "Dubai, UAE",
+    region: "uae",
+    categories: ["commercial", "architecture"],
+    type: "Commercial",
+    scope: "Commercial Architecture",
+    cover: "photos/glass-office-tower",
+    coverAlt: "Glass office building with vertical fins",
+  },
+  {
+    slug: "house-of-monsoon",
+    name: "House of Monsoon",
+    location: "Thrissur, Kerala",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Residential Architecture",
+    cover: "photos/timber-house-night",
+    coverAlt: "Timber house lit at night after rain",
+  },
+  {
+    slug: "the-old-mill-renewal",
+    name: "The Old Mill Renewal",
+    location: "Aluva, Kerala",
+    region: "kerala",
+    // An adaptive reuse "introducing a new public life": commercial architecture.
+    categories: ["commercial", "architecture"],
+    type: "Commercial",
+    scope: "Renovation",
+    cover: "photos/brick-house-arched-windows-night",
+    coverAlt: "Brick house with arched windows lit at night",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];

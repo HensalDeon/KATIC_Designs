@@ -42,6 +42,10 @@ import type { SectionAction } from "@/components/sections/section-action";
 import type { SectionCta } from "@/components/sections/section-header";
 import type { SectionImage } from "@/components/sections/section-image";
 import type { ImageInput } from "@/components/sections/section-media";
+import type { ArchIntroContent } from "@/components/service-page/arch/arch-intro";
+import type { ArchProcessContent } from "@/components/service-page/arch/arch-process";
+import type { ArchProjectsContent } from "@/components/service-page/arch/arch-projects";
+import type { ArchServicesContent } from "@/components/service-page/arch/arch-services";
 import type { ProcessStageId } from "@/content/process-stages";
 import type { ProjectSlug } from "@/content/projects";
 import type { RelatedServiceSlug } from "@/content/related-services";
@@ -233,14 +237,29 @@ export type StandardSection =
   | DivisionsSection
   | TestimonialsSection;
 
-/**
- * Page-specific blocks. Architecture adds `archIntro`, `archServices`, `archProcess` and
- * `archProjects` here (analysis/03 §1.15), each `SectionBase & { readonly type: "…"; … }`, plus a
- * case in `service-section.tsx`.
- */
-export type BespokeSection = never;
+/** Architecture introduction (`.ap`): see `ArchIntro`. */
+export type ArchIntroSection = SectionBase & { readonly type: "archIntro" } & ArchIntroContent;
+/** Architecture services list (`.sv#services-list`): see `ArchServices`. */
+export type ArchServicesSection = SectionBase & {
+  readonly type: "archServices";
+} & ArchServicesContent;
+/** Architecture process and photos (`.pr#process`): see `ArchProcess`. */
+export type ArchProcessSection = SectionBase & {
+  readonly type: "archProcess";
+} & ArchProcessContent;
+/** Architecture featured projects (`.ap2#arch-projects`): see `ArchProjects`. */
+export type ArchProjectsSection = SectionBase & {
+  readonly type: "archProjects";
+} & ArchProjectsContent;
 
-// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- `BespokeSection` is empty until architecture adds its blocks
+/**
+ * Page-specific blocks: architecture's `.ap`, `.sv`, `.pr` and `.ap2` (analysis/03 §1.15). Their
+ * content types live with their components in `src/components/service-page/arch/`. A `plant` is
+ * not rendered on them (the original puts none there).
+ */
+export type BespokeSection =
+  ArchIntroSection | ArchServicesSection | ArchProcessSection | ArchProjectsSection;
+
 export type ServiceSection = StandardSection | BespokeSection;
 export type ServiceSectionType = ServiceSection["type"];
 
@@ -258,6 +277,11 @@ export type ServicePageContent = {
   readonly slug: ServiceSlug;
   /** The original's `data-title` (already ends in the brand) and `data-desc`. */
   readonly seo: { readonly title: string; readonly description: string };
+  /**
+   * Line height of the standard section titles: `relaxed` is architecture's 1.14 (its page rule
+   * `#p-architecture .st`), `standard` (default) the global 1.12 / 1.1.
+   */
+  readonly sectionTitleLeading?: "standard" | "relaxed";
   readonly hero: ServiceHeroContent;
   readonly sections: readonly ServiceSection[];
   readonly contact: ServiceContactContent;

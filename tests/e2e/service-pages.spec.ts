@@ -40,7 +40,25 @@ type ServicePageSpec = {
   readonly related: { readonly heading: RegExp; readonly hrefs: readonly string[] };
   /** A zoomable split photo (its alt). */
   readonly zoomImage: string;
+  /**
+   * Banner values when they differ from the standard `.kh-hero` (architecture's own variant):
+   * title and lead styles, and the y of the primary button on the canvas.
+   */
+  readonly hero?: { readonly title: Expected; readonly lead: Expected; readonly ctaY: number };
+  /** Section-title line height on the canvas (default 64.96px = 58 × 1.12). */
+  readonly titleLineHeight?: string;
 };
+
+const STANDARD_HERO = {
+  title: { fontSize: "74px", lineHeight: "74px", fontWeight: "700", color: "rgb(255, 255, 255)" },
+  lead: {
+    fontSize: "17px",
+    lineHeight: "28.9px",
+    color: "rgb(238, 238, 238)",
+    maxWidth: "640px",
+  },
+  ctaY: 568.8,
+} as const satisfies NonNullable<ServicePageSpec["hero"]>;
 
 const WHITE = "rgb(255, 255, 255)";
 const BLACK = "rgb(0, 0, 0)";
@@ -119,28 +137,19 @@ function describeServicePage(spec: ServicePageSpec) {
       test("hero type, buttons and links", async ({ page }) => {
         await open(page, spec.slug);
         const hero = page.locator("[data-hero]");
-        await expectStyles(hero.locator("h1"), {
-          fontSize: "74px",
-          lineHeight: "74px",
-          fontWeight: "700",
-          color: WHITE,
-        });
+        const expected = spec.hero ?? STANDARD_HERO;
+        await expectStyles(hero.locator("h1"), expected.title);
         await expectStyles(hero.locator("h1 span"), { color: ORANGE });
-        await expectStyles(hero.locator("h1 + p"), {
-          fontSize: "17px",
-          lineHeight: "28.9px",
-          color: "rgb(238, 238, 238)",
-          maxWidth: "640px",
-        });
+        await expectStyles(hero.locator("h1 + p"), expected.lead);
         for (const [index, cta] of spec.heroCtas.entries()) {
           const link = hero.getByRole("link", { name: cta.name });
           await expect(link).toHaveAttribute("href", cta.href);
           const box = await link.boundingBox();
           expect(box?.height).toBe(54);
           if (index > 0) continue;
-          // Original: the cream button at (86, 568.8).
+          // Original: the cream button at (86, 568.8) on the standard banner.
           expect(box?.x).toBe(86);
-          expect(box?.y).toBeCloseTo(568.8, 0);
+          expect(box?.y).toBeCloseTo(expected.ctaY, 0);
           await expectStyles(link, { backgroundColor: "rgb(247, 244, 239)" });
         }
       });
@@ -149,7 +158,7 @@ function describeServicePage(spec: ServicePageSpec) {
         await open(page, spec.slug);
         await expectStyles(page.locator("main > section h2").nth(1), {
           fontSize: "58px",
-          lineHeight: "64.96px",
+          lineHeight: spec.titleLineHeight ?? "64.96px",
           textTransform: "uppercase",
         });
         const process = sectionByHeading(page, spec.process.heading);
@@ -372,6 +381,251 @@ test.describe("/services/interior FAQ links", () => {
     await expect(faq.getByLabel("Full Name")).toBeFocused();
     await expect(faq.getByLabel("Service Needed")).toHaveValue("Interior Design");
   });
+});
+
+describeServicePage({
+  slug: "architecture",
+  title: "Architects in Kochi, Kerala | Architectural Design Services | Katic Designs",
+  description:
+    "Climate-responsive architectural design for homes, villas and commercial buildings in Kerala and Dubai — from site study and concept to approval drawings.",
+  service: "Architectural Design",
+  heroCtas: [{ name: "Discuss Your Project", href: "#architecture-contact" }],
+  sections: [
+    ["ap", "light"],
+    ["services-list", "dark"],
+    ["ks", "light"],
+    ["process", "dark"],
+    ["arch-projects", "light"],
+    ["ks", "dark"],
+    ["ks", "light"],
+    ["ks", "dark"],
+  ],
+  contactTone: "light",
+  process: { heading: /From Site to/, titleSize: "30px", artHeight: "170px" },
+  projects: { heading: /Architecture\s*Projects/, imageHeight: "563px", count: 5 },
+  related: {
+    heading: /alongside architecture/,
+    hrefs: RELATED(
+      "exterior",
+      "interior",
+      "turnkey",
+      "construction",
+      "renovation",
+      "property-care",
+    ),
+  },
+  zoomImage: "White massing model on a dark background",
+  hero: {
+    title: { fontSize: "76px", lineHeight: "75.24px", fontWeight: "700", color: WHITE },
+    lead: {
+      fontSize: "17px",
+      lineHeight: "28.9px",
+      color: "rgb(242, 242, 242)",
+      maxWidth: "660px",
+    },
+    ctaY: 640.5,
+  },
+  // `#p-architecture .st{line-height:1.14}` applies to every section title of the page.
+  titleLineHeight: "66.12px",
+});
+
+/** The four architecture-only blocks (`.ap`, `.sv`, `.pr`, `.ap2`, analysis/03 §1.15). */
+test.describe("/services/architecture bespoke blocks", () => {
+  const intro = (page: Page) => page.locator("[data-parity=ap]");
+  const services = (page: Page) => page.locator("#services-list");
+  const process = (page: Page) => page.locator("#process");
+  const projects = (page: Page) => page.locator("#arch-projects");
+
+  test.describe("1440 canvas", () => {
+    test.use({ viewport: { width: 1440, height: 900 } });
+
+    test("intro: lead, figures, photo and caption as the original (no dead spacer, KI-L21)", async ({
+      page,
+    }) => {
+      await open(page, "architecture");
+      const section = intro(page);
+      await expectStyles(section.locator("h2"), { fontSize: "58px", lineHeight: "66.12px" });
+      await expectStyles(section.locator("h2 + p"), {
+        fontSize: "17px",
+        lineHeight: "28.9px",
+        color: "rgb(85, 85, 85)",
+        maxWidth: "500px",
+        marginTop: "26px",
+      });
+      await expect(section.getByRole("link", { name: "Our Process" })).toHaveAttribute(
+        "href",
+        "#process",
+      );
+      await expectStyles(section.locator("dl"), { gridTemplateColumns: "265px 243px" });
+      await expectStyles(section.locator("dd").first(), { fontSize: "26px", height: "31px" });
+      await expectStyles(section.locator("dt").first(), {
+        fontSize: "9.5px",
+        letterSpacing: "1.9px",
+        color: "rgb(85, 85, 85)",
+      });
+      const photo = section.locator("figure img");
+      expect(await photo.boundingBox()).toMatchObject({ width: 700, height: 523 });
+      await expectStyles(section.locator("figcaption span").last(), { fontSize: "10.5px" });
+      // Content (592px) centred in one screen: 154px above it, 154px below.
+      const box = await section.boundingBox();
+      const grid = await section.locator(":scope > div").boundingBox();
+      expect(box?.height).toBe(900);
+      expect((grid?.y ?? 0) - (box?.y ?? 0)).toBeCloseTo(154, 0);
+    });
+
+    test("services: summary, 61px rows into the form, button and photos", async ({ page }) => {
+      await open(page, "architecture");
+      const section = services(page);
+      await expectStyles(section.locator("h2"), { marginTop: "44px" });
+      await expectStyles(section.locator("h2").locator("xpath=../following-sibling::div/p"), {
+        fontSize: "14.5px",
+        lineHeight: "26.1px",
+        color: "rgb(221, 221, 221)",
+        marginTop: "58px",
+      });
+      const rows = section.locator("li a");
+      await expect(rows).toHaveCount(9);
+      await expectStyles(rows.first(), {
+        height: "61px",
+        gridTemplateColumns: "56px 524px 20px",
+        borderBottomColor: "rgba(255, 255, 255, 0.2)",
+      });
+      await expectStyles(rows.first().locator("span").nth(1), {
+        fontSize: "20px",
+        color: WHITE,
+      });
+      await rows.first().hover();
+      await expect(rows.first().locator("span").nth(1)).toHaveCSS("color", ORANGE);
+      const works = section.getByRole("link", { name: "View Architecture Works" });
+      await expect(works).toHaveAttribute("href", "/works?category=architecture#works-list");
+      expect(await works.boundingBox()).toMatchObject({ height: 52 });
+      await expectStyles(works, { marginTop: "88px", backgroundColor: "rgb(17, 17, 17)" });
+      const photos = section.locator("button img");
+      expect((await photos.nth(0).boundingBox())?.height).toBe(290);
+      expect(await photos.nth(1).boundingBox()).toMatchObject({ width: 293, height: 362 });
+
+      // A row goes to the form with the service preselected (`data-go="contact" data-svc`).
+      const form = page.locator("#architecture-contact");
+      await form.getByLabel("Service Needed").selectOption("Interior Design");
+      await rows.nth(4).click();
+      await expect(form.getByLabel("Full Name")).toBeFocused();
+      await expect(form.getByLabel("Service Needed")).toHaveValue("Architectural Design");
+    });
+
+    test("services photos browse as one lightbox gallery with descriptive alts (KI-A13)", async ({
+      page,
+    }) => {
+      await open(page, "architecture");
+      await services(page)
+        .getByRole("button", { name: "Enlarge image: Pavilion building with vertical fins" })
+        .click();
+      const viewer = page.getByRole("dialog");
+      await expect(viewer).toContainText("1 / 3");
+      await page.keyboard.press("ArrowRight");
+      await expect(viewer).toContainText("2 / 3");
+      await page.keyboard.press("Escape");
+      await expect(viewer).toBeHidden();
+    });
+
+    test("process: lead, 512px photo row and the steps 80px below (#process-tl)", async ({
+      page,
+    }) => {
+      await open(page, "architecture");
+      const section = process(page);
+      await expectStyles(section.locator("h2").locator("xpath=../following-sibling::div/p"), {
+        fontSize: "15.5px",
+        lineHeight: "26.35px",
+        color: "rgb(221, 221, 221)",
+      });
+      await expect(section.getByRole("link", { name: "See Our Process" })).toHaveAttribute(
+        "href",
+        "#process-tl",
+      );
+      const photos = page.getByTestId("arch-process-photos");
+      await expectStyles(photos, { gridTemplateColumns: "512px 738px", marginTop: "62px" });
+      expect((await photos.locator("img").first().boundingBox())?.height).toBe(333);
+      const steps = page.locator("#process-tl");
+      await expectStyles(steps, { marginTop: "80px" });
+      await expect(steps.locator("li")).toHaveCount(5);
+      await expectStyles(steps.locator("li p").first(), { color: "rgb(143, 137, 132)" });
+    });
+
+    test("projects: featured and grid cards, hover zoom, links to each project", async ({
+      page,
+    }) => {
+      await open(page, "architecture");
+      const cards = projects(page).locator("li a");
+      expect(await cards.evaluateAll((all) => all.map((a) => a.getAttribute("href")))).toEqual([
+        "/works/the-courtyard-house",
+        "/works/palm-ridge-villa",
+        "/works/nila-workspace",
+        "/works/house-of-monsoon",
+        "/works/the-old-mill-renewal",
+      ]);
+      expect(await cards.nth(1).locator("img").boundingBox()).toMatchObject({
+        width: 606.5,
+        height: 420,
+      });
+      await expectStyles(cards.first().locator("h3"), { fontSize: "30px" });
+      await expectStyles(cards.nth(1).locator("h3"), { fontSize: "26px" });
+      await expectStyles(cards.first().locator("h3").locator("xpath=preceding-sibling::span"), {
+        fontSize: "8.5px",
+        letterSpacing: "1.19px",
+        color: "rgb(192, 82, 42)",
+      });
+      const image = cards.first().locator("img");
+      await expectStyles(image, { transitionDuration: "0.8s" });
+      await cards.first().hover();
+      await expect(image).toHaveCSS("scale", "1.03");
+      // Meta row: description left, "View Project ↗" right (big card at x 1267).
+      const view = cards.first().getByText("View Project");
+      expect((await view.boundingBox())?.x).toBeCloseTo(1267.2, 0);
+    });
+  });
+
+  test.describe("1024 (≤1099)", () => {
+    test.use({ viewport: { width: 1024, height: 768 } });
+
+    test("one column, 46px titles (KI-N04)", async ({ page }) => {
+      await open(page, "architecture");
+      for (const section of [intro(page), services(page), process(page), projects(page)])
+        await expectStyles(section.locator("h2"), { fontSize: "46px" });
+      expect((await intro(page).locator("figure img").boundingBox())?.width).toBe(952);
+      // The photo row only stacks on phones; at 1024 it is still 512px + the rest.
+      await expectStyles(page.getByTestId("arch-process-photos"), {
+        gridTemplateColumns: "512px 422px",
+      });
+    });
+  });
+
+  for (const viewport of [
+    { width: 768, height: 1024 },
+    { width: 390, height: 844 },
+  ]) {
+    test.describe(`${String(viewport.width)} (≤860)`, () => {
+      test.use({ viewport });
+
+      test("process photos stack inside the canvas (KI-L20) and cards stack their meta", async ({
+        page,
+      }) => {
+        await open(page, "architecture");
+        const container = viewport.width - 40;
+        const photos = page.getByTestId("arch-process-photos").locator("img");
+        for (const index of [0, 1]) {
+          const box = await photos.nth(index).boundingBox();
+          expect(box).toMatchObject({ x: 20, width: container, height: 333 });
+        }
+        await expectStyles(intro(page).locator("figure img"), { height: "320px" });
+        await expectStyles(services(page).locator("button img").nth(1), { height: "220px" });
+        const view = projects(page).locator("li a").first().getByText("View Project");
+        expect((await view.boundingBox())?.x).toBe(20);
+        await expectStyles(projects(page).locator("h2"), {
+          fontSize: "34px",
+          lineHeight: "38.76px",
+        });
+      });
+    });
+  }
 });
 
 test.describe("unbuilt service pages", () => {

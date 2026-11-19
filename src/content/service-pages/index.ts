@@ -1,5 +1,6 @@
 import { SERVICE_SLUGS, type ServiceSlug } from "@/lib/routes";
 
+import { ARCHITECTURE_PAGE } from "./architecture";
 import { INTERIOR_PAGE } from "./interior";
 import { TURNKEY_PAGE } from "./turnkey";
 import type { ServicePageContent } from "./types";
@@ -12,7 +13,7 @@ export type * from "./types";
  * its `<slug>.ts` and replace its `undefined`.
  */
 export const SERVICE_PAGES: Readonly<Record<ServiceSlug, ServicePageContent | undefined>> = {
-  architecture: undefined,
+  architecture: ARCHITECTURE_PAGE,
   interior: INTERIOR_PAGE,
   factory: undefined,
   construction: undefined,
