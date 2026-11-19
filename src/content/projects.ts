@@ -436,6 +436,77 @@ const PROJECT_LIST = [
     cover: "photos/sea-view-living-room",
     coverAlt: "Living room with curved sofas and floor-to-ceiling sea views",
   },
+  // The Reviews page's "Projects behind the reviews" grid (`#p-reviews .sp`, docs/analysis/04 §9)
+  // not shown elsewhere; facts from their cards ("ARCHITECTURE + INTERIORS" · "KOCHI").
+  // Categories and types are inferred from that line: the original's cards carry no filter data.
+  // TODO(content): KI-D01 "Courtyard Residence" shares the Works hero photo and may be The
+  // Courtyard House under another name; the client confirms.
+  {
+    slug: "courtyard-residence",
+    name: "Courtyard Residence",
+    location: "Kochi",
+    region: "kerala",
+    categories: ["residential", "architecture", "interiors"],
+    type: "Residential",
+    scope: "Architecture + Interiors",
+    cover: "photos/dark-lounge-interior",
+    coverAlt: "Dark lounge interior with cream sofas and botanical artwork",
+  },
+  {
+    slug: "garden-house",
+    name: "Garden House",
+    location: "Thrissur",
+    region: "kerala",
+    categories: ["residential", "interiors"],
+    type: "Residential",
+    scope: "Residential Interiors",
+    cover: "photos/open-pavilion-lounge-night",
+    coverAlt: "Open timber pavilion lounge at night",
+  },
+  {
+    slug: "the-social-kitchen",
+    name: "The Social Kitchen",
+    location: "Kottayam",
+    region: "kerala",
+    categories: ["residential"],
+    type: "Residential",
+    scope: "Turnkey Residence",
+    cover: "photos/granite-kitchen",
+    coverAlt: "Kitchen with granite worktops and white cabinets",
+  },
+  {
+    slug: "quiet-play-house",
+    name: "Quiet Play House",
+    location: "Ernakulam",
+    region: "kerala",
+    categories: ["residential", "interiors"],
+    type: "Residential",
+    scope: "Interior Design",
+    cover: "photos/games-room-billiards",
+    coverAlt: "Games room with a billiards table",
+  },
+  {
+    slug: "monsoon-court",
+    name: "Monsoon Court",
+    location: "Alappuzha",
+    region: "kerala",
+    categories: ["residential", "architecture"],
+    type: "Residential",
+    scope: "Residential Architecture",
+    cover: "photos/veranda-living-pool-view",
+    coverAlt: "Veranda living area overlooking a pool",
+  },
+  {
+    slug: "studio-commons",
+    name: "Studio Commons",
+    location: "Kozhikode",
+    region: "kerala",
+    categories: ["commercial", "interiors"],
+    type: "Commercial",
+    scope: "Commercial Interior",
+    cover: "photos/studio-workspace",
+    coverAlt: "Design studio workspace with long timber desks",
+  },
 ] as const satisfies readonly Project[];
 
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
