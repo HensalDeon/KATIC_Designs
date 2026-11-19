@@ -304,15 +304,16 @@ Built in three parallel groups. The divisions group generalised the block render
 
 **Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on any of these pages, as in the original. All suites are green (379 unit, 559 e2e).
 
-### Phase 9: Blog, Article, News, Reviews, Thank-you (~2 days)
+### Phase 9: Blog, Article, News, Reviews, Thank-you (~2 days) ✅ done 2026-11-19
 
-- [ ] `Post` model + 9 seed posts (typed block body).
-  - `/blog`: 6 posts, then 3 more per "Load more" (client island over server data).
-  - `/blog/category/[category]`: real pages; the hidden search/sort UI is not ported (D-log).
-  - `/blog/[slug]`: block renderer, BlogPosting JSON-LD, related posts, real `notFound()` for unknown slugs.
-- [ ] `/news`: grid with empty state (detail pages are deferred until there is content).
-- [ ] `/reviews`: featured stories, review grid, expertise strip, fixed mobile selectors.
-- [ ] `/thank-you`: reads the lead summary from `sessionStorage` (survives refresh), shows correct source/service labels, WhatsApp follow-up. `noindex`, no inline `!important` padding.
+Built in three parallel groups (blog + article, news + thank-you, reviews).
+
+- [x] `/blog`, `/blog/category/<slug>` and all 9 `/blog/<slug>` articles, prerendered from `posts.ts` (P9-01); article aside fixed (KI-N14).
+- [x] `/news` with per-item permalinks (P9-02) and `/thank-you` personalised from the remembered lead, with the delivery-failure fallback (P9-03).
+- [x] `/reviews` with the reviews CTA band, lightbox story gallery and parallax.
+- [x] Site-wide crawl: every internal link on every reachable page answers 200 (P9-04).
+
+**Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on these pages, as in the original. All suites are green (395 unit, 631 e2e).
 
 ### Phase 10: Hardening and parity sign-off (~2–3 days)
 

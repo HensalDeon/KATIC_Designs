@@ -212,3 +212,30 @@ The active filter button is black on orange like Works (KI-A19), a few pixels of
 | Footer         | 0.12%         | 0.86%          | 1.03%           | 1.08%          |                                                                                                     |
 
 **Motion check (1440):** no `[data-rv]`/`[data-reveal]`; every section within 0.38% except divisions 1.76% (photos) and the context block 3.80% (the cactus fix). The original's Dubai parallax selector targets a section that does not exist, so there is no parallax to reproduce.
+
+---
+
+## Blog, Article, News, Thank-you, Reviews: Phase 9, 2026-11-19
+
+Bracketed numbers are with the fix reverted (`--css`); 768/390 brackets use settled re-captures of the original (P6-03).
+
+| Page / section       | 1440           | 1024           | 768            | 390            | Notes                                                                                                   |
+| -------------------- | -------------- | -------------- | -------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| Blog hero            | 0.00%          | 3.72% [0.35%]  | 0.23%          | 0.88%          | 1024: KI-L16                                                                                            |
+| Blog list            | 0.23%          | 0.38%          | 18.84% [0.70%] | 19.19% [0.51%] | 11px card meta (KI-A10)                                                                                 |
+| Article cover        | 0.00%          | 0.00%          | 0.00%          | 0.00%          |                                                                                                         |
+| Article body + aside | 0.50%          | 0.23%          | 1.45% [0.39%]  | 18.86% [0.30%] | 390: the 11px category wraps the byline (KI-A10). Three more articles spot-checked: 0.13–0.38% reverted |
+| News hero            | 0.00%          | 3.00% [0.00%]  | 0.00%          | 0.02%          | 1024: KI-L16                                                                                            |
+| News list            | 0.75%          | 0.23%          | 15.19% [0.44%] | 15.12% [0.33%] | KI-A10                                                                                                  |
+| Thank-you            | 18.43% [0.08%] | 0.01%          | 0.02%          | 0.02%          | 1440: no auto-zoom (KI-L13)                                                                             |
+| Reviews hero         | 0.00%          | 5.52% [0.05%]  | 0.16%          | 0.50%          | 1024: KI-L16                                                                                            |
+| Reviews trust        | 1.20%          | 32.55% [0.74%] | 13.51% [2.18%] | 14.83% [1.38%] | KI-N04, KI-A10; the rest is photo resampling                                                            |
+| Reviews testimonials | 25.56% [0.01%] | 6.79% [0.15%]  | 4.30% [0.01%]  | 6.69% [0.02%]  | 1440: KI-L13 (the original shrinks it to 0.719)                                                         |
+| Reviews expertise    | 3.87% [1.04%]  | 34.14% [0.33%] | 14.28% [2.02%] | 36.12% [1.29%] | 1px baseline offset (KI-N12), KI-N04, KI-A10                                                            |
+| Reviews story        | 0.86%          | 10.15% [0.28%] | 31.73% [0.30%] | 18.25% [0.81%] | ≤860: the original's growing plant padding (KI-N11)                                                     |
+| Reviews projects     | 81.15% [0.55%] | 38.04% [0.50%] | 26.01% [1.75%] | 1.53%          | 1440: KI-L13 (0.711)                                                                                    |
+| Reviews CTA          | 1.45% [0.00%]  | 38.42% [0.16%] | 0.01%          | 15.81% [1.38%] | 1024: `CtaBand` 80px padding (KI-N07); 390: KI-A10                                                      |
+
+Footers are within 1% everywhere except where the stored capture is offset (KI-N12; ≤0.6% settled). A position probe of Reviews matches the original within 0.1px at all four widths once the fixes are reverted.
+
+**Motion check (animations on, 1440):** none of these original pages has `[data-rv]`, and the rebuild has no `[data-reveal]`. Every section is within 1.25% (most ≤0.33%); the reviews CTA parallax matches the original's −72/−36px and is static under reduced motion.
