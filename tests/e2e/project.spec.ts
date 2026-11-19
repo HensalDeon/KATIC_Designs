@@ -418,48 +418,5 @@ test.describe("project links", () => {
     }
   });
 
-  /** Every page built so far. Extend as pages are added. */
-  const PAGES = [
-    "/",
-    "/about",
-    "/services",
-    ...[
-      "architecture",
-      "interior",
-      "factory",
-      "construction",
-      "turnkey",
-      "renovation",
-      "exterior",
-      "property-care",
-    ].map((slug) => `/services/${slug}`),
-    ...["design", "interior", "infrastructure", "developers", "care"].map(
-      (slug) => `/divisions/${slug}`,
-    ),
-    PATH,
-  ];
-
-  test("every /works/<slug> link on the built pages resolves (no card leads to a 404)", async ({
-    page,
-    request,
-  }) => {
-    test.setTimeout(120_000);
-    const targets = new Map<string, string>();
-    for (const path of PAGES) {
-      await page.goto(path);
-      const hrefs = await page.evaluate(() =>
-        [...document.querySelectorAll<HTMLAnchorElement>("a[href]")].map(
-          (a) => new URL(a.href).pathname,
-        ),
-      );
-      for (const href of hrefs) {
-        if (href.startsWith("/works/") && !targets.has(href)) targets.set(href, path);
-      }
-    }
-    expect(targets.size).toBeGreaterThan(0);
-    for (const [target, from] of targets) {
-      const response = await request.get(target);
-      expect(response.status(), `${target} (linked from ${from})`).toBe(200);
-    }
-  });
+  // The site-wide crawl (tests/e2e/site-links.spec.ts) checks that no /works/<slug> link is a 404.
 });
