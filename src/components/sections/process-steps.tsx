@@ -40,8 +40,9 @@ export type ProcessStepsProps = Omit<ComponentPropsWithoutRef<"ol">, "children">
 /**
  * Process timeline (`.ksteps.k3d`) rendered inside a `ContentSection`: one column per step on the
  * canvas, each with an art slot, a small orange line icon, an uppercase Jost title and a short
- * text. Rows of 6 or more steps are dense (22px titles, 120px art). 2 columns with a 44px row gap
- * below 1100px, 1 on phones. Headings are #111 and texts #666 on white (the original's `.lt`).
+ * text. Rows of 6 or more steps are dense (22px titles, 120px art). 2 columns below 1100px and 1
+ * on phones, always 28px apart (the original's 44px row-gap rule is out-specified by `.k3d`, so
+ * it never renders). Headings are #111 and texts #666 on white (the original's `.lt`).
  * `className` and the remaining props (e.g. `id` for deep links) go to the list; steps carry
  * `data-step`, art slots `data-art-slot` for the draw-on behaviour.
  */
@@ -52,7 +53,7 @@ export function ProcessSteps({ steps, columns, className, style, ...props }: Pro
   return (
     <ol
       className={cn(
-        "grid grid-cols-[repeat(var(--steps),1fr)] gap-28 max-lg:grid-cols-[repeat(2,minmax(0,1fr))] max-lg:gap-y-44 max-md:grid-cols-[minmax(0,1fr)]",
+        "grid grid-cols-[repeat(var(--steps),1fr)] gap-28 max-lg:grid-cols-[repeat(2,minmax(0,1fr))] max-md:grid-cols-[minmax(0,1fr)]",
         className,
       )}
       style={{ ...style, "--steps": count } as CSSProperties}
