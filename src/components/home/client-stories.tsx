@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 
+import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
@@ -34,7 +35,7 @@ function Lines({ lines }: { lines: readonly string[] }) {
  * Fixes: below 1100px the columns are fluid (`1fr 1.2fr 1fr`) instead of fixed 346px tracks, so
  * the page no longer overflows sideways at 861–1099px (KI-L01); on tablets the portrait is cropped
  * from the top third so the face stays in frame (KI-L29). The kicker uses the text-safe orange on
- * white (KI-A11).
+ * white (KI-A11). Reveals as in the original (`.cs .kick`, `h2` clip, `.top p`, `.q`).
  */
 export function ClientStories({ content = HOME_STORIES, className }: ClientStoriesProps) {
   return (
@@ -45,14 +46,20 @@ export function ClientStories({ content = HOME_STORIES, className }: ClientStori
           className="flex items-end justify-between max-md:flex-col max-md:items-start"
         >
           <div>
-            <Kicker font="home">{content.kicker}</Kicker>
-            <SectionTitle scale="home" className="mt-16 text-ink">
-              <Lines lines={content.titleLines} />
-            </SectionTitle>
+            <Reveal>
+              <Kicker font="home">{content.kicker}</Kicker>
+            </Reveal>
+            <Reveal variant="clip">
+              <SectionTitle scale="home" className="mt-16 text-ink">
+                <Lines lines={content.titleLines} />
+              </SectionTitle>
+            </Reveal>
           </div>
-          <Lead variant="home" className="mb-24 text-right text-[#222] max-md:text-left">
-            <Lines lines={content.introLines} />
-          </Lead>
+          <Reveal>
+            <Lead variant="home" className="mb-24 text-right text-[#222] max-md:text-left">
+              <Lines lines={content.introLines} />
+            </Lead>
+          </Reveal>
         </div>
         <ClientStoriesRotator content={content} />
       </Container>

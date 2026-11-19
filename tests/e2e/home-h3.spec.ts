@@ -110,13 +110,14 @@ function contact(page: Page) {
   const right = section.locator(":scope > div > div").last();
   return {
     section,
-    heading: left.locator(":scope > h2"),
+    // Headings may sit inside reveal wrappers on home, so don't depend on direct children.
+    heading: left.locator("h2").first(),
     info: left.locator("dl"),
     form: left.locator("form"),
     label: left.locator("form label").first(),
     send: left.getByRole("button", { name: "Send Enquiry" }),
-    faqKicker: right.locator(":scope > p").first(),
-    faqTitle: right.locator(":scope > h2"),
+    faqKicker: right.locator("p").first(),
+    faqTitle: right.locator("h2").first(),
     question: right.getByRole("button").first(),
     field: (label: string) => left.getByLabel(label, { exact: true }),
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, ElementType, ReactNode } from "react";
+import type { CSSProperties, ElementType, HTMLAttributes, ReactNode } from "react";
 import { useRef } from "react";
 
 import { useInView } from "@/hooks/use-in-view";
@@ -10,12 +10,12 @@ import { revealDelay } from "@/lib/motion";
 
 export type RevealVariant = "fade-up" | "clip" | "left" | "scale";
 
-type RevealProps = {
-  readonly variant?: RevealVariant;
+type RevealProps = Omit<HTMLAttributes<HTMLElement>, "children" | "className" | "style"> & {
+  readonly variant?: RevealVariant | undefined;
   /** Position in a group; delays the reveal by `min(index, 6) × 0.09s`. */
-  readonly index?: number;
+  readonly index?: number | undefined;
   readonly as?: ElementType;
-  readonly className?: string;
+  readonly className?: string | undefined;
   readonly children: ReactNode;
 };
 
@@ -30,6 +30,7 @@ export function Reveal({
   as: Tag = "div",
   className,
   children,
+  ...rest
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
@@ -37,6 +38,7 @@ export function Reveal({
 
   return (
     <Tag
+      {...rest}
       ref={ref}
       data-reveal={variant}
       data-shown={inView || reduced ? "" : undefined}

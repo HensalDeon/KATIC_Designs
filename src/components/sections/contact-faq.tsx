@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { type CSSProperties, Fragment } from "react";
+import { type CSSProperties, Fragment, type ReactNode } from "react";
 
+import { Reveal, type RevealVariant } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
 import { Accent } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
@@ -56,6 +57,8 @@ export type ContactFaqProps = {
    * sizes, which home keeps at every width (inner pages enlarge the form and FAQ below 1100px).
    */
   readonly typography?: FaqTypography;
+  /** Reveal-on-scroll as on the original home page (`.contact .gt/h2/.lead/.ci`, `.form .f/.send`). */
+  readonly reveal?: boolean;
   /** Section rhythm; defaults to `home` (104/36) with home typography, else `standard` (120/80). */
   readonly spacing?: "standard" | "home";
   readonly className?: string;
@@ -139,6 +142,7 @@ export function ContactFaq({
   faq,
   plant,
   typography = "standard",
+  reveal = false,
   spacing = typography === "home" ? "home" : "standard",
   className,
 }: ContactFaqProps) {
@@ -154,26 +158,34 @@ export function ContactFaq({
       {plant ? <Plant {...plant} behind className="opacity-90" /> : null}
       <Container className="grid grid-cols-2 items-start gap-96 max-lg:grid-cols-1 max-lg:gap-64">
         <div>
-          <p className="flex items-center gap-10 font-display text-[12px] font-normal text-[#222] before:size-5 before:flex-none before:rounded-full before:bg-brand before:content-[''] in-data-[tone=dark]:text-[#ddd]">
-            {kicker}
-          </p>
-          <h2 className={headingVariants({ typography })}>
-            {heading.lines.map((line, index) => (
-              <Fragment key={line}>
-                {index > 0 ? <br /> : null}
-                {line}
-              </Fragment>
-            ))}
-            {heading.accent ? (
-              <>
-                <br />
-                <Accent>{heading.accent}</Accent>
-              </>
-            ) : null}
-          </h2>
-          <p className={leadVariants({ typography })}>{lead}</p>
-          <ContactInfo channels={channels} typography={typography} />
-          <EnquiryForm {...form} typography={typography} />
+          <MaybeReveal enabled={reveal}>
+            <p className="flex items-center gap-10 font-display text-[12px] font-normal text-[#222] before:size-5 before:flex-none before:rounded-full before:bg-brand before:content-[''] in-data-[tone=dark]:text-[#ddd]">
+              {kicker}
+            </p>
+          </MaybeReveal>
+          <MaybeReveal enabled={reveal} variant="clip">
+            <h2 className={headingVariants({ typography })}>
+              {heading.lines.map((line, index) => (
+                <Fragment key={line}>
+                  {index > 0 ? <br /> : null}
+                  {line}
+                </Fragment>
+              ))}
+              {heading.accent ? (
+                <>
+                  <br />
+                  <Accent>{heading.accent}</Accent>
+                </>
+              ) : null}
+            </h2>
+          </MaybeReveal>
+          <MaybeReveal enabled={reveal}>
+            <p className={leadVariants({ typography })}>{lead}</p>
+          </MaybeReveal>
+          <MaybeReveal enabled={reveal}>
+            <ContactInfo channels={channels} typography={typography} />
+          </MaybeReveal>
+          <EnquiryForm {...form} typography={typography} reveal={reveal} />
         </div>
 
         <div>
@@ -183,14 +195,16 @@ export function ContactFaq({
           >
             {faq.kicker}
           </Kicker>
-          <h2 className={faqTitleVariants({ typography })}>
-            {faq.titleLines.map((line, index) => (
-              <Fragment key={line}>
-                {index > 0 ? <br /> : null}
-                {line}
-              </Fragment>
-            ))}
-          </h2>
+          <MaybeReveal enabled={reveal} variant="clip" index={1}>
+            <h2 className={faqTitleVariants({ typography })}>
+              {faq.titleLines.map((line, index) => (
+                <Fragment key={line}>
+                  {index > 0 ? <br /> : null}
+                  {line}
+                </Fragment>
+              ))}
+            </h2>
+          </MaybeReveal>
           <FaqIntro faq={faq} className="-mt-8 mb-28" />
           <Faq items={faq.items} context="combo" typography={typography} />
         </div>
@@ -300,5 +314,25 @@ export function FaqSection({ faq, id, className }: FaqSectionProps) {
         <Faq items={faq.items} context="section" />
       </Container>
     </Section>
+  );
+}
+
+/** Wraps children in `Reveal` only when enabled, so inner pages keep their plain markup. */
+function MaybeReveal({
+  enabled,
+  variant,
+  index,
+  children,
+}: {
+  enabled: boolean;
+  variant?: RevealVariant;
+  index?: number;
+  children: ReactNode;
+}) {
+  if (!enabled) return children;
+  return (
+    <Reveal variant={variant} index={index}>
+      {children}
+    </Reveal>
   );
 }

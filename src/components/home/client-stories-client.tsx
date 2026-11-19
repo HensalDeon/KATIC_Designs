@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import type { ClientStoriesContent, ClientStory } from "@/content/home/stories";
 import { media } from "@/content/media";
@@ -73,7 +74,7 @@ export function ClientStoriesRotator({ content }: ClientStoriesRotatorProps) {
         pill={content.pill}
       />
 
-      <div data-part="quote" className="pt-76 text-center max-md:py-40">
+      <Reveal data-part="quote" className="pt-76 text-center max-md:py-40">
         <div
           data-part="mark"
           aria-hidden
@@ -115,7 +116,7 @@ export function ClientStoriesRotator({ content }: ClientStoriesRotatorProps) {
             {content.cta.label}
           </ButtonLink>
         </div>
-      </div>
+      </Reveal>
 
       <StoryCard
         part="project"

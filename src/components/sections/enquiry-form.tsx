@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { type ReactNode, type SubmitEvent, useId, useState } from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
+import { Reveal } from "@/components/motion/reveal";
 import { useToast } from "@/components/overlays/toast";
 import { useShell } from "@/components/shell/shell-provider";
 import { SERVICE_OPTIONS } from "@/content/services";
@@ -43,6 +44,8 @@ export type EnquiryFormTypography = "standard" | "home";
 
 type EnquiryFormProps = EnquiryFormConfig & {
   readonly typography?: EnquiryFormTypography;
+  /** Reveal fields and the Send button on scroll, staggered (home only, original `.form .f`). */
+  readonly reveal?: boolean;
   readonly className?: string;
 };
 
@@ -78,6 +81,7 @@ export function EnquiryForm({
   extraFields = [],
   note = DEFAULT_NOTE,
   typography = "standard",
+  reveal = false,
   className,
 }: EnquiryFormProps) {
   const sizes = BELOW_LG[typography];
@@ -88,6 +92,9 @@ export function EnquiryForm({
   const pathname = usePathname();
   const toast = useToast();
   const baseId = useId();
+  // Stagger order of the original's `.form .f`: name, email, phone, service, extras, details.
+  const afterService = serviceField.mode === "select" ? 4 : 3;
+  const revealAt = (position: number) => (reveal ? position : undefined);
   const [errors, setErrors] = useState<LeadFieldErrors>({});
   const [choice, setChoice] = useState<ServiceChoice>();
   const [submitting, setSubmitting] = useState(false);
@@ -172,6 +179,21 @@ export function EnquiryForm({
     },
   });
 
+  const sendButton = (
+    <button
+      type="submit"
+      disabled={submitting}
+      aria-busy={submitting || undefined}
+      className={cn(
+        "flex h-50 w-full cursor-pointer items-center justify-center gap-12 bg-brand font-display text-[14px] font-semibold text-mist transition-colors duration-200 hover:bg-[#f07040] disabled:opacity-70 in-data-[tone=dark]:text-ink-2",
+        !reveal && "col-span-full mt-4",
+      )}
+    >
+      {submitting ? "Sending…" : "Send Enquiry"}
+      <ArrowIcon direction="right" width={10} height={10} className="flex-none" />
+    </button>
+  );
+
   return (
     <form
       noValidate
@@ -182,7 +204,13 @@ export function EnquiryForm({
         className,
       )}
     >
-      <Field labelClassName={sizes.label} label="Full Name" error={errors.name} {...ids("name")}>
+      <Field
+        labelClassName={sizes.label}
+        label="Full Name"
+        revealIndex={revealAt(0)}
+        error={errors.name}
+        {...ids("name")}
+      >
         <input
           {...fieldProps("name")}
           autoComplete="name"
@@ -192,7 +220,13 @@ export function EnquiryForm({
           className={input}
         />
       </Field>
-      <Field labelClassName={sizes.label} label="Email" error={errors.email} {...ids("email")}>
+      <Field
+        labelClassName={sizes.label}
+        label="Email"
+        revealIndex={revealAt(1)}
+        error={errors.email}
+        {...ids("email")}
+      >
         <input
           {...fieldProps("email")}
           type="email"
@@ -207,6 +241,7 @@ export function EnquiryForm({
         labelClassName={sizes.label}
         label="Phone"
         wide={isLastHalf(3)}
+        revealIndex={revealAt(2)}
         error={errors.phone}
         {...ids("phone")}
       >
@@ -225,6 +260,7 @@ export function EnquiryForm({
           labelClassName={sizes.label}
           label="Service Needed"
           wide={isLastHalf(4)}
+          revealIndex={revealAt(3)}
           error={errors.service}
           {...ids("service")}
         >
@@ -255,6 +291,7 @@ export function EnquiryForm({
             key={field.name}
             label={field.label}
             wide={isLastHalf(position)}
+            revealIndex={revealAt(afterService + index)}
             {...ids(`extra-${field.name}`)}
           >
             <select
@@ -276,6 +313,7 @@ export function EnquiryForm({
         labelClassName={sizes.label}
         label="Project Details"
         wide
+        revealIndex={revealAt(afterService + extraFields.length)}
         error={errors.details}
         {...ids("details")}
       >
@@ -294,15 +332,7 @@ export function EnquiryForm({
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={submitting}
-        aria-busy={submitting || undefined}
-        className="col-span-full mt-4 flex h-50 cursor-pointer items-center justify-center gap-12 bg-brand font-display text-[14px] font-semibold text-mist transition-colors duration-200 hover:bg-[#f07040] disabled:opacity-70 in-data-[tone=dark]:text-ink-2"
-      >
-        {submitting ? "Sending…" : "Send Enquiry"}
-        <ArrowIcon direction="right" width={10} height={10} className="flex-none" />
-      </button>
+      {reveal ? <Reveal className="col-span-full mt-4">{sendButton}</Reveal> : sendButton}
       <p className="col-span-full -mt-6 font-display text-[10.5px] text-[#333] in-data-[tone=dark]:text-[#ccc]">
         {note}
       </p>
@@ -322,9 +352,12 @@ function Field({
   wide = false,
   error,
   labelClassName,
+  revealIndex,
   children,
 }: {
   labelClassName: string;
+  /** When set, the field reveals on scroll at this stagger position. */
+  revealIndex?: number | undefined;
   id: string;
   errorId: string;
   label: string;
@@ -332,8 +365,9 @@ function Field({
   error?: string | undefined;
   children: ReactNode;
 }) {
-  return (
-    <div className={cn("relative", wide && "col-span-full")}>
+  const fieldClassName = cn("relative", wide && "col-span-full");
+  const content = (
+    <>
       <label
         htmlFor={id}
         className={cn(
@@ -352,6 +386,13 @@ function Field({
           {error}
         </p>
       ) : null}
-    </div>
+    </>
+  );
+  return revealIndex === undefined ? (
+    <div className={fieldClassName}>{content}</div>
+  ) : (
+    <Reveal index={revealIndex} className={fieldClassName}>
+      {content}
+    </Reveal>
   );
 }

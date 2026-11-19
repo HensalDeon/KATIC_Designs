@@ -19,6 +19,7 @@ export function HomeContact({ content = HOME_CONTACT, className }: HomeContactPr
       tone="light"
       id="start"
       typography="home"
+      reveal
       {...content}
       {...(className ? { className } : {})}
     />
