@@ -1,0 +1,173 @@
+# Known Issues: Original Katic Designs HTML Site
+
+This file lists the defects inherited from the original single-file site (`reference/original/katic-designs-final.html`), found during the pre-build audit on 2026-11-19. It also records any new issues found during the Next.js rebuild.
+**Keep this file updated:** when a page is built, set each related issue's **Status**. A PR that fixes an issue references its ID (e.g. `fix(works): reflow filtered grid (KI-L05)`).
+
+**Severity:** `H` = broken or unreachable content, or a clearly visible defect · `M` = visible layout/UX/a11y defect · `L` = polish.
+**Resolution:** `Fix` = fixed in the rebuild · `Client` = needs content or a decision from the client · `Drop` = original code/feature not ported (dead or harmful) · `Decide` = product decision pending.
+**Status:** `Open` → `Fixed` / `Deferred` / `Won't fix` (with a note).
+
+Evidence (selectors, line numbers, screenshots) is in [`analysis/`](./analysis). Line numbers refer to `reference/original/katic-designs-final.stripped.html`.
+
+---
+
+## 1. Layout and visual
+
+| ID | Page(s) | Width | Issue | Sev | Resolution | Status |
+|---|---|---|---|---|---|---|
+| KI-L01 | Home | 861–1099 | Client-stories grid has fixed `346px auto 346px` columns, so the page overflows sideways by 33px (`scrollWidth` 1057 at 1024); hidden by `overflow-x:hidden`, but focus/scrollIntoView shifts the whole page | H | Fix: collapse the grid at ≤1099 | Open |
+| KI-L02 | Home (Selected Works) | ≥1100, reduced motion | All 11 showcase cards stack at the same position, so 10 projects are unreachable | H | Fix: reduced-motion fallback is a static grid/scroller | Open |
+| KI-L03 | Home (Divisions carousel) | ~1024 | Prev/next buttons overlap the description and the "Explore division" link; large empty gap under the title | H | Fix: nav in its own grid row | Open |
+| KI-L04 | Home (Seven stages) | ≥1100, reduced motion | Becomes a hidden-scrollbar sideways scroller; stages 5–7 cut off and not reachable without a trackpad | M | Fix: wrap to a grid or show controls when motion is reduced | Open |
+| KI-L05 | Works | all | Filtering leaves empty row wrappers with their 60–80px margins, so results start 220–300px below the filters; single results land in arbitrary narrow columns | M | Fix: data-driven grid that reflows filtered items | Open |
+| KI-L06 | Works, Blog (deep links) | all | Anchor targets scroll under the fixed header (target at y≈−27 at 390) | M | Fix: `scroll-margin-top` = header height + 16px | Open |
+| KI-L07 | All (footer) | all | Footer logo stretched ×2.3 (115×65 image rendered 115×28) | M | Fix: `width:auto` / `next/image` intrinsic ratio | Open |
+| KI-L08 | About, Dubai | ≥1024 | Plant images squashed horizontally (croton 0.68×, cactus 0.63×) | L | Fix: preserve aspect ratio | Open |
+| KI-L09 | Services | 390 | Thumbnail labels wider than 92px thumbs and clipped ("URTYARD", "ESIDENCE") | M | Fix: smaller label / 2×2 thumbs on phones | Open |
+| KI-L10 | Dubai (projects) | 390 | Two-line card title overlaps the "RESIDENTIAL VILLA" kicker (absolute offsets) | M | Fix: caption as a bottom-anchored flex column | Open |
+| KI-L11 | All contact sections | 390 | Contact info row wraps badly; labels not baseline-aligned with values | M | Fix: definition list / grid | Open |
+| KI-L12 | All | 421–860 | Floating contact rail overlaps the sticky mobile CTA bar; "Call Us" fully hidden under it; duplicated CTAs | M | Fix: hide the rail whenever the CTA bar shows | Open |
+| KI-L13 | About | ≥1100 | The `fit()` script zooms section contents down (`.i1` 0.888, `.ld` 0.924, `.sw` 0.704), misaligning the 86px gutter; on short laptops (1366×650) text drops to ~10px effective | M | Fix: drop `fit()`; sections grow with content (decision D4) | Open |
+| KI-L14 | About | all | "Our approach" header not laid out in two columns (`.kh` outside `.ks`) | M | Fix | Open |
+| KI-L15 | About | all | Hero vertical labels render upside-down (`rotate(180deg)` without vertical writing mode) | M | Fix: `writing-mode: vertical-rl` | Open |
+| KI-L16 | About, Services | 1024 | Hero `h1` stays at 76px while Home scales to 62px (specificity conflict) | M | Fix: one hero type scale | Open |
+| KI-L17 | Services | ≤860 | Service-block `h2` is 46px with `line-height: normal`; oversized on phones | M | Fix | Open |
+| KI-L18 | Services | ≥1100 | Block text column starts at 70px (not the 86px gutter); image column runs under the fixed contact rail; `.lab` label partly hidden | M | Fix | Open |
+| KI-L19 | Services | ≥1100 | "What we deliver" (`.fd`) is a near-empty full-screen black section | M | Decide: confirm content with the client; tighten the layout | Open |
+| KI-L20 | Architecture | ≤860 | Process image row fixed at `512px 1fr` with no mobile rule; image off-canvas and cropped (`129d81a52a` never loads) | M | Fix: stack on mobile | Open |
+| KI-L21 | Architecture | all | Empty 230px `.spacer` left over from a removed plant adds dead space | L | Fix: remove | Open |
+| KI-L22 | Turnkey, Factory | all | Odd number of half-width form fields leaves an empty grid cell before the textarea | L | Fix: last odd field spans full width | Open |
+| KI-L23 | Factory | <1100 | Gallery stays at 3 columns on tablet; testimonials leave a 2+1 orphan | L | Fix | Open |
+| KI-L24 | Project | ≤860 | Inline image heights kept on phones (gallery/brief/materials images 400–636px tall) | M | Fix: aspect-ratio based images | Open |
+| KI-L25 | Dubai | ≤860 | Conflicting `:first-of-type`/`:last-of-type` rules size the single cactus to 92px | L | Fix | Open |
+| KI-L26 | Reviews | ≤860 | Mobile selector `#p-reviews .page …` never matches, so the intended mobile styles don't apply | L | Fix | Open |
+| KI-L27 | Home (news teaser) | 1024 | 3 cards in a 2-col grid leave an orphan | L | Fix: 3 cols from ~900px | Open |
+| KI-L28 | Works | 1024 | Project list collapses to 1 column at 1024 (5,400px of scrolling) | L | Fix: keep 2 cols down to ~760px | Open |
+| KI-L29 | Home (client stories) | 768 | Portrait photo cropped as a banner; head cut off | L | Fix: `object-position: top` / portrait ratio | Open |
+| KI-L30 | Home (divisions) | 768 | Fixed card height leaves a large empty area | L | Fix: content-driven height | Open |
+| KI-L31 | Home (Seven stages) | 1440 | "CONSTRUCTION" `h3` 29px wider than its column | L | Fix | Open |
+| KI-L32 | Services | ≥1024 | Hanging plant extends 28px past the left edge | L | Fix: `overflow: clip` | Open |
+| KI-L33 | Mobile nav | ≤860 | Panel capped at ~458px tall; with a submenu open, "Location" and the CTA scroll inside an inner scroller; no backdrop | L | Fix: `max-height: calc(100dvh - header)` + backdrop | Open |
+| KI-L34 | Contact headings | 390 | Home contact `h2` is light uppercase, other pages bold mixed case | L | Decide: one style in the shared component (default: match Home) | Open |
+| KI-L35 | Home (logo marquee) | all | Loop distance (−776px) was never updated after logos shrank to 150px, so it jumps every cycle | M | Fix: duplicated track + `-50%` | Open |
+| KI-L36 | Home (`.stg .row`) | <1100 | `cursor: grab` with no drag handler | L | Fix: remove the cursor or add drag | Open |
+| KI-L37 | Global | ≥1100 | Section padding by specificity: 120/120px beats the intended 104/36px on most sections | M | Decide: match the **rendered** 120/120 for parity; confirm with the designer | Open |
+| KI-L38 | About, Services, Dubai | ≤860 | Process sections use ~400px per step with big empty bands (About is ~21,000px tall at 390) | L | Decide (design choice); flagged only | Open |
+| KI-L39 | Global (plants) | all | `.pp-heli` mirror is cancelled by a later `transform:none!important`; all plant sway animations disabled | L | Drop animations (parity); confirm orientation with the designer | Open |
+
+## 2. Functional and behaviour
+
+| ID | Page(s) | Issue | Sev | Resolution | Status |
+|---|---|---|---|---|---|
+| KI-F01 | Factory | Hero CTA "Enquire About Manufacturing" does nothing: `prefill()` throws because the form has a hidden service input, not a `<select>` | H | Fix: form supports hidden-service mode | Open |
+| KI-F02 | All forms | No form endpoint configured: every enquiry goes out via `mailto:` and is lost without a mail client; `.form .ok` success message never shown | H | Fix: `/api/leads` (→ Laravel); thank-you redirect | Open |
+| KI-F03 | All forms | Validation is toast-only, one field at a time; an invalid email says "Please fill in Email."; toast covers the mobile CTA bar | M | Fix: inline errors (Zod), correct messages | Open |
+| KI-F04 | All forms | Retry logic retries 4xx responses (the `throw` is caught by its own `catch`) | L | Fix: retry 5xx/network only | Open |
+| KI-F05 | Forms / thank-you | "Source page" sent with leads is the full SEO title (regex strips `— Katic Designs`, titles use `\| Katic Designs`) | M | Fix: send a route id + readable page name | Open |
+| KI-F06 | Thank-you | Lead summary is held in memory only: lost on refresh or direct visit, so the page shows defaults | M | Fix: `sessionStorage` | Open |
+| KI-F07 | Interior, Factory, Construction, Renovation, Property-care | FAQ links use `href="contact"` (no `#`); they only work through JS interception | M | Fix: proper buttons/anchors | Open |
+| KI-F08 | Interior | "See our interior services" links to the current page and does nothing | L | Fix: link to the services anchor | Open |
+| KI-F09 | All project cards | All ~45 project links open the same hard-coded "Courtyard House" page | H | Fix: `/works/[slug]` (needs data, see KI-C05) | Open |
+| KI-F10 | Works | "The Rain Court House" feature opens the Courtyard House page (different facts) | M | Client: which project is it? | Open |
+| KI-F11 | News | News cards link to `#news` (themselves); no detail pages | M | Decide: no link until there is content, or add `/news/[slug]` | Open |
+| KI-F12 | Blog | Unknown article slug silently renders the first post (no 404) | M | Fix: `notFound()` | Open |
+| KI-F13 | Blog | Category filter UI exists in JS but is hidden by CSS; URL-only filtering shows one card with no label and no reset | M | Fix: real `/blog/category/[cat]` pages with a visible active state; Decide whether to show the chips | Open |
+| KI-F14 | Blog | Blog search/sort UI is wired but hidden; its empty state is unreachable | L | Drop (unless the client wants search) | Open |
+| KI-F15 | Works | Filter state not reflected in the URL; no animation | L | Fix: `?category=` + animated reflow | Open |
+| KI-F16 | Lightbox | Single image only; page scrolls behind it; no caption; same size as the inline image on mobile | M | Fix: scroll lock, gallery prev/next, caption | Open |
+| KI-F17 | Renovation | "Before/after" is static side-by-side images, not a slider; pairs drift apart when stacked | L | Decide: keep static (parity) or build a compare slider | Open |
+| KI-F18 | Developers division | No contact-form prefill (missing from the `PREFILL` map) | L | Fix | Open |
+| KI-F19 | Global | `prefers-reduced-motion` read once; toggling the OS setting needs a reload | L | Fix: live subscription | Open |
+| KI-F20 | Global | 7+ unthrottled scroll listeners (parallax schedules a rAF per scroll event) | M | Fix: one rAF loop / IntersectionObserver | Open |
+| KI-F21 | Global | Header `data-variant` ignored; nav dropdown descriptions never rendered; Factory page missing from nav | L | Decide: nav content; drop dead variants | Open |
+| KI-F22 | India | "Rest of Kerala" filter uses `data-f="kerala"`; no Dubai filter | L | Fix in the data model | Open |
+
+## 3. Accessibility
+
+| ID | Area | Issue | Sev | Resolution | Status |
+|---|---|---|---|---|---|
+| KI-A01 | Hero video, logo marquee, services explorer, divisions carousel | Auto-moving content without a pause control (WCAG 2.2.2) | M | Fix: pause buttons | Open |
+| KI-A02 | Lightbox | Triggers are bare `<img>` (not focusable); no `role="dialog"`, focus move or trap; `alt=""` on the zoomed image | M | Fix | Open |
+| KI-A03 | Forms | Labels not associated with inputs (no `for`/`id`; patched at runtime by JS on some pages only); no `aria-invalid`/`aria-describedby` | M | Fix | Open |
+| KI-A04 | Header | Dropdown triggers have `aria-haspopup` but never `aria-expanded`; desktop menus are hover/focus only; mobile nav has no focus trap or `aria-controls` | M | Fix | Open |
+| KI-A05 | Divisions carousel, testimonials | Slides have no group/slide labels; no live region; generic "Previous/Next" labels | M | Fix | Open |
+| KI-A06 | Services explorer | `aria-current` on buttons instead of tablist semantics | L | Fix: `role=tablist/tab/tabpanel` | Open |
+| KI-A07 | Works filters | `<a href>` with JS-added `role=button`/`aria-pressed`, navigation prevented | L | Fix: `<button aria-pressed>` | Open |
+| KI-A08 | Horizontal scrollers | `.stg .row`, `.sc-track` not keyboard-focusable on tablet/mobile | M | Fix: `tabindex=0` + label | Open |
+| KI-A09 | FAQ | Collapsed answers hidden by `max-height:0` (still in the a11y tree) | L | Fix: `hidden` / `aria-expanded` + `aria-controls` | Open |
+| KI-A10 | Global | Tiny text: `.lab` 8.5px, About team captions 9.5px, works letters 9px, hero labels 9px `#bbb` | M | Fix: minimum ~11px; contrast-checked colours | Open |
+| KI-A11 | Global | Small orange text on white ≈ 3.3:1; masked at runtime by a JS "contrast fixer" | M | Fix: use text-safe orange `#C24E1E` statically | Open |
+| KI-A12 | Global | 22–45 touch targets per page smaller than 24px (inline links, footer social icons) | L | Fix: 44px hit areas on touch | Open |
+| KI-A13 | Alt text | Wrong or duplicate alts: duplicate logo set alts ("200 +", slogans), "From brief to built" ×4, alts containing "↗", headline-as-alt, before/after alts swapped, content images with `alt=""` | M | Fix: alt text per image in `content/media.ts` | Open |
+| KI-A14 | Headings | h2→h4 jumps (works `.ft1`, project gallery, article aside); duplicate kicker/heading text | L | Fix | Open |
+| KI-A15 | Signature cards | `<article>`s look clickable but have no link or action | L | Fix: link them or remove the hover affordance | Open |
+| KI-A16 | Testimonials | Decorative quote mark not `aria-hidden` | L | Fix | Open |
+| KI-A17 | Global | Multiple `role="main"` landmarks and 25 duplicated header/footer copies in the DOM | M | Fix (inherent to the rebuild) | Open |
+| KI-A18 | Global | Duplicate SVG id `kg` in every generated stage/step drawing | M | Fix: `useId()` | Open |
+
+## 4. Content and placeholders (needs client input)
+
+| ID | Where | Issue | Resolution | Status |
+|---|---|---|---|---|
+| KI-C01 | Site-wide, JSON-LD | Placeholder phone `+1 (000) 000-0000` / `+10000000000`, WhatsApp `wa.me/10000000000`, Dubai `+971 0 000 0000`; only the works CTA `+91 8086 000 600` looks real | Client → `SiteSettings` | Open |
+| KI-C02 | Footer, JSON-LD, India, Dubai | Placeholder addresses ("14 Ridgeline Road, Countryside District, 400001", a Mumbai PIN; "Address placeholder — replace…") | Client | Open |
+| KI-C03 | Footer | Social links point to platform homepages | Client | Open |
+| KI-C04 | About | "FOUNDER NAME", "Manager Name 01–04" | Client | Open |
+| KI-C05 | Works / projects | Only one project has detail content; ~30 project names exist across pages | Client: project data + images | Open |
+| KI-C06 | Home works | Projects located in Skopje / Galičica, Macedonia; client "K. Dimitrov / Riverline Offices" (template leftovers) | Client | Open |
+| KI-C07 | Many pages | Designer-brief copy shown as UI text ("Explain how Katic takes…", "Selected projects with images and case-study links.", "Project type and location, with location filters.", etc.; full list in analysis/03 §5.21 and 04 §14.7) | Client: real copy | Open |
+| KI-C08 | Reviews, Renovation, testimonials | "copy pending approval", "Representative testimonials — replace…", "Representative images — replace with real before-and-after photography" | Client | Open |
+| KI-C09 | Works, Project | Duplicated paragraphs and sentences (works intro ×2, "Four disciplines…" ×2, project "Rather than place rooms…" ×2, related-projects lead ×2) | Fix: de-duplicate | Open |
+| KI-C10 | Hero / About | "Houses in the mountains" (template copy for a Kerala/Dubai studio); "EST. 2013" vs "11 yrs" vs "11+ years"; "6 disciplines" vs "seven services" vs "five divisions"; "Projects delivered 200+" vs "Spaces delivered 200+" | Client: confirm facts | Open |
+| KI-C11 | Renovation | Before/after pairs use unrelated stock images | Client: real photos | Open |
+| KI-C12 | FAQ sections | FAQ intro copy and "Ask an architect →" CTA are authored but removed at runtime (never shown) | Decide: drop (parity) or restore | Open |
+| KI-C13 | Exterior, Construction | Two meanings of the `area` form field (scope vs built-up area); duplicate "Large grounds" option | Fix: distinct field names | Open |
+| KI-C14 | Factory | Factory leads are sent as "Interior Design", indistinguishable from interior leads | Fix: add a "Furniture & Joinery" service option | Open |
+
+## 5. Data consistency
+
+| ID | Issue | Resolution | Status |
+|---|---|---|---|
+| KI-D01 | Same project name with different facts or images across pages ("Obsidian Lounge" is a Skopje commercial interior on Home and a Kochi residential interior on About; Courtyard House uses 3 different hero images; "Desert Edge Villas" vs "Desert Edge Villa") | Fix: single `Project` entity referenced by slug | Open |
+| KI-D02 | Category mismatches: Serein labelled "Commercial" but filtered as Hospitality; "Nila Apartments" tagged `villas`; hospitality/institutional have no Home tab | Fix in data; Client confirms categories | Open |
+| KI-D03 | Inconsistent service order (Home lists Exterior 3rd; About/Services list it 6th) and duplicate icons for different concepts (Concept = Design compass, etc.) | Fix: one ordered services list + distinct icons | Open |
+| KI-D04 | Featured-project meta formats differ ("Type · Scope · Place" vs "Place · Type") | Fix: one formatter | Open |
+| KI-D05 | Heavy image reuse for unrelated items (`987e492e7a`, `0e599c0712`, `934be61600` ×3 on Factory, etc.) | Client: more imagery | Open |
+| KI-D06 | Works cards 7–8 use a literal " / " separator (not styled orange like the rest) | Fix: data-driven meta | Open |
+
+## 6. SEO, performance and assets
+
+| ID | Issue | Sev | Resolution | Status |
+|---|---|---|---|---|
+| KI-S01 | Hash routing: every canonical/og:url is `https://www.katicdesigns.com/#page`, which Google treats as the home page; all content is in one document | H | Fix: real routes, `generateMetadata`, sitemap | Open |
+| KI-S02 | FAQPage JSON-LD emitted site-wide; BlogPosting script persists after leaving an article; blog author `@type: Person` holds organisation names; article title set twice with different suffixes | M | Fix: per-route JSON-LD | Open |
+| KI-S03 | `og-image.jpg` and `logo.png` referenced but not shipped | M | Fix: OG image route; Client: logo | Open |
+| KI-S04 | All images (136), fonts (8) and both videos inlined as base64: 16 MB HTML, no caching, no responsive sizes | H | Fix: `next/image`, static files | Open |
+| KI-S05 | Hero video loops forever, `preload="auto"`, real files not shipped | M | Fix: `preload="metadata"`, poster, pause control | Open |
+| KI-S06 | Low-resolution source images: logo 115×65 (blurry on HiDPI); Construction hero 837×675; Property-care hero 987×795; Exterior project images 380×472; avatars 64×64 | M | Client: hi-res originals + SVG logo | Open |
+| KI-S07 | Inline Jost font files are heavy subsets that may be missing glyphs (₹ → ↗); requested weights that don't exist (Inter 300 / italic) | L | Fix: `next/font/google` full families | Open |
+| KI-S08 | Runtime "contrast safety net" calls `getComputedStyle` on every element on scroll, resize and load | M | Drop: correct colours statically | Open |
+
+## 7. Code that will not be ported
+
+These have no visible effect today. They are listed so nobody re-adds them by accident.
+
+| ID | Item | Resolution |
+|---|---|---|
+| KI-X01 | ~800 lines of generated `data-fx` nth-child colour overrides with fake-ID specificity hacks | Drop → `tone` prop (decision D3) |
+| KI-X02 | Dead JS: tabs, `step()` carousels, `[data-drag]`, `[data-gallery]`, `.sx` explorer, `.sform`, `[data-bg]`, `.kprog`, `homeTick` stubs, unused variables; `PX` selectors for `#p-kochi`, `#p-architecture .ctasec`, `#p-dubai .ctasec` | Drop |
+| KI-X03 | Dead CSS: ~45% of the Home `<style>` (`.dl`, `.sx`, `.sig .tabs`, `.wk .cards`, `.stg .bar`), works `.rc*`, project `.lb*`, Dubai `.s2–.s4`/`.ctasec`, architecture timeline/why/CTA/FAQ-plant rules, plant keyframes, `kFloat`, full-screen mobile-nav variant | Drop |
+| KI-X04 | Unscoped global rules hiding in page `<style>` blocks (`.nico`, `.sc-*`, keyframes in Home; `.btn.cap` in Project) | Fix: move to the global layer |
+| KI-X05 | Layered `!important` overrides (same rule defined 2–4 times) and inline-style attribute selectors (`[style*="repeat(8"]`) | Drop: computed result becomes typed props |
+| KI-X06 | `markLight()` / `mtext()` / plant-room padding scripts | Drop → static tone and responsive classes |
+| KI-X07 | Stray classes and attributes: `w` kicker on light sections, trailing-space class lists, `data-variant`, `data-tpl="rail"`, empty `#pc-services` anchor div | Drop |
+
+---
+
+## 8. Issues found during the rebuild
+
+_Add new entries here as `KI-N01…` with the same columns (Page, Issue, Sev, Resolution, Status)._
+
+| ID | Page(s) | Issue | Sev | Resolution | Status |
+|---|---|---|---|---|---|
+| | | | | | |
