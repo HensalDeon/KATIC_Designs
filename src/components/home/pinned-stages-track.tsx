@@ -131,10 +131,14 @@ export function StagesTrack({ id, header, stages, label }: StagesTrackProps) {
         fitTitles(list);
       });
     };
+    // `fonts.ready` can resolve before a lazily loaded webfont starts loading (WebKit), and the
+    // swap changes title widths, so re-fit whenever any font finishes loading.
     void document.fonts.ready.then(refit);
+    document.fonts.addEventListener("loadingdone", refit);
     window.addEventListener("resize", refit);
     return () => {
       cancelAnimationFrame(frame);
+      document.fonts.removeEventListener("loadingdone", refit);
       window.removeEventListener("resize", refit);
     };
   }, []);

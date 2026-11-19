@@ -220,10 +220,15 @@ for (const viewport of DESKTOP) {
 
     test("stage titles fit their column (KI-L31)", async ({ page }) => {
       await open(page);
-      const overflow = await page
-        .locator("#home-process h3")
-        .evaluateAll((titles) => titles.map((t) => t.scrollWidth - t.clientWidth));
-      expect(overflow.every((px) => px <= 0)).toBe(true);
+      await page.evaluate(() => document.fonts.ready);
+      // Titles are fitted after webfonts swap in, so poll for the settled state.
+      await expect
+        .poll(() =>
+          page
+            .locator("#home-process h3")
+            .evaluateAll((titles) => titles.every((t) => t.scrollWidth <= t.clientWidth)),
+        )
+        .toBe(true);
     });
   });
 }
