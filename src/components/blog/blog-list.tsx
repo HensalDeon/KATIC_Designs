@@ -3,9 +3,10 @@ import { useId } from "react";
 
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { BLOG_PAGE, type Post, POST_CATEGORIES, type PostCategory } from "@/content/posts";
 import { cn } from "@/lib/cn";
+import { fillTemplate } from "@/lib/format/template";
 import { routes } from "@/lib/routes";
+import type { BlogListingCopy, Post, PostCategory } from "@/lib/schemas/posts";
 
 import { PagedPostGrid } from "./paged-post-grid";
 import { PostCard } from "./post-card";
@@ -26,16 +27,24 @@ const CATEGORY_LINK = cn(
  * state and no way back (KI-F13). Category pages are real routes here and show these links with
  * the current one marked; the main listing keeps the original's look without them.
  */
-function CategoryLinks({ current }: { readonly current: PostCategory }) {
+function CategoryLinks({
+  copy,
+  categories,
+  current,
+}: {
+  readonly copy: BlogListingCopy;
+  readonly categories: readonly PostCategory[];
+  readonly current: PostCategory;
+}) {
   return (
-    <nav aria-label={BLOG_PAGE.categoriesLabel}>
+    <nav aria-label={copy.categoriesLabel}>
       <ul className="flex flex-wrap gap-10">
         <li>
           <Link href={routes.blog} className={CATEGORY_LINK}>
-            {BLOG_PAGE.allCategories}
+            {copy.allCategories}
           </Link>
         </li>
-        {POST_CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <li key={category.slug}>
             <Link
               href={routes.blogCategory(category.slug)}
@@ -51,11 +60,18 @@ function CategoryLinks({ current }: { readonly current: PostCategory }) {
   );
 }
 
+/** A category page's category and every category (its links). */
+export type BlogCategoryContext = {
+  readonly current: PostCategory;
+  readonly all: readonly PostCategory[];
+};
+
 type BlogListProps = {
+  readonly copy: BlogListingCopy;
   /** Newest first. */
   readonly posts: readonly Post[];
-  /** The category page's category; omitted on the main listing. */
-  readonly category?: PostCategory;
+  /** Omitted on the main listing. */
+  readonly category?: BlogCategoryContext;
 };
 
 /**
@@ -64,20 +80,27 @@ type BlogListProps = {
  * is not ported (KI-F14). The grid gets a visually hidden heading so the outline does not jump
  * from the banner's h1 to the cards' h3s (KI-A14).
  */
-export function BlogList({ posts, category }: BlogListProps) {
+export function BlogList({ copy, posts, category }: BlogListProps) {
   const headingId = useId();
   return (
     <Section tone="light" id="blog-list" aria-labelledby={headingId}>
       <Container>
         <h2 id={headingId} className="sr-only">
-          {category ? BLOG_PAGE.categoryHeading(category.name) : BLOG_PAGE.listHeading}
+          {category
+            ? fillTemplate(copy.categoryHeading, { category: category.current.name })
+            : copy.listHeading}
         </h2>
-        {category ? <CategoryLinks current={category} /> : null}
+        {category ? (
+          <CategoryLinks copy={copy} categories={category.all} current={category.current} />
+        ) : null}
         <PagedPostGrid
-          items={posts.map((post) => ({ key: post.slug, node: <PostCard post={post} /> }))}
-          pageSize={BLOG_PAGE.pageSize}
-          step={BLOG_PAGE.pageStep}
-          loadMoreLabel={BLOG_PAGE.loadMore}
+          items={posts.map((post) => ({
+            key: post.slug,
+            node: <PostCard post={post} readMore={copy.readMore} />,
+          }))}
+          pageSize={copy.pageSize}
+          step={copy.pageStep}
+          loadMoreLabel={copy.loadMore}
           labelledBy={headingId}
         />
       </Container>

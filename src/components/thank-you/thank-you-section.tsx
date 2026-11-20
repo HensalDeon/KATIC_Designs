@@ -3,8 +3,8 @@ import { FeatureGrid } from "@/components/sections/feature-grid";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { THANK_YOU } from "@/content/thank-you";
 import { THANK_YOU_PREPAINT_SCRIPT } from "@/lib/leads/thank-you";
+import type { ThankYouContent } from "@/lib/schemas/thank-you";
 
 import { LeadActions } from "./lead-actions";
 import { LeadReferences } from "./lead-references";
@@ -18,8 +18,7 @@ import { LeadReferences } from "./lead-references";
  * from the remembered lead. No auto-zoom on short screens (the original's `fit()` shrinks it to
  * ~0.7 at 1440×900: KI-L13).
  */
-export function ThankYouSection() {
-  const copy = THANK_YOU;
+export function ThankYouSection({ copy }: { readonly copy: ThankYouContent }) {
   return (
     <Section
       tone="light"
@@ -50,11 +49,19 @@ export function ThankYouSection() {
           <LineBreaks lines={copy.title} />
         </h1>
         <Lead className="mt-22 max-w-none text-[17px] leading-[1.75]">{copy.lead}</Lead>
-        <LeadReferences />
+        <LeadReferences copy={{ sourceLabel: copy.sourceLabel, serviceLabel: copy.serviceLabel }} />
         {/* Writes the remembered lead into the chips before the first paint (no layout shift). */}
         <script dangerouslySetInnerHTML={{ __html: THANK_YOU_PREPAINT_SCRIPT }} />
         <FeatureGrid columns={3} art={false} items={copy.steps} className="mt-56 text-left" />
-        <LeadActions />
+        {/* Client islands get only their own copy (it is serialised into the page). */}
+        <LeadActions
+          copy={{
+            fallback: copy.fallback,
+            whatsapp: copy.whatsapp,
+            back: copy.back,
+            projects: copy.projects,
+          }}
+        />
       </Container>
     </Section>
   );

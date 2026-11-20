@@ -7,11 +7,14 @@ import { Container } from "@/components/ui/container";
 import { Accent, HeroTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Lead } from "@/components/ui/text";
-import { media } from "@/content/media";
-import { SERVICES_HERO, SERVICES_INDEX, type ServicesHeroContent } from "@/content/services-page";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { RelatedService } from "@/lib/schemas/entities";
+import type { ServicesHeroContent } from "@/lib/schemas/services-page";
 
 type ServicesHeroProps = {
-  readonly content?: ServicesHeroContent;
+  readonly content: ServicesHeroContent;
+  /** The side index: the page's services, in page order, as their service cards name them. */
+  readonly services: readonly Pick<RelatedService, "slug" | "title" | "href">[];
 };
 
 /**
@@ -24,7 +27,7 @@ type ServicesHeroProps = {
  * goes full width. The title scales to 62px below 1100px (the original keeps 76px, KI-L16).
  * Marked `data-hero` for the phone quick-contact bar.
  */
-export function ServicesHero({ content = SERVICES_HERO }: ServicesHeroProps) {
+export function ServicesHero({ content, services }: ServicesHeroProps) {
   const titleId = useId();
   const indexId = useId();
 
@@ -37,7 +40,7 @@ export function ServicesHero({ content = SERVICES_HERO }: ServicesHeroProps) {
     >
       <div className="absolute inset-0">
         <Image
-          src={media[content.image.src].image}
+          src={resolveMedia(content.image.src)}
           alt={content.image.alt}
           preload
           fetchPriority="high"
@@ -88,13 +91,13 @@ export function ServicesHero({ content = SERVICES_HERO }: ServicesHeroProps) {
             </span>
           </p>
           <ul>
-            {SERVICES_INDEX.map((service) => (
+            {services.map((service) => (
               <li key={service.slug} className="mt-9 first:mt-16">
                 <Link
                   href={service.href}
                   className="block font-sans text-[15px] text-white transition-colors duration-200 hover:text-brand"
                 >
-                  {service.name}
+                  {service.title}
                 </Link>
               </li>
             ))}

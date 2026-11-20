@@ -1,17 +1,19 @@
-import type { ServiceIconName } from "@/components/icons/service-icon";
-import type { ProcessStep } from "@/components/sections/process-steps";
-import { routes, type ServiceSlug } from "@/lib/routes";
-import type { Tone } from "@/lib/tone";
+import { routes } from "@/lib/routes";
+import type {
+  LabelledPhoto,
+  ServiceBlockContent,
+  ServicesHeroContent,
+  WhatWeDeliverContent,
+  WhatWeDoContent,
+} from "@/lib/schemas/services-page";
 
 import { media, type MediaId } from "./media";
-import type { RelatedServiceSlug } from "./related-services";
-import { SERVICE_FOR_PAGE, type ServiceOption } from "./services";
 
 /**
  * Services overview (`#p-services`, docs/analysis/02 §3). Copy is verbatim from the original.
- * Service names, descriptions and links are not repeated here: they come from the shared service
- * entities (`SERVICE_FOR_PAGE` in `services.ts`, `RELATED_SERVICES`, `routes`), so the page cannot
- * drift from the rest of the site. Will come from Laravel (Phase 11).
+ * Service names, descriptions and links are not repeated here: each block names its service by slug
+ * and the page takes them from the shared service cards (`RELATED_SERVICES`), so it cannot drift
+ * from the rest of the site. Will come from Laravel (Phase 11).
  */
 
 /** `<head>` of the page: the original's `data-title` / `data-desc` on `#p-services`. */
@@ -21,13 +23,6 @@ export const SERVICES_PAGE_SEO = {
     "Architectural design, interior design, construction, turnkey projects, renovation, landscape and property care for homes and commercial spaces in Kerala and the UAE.",
 } as const;
 
-/** A photo on the page: an asset, its alt text and the small caption chip (`.lab`) over it. */
-export type LabelledPhoto = {
-  readonly src: MediaId;
-  readonly alt: string;
-  readonly label: string;
-};
-
 /**
  * Alt text from the asset's description. The original repeats the service name as the alt of all
  * five images of a block (KI-A13); each photo now describes itself.
@@ -35,45 +30,6 @@ export type LabelledPhoto = {
 function photo(src: MediaId, label: string): LabelledPhoto {
   return { src, alt: media[src].description, label };
 }
-
-/** The seven services, in the order the page, its hero index and the footer list them. */
-export const SERVICES_PAGE_ORDER = [
-  "architecture",
-  "interior",
-  "construction",
-  "turnkey",
-  "renovation",
-  "exterior",
-  "property-care",
-] as const satisfies readonly (ServiceSlug & RelatedServiceSlug)[];
-
-export type ServicesPageSlug = (typeof SERVICES_PAGE_ORDER)[number];
-
-/** The service's display name, from the shared service list (`services.ts`). */
-export function serviceName(slug: ServicesPageSlug): ServiceOption {
-  const name = SERVICE_FOR_PAGE[slug];
-  if (!name) throw new Error(`No service name for "${slug}"`);
-  return name;
-}
-
-/** Name and page of every service, in page order (hero index, block headings). */
-export const SERVICES_INDEX = SERVICES_PAGE_ORDER.map((slug) => ({
-  slug,
-  name: serviceName(slug),
-  href: routes.service(slug),
-}));
-
-export type ServicesHeroContent = {
-  readonly image: { readonly src: MediaId; readonly alt: string };
-  readonly kicker: string;
-  /** Title lines; the last one is orange (`.or`). */
-  readonly titleLines: readonly string[];
-  readonly accent: string;
-  readonly lead: string;
-  readonly cta: { readonly label: string; readonly href: string };
-  /** Heading of the side index of services (`.wd small`). */
-  readonly indexLabel: string;
-};
 
 export const SERVICES_HERO = {
   // Decorative backdrop: the original's alt only repeated the title (KI-A13).
@@ -85,17 +41,6 @@ export const SERVICES_HERO = {
   cta: { label: "Explore Our Work", href: routes.works },
   indexLabel: "OUR SERVICES",
 } as const satisfies ServicesHeroContent;
-
-export type WhatWeDoContent = {
-  readonly kicker: string;
-  readonly title: string;
-  /** Large statement under the title (`.sub`). */
-  readonly statement: string;
-  readonly lead: string;
-  readonly body: string;
-  readonly cta: { readonly label: string; readonly href: string };
-  readonly steps: readonly ProcessStep[];
-};
 
 /** "What we do" (`section.pp-host.wd2`). The step icons repeat the original's (KI-D03). */
 export const WHAT_WE_DO = {
@@ -113,12 +58,6 @@ export const WHAT_WE_DO = {
   ],
 } as const satisfies WhatWeDoContent;
 
-export type WhatWeDeliverContent = {
-  readonly kicker: string;
-  readonly titleLines: readonly string[];
-  readonly lead: string;
-};
-
 /** "What we deliver" (`section.fd`). */
 export const WHAT_WE_DELIVER = {
   kicker: "What we deliver",
@@ -128,26 +67,9 @@ export const WHAT_WE_DELIVER = {
 } as const satisfies WhatWeDeliverContent;
 
 /**
- * One service block (`section.blk`). `tone` is the colour the original actually renders, not its
- * class name (`#svc-interior` is `.c` but black, `#svc-construction` is `.d` but white).
- * `contrast: "high"` is the original's `.d` palette: stronger text, a 30% hairline and the button
- * in the opposite tone.
+ * The seven blocks, in the order the page, its hero index and the footer list the services. Tones
+ * strictly alternate, images alternate right/left.
  */
-export type ServiceBlockContent = {
-  readonly slug: ServicesPageSlug;
-  readonly tone: Tone;
-  readonly contrast: "standard" | "high";
-  /** Images on the left, text on the right (`.rev`). */
-  readonly reverse: boolean;
-  readonly icon: ServiceIconName;
-  /** Small caps line in the block header and on the main photo (`.hd`, `.big .lab`). */
-  readonly tagline: string;
-  readonly ctaLabel: string;
-  readonly image: LabelledPhoto;
-  readonly thumbnails: readonly [LabelledPhoto, LabelledPhoto, LabelledPhoto, LabelledPhoto];
-};
-
-/** The seven blocks: tones strictly alternate, images alternate right/left. */
 export const SERVICE_BLOCKS = [
   {
     slug: "architecture",

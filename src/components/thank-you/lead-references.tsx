@@ -1,8 +1,10 @@
 "use client";
 
-import { THANK_YOU } from "@/content/thank-you";
 import { useLastLead } from "@/hooks/use-last-lead";
 import { leadSourceLabel, THANK_YOU_DEFAULTS } from "@/lib/leads/thank-you";
+import type { ThankYouContent } from "@/lib/schemas/thank-you";
+
+export type LeadReferencesCopy = Pick<ThankYouContent, "sourceLabel" | "serviceLabel">;
 
 /**
  * `.kty .ref` (original line 4385): the "Source" and "Service" chips of the enquiry just sent,
@@ -12,7 +14,7 @@ import { leadSourceLabel, THANK_YOU_DEFAULTS } from "@/lib/leads/thank-you";
  * `suppressHydrationWarning` keeps them while hydrating with the generic server snapshot, and the
  * client snapshot then renders the same text, so nothing moves.
  */
-export function LeadReferences() {
+export function LeadReferences({ copy }: { readonly copy: LeadReferencesCopy }) {
   const lead = useLastLead();
   const chip =
     "border border-[#ddd] px-14 py-8 font-sans text-[11px] font-medium tracking-[0.08em]";
@@ -23,13 +25,13 @@ export function LeadReferences() {
       data-testid="lead-references"
     >
       <span className={chip}>
-        {THANK_YOU.sourceLabel}{" "}
+        {copy.sourceLabel}{" "}
         <b data-lead-source className={value} suppressHydrationWarning>
           {leadSourceLabel(lead)}
         </b>
       </span>
       <span className={chip}>
-        {THANK_YOU.serviceLabel}{" "}
+        {copy.serviceLabel}{" "}
         <b data-lead-service className={value} suppressHydrationWarning>
           {lead?.service ?? THANK_YOU_DEFAULTS.service}
         </b>

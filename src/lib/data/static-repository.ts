@@ -15,6 +15,7 @@ import {
   ABOUT_TEAM,
   ABOUT_WORKS,
 } from "@/content/about";
+import { TESTIMONIALS_HEADER } from "@/content/blocks";
 import { CONTACT_TEMPLATE } from "@/content/contact";
 import { DIVISIONS } from "@/content/divisions";
 import { builtDivisionSlugs, getDivisionPage } from "@/content/divisions/pages";
@@ -79,7 +80,7 @@ import {
   WORKS_SEO,
 } from "@/content/works";
 import { DIVISION_SLUGS } from "@/lib/routes";
-import { contactTemplateSchema } from "@/lib/schemas/blocks";
+import { blockDefaultsSchema, contactTemplateSchema } from "@/lib/schemas/blocks";
 import {
   divisionSchema,
   processStageSchema,
@@ -90,8 +91,12 @@ import {
 } from "@/lib/schemas/entities";
 import { type MediaLibrary, mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
+import { newsItemSchema, newsPageSchema } from "@/lib/schemas/news";
+import { blogPageSchema, postCategorySchema, postSchema } from "@/lib/schemas/posts";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
+import { servicesPageSchema } from "@/lib/schemas/services-page";
 import { siteSettingsSchema } from "@/lib/schemas/site";
+import { thankYouPageSchema } from "@/lib/schemas/thank-you";
 
 import type {
   AboutPage,
@@ -145,6 +150,10 @@ export class StaticRepository implements ContentRepository {
     return this.#check(contactTemplateSchema, CONTACT_TEMPLATE);
   }
 
+  async getBlockDefaults() {
+    return this.#check(blockDefaultsSchema, { testimonialsHeader: TESTIMONIALS_HEADER });
+  }
+
   // Shared entities ------------------------------------------------------------------------------
 
   async listProjects(filter: { readonly category?: Parameters<typeof inCategory>[1] } = {}) {
@@ -191,13 +200,13 @@ export class StaticRepository implements ContentRepository {
   }
 
   async getServicesPage(): Promise<ServicesPage> {
-    return {
+    return this.#check(servicesPageSchema, {
       seo: SERVICES_PAGE_SEO,
       hero: SERVICES_HERO,
       whatWeDo: WHAT_WE_DO,
       blocks: SERVICE_BLOCKS,
       whatWeDeliver: WHAT_WE_DELIVER,
-    };
+    });
   }
 
   // Divisions ------------------------------------------------------------------------------------
@@ -247,33 +256,35 @@ export class StaticRepository implements ContentRepository {
   // Blog and news --------------------------------------------------------------------------------
 
   async listPostCategories() {
-    return POST_CATEGORIES;
+    return POST_CATEGORIES.map((category) => this.#check(postCategorySchema, category));
   }
 
   async listPosts(filter: { readonly category?: string } = {}) {
     const { category } = filter;
-    return postsByDate(
+    const posts = postsByDate(
       category === undefined
         ? POSTS
         : POSTS.filter((post) => postCategorySlug(post.category) === category),
     );
+    return posts.map((post) => this.#check(postSchema, post));
   }
 
   async getPost(slug: string) {
-    return POSTS.find((post) => post.slug === slug);
+    const post = POSTS.find((entry) => entry.slug === slug);
+    return post && this.#check(postSchema, post);
   }
 
   async getBlogPage(): Promise<BlogPage> {
-    const { categoryHeading: _function, ...page } = BLOG_PAGE;
-    return { page, article: ARTICLE_PAGE };
+    return this.#check(blogPageSchema, { page: BLOG_PAGE, article: ARTICLE_PAGE });
   }
 
   async listNews() {
-    return [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+    const news = [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+    return news.map((item) => this.#check(newsItemSchema, item));
   }
 
   async getNewsPage(): Promise<NewsPage> {
-    return { ...NEWS_PAGE, seo: NEWS_SEO };
+    return this.#check(newsPageSchema, { ...NEWS_PAGE, seo: NEWS_SEO });
   }
 
   // Pages ----------------------------------------------------------------------------------------
@@ -325,7 +336,7 @@ export class StaticRepository implements ContentRepository {
   }
 
   async getThankYouPage(): Promise<ThankYouPage> {
-    return { ...THANK_YOU, seo: THANK_YOU_SEO };
+    return this.#check(thankYouPageSchema, { ...THANK_YOU, seo: THANK_YOU_SEO });
   }
 }
 

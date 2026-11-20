@@ -3,9 +3,10 @@ import Link from "next/link";
 
 import { canvasSizes } from "@/components/sections/section-media";
 import { MoreLabel } from "@/components/ui/text-link";
-import { media } from "@/content/media";
-import { BLOG_PAGE, formatPostDate, type Post } from "@/content/posts";
+import { formatPostDate } from "@/lib/format/dates";
+import { mediaDescription, resolveMedia } from "@/lib/media/resolve";
 import { routes } from "@/lib/routes";
+import type { Post } from "@/lib/schemas/posts";
 
 /** Card width on the 1268px canvas: three columns with 24px gaps. */
 const CARD_SIZES = canvasSizes((1268 - 2 * 24) / 3, "50vw");
@@ -16,14 +17,13 @@ const CARD_SIZES = canvasSizes((1268 - 2 * 24) / 3, "50vw");
  * turns orange on hover, excerpt and the "Read Article →" label. The meta row is 9px on the
  * canvas and 11px on phones and tablets (KI-A10); the photo's alt describes the photo (KI-A13).
  */
-export function PostCard({ post }: { readonly post: Post }) {
-  const cover = media[post.cover];
+export function PostCard({ post, readMore }: { readonly post: Post; readonly readMore: string }) {
   return (
     <Link href={routes.article(post.slug)} className="group flex flex-col text-fg">
       <span className="block h-260 overflow-hidden">
         <Image
-          src={cover.image}
-          alt={cover.description}
+          src={resolveMedia(post.cover)}
+          alt={mediaDescription(post.cover)}
           sizes={CARD_SIZES}
           className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.04]"
         />
@@ -38,7 +38,7 @@ export function PostCard({ post }: { readonly post: Post }) {
         {post.title}
       </h3>
       <p className="mt-10 font-sans text-[13px] leading-[1.75] text-fg-body">{post.excerpt}</p>
-      <MoreLabel className="mt-16 flex">{BLOG_PAGE.readMore}</MoreLabel>
+      <MoreLabel className="mt-16 flex">{readMore}</MoreLabel>
     </Link>
   );
 }

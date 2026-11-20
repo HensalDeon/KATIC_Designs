@@ -4,14 +4,16 @@ import { LineBreaks } from "@/components/blocks/title-text";
 import { SectionHeader } from "@/components/sections/section-header";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { NEWS, NEWS_PAGE, type NewsItem, newsListing } from "@/content/news";
-import { SITE } from "@/content/site";
+import { getSite } from "@/lib/data";
+import { newsListing } from "@/lib/news";
 import { routes } from "@/lib/routes";
+import type { NewsItem, NewsListCopy } from "@/lib/schemas/news";
 
 import { NewsCard } from "./news-card";
 
 type NewsListProps = {
-  readonly items?: readonly NewsItem[];
+  readonly copy: NewsListCopy;
+  readonly items: readonly NewsItem[];
 };
 
 /** Below the fixed header when a permalink (`/news#<slug>`) scrolls a card into view. */
@@ -21,10 +23,11 @@ const PERMALINK_OFFSET = "scroll-mt-100";
  * `section.ks.knews-page#news-list` (original lines 4050–4052), white: the `.kh` header, the lead
  * card (`.knews-feat`, 60px below the header) and the other items in a 3-column grid (2 below
  * 1100px, 1 on phones). Every card carries its slug as id, so `/news#<slug>` is its permalink.
- * Without news it shows an empty state instead of the cards.
+ * Without news it shows an empty state instead of the cards. The press address in the lead is the
+ * studio email of the site settings.
  */
-export function NewsList({ items = NEWS }: NewsListProps) {
-  const copy = NEWS_PAGE.list;
+export async function NewsList({ copy, items }: NewsListProps) {
+  const { email } = await getSite();
   const { featured, rest } = newsListing(items);
 
   return (
@@ -41,10 +44,10 @@ export function NewsList({ items = NEWS }: NewsListProps) {
             <>
               {copy.lead.before}
               <Link
-                href={`mailto:${SITE.email}`}
+                href={`mailto:${email}`}
                 className="underline decoration-[#bbb] underline-offset-3 hover:text-fg"
               >
-                {SITE.email}
+                {email}
               </Link>
               {copy.lead.after}
             </>

@@ -60,6 +60,12 @@ export async function getContactTemplate() {
   return getRepository().getContactTemplate();
 }
 
+export async function getBlockDefaults() {
+  "use cache";
+  cached(tags.blockDefaults);
+  return getRepository().getBlockDefaults();
+}
+
 // Shared entities --------------------------------------------------------------------------------
 
 export async function listProjects(filter: ProjectFilter = {}) {

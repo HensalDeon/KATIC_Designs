@@ -1,8 +1,8 @@
 import type { FaqAnswerPart, FaqItem } from "@/components/sections/faq";
-import type { Post } from "@/content/posts";
 import { SERVICE_OPTIONS } from "@/content/services";
 import { routes } from "@/lib/routes";
 import type { Division } from "@/lib/schemas/entities";
+import type { Post } from "@/lib/schemas/posts";
 import type { Office, SiteSettings } from "@/lib/schemas/site";
 
 import { absoluteUrl } from "./site-url";

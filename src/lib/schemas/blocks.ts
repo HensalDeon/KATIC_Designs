@@ -425,3 +425,17 @@ export const contactFaqSchema = z.object({
   faq: faqSchema,
   plant: plantSpecSchema.exactOptional(),
 });
+
+// ---------------------------------------------------------------------------------------------
+// Block defaults
+// ---------------------------------------------------------------------------------------------
+
+/**
+ * Copy a block shows unless the page overrides it (`GET /block-defaults`), the copy the original
+ * repeats verbatim wherever the block appears (docs/analysis/03 §4).
+ */
+export const blockDefaultsSchema = z.object({
+  /** Header of every testimonials block (`.kq`); `TestimonialsBlock.header` overrides it. */
+  testimonialsHeader: sectionHeaderSchema,
+});
+export type BlockDefaults = z.infer<typeof blockDefaultsSchema>;

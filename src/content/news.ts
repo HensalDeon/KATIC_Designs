@@ -1,5 +1,4 @@
-import type { PageHeroContent, TitleLines } from "./blocks";
-import type { MediaId } from "./media";
+import type { NewsItem, NewsPage } from "@/lib/schemas/news";
 
 /**
  * Studio news (`.knw` cards on the home page and `/news`, docs/analysis/04 §4), copy verbatim.
@@ -17,17 +16,7 @@ export const NEWS_CATEGORIES = [
 ] as const;
 export type NewsCategory = (typeof NEWS_CATEGORIES)[number];
 
-export type NewsItem = {
-  readonly slug: string;
-  readonly title: string;
-  readonly excerpt: string;
-  readonly category: NewsCategory;
-  /** ISO date `YYYY-MM-DD`. */
-  readonly date: string;
-  readonly image: MediaId;
-  /** Shown as the large lead card on `/news` (`.knw.big`). */
-  readonly featured?: boolean;
-};
+export type { NewsItem };
 
 /** Newest first, as on the original news page. */
 export const NEWS: readonly NewsItem[] = [
@@ -93,34 +82,9 @@ export function latestNews(count: number): NewsItem[] {
   return [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
 }
 
-/**
- * `/news` listing: the lead card (`.knw.big`) is the newest item flagged `featured` (the newest
- * item when none is), followed by every other item, newest first.
- */
-export function newsListing(items: readonly NewsItem[] = NEWS): {
-  readonly featured: NewsItem | undefined;
-  readonly rest: readonly NewsItem[];
-} {
-  const sorted = [...items].sort((a, b) => b.date.localeCompare(a.date));
-  const featured = sorted.find((item) => item.featured) ?? sorted[0];
-  return { featured, rest: sorted.filter((item) => item !== featured) };
-}
-
-const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-/**
- * Display date as the original's markup writes it: two-digit day and a three-letter month
- * ("05 Aug 2026", "30 Sep 2026"). Unlike blog dates these were typed by hand, so "Sept" is
- * normalised to "Sep".
- */
-export function formatNewsDate(isoDate: string): string {
-  return DATE_FORMAT.format(new Date(`${isoDate}T00:00:00Z`)).replace("Sept", "Sep");
-}
+/** The `/news` listing and its dates (`@/lib/news`, `@/lib/format/dates`), re-exported for Home. */
+export { formatNewsDate } from "@/lib/format/dates";
+export { newsListing } from "@/lib/news";
 
 /** Copy of the home page's news teaser (`#home-news`). */
 export const HOME_NEWS_TEASER = {
@@ -138,22 +102,7 @@ export const NEWS_SEO = {
     "Studio announcements, completed projects and updates from Katic Designs and its divisions.",
 } as const;
 
-export type NewsPageContent = {
-  readonly hero: PageHeroContent;
-  readonly list: {
-    readonly id: string;
-    readonly kicker: string;
-    readonly title: TitleLines;
-    /**
-     * The lead around the studio email address, which becomes a mailto link (plain text in the
-     * original, docs/analysis/04 §14.8).
-     */
-    readonly lead: { readonly before: string; readonly after: string };
-    readonly readMore: string;
-    /** Shown when there is no news (docs/analysis/04 §14.37). TODO(content): client copy. */
-    readonly empty: string;
-  };
-};
+export type NewsPageContent = Omit<NewsPage, "seo">;
 
 /** Copy of `#p-news` (original lines 4048–4053), verbatim. */
 export const NEWS_PAGE = {
@@ -169,6 +118,7 @@ export const NEWS_PAGE = {
     title: ["What’s new", "at KATIC"],
     lead: { before: "For press and media enquiries, write to us at ", after: "." },
     readMore: "Read more",
+    // TODO(content): client copy for the empty state (docs/analysis/04 §14.37).
     empty: "There is no news to share yet. Please check back soon.",
   },
 } as const satisfies NewsPageContent;

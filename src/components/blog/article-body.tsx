@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import { ContactLink } from "@/components/sections/contact-link";
 import { canvasSizes } from "@/components/sections/section-media";
-import { media } from "@/content/media";
-import { ARTICLE_PAGE, type PostBlock } from "@/content/posts";
+import { mediaDescription, resolveMedia } from "@/lib/media/resolve";
+import type { ArticleCopy, PostBlock } from "@/lib/schemas/posts";
 
 /** Body column width on the canvas (7fr of 1268 − 64). */
 const FIGURE_SIZES = canvasSizes(843, "100vw");
@@ -31,12 +31,11 @@ function Block({ block }: { readonly block: PostBlock }) {
         </ul>
       );
     case "img": {
-      const asset = media[block.image];
       return (
         <figure className="mt-30">
           <Image
-            src={asset.image}
-            alt={asset.description}
+            src={resolveMedia(block.image)}
+            alt={mediaDescription(block.image)}
             sizes={FIGURE_SIZES}
             className="h-420 w-full object-cover max-md:h-300"
           />
@@ -56,8 +55,13 @@ function Block({ block }: { readonly block: PostBlock }) {
  * form (home's, as the original's `data-go="contact"`). Photos carry a description of the photo as
  * alt text, not the caption (KI-A13). The link uses the text-safe orange (KI-A11).
  */
-export function ArticleBody({ blocks }: { readonly blocks: readonly PostBlock[] }) {
-  const { closing } = ARTICLE_PAGE;
+export function ArticleBody({
+  blocks,
+  closing,
+}: {
+  readonly blocks: readonly PostBlock[];
+  readonly closing: ArticleCopy["closing"];
+}) {
   return (
     <div className="mt-32">
       {blocks.map((block, index) => (

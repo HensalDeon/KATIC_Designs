@@ -1,3 +1,6 @@
+import type { ArticleCopy, BlogListingCopy, Post, PostBlock } from "@/lib/schemas/posts";
+import { articlePageSeo, categoryPageSeo } from "@/lib/seo/blog";
+
 import type { MediaId } from "./media";
 
 /**
@@ -23,33 +26,9 @@ export type PostCategory = (typeof POST_CATEGORIES)[number];
 export type PostCategoryName = PostCategory["name"];
 export type PostCategorySlug = PostCategory["slug"];
 
-/** One block of an article body (original tuples `['p'|'h'|'ul'|'img', …]`). Plain text, no inline markup. */
-export type PostBlock =
-  | { readonly type: "p"; readonly text: string }
-  | { readonly type: "h"; readonly text: string }
-  | { readonly type: "ul"; readonly items: readonly string[] }
-  | { readonly type: "img"; readonly image: MediaId; readonly caption: string };
-
-export type Post = {
-  /** URL slug (`s`). */
-  readonly slug: string;
-  /** Title (`t`). */
-  readonly title: string;
-  /** Category (`c`). */
-  readonly category: PostCategoryName;
-  /** Publication date, ISO `YYYY-MM-DD` (`d`). */
-  readonly publishedAt: string;
-  /** View count (`v`); the listing's "Most Popular" sort. */
-  readonly views: number;
-  /** Cover image (`i`). */
-  readonly cover: MediaId;
-  /** Author (`a`). The original's authors are teams, not people (KI-S02). */
-  readonly author: string;
-  /** Excerpt (`x`); also the article's meta description. */
-  readonly excerpt: string;
-  /** Body blocks (`b`). */
-  readonly body: readonly PostBlock[];
-};
+export type { Post, PostBlock };
+/** Display date of a post (`@/lib/format/dates`), re-exported for the home teaser. */
+export { formatPostDate } from "@/lib/format/dates";
 
 const p = (text: string): PostBlock => ({ type: "p", text });
 const h = (text: string): PostBlock => ({ type: "h", text });
@@ -348,18 +327,6 @@ export function postsByCategory(slug: PostCategorySlug | "all"): Post[] {
   return postsByDate(POSTS.filter((post) => postCategorySlug(post.category) === slug));
 }
 
-const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-/** Display date as the original renders it (`en-GB`, e.g. "14 Oct 2026", "18 Sept 2026"). */
-export function formatPostDate(isoDate: string): string {
-  return DATE_FORMAT.format(new Date(`${isoDate}T00:00:00Z`));
-}
-
 /**
  * The blog listing (`#p-blog`, original lines 4054–4065, docs/analysis/04 §5): SEO (`data-title` /
  * `data-desc`), the banner, and the grid's paging (`KB` state: 6 cards, then 3 more per click).
@@ -369,6 +336,8 @@ export const BLOG_PAGE = {
     title: "Architecture & Interior Design Blog | Katic Designs",
     description:
       "Ideas on architecture, interiors, materials, construction and caring for homes in Kerala's climate.",
+    /** Category pages (`/blog/category/<slug>`); the original has no per-category title. */
+    categoryTitle: "{category} Articles | Katic Designs Blog",
   },
   hero: {
     image: "photos/brick-courtyard-house-dusk-panorama" satisfies MediaId,
@@ -378,7 +347,8 @@ export const BLOG_PAGE = {
   },
   /** Accessible name of the grid (the original has no heading between the h1 and the card h3s, KI-A14). */
   listHeading: "Articles",
-  categoryHeading: (name: PostCategoryName) => `${name} articles`,
+  /** Accessible name of the grid on a category page. */
+  categoryHeading: "{category} articles",
   /** Label of the category links (`.kcats`), shown on the category pages (KI-F13). */
   categoriesLabel: "Blog categories",
   allCategories: "All",
@@ -386,17 +356,11 @@ export const BLOG_PAGE = {
   loadMore: "Load More Articles",
   pageSize: 6,
   pageStep: 3,
-} as const;
+} as const satisfies BlogListingCopy;
 
 /** SEO of a category page (`/blog/category/<slug>`); the original has no per-category title. */
-export function blogCategorySeo(category: PostCategory): {
-  title: string;
-  description: string;
-} {
-  return {
-    title: `${category.name} Articles | Katic Designs Blog`,
-    description: BLOG_PAGE.seo.description,
-  };
+export function blogCategorySeo(category: PostCategory): { title: string; description: string } {
+  return categoryPageSeo(BLOG_PAGE, category);
 }
 
 /**
@@ -404,6 +368,8 @@ export function blogCategorySeo(category: PostCategory): {
  * closing-line copy.
  */
 export const ARTICLE_PAGE = {
+  /** Document title (`articleSeo`). */
+  seoTitle: "{title} — Katic Designs",
   breadcrumb: "Blog",
   byline: "By",
   latestHeading: "Latest articles",
@@ -411,15 +377,14 @@ export const ARTICLE_PAGE = {
   allArticles: "All Articles",
   /** Appended after every body (`<p>Planning a project? <a data-go="contact">…</a>.</p>`). */
   closing: { prompt: "Planning a project?", link: "Talk to the KATIC team" },
-} as const;
+} as const satisfies ArticleCopy;
 
 /**
- * Document title of an article as the original leaves it at runtime: `KB.article` sets
- * "<title> | Katic Designs Blog" and then overwrites it with "<title> — Katic Designs" (JS 4498,
- * KI-S02); the description is the excerpt.
+ * Document title of an article as the original leaves it at runtime: "<title> — Katic Designs"
+ * (KI-S02); the description is the excerpt.
  */
 export function articleSeo(post: Post): { title: string; description: string } {
-  return { title: `${post.title} — Katic Designs`, description: post.excerpt };
+  return articlePageSeo(ARTICLE_PAGE, post);
 }
 
 /** Copy of the home page's blog teaser (`#home-blog`). */

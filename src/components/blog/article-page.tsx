@@ -5,16 +5,11 @@ import { useId } from "react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { media } from "@/content/media";
-import {
-  ARTICLE_PAGE,
-  formatPostDate,
-  otherLatestPosts,
-  type Post,
-  postCategorySlug,
-} from "@/content/posts";
+import { formatPostDate } from "@/lib/format/dates";
+import { mediaDescription, resolveMedia } from "@/lib/media/resolve";
 import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
+import type { ArticleCopy, Post, PostCategory } from "@/lib/schemas/posts";
 
 import { ArticleBody } from "./article-body";
 
@@ -27,15 +22,14 @@ const CRUMB_LINK =
  * fixed header stays legible. The article has no banner, so the photo starts under the header.
  */
 function ArticleCover({ post }: { readonly post: Post }) {
-  const cover = media[post.cover];
   return (
     <div
       data-parity="kart-cover"
       className="relative h-520 overflow-hidden after:absolute after:inset-0 after:bg-[linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.1)_40%,rgba(0,0,0,0.2))] max-md:h-300"
     >
       <Image
-        src={cover.image}
-        alt={cover.description}
+        src={resolveMedia(post.cover)}
+        alt={mediaDescription(post.cover)}
         preload
         fetchPriority="high"
         sizes="100vw"
@@ -46,7 +40,7 @@ function ArticleCover({ post }: { readonly post: Post }) {
 }
 
 /**
- * "Latest articles" (`.kart aside`): the four newest other posts as thumbnail rows and the
+ * "Latest articles" (`.kart aside`): the newest other posts (four) as thumbnail rows and the
  * "All Articles" button.
  *
  * - The heading is an h2 styled as the original's h4, so the outline does not jump (KI-A14), in
@@ -58,9 +52,14 @@ function ArticleCover({ post }: { readonly post: Post }) {
  * - The original's button inherits the rows' `aside a` grid and loses its bottom border; here it is
  *   a normal full-width outline button with the label centred.
  */
-function LatestArticles({ post }: { readonly post: Post }) {
+function LatestArticles({
+  copy,
+  latest,
+}: {
+  readonly copy: ArticleCopy;
+  readonly latest: readonly Post[];
+}) {
   const headingId = useId();
-  const latest = otherLatestPosts(post.slug, ARTICLE_PAGE.latestCount);
   return (
     <aside
       aria-labelledby={headingId}
@@ -70,7 +69,7 @@ function LatestArticles({ post }: { readonly post: Post }) {
         id={headingId}
         className="font-sans text-[10px] font-semibold tracking-[0.2em] text-kicker uppercase max-md:text-[11px]"
       >
-        {ARTICLE_PAGE.latestHeading}
+        {copy.latestHeading}
       </h2>
       <ul>
         {latest.map((other) => (
@@ -80,7 +79,7 @@ function LatestArticles({ post }: { readonly post: Post }) {
               className="group grid grid-cols-[84px_minmax(0,1fr)] items-center gap-14 py-16"
             >
               <Image
-                src={media[other.cover].image}
+                src={resolveMedia(other.cover)}
                 alt=""
                 sizes={fixedCanvasSizes(84)}
                 className="h-64 w-84 object-cover"
@@ -106,7 +105,7 @@ function LatestArticles({ post }: { readonly post: Post }) {
         icon="up-right"
         className="mt-18 flex w-full justify-center"
       >
-        {ARTICLE_PAGE.allArticles}
+        {copy.allArticles}
       </ButtonLink>
     </aside>
   );
@@ -118,7 +117,16 @@ function LatestArticles({ post }: { readonly post: Post }) {
  * with a 64px gap, one column below 1100px) with the breadcrumb, the Jost title, the byline row,
  * the body and the "Latest articles" aside; the layout's footer follows. No reveal-on-scroll (D7).
  */
-export function ArticlePage({ post }: { readonly post: Post }) {
+type ArticlePageProps = {
+  readonly copy: ArticleCopy;
+  readonly post: Post;
+  /** The post's category (its name is `post.category`). */
+  readonly category: PostCategory;
+  /** The "Latest articles" aside: the newest other posts, newest first. */
+  readonly latest: readonly Post[];
+};
+
+export function ArticlePage({ copy, post, category, latest }: ArticlePageProps) {
   const titleId = useId();
   return (
     <>
@@ -131,13 +139,10 @@ export function ArticlePage({ post }: { readonly post: Post }) {
               className="font-sans text-[11px] font-medium text-[#767676]"
             >
               <Link href={routes.blog} className={CRUMB_LINK}>
-                {ARTICLE_PAGE.breadcrumb}
+                {copy.breadcrumb}
               </Link>
               {" / "}
-              <Link
-                href={routes.blogCategory(postCategorySlug(post.category))}
-                className={CRUMB_LINK}
-              >
+              <Link href={routes.blogCategory(category.slug)} className={CRUMB_LINK}>
                 {post.category}
               </Link>
             </nav>
@@ -149,16 +154,16 @@ export function ArticlePage({ post }: { readonly post: Post }) {
             </h1>
             <p className="mt-22 flex flex-wrap gap-22 border-b border-[#e3dfd7] pb-26 font-sans text-[12px] font-medium text-[#555]">
               <span>
-                {ARTICLE_PAGE.byline} <b className="font-semibold text-fg">{post.author}</b>
+                {copy.byline} <b className="font-semibold text-fg">{post.author}</b>
               </span>
               <time dateTime={post.publishedAt}>{formatPostDate(post.publishedAt)}</time>
               <span className="text-[10.5px] font-semibold tracking-[0.12em] text-[#c0522a] uppercase max-md:text-[11px]">
                 {post.category}
               </span>
             </p>
-            <ArticleBody blocks={post.body} />
+            <ArticleBody blocks={post.body} closing={copy.closing} />
           </article>
-          <LatestArticles post={post} />
+          <LatestArticles copy={copy} latest={latest} />
         </Container>
       </Section>
       {/* TODO(phase-10): BlogPosting JSON-LD (headline, excerpt, date, author as Organization,

@@ -24,14 +24,7 @@ import type { ClientStoriesContent } from "@/content/home/stories";
 import type { HomeWorksContent } from "@/content/home/works";
 import type { DubaiBlock, DubaiSeo } from "@/content/locations/dubai";
 import type { IndiaPageContent } from "@/content/locations/india";
-import type { NewsItem, NewsPageContent } from "@/content/news";
-import type {
-  ARTICLE_PAGE,
-  BLOG_PAGE,
-  HOME_BLOG_TEASER,
-  Post,
-  PostCategory,
-} from "@/content/posts";
+import type { HOME_BLOG_TEASER } from "@/content/posts";
 import type { ProjectDetail } from "@/content/project-details";
 import type { RelatedServiceSlug } from "@/content/related-services";
 import type {
@@ -45,13 +38,6 @@ import type {
 } from "@/content/reviews";
 import type { ServicePageContent } from "@/content/service-pages";
 import type {
-  ServiceBlockContent,
-  ServicesHeroContent,
-  WhatWeDeliverContent,
-  WhatWeDoContent,
-} from "@/content/services-page";
-import type { ThankYouContent } from "@/content/thank-you";
-import type {
   WorksCapabilitiesContent,
   WorksCaseStudyContent,
   WorksCtaContent,
@@ -62,6 +48,7 @@ import type {
   WorksSectorsContent,
 } from "@/content/works";
 import type { DivisionSlug, ServiceSlug, WorksCategory } from "@/lib/routes";
+import type { BlockDefaults } from "@/lib/schemas/blocks";
 import type {
   Division,
   ProcessStage,
@@ -72,7 +59,11 @@ import type {
 } from "@/lib/schemas/entities";
 import type { MediaLibrary } from "@/lib/schemas/media";
 import type { Navigation } from "@/lib/schemas/navigation";
+import type { NewsItem, NewsPage } from "@/lib/schemas/news";
+import type { BlogPage, Post, PostCategory } from "@/lib/schemas/posts";
+import type { ServicesPage } from "@/lib/schemas/services-page";
 import type { SiteSettings } from "@/lib/schemas/site";
+import type { ThankYouPage } from "@/lib/schemas/thank-you";
 
 /**
  * The one way pages get content (D6, MIGRATION_PLAN Phase 11). Every method is an async read of one
@@ -96,6 +87,7 @@ import type { SiteSettings } from "@/lib/schemas/site";
  * | `GET /navigation`              | `getNavigation()`                             |
  * | `GET /media`                   | `getMediaLibrary()`                           |
  * | `GET /contact`                 | `getContactTemplate()`                        |
+ * | `GET /block-defaults`          | `getBlockDefaults()`                          |
  * | `GET /projects?category=`      | `listProjects({ category })`                  |
  * | `GET /projects/{slug}`         | `getProject(slug)`, `getProjectPage(slug)`    |
  * | `GET /testimonials`            | `listTestimonials()`                          |
@@ -122,6 +114,8 @@ export type ContentRepository = {
   getMediaLibrary(): Promise<MediaLibrary>;
   /** The CONTACT template shared by every page's contact section. */
   getContactTemplate(): Promise<ContactSectionContent>;
+  /** Copy blocks show unless the page overrides it (the testimonials header). */
+  getBlockDefaults(): Promise<BlockDefaults>;
 
   // Shared entities ------------------------------------------------------------------------------
   listProjects(filter?: ProjectFilter): Promise<readonly Project[]>;
@@ -215,13 +209,7 @@ export type AboutPage = {
   readonly works: AboutWorksContent;
 };
 
-export type ServicesPage = {
-  readonly seo: PageSeoCopy;
-  readonly hero: ServicesHeroContent;
-  readonly whatWeDo: WhatWeDoContent;
-  readonly blocks: readonly ServiceBlockContent[];
-  readonly whatWeDeliver: WhatWeDeliverContent;
-};
+export type { BlogPage, NewsPage, ServicesPage, ThankYouPage };
 
 export type WorksPage = {
   readonly seo: PageSeoCopy;
@@ -244,13 +232,6 @@ export type DubaiPage = {
   readonly contact: ContactSectionContent;
 };
 
-export type BlogPage = {
-  readonly page: Omit<typeof BLOG_PAGE, "categoryHeading">;
-  readonly article: typeof ARTICLE_PAGE;
-};
-
-export type NewsPage = NewsPageContent & { readonly seo: PageSeoCopy };
-
 export type ReviewsPage = {
   readonly seo: PageSeoCopy;
   readonly hero: ReviewsHeroContent;
@@ -261,5 +242,3 @@ export type ReviewsPage = {
   readonly projects: ReviewsProjectsContent;
   readonly cta: ReviewsCtaContent;
 };
-
-export type ThankYouPage = ThankYouContent & { readonly seo: PageSeoCopy };
