@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { ABOUT_EXPERIENCE, type AboutExperienceContent } from "@/content/about";
+import type { AboutExperienceContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 import { ABOUT_TITLE_CLASS, AboutColumns } from "./about-columns";
@@ -17,7 +17,7 @@ export const ABOUT_DARK_OUTLINE_BUTTON =
   "border-[#30343c] bg-black text-mist hover:border-[#30343c]";
 
 type AboutExperienceProps = {
-  readonly content?: AboutExperienceContent;
+  readonly content: AboutExperienceContent;
 };
 
 /**
@@ -26,7 +26,7 @@ type AboutExperienceProps = {
  * separated by hairlines. Two by two below 1100px, one column on phones (rules between rows).
  * Figures are static: the count-up runs on Home only. Facts to confirm: KI-C10.
  */
-export function AboutExperience({ content = ABOUT_EXPERIENCE }: AboutExperienceProps) {
+export function AboutExperience({ content }: AboutExperienceProps) {
   const titleId = "about-experience-title";
   return (
     <Section tone="dark" data-parity="ex" aria-labelledby={titleId}>

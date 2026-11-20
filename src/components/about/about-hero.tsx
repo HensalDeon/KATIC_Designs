@@ -5,7 +5,7 @@ import { resolveImage } from "@/components/sections/section-image";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
-import { ABOUT_HERO, type AboutHeroContent } from "@/content/about";
+import type { AboutHeroContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 /** Hero buttons (`#p-about .hero .btns .btn`): 50px, Inter 500 13px; full width on phones. */
@@ -13,7 +13,7 @@ const BUTTON =
   "h-50 gap-20 px-24 text-[13px] max-md:flex max-md:w-full max-md:justify-between max-md:px-20 max-md:text-[12px]";
 
 type AboutHeroProps = {
-  readonly content?: AboutHeroContent;
+  readonly content: AboutHeroContent;
 };
 
 /**
@@ -27,7 +27,7 @@ type AboutHeroProps = {
  * labels (`.vl`) read bottom-to-top instead of upside down (KI-L15, vertical writing mode) and are
  * hidden from assistive tech.
  */
-export function AboutHero({ content = ABOUT_HERO }: AboutHeroProps) {
+export function AboutHero({ content }: AboutHeroProps) {
   const titleId = "about-hero-title";
   const [leftLabel, rightLabel] = content.labels;
   return (

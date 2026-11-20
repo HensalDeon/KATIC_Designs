@@ -1,14 +1,14 @@
 import { ServiceIcon } from "@/components/icons/service-icon";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
-import { HOME_PROCESS, type HomeProcessContent } from "@/content/home/process";
+import type { HomeProcessContent } from "@/content/home/process";
 
 import { PinnedStageArt } from "./pinned-stage-art";
 import { StagesTrack } from "./pinned-stages-track";
 
 export type PinnedStagesProps = {
-  /** Kicker, title and stages (default: the home page's seven). */
-  readonly content?: HomeProcessContent;
+  /** Kicker, title and stages (the home page's seven, `getHomePage().process`). */
+  readonly content: HomeProcessContent;
   /** Section id (deep links such as `/#home-process` from About and the FAQ). */
   readonly id?: string;
 };
@@ -30,7 +30,7 @@ export type PinnedStagesProps = {
  *
  * Server component; the scroll-driven row is the client island `StagesTrack`.
  */
-export function PinnedStages({ content = HOME_PROCESS, id = "home-process" }: PinnedStagesProps) {
+export function PinnedStages({ content, id = "home-process" }: PinnedStagesProps) {
   return (
     <StagesTrack
       id={id}

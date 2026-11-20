@@ -6,13 +6,13 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { type DivisionsCarouselContent, HOME_DIVISIONS } from "@/content/home/divisions";
-import { media } from "@/content/media";
+import type { DivisionsCarouselContent } from "@/content/home/divisions";
+import { resolveMedia } from "@/lib/media/resolve";
 
 import { DivisionsCarouselBody } from "./divisions-carousel-client";
 
 type DivisionsCarouselProps = {
-  readonly content?: DivisionsCarouselContent;
+  readonly content: DivisionsCarouselContent;
   readonly className?: string;
 };
 
@@ -29,7 +29,7 @@ type DivisionsCarouselProps = {
  * the buttons (KI-L03); on tablets and phones the card height follows its tallest slide instead of
  * `clamp(440px, 118vw, 540px)` (KI-L30). The kicker uses the text-safe orange on white (KI-A11).
  */
-export function DivisionsCarousel({ content = HOME_DIVISIONS, className }: DivisionsCarouselProps) {
+export function DivisionsCarousel({ content, className }: DivisionsCarouselProps) {
   return (
     <Section tone="light" id="home-divisions" spacing="home" className={className}>
       <Container data-part="wrap" className="lg:flex lg:flex-1 lg:flex-col">
@@ -65,7 +65,7 @@ export function DivisionsCarousel({ content = HOME_DIVISIONS, className }: Divis
           </div>
         </div>
         <DivisionsCarouselBody
-          slides={content.slides.map((slide) => ({ ...slide, image: media[slide.image].image }))}
+          slides={content.slides.map((slide) => ({ ...slide, image: resolveMedia(slide.image) }))}
           label={content.label}
           exploreLabel={content.exploreLabel}
         />

@@ -9,9 +9,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
 import { Lead } from "@/components/ui/text";
-import { HOME_HERO, type HomeHeroContent } from "@/content/home/hero";
-import { media } from "@/content/media";
+import type { HomeHeroContent } from "@/content/home/hero";
 import { cn } from "@/lib/cn";
+import { resolveMedia } from "@/lib/media/resolve";
 import { routes } from "@/lib/routes";
 
 import { HERO_MOBILE_QUERY } from "./hero-media";
@@ -19,7 +19,7 @@ import { HeroVideo } from "./hero-video";
 import { TitleLines } from "./title-lines";
 
 type HomeHeroProps = {
-  readonly content?: HomeHeroContent;
+  readonly content: HomeHeroContent;
 };
 
 /** Phone buttons: full width, 50px, label left and arrow right (`html body .page .hero .btns`). */
@@ -33,10 +33,10 @@ function HeroPoster({ video }: { readonly video: HomeHeroContent["video"] }) {
   const common = { alt: "", sizes: "100vw" } as const;
   const {
     props: { srcSet: mobileSrcSet },
-  } = getImageProps({ ...common, src: media[video.mobilePoster].image });
+  } = getImageProps({ ...common, src: resolveMedia(video.mobilePoster) });
   const { props: desktop } = getImageProps({
     ...common,
-    src: media[video.desktopPoster].image,
+    src: resolveMedia(video.desktopPoster),
     fetchPriority: "high",
     loading: "eager",
   });
@@ -57,7 +57,7 @@ function HeroPoster({ video }: { readonly video: HomeHeroContent["video"] }) {
  * One screen tall (at least 720px) on the canvas, at least one screen below 1100px; on phones the
  * buttons stack full width. Marked `data-hero` for the phone quick-contact bar.
  */
-export function HomeHero({ content = HOME_HERO }: HomeHeroProps) {
+export function HomeHero({ content }: HomeHeroProps) {
   const titleId = "home-hero-title";
   return (
     <section

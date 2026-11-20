@@ -79,6 +79,7 @@ import {
   WORKS_SEO,
 } from "@/content/works";
 import { DIVISION_SLUGS } from "@/lib/routes";
+import { aboutPageSchema } from "@/lib/schemas/about";
 import { contactTemplateSchema } from "@/lib/schemas/blocks";
 import {
   divisionSchema,
@@ -88,6 +89,7 @@ import {
   sectorSchema,
   testimonialSchema,
 } from "@/lib/schemas/entities";
+import { homePageSchema } from "@/lib/schemas/home";
 import { type MediaLibrary, mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
@@ -279,7 +281,7 @@ export class StaticRepository implements ContentRepository {
   // Pages ----------------------------------------------------------------------------------------
 
   async getHomePage(): Promise<HomePage> {
-    return {
+    return this.#check(homePageSchema, {
       seo: { title: SITE_SEO.title, description: SITE_SEO.description },
       hero: HOME_HERO,
       about: HOME_ABOUT,
@@ -292,11 +294,11 @@ export class StaticRepository implements ContentRepository {
       blogTeaser: HOME_BLOG_TEASER,
       newsTeaser: HOME_NEWS_TEASER,
       contact: HOME_CONTACT,
-    };
+    });
   }
 
   async getAboutPage(): Promise<AboutPage> {
-    return {
+    return this.#check(aboutPageSchema, {
       seo: ABOUT_SEO,
       hero: ABOUT_HERO,
       intro: ABOUT_INTRO,
@@ -308,7 +310,7 @@ export class StaticRepository implements ContentRepository {
       experience: ABOUT_EXPERIENCE,
       team: ABOUT_TEAM,
       works: ABOUT_WORKS,
-    };
+    });
   }
 
   async getReviewsPage(): Promise<ReviewsPage> {

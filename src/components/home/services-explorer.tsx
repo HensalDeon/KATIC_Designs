@@ -2,14 +2,14 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { type ExplorerContent, HOME_EXPLORER } from "@/content/home/explorer";
-import { media } from "@/content/media";
+import type { ExplorerContent } from "@/content/home/explorer";
 import { cn } from "@/lib/cn";
+import { resolveMedia } from "@/lib/media/resolve";
 
 import { ServicesExplorerBody } from "./services-explorer-client";
 
 type ServicesExplorerProps = {
-  readonly content?: ExplorerContent;
+  readonly content: ExplorerContent;
   readonly className?: string;
 };
 
@@ -26,7 +26,7 @@ type ServicesExplorerProps = {
  * 150px box, so its links no longer fall outside the section. Service order is the home order
  * (KI-D03).
  */
-export function ServicesExplorer({ content = HOME_EXPLORER, className }: ServicesExplorerProps) {
+export function ServicesExplorer({ content, className }: ServicesExplorerProps) {
   return (
     <Section
       tone="dark"
@@ -40,7 +40,7 @@ export function ServicesExplorer({ content = HOME_EXPLORER, className }: Service
           ...content,
           services: content.services.map((service) => ({
             ...service,
-            image: media[service.image].image,
+            image: resolveMedia(service.image),
           })),
         }}
         header={

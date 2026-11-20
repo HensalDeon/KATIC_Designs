@@ -25,13 +25,7 @@ import type { HomeWorksContent } from "@/content/home/works";
 import type { DubaiBlock, DubaiSeo } from "@/content/locations/dubai";
 import type { IndiaPageContent } from "@/content/locations/india";
 import type { NewsItem, NewsPageContent } from "@/content/news";
-import type {
-  ARTICLE_PAGE,
-  BLOG_PAGE,
-  HOME_BLOG_TEASER,
-  Post,
-  PostCategory,
-} from "@/content/posts";
+import type { ARTICLE_PAGE, BLOG_PAGE, Post, PostCategory } from "@/content/posts";
 import type { ProjectDetail } from "@/content/project-details";
 import type { RelatedServiceSlug } from "@/content/related-services";
 import type {
@@ -188,9 +182,18 @@ export type HomePage = {
   readonly signature: HomeSignatureContent;
   readonly divisions: DivisionsCarouselContent;
   readonly stories: ClientStoriesContent;
-  readonly blogTeaser: typeof HOME_BLOG_TEASER;
+  readonly blogTeaser: BlogTeaserCopy;
   readonly newsTeaser: NewsTeaserCopy;
   readonly contact: HomeContactContent;
+};
+
+export type BlogTeaserCopy = {
+  readonly kicker: string;
+  readonly title: readonly string[];
+  readonly lead: string;
+  readonly cta: string;
+  readonly featuredLabel: string;
+  readonly readMore: string;
 };
 
 export type NewsTeaserCopy = {

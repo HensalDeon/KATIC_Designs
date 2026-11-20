@@ -7,13 +7,13 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { ABOUT_TEAM, type AboutTeamContent } from "@/content/about";
+import type { AboutTeamContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 import { ABOUT_TITLE_CLASS, AboutColumns } from "./about-columns";
 
 type AboutTeamProps = {
-  readonly content?: AboutTeamContent;
+  readonly content: AboutTeamContent;
 };
 
 /**
@@ -24,7 +24,7 @@ type AboutTeamProps = {
  * Names are client placeholders (KI-C04). Fixes: the section grows instead of being zoomed down
  * (KI-L13); roles are at least 11px on phones (KI-A10).
  */
-export function AboutTeam({ content = ABOUT_TEAM }: AboutTeamProps) {
+export function AboutTeam({ content }: AboutTeamProps) {
   const titleId = "about-team-title";
   return (
     <Section tone="light" data-parity="ld" aria-labelledby={titleId}>

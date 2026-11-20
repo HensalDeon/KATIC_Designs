@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { z } from "zod";
 
 import { media } from "@/content/media";
+import { aboutPageSchema } from "@/lib/schemas/about";
 import { contactTemplateSchema } from "@/lib/schemas/blocks";
 import {
   divisionSchema,
@@ -11,6 +12,7 @@ import {
   sectorSchema,
   testimonialSchema,
 } from "@/lib/schemas/entities";
+import { homePageSchema } from "@/lib/schemas/home";
 import { mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
@@ -83,6 +85,11 @@ describe("static content matches the API schemas", () => {
     for (const slug of slugs) {
       expectSchema(servicePageSchema, await repo.getServicePage(slug), `service ${slug}`);
     }
+  });
+
+  it("home and about pages", async () => {
+    expectSchema(homePageSchema, await repo.getHomePage(), "home");
+    expectSchema(aboutPageSchema, await repo.getAboutPage(), "about");
   });
 });
 
