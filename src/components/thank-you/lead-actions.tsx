@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { whatsappUrl } from "@/components/sections/contact-channels";
 import { useSite } from "@/components/shell/shell-provider";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { THANK_YOU } from "@/content/thank-you";
 import { useLastLead } from "@/hooks/use-last-lead";
 import { cn } from "@/lib/cn";
 import {
@@ -15,6 +14,9 @@ import {
   whatsappMessage,
 } from "@/lib/leads/thank-you";
 import { routes } from "@/lib/routes";
+import type { ThankYouContent } from "@/lib/schemas/thank-you";
+
+export type LeadActionsCopy = Pick<ThankYouContent, "fallback" | "whatsapp" | "back" | "projects">;
 
 /**
  * The fallback box (`.ty-fb`, original line 4391) and the buttons (`.btns`, line 4392) of
@@ -27,11 +29,10 @@ import { routes } from "@/lib/routes";
  * delivery on <html> so it is visible from the first paint (no layout shift), and once the stored
  * lead is read the island's own state decides.
  */
-export function LeadActions() {
+export function LeadActions({ copy }: { readonly copy: LeadActionsCopy }) {
   const lead = useLastLead();
   const site = useSite();
   const [copied, setCopied] = useState(false);
-  const copy = THANK_YOU;
 
   // The pre-paint flag only bridges hydration; drop it when leaving so it never goes stale.
   useEffect(() => () => document.documentElement.removeAttribute(LEAD_STATUS_ATTRIBUTE), []);

@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 
 import { BlockHero } from "@/components/blocks/block-hero";
 import { NewsList } from "@/components/news/news-list";
-import { NEWS_PAGE, NEWS_SEO } from "@/content/news";
-import { getSite } from "@/lib/data";
+import { getNewsPage, getSite, listNews } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
 export async function generateMetadata(): Promise<Metadata> {
-  return pageMetadata({ path: routes.news, ...NEWS_SEO }, await getSite());
+  const [{ seo }, site] = await Promise.all([getNewsPage(), getSite()]);
+  return pageMetadata({ path: routes.news, ...seo }, site);
 }
 
 /**
@@ -17,11 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
  * white news list. No reveal-on-scroll (the original runs it on Home only, D7); the footer comes
  * from the layout and the header highlights no item, as in the original.
  */
-export default function NewsPage() {
+export default async function NewsPage() {
+  const [page, items] = await Promise.all([getNewsPage(), listNews()]);
   return (
     <>
-      <BlockHero hero={NEWS_PAGE.hero} />
-      <NewsList />
+      <BlockHero hero={page.hero} />
+      <NewsList copy={page.list} items={items} />
     </>
   );
 }

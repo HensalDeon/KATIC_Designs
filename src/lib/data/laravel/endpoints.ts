@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { contactTemplateSchema } from "@/lib/schemas/blocks";
+import { blockDefaultsSchema, contactTemplateSchema } from "@/lib/schemas/blocks";
 import {
   divisionSchema,
   processStageSchema,
@@ -72,6 +72,12 @@ export const ENDPOINTS = {
     schema: contactTemplateSchema,
     tags: ["contact"],
     summary: "The contact section shared by every page (form copy, channels).",
+  },
+  getBlockDefaults: {
+    path: "/block-defaults",
+    schema: blockDefaultsSchema,
+    tags: ["block-defaults"],
+    summary: "Copy that content blocks show unless a page overrides it (the testimonials header).",
   },
 
   // Shared entities ----------------------------------------------------------------------------

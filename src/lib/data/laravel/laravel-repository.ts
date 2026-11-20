@@ -115,6 +115,10 @@ export class LaravelRepository implements ContentRepository {
     return this.#read("getContactTemplate");
   }
 
+  getBlockDefaults() {
+    return this.#read("getBlockDefaults");
+  }
+
   // Shared entities ------------------------------------------------------------------------------
 
   listProjects(filter: ProjectFilter = {}) {

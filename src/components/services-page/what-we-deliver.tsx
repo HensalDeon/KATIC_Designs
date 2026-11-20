@@ -5,10 +5,10 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { WHAT_WE_DELIVER, type WhatWeDeliverContent } from "@/content/services-page";
+import type { WhatWeDeliverContent } from "@/lib/schemas/services-page";
 
 type WhatWeDeliverProps = {
-  readonly content?: WhatWeDeliverContent;
+  readonly content: WhatWeDeliverContent;
 };
 
 /**
@@ -20,7 +20,7 @@ type WhatWeDeliverProps = {
  * in the screen). Kept for parity until the client confirms the copy; it uses the standard
  * one-screen rhythm, so the block stays centred at every height and never clips.
  */
-export function WhatWeDeliver({ content = WHAT_WE_DELIVER }: WhatWeDeliverProps) {
+export function WhatWeDeliver({ content }: WhatWeDeliverProps) {
   return (
     <Section tone="dark" data-parity="fd">
       <Container className="grid grid-cols-[646px_1fr] max-lg:grid-cols-[minmax(0,1fr)] max-lg:gap-36">

@@ -3,14 +3,9 @@ import { notFound } from "next/navigation";
 
 import { BlogPage } from "@/components/blog/blog-page";
 import { JsonLd } from "@/components/seo/json-ld";
-import {
-  blogCategorySeo,
-  getPostCategory,
-  POST_CATEGORIES,
-  postsByCategory,
-} from "@/content/posts";
-import { getSite, getTrailLabels } from "@/lib/data";
+import { getBlogPage, getSite, getTrailLabels, listPostCategories, listPosts } from "@/lib/data";
 import { routes } from "@/lib/routes";
+import { categoryPageSeo } from "@/lib/seo/blog";
 import { blogCategoryTrail } from "@/lib/seo/breadcrumbs";
 import { breadcrumbLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -24,28 +19,43 @@ import { pageMetadata } from "@/lib/seo/metadata";
  */
 export const ensureStatic = "navigation";
 
-export function generateStaticParams(): { category: string }[] {
-  return POST_CATEGORIES.map(({ slug }) => ({ category: slug }));
+export async function generateStaticParams(): Promise<{ category: string }[]> {
+  return (await listPostCategories()).map(({ slug }) => ({ category: slug }));
+}
+
+/** The category with this URL slug, or `undefined` (a 404), and every category. */
+async function findCategory(slug: string) {
+  const categories = await listPostCategories();
+  return { current: categories.find((entry) => entry.slug === slug), all: categories };
 }
 
 export async function generateMetadata({
   params,
 }: PageProps<"/blog/category/[category]">): Promise<Metadata> {
-  const category = getPostCategory((await params).category);
-  if (!category) notFound();
+  const [{ current }, { page }, site] = await Promise.all([
+    findCategory((await params).category),
+    getBlogPage(),
+    getSite(),
+  ]);
+  if (!current) notFound();
   return pageMetadata(
-    { path: routes.blogCategory(category.slug), ...blogCategorySeo(category) },
-    await getSite(),
+    { path: routes.blogCategory(current.slug), ...categoryPageSeo(page, current) },
+    site,
   );
 }
 
 export default async function BlogCategoryPage({ params }: PageProps<"/blog/category/[category]">) {
-  const category = getPostCategory((await params).category);
-  if (!category) notFound();
+  const { current, all } = await findCategory((await params).category);
+  if (!current) notFound();
+  const [{ page }, posts, labels] = await Promise.all([
+    getBlogPage(),
+    listPosts({ category: current.slug }),
+    getTrailLabels(),
+  ]);
   return (
     <>
-      <BlogPage posts={postsByCategory(category.slug)} category={category} />
-      <JsonLd data={breadcrumbLd(blogCategoryTrail(category, await getTrailLabels()))} />
+      <BlogPage copy={page} posts={posts} category={{ current, all }} />
+      <JsonLd data={breadcrumbLd(blogCategoryTrail(current, labels))} />
     </>
   );
 }

@@ -3,7 +3,7 @@ import type { z } from "zod";
 
 import { media } from "@/content/media";
 import { aboutPageSchema } from "@/lib/schemas/about";
-import { contactTemplateSchema } from "@/lib/schemas/blocks";
+import { blockDefaultsSchema, contactTemplateSchema } from "@/lib/schemas/blocks";
 import {
   divisionSchema,
   processStageSchema,
@@ -15,8 +15,12 @@ import {
 import { homePageSchema } from "@/lib/schemas/home";
 import { mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
+import { newsItemSchema, newsPageSchema } from "@/lib/schemas/news";
+import { blogPageSchema, postCategorySchema, postSchema } from "@/lib/schemas/posts";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
+import { servicesPageSchema } from "@/lib/schemas/services-page";
 import { siteSettingsSchema } from "@/lib/schemas/site";
+import { thankYouPageSchema } from "@/lib/schemas/thank-you";
 
 import { StaticRepository } from "./static-repository";
 
@@ -45,6 +49,7 @@ describe("static content matches the API schemas", () => {
     expectSchema(siteSettingsSchema, await repo.getSite(), "site");
     expectSchema(navigationSchema, await repo.getNavigation(), "navigation");
     expectSchema(contactTemplateSchema, await repo.getContactTemplate(), "contact");
+    expectSchema(blockDefaultsSchema, await repo.getBlockDefaults(), "block defaults");
   });
 
   it("media library", async () => {
@@ -90,6 +95,45 @@ describe("static content matches the API schemas", () => {
   it("home and about pages", async () => {
     expectSchema(homePageSchema, await repo.getHomePage(), "home");
     expectSchema(aboutPageSchema, await repo.getAboutPage(), "about");
+  });
+
+  it("blog and news", async () => {
+    const categories = await repo.listPostCategories();
+    expect(categories).toHaveLength(9);
+    for (const category of categories) {
+      expectSchema(postCategorySchema, category, `post category ${category.slug}`);
+    }
+    const posts = await repo.listPosts();
+    expect(posts).toHaveLength(9);
+    for (const post of posts) expectSchema(postSchema, post, `post ${post.slug}`);
+    expectSchema(postSchema, await repo.getPost("choosing-natural-stone"), "post by slug");
+    expectSchema(blogPageSchema, await repo.getBlogPage(), "blog page");
+    const news = await repo.listNews();
+    expect(news).toHaveLength(6);
+    for (const item of news) expectSchema(newsItemSchema, item, `news ${item.slug}`);
+    expectSchema(newsPageSchema, await repo.getNewsPage(), "news page");
+  });
+
+  it("services overview and thank-you pages", async () => {
+    expectSchema(servicesPageSchema, await repo.getServicesPage(), "services page");
+    expectSchema(thankYouPageSchema, await repo.getThankYouPage(), "thank-you page");
+  });
+});
+
+describe("page schemas", () => {
+  it("reject a copy template without its placeholder", async () => {
+    const { page, article } = await repo.getBlogPage();
+    const broken = { page: { ...page, categoryHeading: "Articles" }, article };
+    expect(blogPageSchema.safeParse(broken).success).toBe(false);
+    const extra = { page, article: { ...article, seoTitle: "{title} — {brand}" } };
+    expect(blogPageSchema.safeParse(extra).success).toBe(false);
+  });
+
+  it("reject a services block whose service has no card", async () => {
+    const page = await repo.getServicesPage();
+    const [first, ...rest] = page.blocks;
+    const broken = { ...page, blocks: [{ ...first, slug: "factory" }, ...rest] };
+    expect(servicesPageSchema.safeParse(broken).success).toBe(false);
   });
 });
 

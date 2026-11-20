@@ -9,6 +9,7 @@
  * | `navigation`           | header and footer menus                                   |
  * | `media`                | the media library                                         |
  * | `contact`              | the contact template                                      |
+ * | `block-defaults`       | copy blocks show unless overridden (testimonials header)  |
  * | `projects`             | the project list (cards, filters, showcases)              |
  * | `project:<slug>`       | one project and its detail page                           |
  * | `testimonials`         | the testimonial pool                                      |
@@ -39,6 +40,7 @@ export const tags = {
   navigation: "navigation",
   media: "media",
   contact: "contact",
+  blockDefaults: "block-defaults",
   projects: "projects",
   project: (slug: string) => `project:${slug}`,
   testimonials: "testimonials",

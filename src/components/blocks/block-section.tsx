@@ -15,9 +15,8 @@ import {
   type ProductCardContent,
   type ProjectCardContent,
   type SectionHeaderContent,
-  TESTIMONIALS_HEADER,
 } from "@/content/blocks";
-import { type ContentRefs, getRefs } from "@/lib/data";
+import { type ContentRefs, getBlockDefaults, getRefs } from "@/lib/data";
 import type { Tone } from "@/lib/tone";
 
 import { withContactTarget } from "./block-plan";
@@ -197,12 +196,15 @@ export async function BlockSection({ block, tone, context = {} }: BlockSectionPr
       );
     case "divisions":
       return <DivisionsStrip {...base} items={refs.divisions(block.divisions)} />;
-    case "testimonials":
+    case "testimonials": {
+      // The shared header unless the page gives its own (`getBlockDefaults()`).
+      const header = block.header ?? (await getBlockDefaults()).testimonialsHeader;
       return (
-        <ContentSection {...shell} header={headerProps(block.header ?? TESTIMONIALS_HEADER)}>
+        <ContentSection {...shell} header={headerProps(header)}>
           <Testimonials items={refs.testimonials(block.testimonials)} />
         </ContentSection>
       );
+    }
     default:
       return assertNever(block);
   }

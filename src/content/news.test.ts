@@ -5,7 +5,7 @@ import { formatNewsDate, latestNews, NEWS, newsListing } from "./news";
 
 describe("newsListing", () => {
   it("leads with the featured item, then the rest newest first", () => {
-    const { featured, rest } = newsListing();
+    const { featured, rest } = newsListing(NEWS);
     expect(featured?.slug).toBe("dubai-design-studio");
     expect(rest.map((item) => item.date)).toEqual([
       "2026-10-14",

@@ -3,10 +3,17 @@ import { notFound } from "next/navigation";
 
 import { ArticlePage } from "@/components/blog/article-page";
 import { JsonLd } from "@/components/seo/json-ld";
-import { media } from "@/content/media";
-import { articleSeo, getPost, POSTS } from "@/content/posts";
-import { getSite, getTrailLabels, listPostCategories } from "@/lib/data";
+import {
+  getBlogPage,
+  getPost,
+  getSite,
+  getTrailLabels,
+  listPostCategories,
+  listPosts,
+} from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
 import { routes } from "@/lib/routes";
+import { articlePageSeo } from "@/lib/seo/blog";
 import { articleTrail } from "@/lib/seo/breadcrumbs";
 import { blogPostingLd, breadcrumbLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -18,20 +25,24 @@ import { pageMetadata } from "@/lib/seo/metadata";
  */
 export const ensureStatic = "navigation";
 
-export function generateStaticParams(): { slug: string }[] {
-  return POSTS.map(({ slug }) => ({ slug }));
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  return (await listPosts()).map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
-  const post = getPost((await params).slug);
+  const [post, { article }, site] = await Promise.all([
+    getPost((await params).slug),
+    getBlogPage(),
+    getSite(),
+  ]);
   if (!post) notFound();
   return pageMetadata(
     {
       path: routes.article(post.slug),
-      ...articleSeo(post),
+      ...articlePageSeo(article, post),
       article: { publishedTime: post.publishedAt, section: post.category },
     },
-    await getSite(),
+    site,
   );
 }
 
@@ -40,21 +51,25 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
  * page (the original's `#ld-article` stayed in the document after leaving it, KI-S02).
  */
 export default async function ArticleRoute({ params }: PageProps<"/blog/[slug]">) {
-  const post = getPost((await params).slug);
+  const post = await getPost((await params).slug);
   if (!post) notFound();
-  const [site, categories, labels] = await Promise.all([
+  const [{ article }, posts, site, categories, labels] = await Promise.all([
+    getBlogPage(),
+    listPosts(),
     getSite(),
     listPostCategories(),
     getTrailLabels(),
   ]);
   const category = categories.find((entry) => entry.name === post.category);
   if (!category) throw new Error(`Unknown post category: ${post.category}`);
+  // The aside (original `KB.article`, JS 4497): every other post, newest first.
+  const latest = posts.filter((other) => other.slug !== post.slug).slice(0, article.latestCount);
   return (
     <>
-      <ArticlePage post={post} />
+      <ArticlePage copy={article} post={post} category={category} latest={latest} />
       <JsonLd
         data={[
-          blogPostingLd(post, site, media[post.cover].image.src),
+          blogPostingLd(post, site, resolveMedia(post.cover).src),
           breadcrumbLd(articleTrail(post, category, labels)),
         ]}
       />

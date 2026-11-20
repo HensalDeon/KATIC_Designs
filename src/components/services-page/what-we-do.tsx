@@ -8,15 +8,15 @@ import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
 import { Body, Lead } from "@/components/ui/text";
-import { media } from "@/content/media";
-import { WHAT_WE_DO, type WhatWeDoContent } from "@/content/services-page";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { WhatWeDoContent } from "@/lib/schemas/services-page";
 
 import { plantRoom } from "./plant-room";
 
 const PLANT = { asset: "plants/heliconia", width: 110 } as const;
 
 type WhatWeDoProps = {
-  readonly content?: WhatWeDoContent;
+  readonly content: WhatWeDoContent;
 };
 
 /**
@@ -30,13 +30,15 @@ type WhatWeDoProps = {
  * On phones the section gives the plant its own room above the content, like the original's
  * plant-room script (80px + 90% of the plant height).
  */
-export function WhatWeDo({ content = WHAT_WE_DO }: WhatWeDoProps) {
+export function WhatWeDo({ content }: WhatWeDoProps) {
   return (
     <Section
       tone="light"
       data-parity="pp-host"
       style={
-        { "--plant-room": `${plantRoom(media[PLANT.asset].image, PLANT.width)}px` } as CSSProperties
+        {
+          "--plant-room": `${plantRoom(resolveMedia(PLANT.asset), PLANT.width)}px`,
+        } as CSSProperties
       }
       className="isolate max-md:pt-[calc(80px+var(--plant-room))]"
     >

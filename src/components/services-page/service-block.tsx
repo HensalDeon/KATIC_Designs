@@ -5,11 +5,11 @@ import { ParallaxImage } from "@/components/motion/parallax-image";
 import { ZoomableImage } from "@/components/overlays/lightbox";
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
-import { media } from "@/content/media";
-import { RELATED_SERVICES } from "@/content/related-services";
-import { type LabelledPhoto, type ServiceBlockContent, serviceName } from "@/content/services-page";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
 import { routes } from "@/lib/routes";
+import type { LabelledPhoto, ServiceBlockContent } from "@/lib/schemas/services-page";
 import type { Tone } from "@/lib/tone";
 
 type Palette = {
@@ -80,8 +80,8 @@ type ServiceBlockProps = {
 /**
  * One service on the Services overview (`#p-services section.blk#svc-<slug>`): a text column
  * (icon and tagline header, the service name, its one-line description and an "Explore …" button
- * to the service page) beside an image column (a main photo over four thumbnails, each with a small
- * caption chip). Full-bleed and one screen tall on the canvas (560px text column, or 576px with the
+ * to the service page; name and description come from the service's card) beside an image column
+ * (a main photo over four thumbnails, each with a small caption chip). Full-bleed and one screen tall on the canvas (560px text column, or 576px with the
  * images on the left for `reverse`); one column with the text first below 1100px.
  *
  * Every photo opens the lightbox, one gallery per block (`data-zoom` in the original); thumbnails
@@ -89,10 +89,11 @@ type ServiceBlockProps = {
  * 70px) and the images stay clear of the contact rail (KI-L18); the title steps down to 34/1.1 on
  * phones (KI-L17); on narrow phones the thumbnails form a 2×2 grid so their captions fit (KI-L09).
  */
-export function ServiceBlock({ block, parallax = false }: ServiceBlockProps) {
+export async function ServiceBlock({ block, parallax = false }: ServiceBlockProps) {
   const { tone, reverse } = block;
   const colours = PALETTES[`${tone}-${block.contrast}`];
-  const name = serviceName(block.slug);
+  const [service] = (await getRefs()).relatedServices([block.slug]);
+  if (!service) throw new Error(`Unknown service: ${block.slug}`);
   const group = `svc-${block.slug}`;
   const titleId = `${group}-title`;
 
@@ -134,10 +135,10 @@ export function ServiceBlock({ block, parallax = false }: ServiceBlockProps) {
             colours.title,
           )}
         >
-          {name}
+          {service.title}
         </h2>
         <p className={cn("mt-20 max-w-400 font-sans text-[16px] leading-[1.65]", colours.text)}>
-          {RELATED_SERVICES[block.slug].text}
+          {service.text}
         </p>
         <ButtonLink
           href={routes.service(block.slug)}
@@ -189,7 +190,7 @@ type PhotoProps = {
 
 /** A cropped, zoomable photo with its caption chip (`.big` / `.th > div`, `.lab`). */
 function Photo({ photo, group, sizes, parallax = false, className, imageClassName }: PhotoProps) {
-  const image = media[photo.src].image;
+  const image = resolveMedia(photo.src);
   return (
     <div className={cn("relative overflow-hidden", className)}>
       <ZoomableImage

@@ -1,7 +1,7 @@
-import type { Post, PostCategory } from "@/content/posts";
 import { type DivisionSlug, type LocationSlug, routes, type ServiceSlug } from "@/lib/routes";
 import type { Division, Project, RelatedService } from "@/lib/schemas/entities";
 import type { NavItem, NavKey } from "@/lib/schemas/navigation";
+import type { Post, PostCategory } from "@/lib/schemas/posts";
 
 import type { Crumb } from "./json-ld";
 

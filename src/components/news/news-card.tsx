@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
-import { media } from "@/content/media";
-import { formatNewsDate, type NewsItem } from "@/content/news";
 import { cn } from "@/lib/cn";
+import { formatNewsDate } from "@/lib/format/dates";
+import { mediaDescription, resolveMedia } from "@/lib/media/resolve";
+import type { NewsItem } from "@/lib/schemas/news";
 
 /**
  * `.knw` (original CSS 1218–1242): a bordered card, white on light sections and near-black on
@@ -65,13 +66,12 @@ export function NewsCard({
   imageClassName,
 }: NewsCardProps) {
   const titleId = `news-${item.slug}-title`;
-  const photo = media[item.image];
   return (
     <Link href={href} className={cardVariants({ featured })}>
       <div className={cn(imageVariants({ featured }), imageClassName)}>
         <Image
-          src={photo.image}
-          alt={photo.description}
+          src={resolveMedia(item.image)}
+          alt={mediaDescription(item.image)}
           sizes={
             featured
               ? "(max-width: 1099px) 100vw, 704px"
