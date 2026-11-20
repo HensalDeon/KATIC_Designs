@@ -9,10 +9,18 @@ import { routes } from "@/lib/routes";
 
 import { pageMetadata } from "./metadata";
 import { absoluteUrl } from "./site-url";
-import { sitemapEntries, sitemapPages } from "./sitemap";
+import { sitemapEntries, sitemapPages, type SitemapSources } from "./sitemap";
+
+const SOURCES: SitemapSources = {
+  servicePages: builtServiceSlugs(),
+  projectPages: builtProjectSlugs(),
+  divisionPages: builtDivisionSlugs(),
+  postCategories: POST_CATEGORIES,
+  posts: POSTS,
+};
 
 describe("sitemap", () => {
-  const paths = sitemapPages().map((page) => page.path);
+  const paths = sitemapPages(SOURCES).map((page) => page.path);
 
   it("lists every built page once", () => {
     expect(new Set(paths).size).toBe(paths.length);
@@ -43,7 +51,7 @@ describe("sitemap", () => {
   });
 
   it("uses absolute URLs and dates articles", () => {
-    const entries = sitemapEntries();
+    const entries = sitemapEntries(sitemapPages(SOURCES));
     for (const entry of entries) expect(entry.url.startsWith(absoluteUrl("/"))).toBe(true);
     const post = POSTS[0];
     expect(entries).toContainEqual({
