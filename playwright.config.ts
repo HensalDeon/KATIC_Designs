@@ -4,6 +4,10 @@ const PORT = 3100;
 const isCI = Boolean(process.env["CI"]);
 /** Point the suite at an already running server (e.g. `pnpm dev`) instead of building one. */
 const externalBaseURL = process.env["E2E_BASE_URL"];
+// The server this config starts signs nothing itself; give it a webhook secret so the
+// /api/revalidate spec can sign requests. An external server must be started with the same
+// REVALIDATE_SECRET in the environment of both (tests/e2e/revalidate.spec.ts skips otherwise).
+if (!externalBaseURL) process.env["REVALIDATE_SECRET"] ??= "e2e-revalidate-secret-0123456789";
 
 /**
  * End-to-end tests against a production build (`next start`).
