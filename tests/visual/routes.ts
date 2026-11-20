@@ -4,6 +4,8 @@
  * `path` is its new URL (docs/MIGRATION_PLAN.md §1).
  */
 
+import { pick } from "./lib/options";
+
 export type ParityRoute = {
   readonly id: string;
   readonly hash: string;
@@ -59,7 +61,32 @@ export const PARITY_VIEWPORTS = {
   mobile: { width: 390, height: 844, touch: true },
 } as const satisfies Record<string, ParityViewport>;
 
-export type ParityViewportId = keyof typeof PARITY_VIEWPORTS;
+/** The four widths with a stored baseline (`pnpm ref:capture`). */
+export type BaselineViewportId = keyof typeof PARITY_VIEWPORTS;
+
+/**
+ * Spot-check viewports (MIGRATION_PLAN Phase 10): wide canvases (zoom ≠ 1) and a short laptop.
+ * They have no stored baseline, so they run in `--live` / `--motion` mode only, and only when
+ * named in `--viewports` (never part of the default four).
+ */
+export const SPOT_VIEWPORTS = {
+  hd: { width: 1280, height: 800, touch: false },
+  "short-laptop": { width: 1366, height: 650, touch: false },
+  fhd: { width: 1920, height: 1080, touch: false },
+  qhd: { width: 2560, height: 1440, touch: false },
+} as const satisfies Record<string, ParityViewport>;
+
+/** Every viewport a parity tool can open: the four parity widths plus the spot checks. */
+export const ALL_VIEWPORTS = { ...PARITY_VIEWPORTS, ...SPOT_VIEWPORTS } as const;
+
+export type ParityViewportId = keyof typeof ALL_VIEWPORTS;
+
+/** The `--viewports` ids: the named ones (from all viewports), or the four parity widths. */
+export function viewportIds(list: string | undefined): readonly ParityViewportId[] {
+  const all = Object.keys(ALL_VIEWPORTS) as ParityViewportId[];
+  if (!list) return Object.keys(PARITY_VIEWPORTS) as ParityViewportId[];
+  return pick(all, list, (v) => v, "viewport");
+}
 
 /**
  * Sections whose original reduced-motion rendering is broken (KI-L02, KI-L04). Their baseline is

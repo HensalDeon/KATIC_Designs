@@ -17,6 +17,7 @@
  *
  * Options:
  *   --routes a,b  --viewports desktop,laptop,tablet,mobile  --base http://127.0.0.1:3100
+ *                     (spot checks, live only: hd, short-laptop, fhd, qhd; see SPOT_VIEWPORTS)
  *   --out dir         report directory (default reference/parity; worktrees: use .tmp/parity)
  *   --threshold 1     pass ≤ 1%, review ≤ 2% (DECISIONS P4-04)
  *   --css a.css,b.css CSS injected into the NEW site, e.g. `tests/visual/reverts/*.css` to revert
@@ -76,6 +77,7 @@ import {
   type ParityRoute,
   type ParityViewportId,
   SCROLL_SCRUB_SECTIONS,
+  viewportIds,
 } from "./routes";
 import { startOriginalServer } from "./serve-original.mjs";
 
@@ -137,12 +139,10 @@ const BASELINE = path.resolve(ROOT, args.baseline);
 const EXTRA_CSS = await readCssList(args.css);
 const OUT = path.resolve(ROOT, args.out);
 const routes = pick(PARITY_ROUTES, args.routes, (r) => r.id, "route");
-const viewports = pick(
-  Object.keys(PARITY_VIEWPORTS) as ParityViewportId[],
-  args.viewports ?? (mode === "motion" ? "desktop" : undefined),
-  (v) => v,
-  "viewport",
-);
+const viewports = viewportIds(args.viewports ?? (mode === "motion" ? "desktop" : undefined));
+if (mode === "stored" && viewports.some((v) => !(v in PARITY_VIEWPORTS))) {
+  throw new Error("Spot-check viewports have no stored baseline: add --live (or --motion).");
+}
 const originalCss = [HIDE_CHROME_CSS.original, args["no-fit"] ? NO_FIT_CSS : ""];
 const oursCss = [HIDE_CHROME_CSS.ours, EXTRA_CSS];
 

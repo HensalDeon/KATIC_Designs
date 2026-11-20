@@ -25,7 +25,7 @@ export function WhatWeDeliver({ content = WHAT_WE_DELIVER }: WhatWeDeliverProps)
     <Section tone="dark" data-parity="fd">
       <Container className="grid grid-cols-[646px_1fr] max-lg:grid-cols-[minmax(0,1fr)] max-lg:gap-36">
         <div>
-          <Kicker className="max-md:text-[9.5px]">{content.kicker}</Kicker>
+          <Kicker>{content.kicker}</Kicker>
           <SectionTitle className="mt-20 text-[#f4f4f4]">
             {content.titleLines.map((line, index) => (
               <Fragment key={line}>

@@ -35,10 +35,10 @@ import {
   type OriginalBlockRecord,
 } from "./lib/pages";
 import {
+  type BaselineViewportId,
   PARITY_ROUTES,
   PARITY_VIEWPORTS,
   type ParityRoute,
-  type ParityViewportId,
   SCROLL_SCRUB_SECTIONS,
   SCRUB_PROGRESS_POINTS,
 } from "./routes";
@@ -60,7 +60,7 @@ const { values: args } = parseArgs({
 const OUT_ROOT = path.resolve(process.cwd(), args.out);
 const routes = pick(PARITY_ROUTES, args.routes, (r) => r.id, "route");
 const viewports = pick(
-  Object.keys(PARITY_VIEWPORTS) as ParityViewportId[],
+  Object.keys(PARITY_VIEWPORTS) as BaselineViewportId[],
   args.viewports,
   (v) => v,
   "viewport",
@@ -80,7 +80,7 @@ try {
   await server.close();
 }
 
-async function captureViewport(browser: Browser, viewportId: ParityViewportId): Promise<void> {
+async function captureViewport(browser: Browser, viewportId: BaselineViewportId): Promise<void> {
   const viewport = PARITY_VIEWPORTS[viewportId];
   const context = await newParityContext(browser, viewportId);
 
