@@ -5,18 +5,25 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { SocialIcon } from "@/components/icons/contact-icons";
 import { StartProjectTrigger } from "@/components/shell/start-project-trigger";
-import { media } from "@/content/media";
-import { FOOTER_COLUMNS } from "@/content/navigation";
-import { SITE } from "@/content/site";
+import { resolveMedia } from "@/lib/media/resolve";
 import { canvasVw, fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
+import type { FooterColumn } from "@/lib/schemas/navigation";
+import type { SiteContact } from "@/lib/schemas/site";
 
 const columnTitle = "mb-16 font-display text-[15px] font-semibold";
 const columnLink =
   "mb-8 block text-left font-display text-[14px] leading-[1.45] text-white/75 transition-colors hover:text-white";
 
+type FooterProps = {
+  /** Address, contact channels, credit and socials (site settings). */
+  readonly site: SiteContact;
+  /** The link columns before Address and Contact (navigation). */
+  readonly columns: readonly FooterColumn[];
+};
+
 /** Site footer (`.ftw > .ft + .fbar`): black card on white, link columns, credits and socials. */
-export function Footer() {
+export function Footer({ site, columns }: FooterProps) {
   return (
     <div
       data-parity="footer"
@@ -26,14 +33,14 @@ export function Footer() {
         <Link href={routes.home} aria-label="Katic Designs home" className="flex w-fit">
           {/* Intrinsic ratio at 28px tall; the original stretches it to 115px wide (KI-L07). */}
           <Image
-            src={media["brand/logo"].image}
+            src={resolveMedia("brand/logo")}
             alt=""
             sizes={fixedCanvasSizes(50)}
             className="h-28 w-auto"
           />
         </Link>
         <Image
-          src={media["plants/banana-leaf-plant"].image}
+          src={resolveMedia("plants/banana-leaf-plant")}
           alt=""
           aria-hidden
           // 216px on the canvas, 189px at ≤1099, 96px on phones (the classes below).
@@ -56,7 +63,7 @@ export function Footer() {
         </StartProjectTrigger>
 
         <div className="mt-42 grid grid-cols-[1fr_1.25fr_1.1fr_0.8fr_1fr_1.2fr] gap-20 max-lg:grid-cols-3 max-md:grid-cols-2">
-          {FOOTER_COLUMNS.map((column) => (
+          {columns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
               <h3 className={columnTitle}>{column.title}</h3>
               {column.links.map((link) => (
@@ -68,8 +75,8 @@ export function Footer() {
           ))}
           <div>
             <h3 className={columnTitle}>Address</h3>
-            <a href={SITE.address.mapsUrl} target="_blank" rel="noopener" className={columnLink}>
-              {SITE.address.lines.map((line, index) => (
+            <a href={site.address.mapsUrl} target="_blank" rel="noopener" className={columnLink}>
+              {site.address.lines.map((line, index) => (
                 <span key={line}>
                   {index > 0 ? <br /> : null}
                   {line}
@@ -79,11 +86,11 @@ export function Footer() {
           </div>
           <div>
             <h3 className={columnTitle}>Contact</h3>
-            <a href={`mailto:${SITE.email}`} className={columnLink}>
-              {SITE.email}
+            <a href={`mailto:${site.email}`} className={columnLink}>
+              {site.email}
             </a>
-            <a href={SITE.phone.href} className={columnLink}>
-              {SITE.phone.display}
+            <a href={site.phone.href} className={columnLink}>
+              {site.phone.display}
             </a>
             <StartProjectTrigger className={columnLink}>
               Enquire about a project
@@ -94,13 +101,13 @@ export function Footer() {
 
       <div className="flex items-center justify-between px-41 pt-20 pb-16 font-display text-[12.5px] text-[#222] max-md:flex-col max-md:gap-14 max-md:px-12 max-md:py-18">
         <span>
-          © {SITE.name} <CopyrightYear />. All Rights Reserved. ·{" "}
-          <a href={SITE.credit.url} target="_blank" rel="noopener">
-            {SITE.credit.label}
+          © {site.name} <CopyrightYear />. All Rights Reserved. ·{" "}
+          <a href={site.credit.url} target="_blank" rel="noopener">
+            {site.credit.label}
           </a>
         </span>
         <ul className="flex gap-12">
-          {SITE.socials.map((social) => (
+          {site.socials.map((social) => (
             <li key={social.network}>
               <a
                 href={social.url}

@@ -1,9 +1,9 @@
 import type { FaqAnswerPart, FaqItem } from "@/components/sections/faq";
-import { DIVISIONS } from "@/content/divisions";
 import type { Post } from "@/content/posts";
 import { SERVICE_OPTIONS } from "@/content/services";
-import { type Office, OFFICES, SITE, SITE_SEO } from "@/content/site";
-import { DIVISION_SLUGS, routes } from "@/lib/routes";
+import { routes } from "@/lib/routes";
+import type { Division } from "@/lib/schemas/entities";
+import type { Office, SiteSettings } from "@/lib/schemas/site";
 
 import { absoluteUrl } from "./site-url";
 
@@ -113,25 +113,33 @@ export const LD_IDS = {
   office: (id: Office["id"]) => absoluteUrl(`/#${id}`),
 } as const;
 
-const DEFAULT_IMAGE = absoluteUrl(SITE_SEO.ogImage.path);
+/** The site settings the structured data is built from (`getSite()`). */
+export type LdSite = Pick<SiteSettings, "name" | "email" | "seo">;
+
+function defaultImage(site: LdSite): string {
+  return absoluteUrl(site.seo.ogImage.path);
+}
 
 /** The studio. Telephone and logo are left out: the phone is a placeholder (KI-C01) and the only
  * logo is a 115×65 raster, below Google's 112×112 minimum (KI-S03, KI-S06). */
-export function organizationLd(): OrganizationLd {
+export function organizationLd(
+  site: LdSite,
+  divisions: readonly Pick<Division, "name" | "href">[],
+): OrganizationLd {
   return {
     "@type": "Organization",
     "@id": LD_IDS.organization,
-    name: SITE.name,
+    name: site.name,
     url: absoluteUrl("/"),
-    email: SITE.email,
-    image: DEFAULT_IMAGE,
-    description: SITE_SEO.description,
-    foundingDate: SITE_SEO.foundingDate,
-    areaServed: SITE_SEO.areaServed,
-    department: DIVISION_SLUGS.map((slug) => ({
+    email: site.email,
+    image: defaultImage(site),
+    description: site.seo.description,
+    foundingDate: site.seo.foundingDate,
+    areaServed: site.seo.areaServed,
+    department: divisions.map((division) => ({
       "@type": "Organization",
-      name: DIVISIONS[slug].name,
-      url: absoluteUrl(DIVISIONS[slug].href),
+      name: division.name,
+      url: absoluteUrl(division.href),
     })),
   };
 }
@@ -142,7 +150,7 @@ const OFFICE_PAGE = {
 } as const satisfies Record<Office["id"], string>;
 
 /** One office as a local business, with only its confirmed facts (see `OFFICES`). */
-export function localBusinessLd(office: Office): LocalBusinessLd {
+export function localBusinessLd(office: Office, site: LdSite): LocalBusinessLd {
   const { locality, region, country } = office.address;
   return {
     "@type": "HomeAndConstructionBusiness",
@@ -150,7 +158,7 @@ export function localBusinessLd(office: Office): LocalBusinessLd {
     name: office.name,
     parentOrganization: { "@id": LD_IDS.organization },
     url: absoluteUrl(OFFICE_PAGE[office.id]),
-    image: DEFAULT_IMAGE,
+    image: defaultImage(site),
     email: office.email,
     address: {
       "@type": "PostalAddress",
@@ -178,26 +186,29 @@ export function localBusinessLd(office: Office): LocalBusinessLd {
   };
 }
 
-export function websiteLd(): WebSiteLd {
+export function websiteLd(site: LdSite): WebSiteLd {
   return {
     "@type": "WebSite",
     "@id": LD_IDS.website,
     url: absoluteUrl("/"),
-    name: SITE.name,
+    name: site.name,
     publisher: { "@id": LD_IDS.organization },
-    inLanguage: SITE_SEO.language,
+    inLanguage: site.seo.language,
   };
 }
 
 /** Site-wide graph for the root layout: Organization, both offices and the WebSite. */
-export function siteJsonLd(): JsonLdDocument {
+export function siteJsonLd(
+  site: LdSite & Pick<SiteSettings, "offices">,
+  divisions: readonly Pick<Division, "name" | "href">[],
+): JsonLdDocument {
   return {
     "@context": CONTEXT,
     "@graph": [
-      organizationLd(),
-      localBusinessLd(OFFICES.kochi),
-      localBusinessLd(OFFICES.dubai),
-      websiteLd(),
+      organizationLd(site, divisions),
+      localBusinessLd(site.offices.kochi, site),
+      localBusinessLd(site.offices.dubai, site),
+      websiteLd(site),
     ],
   };
 }
@@ -228,7 +239,7 @@ export function faqPageLd(items: readonly FaqItem[], path: string): JsonLdDocume
  * BlogPosting of an article. The authors are teams ("KATIC Interior"), so they are Organizations,
  * not the original's `Person` (KI-S02). `image` is the cover's URL (site path or absolute).
  */
-export function blogPostingLd(post: Post, image?: string): JsonLdDocument {
+export function blogPostingLd(post: Post, site: LdSite, image?: string): JsonLdDocument {
   const url = absoluteUrl(routes.article(post.slug));
   return {
     "@context": CONTEXT,
@@ -240,11 +251,11 @@ export function blogPostingLd(post: Post, image?: string): JsonLdDocument {
     dateModified: post.publishedAt,
     ...(image ? { image: image.startsWith("/") ? absoluteUrl(image) : image } : {}),
     articleSection: post.category,
-    inLanguage: SITE_SEO.language,
+    inLanguage: site.seo.language,
     url,
     mainEntityOfPage: url,
     author: { "@type": "Organization", name: post.author },
-    publisher: { "@type": "Organization", "@id": LD_IDS.organization, name: SITE.name },
+    publisher: { "@type": "Organization", "@id": LD_IDS.organization, name: site.name },
   };
 }
 

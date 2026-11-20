@@ -1,4 +1,4 @@
-import type { ServiceIconName } from "@/components/icons/service-icon";
+import type { ProcessStage } from "@/lib/schemas/entities";
 
 /**
  * The "master process": eight stages whose copy the original reuses verbatim on the interior,
@@ -20,12 +20,7 @@ export const PROCESS_STAGE_IDS = [
 ] as const;
 export type ProcessStageId = (typeof PROCESS_STAGE_IDS)[number];
 
-export type ProcessStage = {
-  readonly id: ProcessStageId;
-  readonly title: string;
-  readonly text: string;
-  readonly icon: ServiceIconName;
-};
+export type { ProcessStage };
 
 export const PROCESS_STAGES = {
   discovery: {

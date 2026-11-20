@@ -3,11 +3,11 @@ import { Fragment } from "react";
 import { Container } from "@/components/ui/container";
 import { Accent } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
-import { CONTACT_TEMPLATE } from "@/content/contact";
 import { cn } from "@/lib/cn";
+import { getContactTemplate, getSite } from "@/lib/data";
 import type { Tone } from "@/lib/tone";
 
-import { CONTACT_CHANNELS, type ContactChannel } from "./contact-channels";
+import { type ContactChannel, contactChannels } from "./contact-channels";
 import { EnquiryForm, type EnquiryFormConfig } from "./enquiry-form";
 
 /** Copy of the CONTACT template (plain data: will come from Laravel). */
@@ -41,6 +41,7 @@ type ContactSectionProps = {
   readonly id: string;
   /** The original renders it white on About and black on Services (analysis/02 §0). */
   readonly tone: Tone;
+  /** Defaults to the shared CONTACT template (`getContactTemplate()`). */
   readonly content?: ContactSectionContent;
   readonly colors?: ContactSectionColors;
 };
@@ -52,13 +53,26 @@ type ContactSectionProps = {
  * the right; two equal columns below 1100px, one on phones.
  *
  * `[data-contact-section]` makes it the target of "go to contact" on its page (`useContactScroll`).
+ * The channels' addresses come from the site settings.
  */
-export function ContactSection({
+export async function ContactSection({
   id,
   tone,
-  content = CONTACT_TEMPLATE,
+  content,
   colors = "template",
 }: ContactSectionProps) {
+  const [template, site] = await Promise.all([content ?? getContactTemplate(), getSite()]);
+  return <ContactSectionView id={id} tone={tone} content={template} colors={colors} site={site} />;
+}
+
+function ContactSectionView({
+  id,
+  tone,
+  content,
+  colors,
+  site,
+}: Required<ContactSectionProps> & { readonly site: Parameters<typeof contactChannels>[0] }) {
+  const channelEntries = contactChannels(site);
   const titleId = `${id}-title`;
   const light = LIGHT_COLORS[colors];
   return (
@@ -105,7 +119,7 @@ export function ContactSection({
             )}
           >
             {content.channels.map((channel) => {
-              const { term, href, text, external } = CONTACT_CHANNELS[channel];
+              const { term, href, text, external } = channelEntries[channel];
               return (
                 <Fragment key={channel}>
                   <dt>{term}</dt>

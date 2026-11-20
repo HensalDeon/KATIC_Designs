@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DivisionPage } from "@/components/division-page/division-page";
 import { JsonLd } from "@/components/seo/json-ld";
 import { builtDivisionSlugs, getDivisionPage } from "@/content/divisions/pages";
+import { getSite, getTrailLabels } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { divisionTrail } from "@/lib/seo/breadcrumbs";
 import { breadcrumbLd } from "@/lib/seo/json-ld";
@@ -30,7 +31,7 @@ export async function generateMetadata({
   const content = getDivisionPage((await params).slug);
   if (!content) notFound();
   // The original's `data-title` is complete (it names the division, not the studio).
-  return pageMetadata({ path: routes.division(content.slug), ...content.seo });
+  return pageMetadata({ path: routes.division(content.slug), ...content.seo }, await getSite());
 }
 
 export default async function DivisionDetailPage({ params }: PageProps<"/divisions/[slug]">) {
@@ -39,7 +40,7 @@ export default async function DivisionDetailPage({ params }: PageProps<"/divisio
   return (
     <>
       <DivisionPage content={content} />
-      <JsonLd data={breadcrumbLd(divisionTrail(content.slug))} />
+      <JsonLd data={breadcrumbLd(divisionTrail(content.slug, await getTrailLabels()))} />
     </>
   );
 }

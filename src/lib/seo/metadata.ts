@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { SITE, SITE_SEO } from "@/content/site";
+import type { SiteSettings } from "@/lib/schemas/site";
 
 import { absoluteUrl, SITE_URL } from "./site-url";
 
@@ -24,47 +24,62 @@ export type PageSeo = {
   readonly noindex?: boolean;
 };
 
-const OG_IMAGE = {
-  url: absoluteUrl(SITE_SEO.ogImage.path),
-  width: SITE_SEO.ogImage.width,
-  height: SITE_SEO.ogImage.height,
-  alt: SITE_SEO.ogImage.alt,
-  type: "image/jpeg",
-};
+/** The settings these helpers read: the site's name and its SEO defaults. */
+export type SeoSettings = Pick<SiteSettings, "name" | "seo">;
+
+function ogImage({ seo }: SeoSettings) {
+  return {
+    url: absoluteUrl(seo.ogImage.path),
+    width: seo.ogImage.width,
+    height: seo.ogImage.height,
+    alt: seo.ogImage.alt,
+    type: "image/jpeg",
+  };
+}
 
 /** Site-wide defaults for the root layout (also what a 404 inherits). */
-export const ROOT_METADATA: Metadata = {
-  metadataBase: SITE_URL,
-  title: SITE_SEO.title,
-  description: SITE_SEO.description,
-  applicationName: SITE.name,
-  authors: [{ name: SITE.name }],
-  // The original's `<meta name="robots">`.
-  robots: { index: true, follow: true, "max-image-preview": "large" },
-  openGraph: {
-    type: "website",
-    siteName: SITE.name,
-    locale: SITE_SEO.locale,
-    title: SITE_SEO.title,
-    description: SITE_SEO.description,
-    images: [OG_IMAGE],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_SEO.title,
-    description: SITE_SEO.description,
-    images: [OG_IMAGE],
-  },
-  other: {
-    "geo.region": SITE_SEO.geo.region,
-    "geo.placename": SITE_SEO.geo.placename,
-  },
-};
+export function rootMetadata(site: SeoSettings): Metadata {
+  const { name, seo } = site;
+  const image = ogImage(site);
+  return {
+    metadataBase: SITE_URL,
+    title: seo.title,
+    description: seo.description,
+    applicationName: name,
+    authors: [{ name }],
+    // The original's `<meta name="robots">`.
+    robots: { index: true, follow: true, "max-image-preview": "large" },
+    openGraph: {
+      type: "website",
+      siteName: name,
+      locale: seo.locale,
+      title: seo.title,
+      description: seo.description,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [image],
+    },
+    other: {
+      "geo.region": seo.geo.region,
+      "geo.placename": seo.geo.placename,
+    },
+  };
+}
 
-/** Metadata of one page: title, description, canonical, Open Graph and Twitter card. */
-export function pageMetadata({ path, title, description, article, noindex }: PageSeo): Metadata {
+/**
+ * Metadata of one page: title, description, canonical, Open Graph and Twitter card. `site` is the
+ * settings resource (`await getSite()`).
+ */
+export function pageMetadata(
+  { path, title, description, article, noindex }: PageSeo,
+  site: SeoSettings,
+): Metadata {
   const url = absoluteUrl(path);
-  const shared = { title, description, images: [OG_IMAGE] };
+  const shared = { title, description, images: [ogImage(site)] };
   return {
     title: { absolute: title },
     description,
@@ -72,8 +87,8 @@ export function pageMetadata({ path, title, description, article, noindex }: Pag
     openGraph: {
       ...shared,
       url,
-      siteName: SITE.name,
-      locale: SITE_SEO.locale,
+      siteName: site.name,
+      locale: site.seo.locale,
       ...(article
         ? {
             type: "article",

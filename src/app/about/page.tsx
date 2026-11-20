@@ -10,11 +10,14 @@ import { AboutTeam } from "@/components/about/about-team";
 import { AboutWorks } from "@/components/about/about-works";
 import { ContactSection } from "@/components/sections/contact-section";
 import { ABOUT_SEO } from "@/content/about";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.about, ...ABOUT_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.about, ...ABOUT_SEO }, await getSite());
+}
 
 /**
  * About (`#p-about`). Section order and tones as rendered by the original (docs/analysis/02 §2):

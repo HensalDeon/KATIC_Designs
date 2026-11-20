@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { whatsappUrl } from "@/components/sections/contact-channels";
+import { useSite } from "@/components/shell/shell-provider";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { SITE, whatsappUrl } from "@/content/site";
 import { THANK_YOU } from "@/content/thank-you";
 import { useLastLead } from "@/hooks/use-last-lead";
 import { cn } from "@/lib/cn";
@@ -28,6 +29,7 @@ import { routes } from "@/lib/routes";
  */
 export function LeadActions() {
   const lead = useLastLead();
+  const site = useSite();
   const [copied, setCopied] = useState(false);
   const copy = THANK_YOU;
 
@@ -63,7 +65,7 @@ export function LeadActions() {
           <ButtonLink
             variant="outline"
             icon={null}
-            href={lead ? enquiryMailto(SITE.email, lead) : `mailto:${SITE.email}`}
+            href={lead ? enquiryMailto(site.email, lead) : `mailto:${site.email}`}
           >
             {copy.fallback.email}
           </ButtonLink>
@@ -76,7 +78,7 @@ export function LeadActions() {
         <ButtonLink
           variant="primary"
           icon="up-right"
-          href={whatsappUrl(whatsappMessage(lead))}
+          href={whatsappUrl(site, whatsappMessage(lead))}
           target="_blank"
           rel="noopener"
         >

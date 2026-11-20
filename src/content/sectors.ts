@@ -1,22 +1,11 @@
-import type { WorksCategory } from "@/lib/routes";
-
-import type { MediaId } from "./media";
+import type { SectorTile } from "@/lib/schemas/entities";
 
 /**
  * Sector tiles (`.ksec`). The four sector tiles are identical on every page that shows them
  * (architecture, turnkey, renovation, exterior, property care, works, the care division): same
  * image, copy and works filter. Exterior adds a fifth, non-link tile (docs/analysis/03 §1.7).
  */
-export type SectorTile = {
-  /** Small orange label above the title (`.lb small`). */
-  readonly label: string;
-  readonly title: string;
-  readonly text: string;
-  readonly image: MediaId;
-  readonly alt: string;
-  /** Works filter the tile links to. Tiles without one are not links. */
-  readonly category?: WorksCategory;
-};
+export type { SectorTile };
 
 export const SECTOR_KEYS = ["residential", "commercial", "institutional", "hospitality"] as const;
 export type SectorKey = (typeof SECTOR_KEYS)[number];
