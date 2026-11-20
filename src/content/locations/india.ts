@@ -1,62 +1,18 @@
-import type { ContactSectionContent } from "@/components/sections/contact-section";
-import type {
-  BlockBase,
-  ContentBlock,
-  PageHeroContent,
-  SectionHeaderContent,
-} from "@/content/blocks";
-import type { ProjectSlug } from "@/content/projects";
 import { SITE } from "@/content/site";
-import { DIVISION_SLUGS, INDIA_PROJECTS_ID, type IndiaArea, routes } from "@/lib/routes";
+import { DIVISION_SLUGS, INDIA_PROJECTS_ID, routes } from "@/lib/routes";
+import type { IndiaPageContent } from "@/lib/schemas/locations";
 
 /**
  * The India location page (`/locations/india`, original `#p-india`, lines 4071–4096,
  * docs/analysis/04 §7): a banner, seven blocks and the contact section. Copy verbatim. Plain,
- * serialisable data, so Laravel can serve the same shape later (`Location` resource). Shared
- * entities are referenced by slug: services (`related-services.ts`), divisions and projects.
+ * serialisable data, so Laravel can serve the same shape later (`GET /locations/india`, schema in
+ * `src/lib/schemas/locations.ts`). Shared entities are referenced by slug: services
+ * (`related-services.ts`), divisions and projects.
  *
  * The blocks are the shared vocabulary (`ContentBlock`) plus one page-specific block, the
  * filterable project grid (`indiaProjects`). Tones alternate from white after the hero, as the
  * original renders them, and the contact takes the opposite of the last block (black).
  */
-
-/** A project card of the filterable grid: the project by slug, its card meta and its area. */
-export type IndiaProjectCard = {
-  readonly project: ProjectSlug;
-  /** The small orange line, verbatim ("Residential · Architecture · Panampilly Nagar, Kochi"). */
-  readonly meta: string;
-  /**
-   * Kochi or the rest of Kerala (the original's `data-cat`). Page data rather than a project field:
-   * it is how this page groups its cards, and `projects.ts` already has `region` and `location`;
-   * a unit test keeps the two consistent (india.test.ts).
-   */
-  readonly area: IndiaArea;
-};
-
-/** A filter button (`.kcats button`, `data-f`). */
-export type IndiaFilter = { readonly value: IndiaArea | "all"; readonly label: string };
-
-/** `#india-projects` (`section.ks` with `.kcats[data-filter="india"]`): page-specific block. */
-export type IndiaProjectsBlock = BlockBase & {
-  readonly type: "indiaProjects";
-  readonly id: string;
-  readonly header: SectionHeaderContent;
-  /** Accessible name of the filter group. */
-  readonly filtersLabel: string;
-  readonly filters: readonly IndiaFilter[];
-  readonly items: readonly IndiaProjectCard[];
-};
-
-export type IndiaBlock = ContentBlock | IndiaProjectsBlock;
-
-export type IndiaPageContent = {
-  /** The original's `data-title` (already ends in the brand) and `data-desc`. */
-  readonly seo: { readonly title: string; readonly description: string };
-  readonly hero: PageHeroContent;
-  readonly blocks: readonly IndiaBlock[];
-  /** The CONTACT template with India's copy and extra selects (`section.contact[data-src=india]`). */
-  readonly contact: ContactSectionContent & { readonly id: string };
-};
 
 /** India's contact section id (the original renames it `india-contact` at runtime, JS 4776). */
 export const INDIA_CONTACT_ID = "india-contact";

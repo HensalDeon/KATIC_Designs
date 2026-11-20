@@ -2,8 +2,8 @@ import { Testimonials } from "@/components/sections/testimonials";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { REVIEWS_CLIENTS, type ReviewsClientsContent } from "@/content/reviews";
-import { testimonials } from "@/content/testimonials";
+import { getRefs } from "@/lib/data";
+import type { ReviewsClientsContent } from "@/lib/schemas/reviews";
 
 import { ReviewsHeading } from "./reviews-ui";
 
@@ -17,11 +17,8 @@ import { ReviewsHeading } from "./reviews-ui";
  * is brand orange on black (KI-A11; the original prints the light-section orange); meta lines are
  * 11px on phones (KI-A10).
  */
-export function ReviewsClients({
-  content = REVIEWS_CLIENTS,
-}: {
-  readonly content?: ReviewsClientsContent;
-}) {
+export async function ReviewsClients({ content }: { readonly content: ReviewsClientsContent }) {
+  const refs = await getRefs();
   return (
     <Section tone="dark" data-parity="cl">
       <Container>
@@ -33,7 +30,7 @@ export function ReviewsClients({
         </div>
         <Testimonials
           variant="reviews"
-          items={testimonials(content.testimonials)}
+          items={refs.testimonials(content.testimonials)}
           className="mt-58"
         />
         <div className="mt-50 flex items-center justify-between">

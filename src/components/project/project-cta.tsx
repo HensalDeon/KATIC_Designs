@@ -2,8 +2,8 @@ import { LineBreaks } from "@/components/blocks/title-text";
 import { ParallaxImage } from "@/components/motion/parallax-image";
 import { CtaBand } from "@/components/sections/cta-band";
 import { resolveImage } from "@/components/sections/section-image";
-import type { ProjectCtaContent } from "@/content/project-details";
 import { routes } from "@/lib/routes";
+import type { ProjectCtaContent } from "@/lib/schemas/project-details";
 
 /**
  * Home's enquiry form (`#start`): the project page has no contact section, so the original's

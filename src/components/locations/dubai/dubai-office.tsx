@@ -9,8 +9,8 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import type { TitleLines } from "@/content/blocks";
 import { cn } from "@/lib/cn";
+import type { TitleLines } from "@/lib/schemas/primitives";
 
 import type { DubaiBlockProps } from "./dubai-block-props";
 import { DUBAI_TITLE } from "./dubai-title";

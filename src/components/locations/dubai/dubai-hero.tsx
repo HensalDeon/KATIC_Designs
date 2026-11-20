@@ -7,8 +7,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
-import type { AccentTitle } from "@/content/blocks";
 import { cn } from "@/lib/cn";
+import type { AccentTitle } from "@/lib/schemas/primitives";
 
 /** Copy of the Dubai banner (plain data: will come from Laravel). */
 export type DubaiHeroContent = {

@@ -17,7 +17,7 @@ import {
 } from "@/content/about";
 import { CONTACT_TEMPLATE } from "@/content/contact";
 import { DIVISIONS } from "@/content/divisions";
-import { builtDivisionSlugs, getDivisionPage } from "@/content/divisions/pages";
+import { builtDivisionSlugs, divisionPageResource } from "@/content/divisions/pages";
 import { HOME_ABOUT } from "@/content/home/about";
 import { HOME_CONTACT } from "@/content/home/contact";
 import { HOME_DIVISIONS } from "@/content/home/divisions";
@@ -80,6 +80,7 @@ import {
 } from "@/content/works";
 import { DIVISION_SLUGS } from "@/lib/routes";
 import { contactTemplateSchema } from "@/lib/schemas/blocks";
+import { divisionPageSchema } from "@/lib/schemas/divisions";
 import {
   divisionSchema,
   processStageSchema,
@@ -88,10 +89,14 @@ import {
   sectorSchema,
   testimonialSchema,
 } from "@/lib/schemas/entities";
+import { dubaiPageSchema, indiaPageSchema } from "@/lib/schemas/locations";
 import { type MediaLibrary, mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
+import { projectDetailSchema } from "@/lib/schemas/project-details";
+import { reviewsPageSchema } from "@/lib/schemas/reviews";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
 import { siteSettingsSchema } from "@/lib/schemas/site";
+import { worksPageSchema } from "@/lib/schemas/works";
 
 import type {
   AboutPage,
@@ -207,17 +212,23 @@ export class StaticRepository implements ContentRepository {
   }
 
   async getDivisionPage(slug: string) {
-    return getDivisionPage(slug);
+    const page = divisionPageResource(slug);
+    return page && this.#check(divisionPageSchema, page);
   }
 
   // Locations ------------------------------------------------------------------------------------
 
   async getIndiaPage() {
-    return INDIA_PAGE;
+    return this.#check(indiaPageSchema, INDIA_PAGE);
   }
 
   async getDubaiPage(): Promise<DubaiPage> {
-    return { seo: DUBAI_SEO, hero: DUBAI_HERO, blocks: DUBAI_BLOCKS, contact: DUBAI_CONTACT };
+    return this.#check(dubaiPageSchema, {
+      seo: DUBAI_SEO,
+      hero: DUBAI_HERO,
+      blocks: DUBAI_BLOCKS,
+      contact: DUBAI_CONTACT,
+    });
   }
 
   // Works ----------------------------------------------------------------------------------------
@@ -227,11 +238,12 @@ export class StaticRepository implements ContentRepository {
   }
 
   async getProjectPage(slug: string) {
-    return getProjectDetail(slug);
+    const page = getProjectDetail(slug);
+    return page && this.#check(projectDetailSchema, page);
   }
 
   async getWorksPage(): Promise<WorksPage> {
-    return {
+    return this.#check(worksPageSchema, {
       seo: WORKS_SEO,
       hero: WORKS_HERO,
       featured: WORKS_FEATURED,
@@ -241,7 +253,7 @@ export class StaticRepository implements ContentRepository {
       capabilities: WORKS_CAPABILITIES,
       divisions: WORKS_DIVISIONS,
       cta: WORKS_CTA,
-    };
+    });
   }
 
   // Blog and news --------------------------------------------------------------------------------
@@ -312,7 +324,7 @@ export class StaticRepository implements ContentRepository {
   }
 
   async getReviewsPage(): Promise<ReviewsPage> {
-    return {
+    return this.#check(reviewsPageSchema, {
       seo: REVIEWS_SEO,
       hero: REVIEWS_HERO,
       trust: REVIEWS_TRUST,
@@ -321,7 +333,7 @@ export class StaticRepository implements ContentRepository {
       story: REVIEWS_STORY,
       projects: REVIEWS_PROJECTS,
       cta: REVIEWS_CTA,
-    };
+    });
   }
 
   async getThankYouPage(): Promise<ThankYouPage> {

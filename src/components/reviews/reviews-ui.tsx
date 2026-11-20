@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import { LineBreaks } from "@/components/blocks/title-text";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
-import type { TitleLines } from "@/content/blocks";
 import { cn } from "@/lib/cn";
+import type { TitleLines } from "@/lib/schemas/primitives";
 
 /**
  * `#p-reviews .st{font-size:58px;line-height:1.14}` (page `<style>` 4224): the page's section

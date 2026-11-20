@@ -7,8 +7,8 @@ import { canvasSizes } from "@/components/sections/section-media";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { REVIEWS_EXPERTISE, type ReviewsExpertiseContent } from "@/content/reviews";
 import { routes } from "@/lib/routes";
+import type { ReviewsExpertiseContent } from "@/lib/schemas/reviews";
 
 import { ReviewsHeading, SplitHeader } from "./reviews-ui";
 
@@ -22,11 +22,7 @@ import { ReviewsHeading, SplitHeader } from "./reviews-ui";
  * Fixes: alts describe the photos instead of repeating the title with "↗" (KI-A13); the ↗ is
  * decorative and hidden from assistive tech.
  */
-export function ReviewsExpertise({
-  content = REVIEWS_EXPERTISE,
-}: {
-  readonly content?: ReviewsExpertiseContent;
-}) {
+export function ReviewsExpertise({ content }: { readonly content: ReviewsExpertiseContent }) {
   return (
     <Section tone="light" data-parity="xp">
       <Container>

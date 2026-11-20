@@ -5,7 +5,7 @@ import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { resolveImage } from "@/components/sections/section-image";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
-import type { ProjectHeroContent } from "@/content/project-details";
+import type { ProjectHeroContent } from "@/lib/schemas/project-details";
 
 import { capButtonClasses } from "./project-ui";
 

@@ -1,4 +1,4 @@
-import type { ProjectDetail } from "@/content/project-details";
+import type { ProjectDetail } from "@/lib/schemas/project-details";
 
 import { ProjectBrief } from "./project-brief";
 import { ProjectCta } from "./project-cta";

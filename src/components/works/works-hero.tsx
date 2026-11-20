@@ -8,12 +8,12 @@ import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
-import { getProject, projectHref } from "@/content/projects";
-import { WORKS_HERO, type WorksHeroContent } from "@/content/works";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import type { WorksHeroContent } from "@/lib/schemas/works";
 
 type WorksHeroProps = {
-  readonly content?: WorksHeroContent;
+  readonly content: WorksHeroContent;
 };
 
 /**
@@ -27,9 +27,10 @@ type WorksHeroProps = {
  * content sits at the bottom and the button is full width. Marked `data-hero` for the phone
  * quick-contact bar. The title scales to 62px below 1100px (KI-L16, `HeroTitle`).
  */
-export function WorksHero({ content = WORKS_HERO }: WorksHeroProps) {
+export async function WorksHero({ content }: WorksHeroProps) {
   const titleId = "works-hero-title";
-  const current = getProject(content.current.project);
+  const refs = await getRefs();
+  const current = refs.project(content.current.project);
   return (
     <section
       data-hero
@@ -75,7 +76,7 @@ export function WorksHero({ content = WORKS_HERO }: WorksHeroProps) {
         </ButtonLink>
 
         <Link
-          href={projectHref(current)}
+          href={refs.projectHref(current)}
           className="absolute top-252 right-0 w-255 border-t border-[rgba(255,255,255,0.35)] pt-14 font-sans max-lg:hidden"
         >
           {/* `small.nico` is inline in the original, so its 6px margin and the name's 8px add up. */}

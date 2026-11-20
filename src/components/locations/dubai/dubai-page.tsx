@@ -1,13 +1,7 @@
 import type { BespokeOf } from "@/components/blocks/block-stack";
 import { BlockStack } from "@/components/blocks/block-stack";
 import { ContactSection } from "@/components/sections/contact-section";
-import {
-  DUBAI_BLOCKS,
-  DUBAI_CONTACT,
-  DUBAI_HERO,
-  DUBAI_IDS,
-  type DubaiBlock,
-} from "@/content/locations/dubai";
+import type { DubaiBlock, DubaiPageContent } from "@/lib/schemas/locations";
 import type { Tone } from "@/lib/tone";
 
 import { DubaiContext } from "./dubai-context";
@@ -43,21 +37,17 @@ function assertNever(value: never): never {
  * of the mosaic (white, as the original's `data-fx=169`). Section titles use the page's 1.14 line
  * height (`DUBAI_TITLE`). Server component; nothing reveals on scroll (D7).
  */
-export function DubaiPage() {
+export function DubaiPage({ content }: { readonly content: DubaiPageContent }) {
+  const { hero, contact } = content;
   return (
     <>
-      <DubaiHero content={DUBAI_HERO} />
+      <DubaiHero content={hero} />
       <BlockStack<DubaiBlock>
-        blocks={DUBAI_BLOCKS}
-        context={{ contactHref: `#${DUBAI_IDS.contact}`, titleClassName: DUBAI_TITLE }}
+        blocks={content.blocks}
+        context={{ contactHref: `#${contact.id}`, titleClassName: DUBAI_TITLE }}
         renderBespoke={(block, { tone }) => <DubaiBespokeBlock block={block} tone={tone} />}
         ending={(tone) => (
-          <ContactSection
-            id={DUBAI_IDS.contact}
-            tone={tone}
-            colors="local"
-            content={DUBAI_CONTACT}
-          />
+          <ContactSection id={contact.id} tone={tone} colors="local" content={contact} />
         )}
       />
     </>

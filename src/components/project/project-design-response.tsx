@@ -3,7 +3,7 @@ import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import type { ProjectDesignResponseContent } from "@/content/project-details";
+import type { ProjectDesignResponseContent } from "@/lib/schemas/project-details";
 
 import { ProjectHeading, ProjectImage, ProjectStatement, ProjectTwo } from "./project-ui";
 

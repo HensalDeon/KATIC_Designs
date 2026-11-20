@@ -3,10 +3,10 @@
 import { type CSSProperties, type ReactNode, useRef, useState } from "react";
 
 import { UrlParamFilter } from "@/components/filters/url-param-filter";
-import type { ShowcaseFilter } from "@/content/home/works";
-import type { ProjectCategory } from "@/content/projects";
 import { useFlipReflow } from "@/hooks/use-flip-reflow";
 import { cn } from "@/lib/cn";
+import type { WorksCategory } from "@/lib/routes";
+import type { WorksFilter } from "@/lib/schemas/works";
 
 import {
   parseWorksCategory,
@@ -21,13 +21,13 @@ import {
 
 export type PortfolioCardSlot = {
   readonly slug: string;
-  readonly categories: readonly ProjectCategory[];
+  readonly categories: readonly WorksCategory[];
   /** Server-rendered card (`ProjectCard`). */
   readonly content: ReactNode;
 };
 
 type PortfolioGridProps = {
-  readonly filters: readonly ShowcaseFilter[];
+  readonly filters: readonly WorksFilter[];
   /** Accessible name of the filter group. */
   readonly filtersLabel: string;
   readonly cards: readonly PortfolioCardSlot[];

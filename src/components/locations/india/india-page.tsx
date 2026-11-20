@@ -1,12 +1,12 @@
 import { BlockHero } from "@/components/blocks/block-hero";
 import { BlockStack } from "@/components/blocks/block-stack";
 import { ContactSection } from "@/components/sections/contact-section";
-import { INDIA_PAGE, type IndiaPageContent } from "@/content/locations/india";
+import type { IndiaPageContent } from "@/lib/schemas/locations";
 
 import { IndiaProjects } from "./india-projects";
 
 type IndiaPageProps = {
-  readonly content?: IndiaPageContent;
+  readonly content: IndiaPageContent;
 };
 
 /**
@@ -17,7 +17,7 @@ type IndiaPageProps = {
  * only the section islands hydrate (lightbox, line-art draw-on, project filter, enquiry form). No
  * reveal-on-scroll, as in the original (D7).
  */
-export function IndiaPage({ content = INDIA_PAGE }: IndiaPageProps) {
+export function IndiaPage({ content }: IndiaPageProps) {
   const { hero, contact } = content;
   const contactHref = `#${contact.id}`;
   return (

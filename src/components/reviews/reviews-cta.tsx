@@ -2,7 +2,7 @@ import { LineBreaks } from "@/components/blocks/title-text";
 import { ParallaxImage } from "@/components/motion/parallax-image";
 import { CtaBand } from "@/components/sections/cta-band";
 import { resolveImage } from "@/components/sections/section-image";
-import { REVIEWS_CTA, type ReviewsCtaContent } from "@/content/reviews";
+import type { ReviewsCtaContent } from "@/lib/schemas/reviews";
 
 /**
  * "Ready to Create Your Own Space?" (`#p-reviews section.ctasec`, markup 4368–4376, page `<style>`
@@ -10,7 +10,7 @@ import { REVIEWS_CTA, type ReviewsCtaContent } from "@/content/reviews";
  * with the scroll like the original's `PX.reviews` entry (E25, `ParallaxImage`; static with reduced
  * motion). The button goes to Home's enquiry form, as the original's `data-go="contact"` does.
  */
-export function ReviewsCta({ content = REVIEWS_CTA }: { readonly content?: ReviewsCtaContent }) {
+export function ReviewsCta({ content }: { readonly content: ReviewsCtaContent }) {
   return (
     <CtaBand
       variant="reviews"

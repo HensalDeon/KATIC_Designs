@@ -5,9 +5,9 @@ import { canvasSizes } from "@/components/sections/section-media";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { media } from "@/content/media";
-import { getProjects, projectHref } from "@/content/projects";
-import { REVIEWS_PROJECTS, type ReviewsProjectsContent } from "@/content/reviews";
+import { getRefs } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { ReviewsProjectsContent } from "@/lib/schemas/reviews";
 
 import { ReviewsHeading, SplitHeader } from "./reviews-ui";
 
@@ -21,11 +21,8 @@ import { ReviewsHeading, SplitHeader } from "./reviews-ui";
  * Fixes: card names are headings (h3); alts describe the photos (KI-A13); the scope line is 11px
  * on phones (KI-A10).
  */
-export function ReviewsProjects({
-  content = REVIEWS_PROJECTS,
-}: {
-  readonly content?: ReviewsProjectsContent;
-}) {
+export async function ReviewsProjects({ content }: { readonly content: ReviewsProjectsContent }) {
+  const refs = await getRefs();
   return (
     <Section tone="light" data-parity="sp">
       <Container>
@@ -48,12 +45,12 @@ export function ReviewsProjects({
         </SplitHeader>
 
         <ul className="mt-50 grid grid-cols-3 gap-x-28 gap-y-50 max-lg:grid-cols-2 max-md:grid-cols-1">
-          {getProjects(content.projects).map((project) => (
+          {refs.projects(content.projects).map((project) => (
             <li key={project.slug}>
-              <Link href={projectHref(project)} className="group block">
+              <Link href={refs.projectHref(project)} className="group block">
                 <div className="relative h-240 overflow-hidden max-lg:h-330">
                   <Image
-                    src={media[project.cover].image}
+                    src={resolveMedia(project.cover)}
                     alt={project.coverAlt}
                     fill
                     sizes={canvasSizes(404, "calc(50vw - 50px)", "calc(100vw - 40px)")}

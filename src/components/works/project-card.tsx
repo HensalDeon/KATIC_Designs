@@ -5,8 +5,8 @@ import { Fragment } from "react";
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { ServiceIcon, type ServiceIconName } from "@/components/icons/service-icon";
 import { canvasSizes } from "@/components/sections/section-media";
-import { media } from "@/content/media";
-import { type Project, projectHref, type ProjectType } from "@/content/projects";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { Project } from "@/lib/schemas/entities";
 
 import { cardMetaParts } from "./portfolio-layout";
 
@@ -19,32 +19,34 @@ const TYPE_ICON = {
   Hospitality: "office",
   Interiors: "sofa",
   Institutional: "leaf",
-} as const satisfies Record<ProjectType, ServiceIconName>;
+} as const satisfies Record<Project["type"], ServiceIconName>;
 
 /** Widest slot is 790px on the canvas; two columns on tablets, one on phones. */
 const IMAGE_SIZES = canvasSizes(790, "50vw");
 
 type ProjectCardProps = {
   readonly project: Project;
+  /** Where the card links (`ContentRefs.projectHref`). */
+  readonly href: string;
   readonly linkLabel: string;
 };
 
 /**
  * A portfolio card (`#p-works a.pj`, page `<style>` 3632–3646): photo with the type icon, the type
  * label and an orange ↗ square, then the 29px name, the meta line and "View Project →". Every fact
- * comes from the `Project` entity and the card opens its page (KI-F09, `projectHref`). The photo
+ * comes from the `Project` entity and the card opens its page (KI-F09, `ContentRefs.projectHref`). The photo
  * zooms to 1.03 on hover (.8s).
  *
  * The photo's height comes from its grid slot (`--im-h`, set by `PortfolioGrid`): the original's
  * per-row heights on the canvas, 400px on tablets and 320px on phones (where the original draws a
  * 300px image in the 320px frame). Small labels are 11px on phones (KI-A10).
  */
-export function ProjectCard({ project, linkLabel }: ProjectCardProps) {
+export function ProjectCard({ project, href, linkLabel }: ProjectCardProps) {
   return (
-    <Link href={projectHref(project)} className="group block">
+    <Link href={href} className="group block">
       <span className="relative block h-(--im-h) overflow-hidden max-lg:h-400 max-md:h-320">
         <Image
-          src={media[project.cover].image}
+          src={resolveMedia(project.cover)}
           alt={project.coverAlt}
           sizes={IMAGE_SIZES}
           className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.03] max-md:h-300"

@@ -4,7 +4,7 @@ import { canvasSizes } from "@/components/sections/section-media";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { REVIEWS_TRUST, type ReviewsTrustContent } from "@/content/reviews";
+import type { ReviewsTrustContent } from "@/lib/schemas/reviews";
 
 import { ReviewsHeading } from "./reviews-ui";
 
@@ -17,11 +17,7 @@ import { ReviewsHeading } from "./reviews-ui";
  *
  * Fixes: the caption label is 11px on phones (KI-A10); the photo's alt describes it (KI-A13).
  */
-export function ReviewsTrust({
-  content = REVIEWS_TRUST,
-}: {
-  readonly content?: ReviewsTrustContent;
-}) {
+export function ReviewsTrust({ content }: { readonly content: ReviewsTrustContent }) {
   return (
     <Section tone="light" data-parity="tr" className="lg:min-h-[max(830px,var(--svh))]">
       <Container>

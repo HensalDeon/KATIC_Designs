@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getProjects, projectsByCategory } from "@/content/projects";
-import { WORKS_PORTFOLIO } from "@/content/works";
+import { StaticRepository } from "@/lib/data/static-repository";
 import { WORKS_CATEGORIES } from "@/lib/routes";
 
 import {
@@ -74,19 +73,28 @@ describe("portfolioSlots", () => {
   });
 });
 
-describe("filtered results", () => {
-  const projects = getProjects(WORKS_PORTFOLIO.projects);
+const repo = new StaticRepository();
+const { portfolio } = await repo.getWorksPage();
+const allProjects = await repo.listProjects();
+const projects = portfolio.projects.map((slug) => {
+  const project = allProjects.find((entry) => entry.slug === slug);
+  if (!project) throw new Error(`Unknown project: ${slug}`);
+  return project;
+});
 
+describe("filtered results", () => {
   it("every filter tab is a works category or all", () => {
-    expect(WORKS_PORTFOLIO.filters.map((filter) => filter.category)).toEqual([
+    expect(portfolio.filters.map((filter) => filter.category)).toEqual([
       "all",
       ...WORKS_CATEGORIES,
     ]);
   });
 
   it("each tab shows at least one project and never leaves an empty row", () => {
-    for (const { category } of WORKS_PORTFOLIO.filters) {
-      const visible = projectsByCategory(category, projects);
+    for (const { category } of portfolio.filters) {
+      const visible = projects.filter(
+        (project) => category === "all" || project.categories.includes(category),
+      );
       expect(visible.length).toBeGreaterThan(0);
       const rows = new Set(portfolioSlots(visible.length).map((slot) => slot.row));
       expect(rows.size).toBe(Math.ceil(visible.length / 2));
@@ -96,7 +104,7 @@ describe("filtered results", () => {
 
 describe("cardMetaParts", () => {
   it("prints location, type and scope from the project entity", () => {
-    const [palm, , , serein, , alQuoz, greenfield, difc] = getProjects(WORKS_PORTFOLIO.projects);
+    const [palm, , , serein, , alQuoz, greenfield, difc] = projects;
     if (!palm || !serein || !alQuoz || !greenfield || !difc) throw new Error("missing project");
     expect(cardMetaParts(palm)).toEqual(["Thrissur, Kerala", "Villa", "Architecture"]);
     expect(cardMetaParts(serein)).toEqual(["Abu Dhabi, UAE", "Commercial", "Interior Design"]);

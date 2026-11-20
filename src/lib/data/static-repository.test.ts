@@ -3,6 +3,7 @@ import type { z } from "zod";
 
 import { media } from "@/content/media";
 import { contactTemplateSchema } from "@/lib/schemas/blocks";
+import { divisionPageSchema } from "@/lib/schemas/divisions";
 import {
   divisionSchema,
   processStageSchema,
@@ -11,10 +12,14 @@ import {
   sectorSchema,
   testimonialSchema,
 } from "@/lib/schemas/entities";
+import { dubaiPageSchema, indiaPageSchema } from "@/lib/schemas/locations";
 import { mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
+import { projectDetailSchema } from "@/lib/schemas/project-details";
+import { reviewsPageSchema } from "@/lib/schemas/reviews";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
 import { siteSettingsSchema } from "@/lib/schemas/site";
+import { worksPageSchema } from "@/lib/schemas/works";
 
 import { StaticRepository } from "./static-repository";
 
@@ -83,6 +88,35 @@ describe("static content matches the API schemas", () => {
     for (const slug of slugs) {
       expectSchema(servicePageSchema, await repo.getServicePage(slug), `service ${slug}`);
     }
+  });
+
+  it("works and project pages", async () => {
+    expectSchema(worksPageSchema, await repo.getWorksPage(), "works");
+    const slugs = await repo.listProjectPageSlugs();
+    expect(slugs).toEqual(["the-courtyard-house"]);
+    for (const slug of slugs) {
+      expectSchema(projectDetailSchema, await repo.getProjectPage(slug), `project page ${slug}`);
+    }
+  });
+
+  it("division pages", async () => {
+    const slugs = await repo.listDivisionPageSlugs();
+    expect(slugs.length).toBe(5);
+    for (const slug of slugs) {
+      const page = await repo.getDivisionPage(slug);
+      // The resource is the page as rendered: it ends with the "Explore our divisions" grid.
+      expect(page?.blocks.at(-1)?.type, slug).toBe("divisionCards");
+      expectSchema(divisionPageSchema, page, `division ${slug}`);
+    }
+  });
+
+  it("location pages", async () => {
+    expectSchema(indiaPageSchema, await repo.getIndiaPage(), "india");
+    expectSchema(dubaiPageSchema, await repo.getDubaiPage(), "dubai");
+  });
+
+  it("reviews page", async () => {
+    expectSchema(reviewsPageSchema, await repo.getReviewsPage(), "reviews");
   });
 });
 

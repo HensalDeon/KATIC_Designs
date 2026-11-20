@@ -1,4 +1,3 @@
-import type { DubaiHeroContent } from "@/components/locations/dubai/dubai-hero";
 import type { ContactSectionContent } from "@/components/sections/contact-section";
 import type {
   AboutApproachContent,
@@ -12,7 +11,6 @@ import type {
   AboutTeamContent,
   AboutWorksContent,
 } from "@/content/about";
-import type { DivisionPageContent } from "@/content/divisions/types";
 import type { HomeAboutContent } from "@/content/home/about";
 import type { HomeContactContent } from "@/content/home/contact";
 import type { DivisionsCarouselContent } from "@/content/home/divisions";
@@ -22,8 +20,6 @@ import type { HomeProcessContent } from "@/content/home/process";
 import type { HomeSignatureContent } from "@/content/home/signature";
 import type { ClientStoriesContent } from "@/content/home/stories";
 import type { HomeWorksContent } from "@/content/home/works";
-import type { DubaiBlock, DubaiSeo } from "@/content/locations/dubai";
-import type { IndiaPageContent } from "@/content/locations/india";
 import type { NewsItem, NewsPageContent } from "@/content/news";
 import type {
   ARTICLE_PAGE,
@@ -32,17 +28,7 @@ import type {
   Post,
   PostCategory,
 } from "@/content/posts";
-import type { ProjectDetail } from "@/content/project-details";
 import type { RelatedServiceSlug } from "@/content/related-services";
-import type {
-  ReviewsClientsContent,
-  ReviewsCtaContent,
-  ReviewsExpertiseContent,
-  ReviewsHeroContent,
-  ReviewsProjectsContent,
-  ReviewsStoryContent,
-  ReviewsTrustContent,
-} from "@/content/reviews";
 import type { ServicePageContent } from "@/content/service-pages";
 import type {
   ServiceBlockContent,
@@ -51,17 +37,8 @@ import type {
   WhatWeDoContent,
 } from "@/content/services-page";
 import type { ThankYouContent } from "@/content/thank-you";
-import type {
-  WorksCapabilitiesContent,
-  WorksCaseStudyContent,
-  WorksCtaContent,
-  WorksDivisionsContent,
-  WorksFeaturedContent,
-  WorksHeroContent,
-  WorksPortfolioContent,
-  WorksSectorsContent,
-} from "@/content/works";
 import type { DivisionSlug, ServiceSlug, WorksCategory } from "@/lib/routes";
+import type { DivisionPage } from "@/lib/schemas/divisions";
 import type {
   Division,
   ProcessStage,
@@ -70,9 +47,13 @@ import type {
   Sector,
   Testimonial,
 } from "@/lib/schemas/entities";
+import type { DubaiPageContent, IndiaPageContent } from "@/lib/schemas/locations";
 import type { MediaLibrary } from "@/lib/schemas/media";
 import type { Navigation } from "@/lib/schemas/navigation";
+import type { ProjectDetail } from "@/lib/schemas/project-details";
+import type { ReviewsPageContent } from "@/lib/schemas/reviews";
 import type { SiteSettings } from "@/lib/schemas/site";
+import type { WorksPageContent } from "@/lib/schemas/works";
 
 /**
  * The one way pages get content (D6, MIGRATION_PLAN Phase 11). Every method is an async read of one
@@ -140,7 +121,7 @@ export type ContentRepository = {
 
   // Divisions ------------------------------------------------------------------------------------
   listDivisionPageSlugs(): Promise<readonly DivisionSlug[]>;
-  getDivisionPage(slug: string): Promise<DivisionPageContent | undefined>;
+  getDivisionPage(slug: string): Promise<DivisionPage | undefined>;
 
   // Locations ------------------------------------------------------------------------------------
   getIndiaPage(): Promise<IndiaPage>;
@@ -223,26 +204,11 @@ export type ServicesPage = {
   readonly whatWeDeliver: WhatWeDeliverContent;
 };
 
-export type WorksPage = {
-  readonly seo: PageSeoCopy;
-  readonly hero: WorksHeroContent;
-  readonly featured: WorksFeaturedContent;
-  readonly sectors: WorksSectorsContent;
-  readonly portfolio: WorksPortfolioContent;
-  readonly caseStudy: WorksCaseStudyContent;
-  readonly capabilities: WorksCapabilitiesContent;
-  readonly divisions: WorksDivisionsContent;
-  readonly cta: WorksCtaContent;
-};
+export type WorksPage = WorksPageContent;
 
 export type IndiaPage = IndiaPageContent;
 
-export type DubaiPage = {
-  readonly seo: DubaiSeo;
-  readonly hero: DubaiHeroContent;
-  readonly blocks: readonly DubaiBlock[];
-  readonly contact: ContactSectionContent;
-};
+export type DubaiPage = DubaiPageContent;
 
 export type BlogPage = {
   readonly page: Omit<typeof BLOG_PAGE, "categoryHeading">;
@@ -251,15 +217,6 @@ export type BlogPage = {
 
 export type NewsPage = NewsPageContent & { readonly seo: PageSeoCopy };
 
-export type ReviewsPage = {
-  readonly seo: PageSeoCopy;
-  readonly hero: ReviewsHeroContent;
-  readonly trust: ReviewsTrustContent;
-  readonly clients: ReviewsClientsContent;
-  readonly expertise: ReviewsExpertiseContent;
-  readonly story: ReviewsStoryContent;
-  readonly projects: ReviewsProjectsContent;
-  readonly cta: ReviewsCtaContent;
-};
+export type ReviewsPage = ReviewsPageContent;
 
 export type ThankYouPage = ThankYouContent & { readonly seo: PageSeoCopy };

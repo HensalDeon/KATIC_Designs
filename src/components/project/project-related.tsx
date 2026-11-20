@@ -4,9 +4,9 @@ import Link from "next/link";
 import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { media } from "@/content/media";
-import type { ProjectRelatedContent } from "@/content/project-details";
-import { getProject, projectHref } from "@/content/projects";
+import { getRefs } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { ProjectRelatedContent } from "@/lib/schemas/project-details";
 
 import { ProjectHeading, ProjectTwo } from "./project-ui";
 
@@ -16,14 +16,15 @@ import { ProjectHeading, ProjectTwo } from "./project-ui";
  * on phones) with a 350px photo that zooms to 1.04 on hover (0.7s), the name, an orange meta line
  * and "View project →".
  *
- * Names, photos and links come from the shared `Project` (`projectHref`: a project without its own
+ * Names, photos and links come from the shared `Project` (`ContentRefs.projectHref`: a project without its own
  * page links to The Courtyard House, as every card of the original does, KI-F09). Alt texts
  * describe the photo (KI-A13; the original repeated the name). Fixes: on the canvas the original
  * shrinks this section to fit one screen (`fit()` zoom 0.92, KI-L13); here it grows. Meta and link
  * lines are 11px on phones (KI-A10).
  */
-export function ProjectRelated({ content }: { readonly content: ProjectRelatedContent }) {
+export async function ProjectRelated({ content }: { readonly content: ProjectRelatedContent }) {
   const titleId = "project-related-title";
+  const refs = await getRefs();
   return (
     <Section tone="dark" data-parity="rl" aria-labelledby={titleId} className="text-[#f4f4f4]">
       <Container>
@@ -34,13 +35,13 @@ export function ProjectRelated({ content }: { readonly content: ProjectRelatedCo
 
         <ul className="mt-40 grid grid-cols-4 gap-18 max-lg:grid-cols-2 max-lg:gap-y-28 max-md:grid-cols-1">
           {content.projects.map(({ project: slug, meta }) => {
-            const project = getProject(slug);
+            const project = refs.project(slug);
             return (
               <li key={slug}>
-                <Link href={projectHref(project)} className="group block">
+                <Link href={refs.projectHref(project)} className="group block">
                   <div className="overflow-hidden">
                     <Image
-                      src={media[project.cover].image}
+                      src={resolveMedia(project.cover)}
                       alt={project.coverAlt}
                       sizes={canvasSizes(304, "50vw")}
                       className="h-350 w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
