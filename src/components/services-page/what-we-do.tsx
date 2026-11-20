@@ -50,7 +50,7 @@ export function WhatWeDo({ content = WHAT_WE_DO }: WhatWeDoProps) {
       <Container>
         <div className="grid grid-cols-[646px_1fr] max-lg:grid-cols-[minmax(0,1fr)] max-lg:gap-36">
           <div>
-            <Kicker className="max-md:text-[9.5px]">{content.kicker}</Kicker>
+            <Kicker>{content.kicker}</Kicker>
             <SectionTitle className="mt-18 text-ink">{content.title}</SectionTitle>
             <p className="mt-34 max-w-540 font-sans text-[26px] leading-[1.3] text-ink">
               {content.statement}
