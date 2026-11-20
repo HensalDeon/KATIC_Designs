@@ -35,8 +35,7 @@ import { ALL_CONTENT_TAG } from "../tags";
  * (docs/API_CONTRACT.md), so the three cannot disagree.
  *
  * `path` and `tags` are templates: `{slug}` is the method's argument. `schema` validates `data` of
- * the response; `null` marks a resource whose page schema is not written yet (its JSON is passed
- * through unvalidated, typed as the static content). Tags mirror the accessors in `../accessors.ts`.
+ * the response (every resource has one). Tags mirror the accessors in `../accessors.ts`.
  */
 
 export type EndpointArgs = { readonly slug?: string; readonly category?: string };
@@ -45,7 +44,7 @@ export type Endpoint = {
   readonly path: string;
   /** Query parameters the method forwards (`listProjects({ category })` → `?category=`). */
   readonly query?: readonly "category"[];
-  readonly schema: z.ZodType | null;
+  readonly schema: z.ZodType;
   /** `true`: 404 means "no such slug" (`undefined`), not an error. */
   readonly notFound?: true;
   readonly tags: readonly string[];

@@ -66,7 +66,6 @@ export class LaravelRepository implements ContentRepository {
       throw new LaravelHttpError(path, 404, "");
     }
     const data = name === "getMediaLibrary" ? raw : await this.#inlineUploads(raw);
-    if (!endpoint.schema) return data as Result<K>;
     return parseOrThrow(endpoint.schema, data, path) as Result<K>;
   }
 

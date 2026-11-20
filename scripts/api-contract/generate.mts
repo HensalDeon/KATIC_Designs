@@ -76,7 +76,6 @@ const sections: string[] = [
   "| ------ | ---- | ----------------- | ---------- | --- | ------ |",
 ];
 const details: string[] = [];
-const unvalidated: string[] = [];
 
 for (const name of ENDPOINT_NAMES) {
   const endpoint: Endpoint = ENDPOINTS[name];
@@ -84,15 +83,11 @@ for (const name of ENDPOINT_NAMES) {
   const file = kebab(name);
   const data = await staticResource(name, args, MEDIA_ORIGIN);
   await addJson(`${OUT}/examples/${file}.json`, { data });
-  if (endpoint.schema)
-    await addJson(`${OUT}/schemas/${file}.json`, jsonSchema(endpoint.schema, "output"));
-  else unvalidated.push(`\`${name}\``);
+  await addJson(`${OUT}/schemas/${file}.json`, jsonSchema(endpoint.schema, "output"));
 
   const query = "query" in endpoint ? `?${endpoint.query.map((q) => `${q}=`).join("&")}` : "";
   const notFound = "notFound" in endpoint ? "unknown slug" : "—";
-  const schemaCell = endpoint.schema
-    ? `[schema](./api-contract/schemas/${file}.json)`
-    : "pending (passed through)";
+  const schemaCell = `[schema](./api-contract/schemas/${file}.json)`;
   sections.push(
     `| GET | \`${endpoint.path}${query}\` | \`${name}\` | ${endpoint.tags.map((t) => `\`${t}\``).join(", ")} | ${notFound} | ${schemaCell} |`,
   );
@@ -101,7 +96,7 @@ for (const name of ENDPOINT_NAMES) {
   details.push(
     `### \`GET ${endpoint.path}${query}\``,
     "",
-    `${endpoint.summary} Repository: \`${name}()\`. Example: \`GET ${examplePath}\` ([full response](./api-contract/examples/${file}.json)${endpoint.schema ? `, [schema](./api-contract/schemas/${file}.json)` : ""}).`,
+    `${endpoint.summary} Repository: \`${name}()\`. Example: \`GET ${examplePath}\` ([full response](./api-contract/examples/${file}.json), [schema](./api-contract/schemas/${file}.json)).`,
     "",
     "```json",
     JSON.stringify({ data: excerpt(data) }, null, 2),
@@ -140,8 +135,6 @@ await addJson(`${OUT}/schemas/post-leads.json`, jsonSchema(leadPayloadSchema, "i
 await addJson(`${OUT}/schemas/post-revalidate.json`, jsonSchema(revalidateBodySchema, "input"));
 
 sections.push(
-  "",
-  `Resources without a schema yet (their JSON is passed through as the static content's types until the page schemas land): ${unvalidated.join(", ") || "none"}.`,
   "",
   "### `POST /leads` body",
   "",
