@@ -259,12 +259,12 @@ test.describe("/thank-you", () => {
       await expect(page.locator("[data-hero]")).toHaveCount(0);
       const section = thankYou(page);
       await expect(section).toHaveAttribute("data-tone", "light");
-      // No fit() auto-zoom (KI-L13): 200 + content + 36 instead of one 900px screen.
+      // No fit() auto-zoom (KI-L13): 200 + content + 120 instead of one 900px screen.
       await expectStyles(section, {
         paddingTop: "200px",
-        paddingBottom: "36px",
+        paddingBottom: "120px",
         backgroundColor: WHITE,
-        height: "1065.5px",
+        height: "1149.5px",
       });
       await expect(page.locator("main [data-reveal]")).toHaveCount(0);
 

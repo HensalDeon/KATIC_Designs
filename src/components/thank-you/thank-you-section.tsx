@@ -26,7 +26,7 @@ export function ThankYouSection() {
       spacing="none"
       aria-labelledby="thank-you-title"
       data-parity="ks"
-      className="pt-200 pb-36 max-lg:pb-80"
+      className="pt-200 pb-120 max-lg:pb-80"
     >
       <Container className="max-w-760 text-center">
         <div className="mx-auto grid size-84 place-items-center rounded-[50%] bg-brand">
