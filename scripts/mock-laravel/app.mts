@@ -23,6 +23,8 @@ type State = {
   leadIds: Map<string, number>;
   leadMode: LeadMode;
   overrides: Map<string, unknown>;
+  /** Content reads served so far, by path (`GET /__mock/health`). */
+  reads: Map<string, number>;
 };
 
 /** What a handler answers: JSON, raw bytes, or nothing at all (a hung request). */
@@ -122,7 +124,7 @@ async function lead(req: IncomingMessage, state: State): Promise<Reply> {
 async function control(req: IncomingMessage, url: URL, state: State): Promise<Reply> {
   switch (`${req.method ?? "GET"} ${url.pathname}`) {
     case "GET /__mock/health":
-      return reply(200, { ok: true });
+      return reply(200, { ok: true, reads: Object.fromEntries(state.reads) });
     case "GET /__mock/leads":
       return reply(200, { data: state.leads, mode: state.leadMode });
     case "DELETE /__mock/leads":
@@ -163,6 +165,7 @@ async function route(req: IncomingMessage, url: URL, state: State, origin: strin
   if (!authorised(req, process.env["MOCK_LARAVEL_TOKEN"])) {
     return reply(401, { message: "Unauthenticated." });
   }
+  state.reads.set(url.pathname, (state.reads.get(url.pathname) ?? 0) + 1);
   if (state.overrides.has(url.pathname)) return reply(200, state.overrides.get(url.pathname));
   const resource = await resolveResource(url.pathname.slice(API_PREFIX.length), {
     query: url.searchParams,
@@ -173,7 +176,13 @@ async function route(req: IncomingMessage, url: URL, state: State, origin: strin
 
 /** Starts the mock on `host:port`; resolves once it listens. */
 export async function startMockLaravel({ port, host }: { port: number; host: string }) {
-  const state: State = { leads: [], leadIds: new Map(), leadMode: 201, overrides: new Map() };
+  const state: State = {
+    leads: [],
+    leadIds: new Map(),
+    leadMode: 201,
+    overrides: new Map(),
+    reads: new Map(),
+  };
   const origin = `http://${host}:${port}`;
 
   const server = createServer((req, res) => {

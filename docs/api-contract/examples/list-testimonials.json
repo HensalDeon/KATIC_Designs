@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "arch",
+      "quote": "The architecture responds to the site in a way that feels natural. Light, privacy and movement were resolved with real sensitivity.",
+      "name": "Homeowner",
+      "meta": "New-Build Villa · Kottayam",
+      "avatar": "people/client-avatar-05"
+    },
+    {
+      "id": "home-kochi",
+      "quote": "Katic understood what we wanted from the beginning and translated it into a home that feels completely our own.",
+      "name": "Homeowner",
+      "meta": "Residential Project · Kochi",
+      "avatar": "people/client-avatar-01"
+    },
+    {
+      "id": "thrissur",
+      "quote": "From early planning through site execution, communication stayed clear and the level of care never changed.",
+      "name": "Property Owner",
+      "meta": "Turnkey Residence · Thrissur",
+      "avatar": "people/client-avatar-06"
+    },
+    {
+      "id": "ernakulam",
+      "quote": "The team brought order to a complex process. Every choice felt considered, and the final spaces work beautifully for our day-to-day life.",
+      "name": "Private Client",
+      "meta": "Interior Renovation · Ernakulam",
+      "avatar": "people/client-avatar-04"
+    },
+    {
+      "id": "kozhikode",
+      "quote": "They listened closely, challenged the brief where it mattered, and created a workplace that feels both confident and welcoming.",
+      "name": "Business Client",
+      "meta": "Commercial Interior · Kozhikode",
+      "avatar": "people/client-avatar-02"
+    },
+    {
+      "id": "alappuzha",
+      "quote": "Having one team coordinate design, materials and construction gave us confidence at every stage of the project.",
+      "name": "Private Client",
+      "meta": "Design & Build Project · Alappuzha",
+      "avatar": "people/client-avatar-03"
+    }
+  ]
+}

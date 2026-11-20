@@ -1,0 +1,230 @@
+{
+  "data": {
+    "seo": {
+      "title": "Architects & Interior Designers in Kerala, India | Katic Designs",
+      "description": "Katic Designs serves clients across Kochi, Kerala and South India with architecture, interiors, construction and property care."
+    },
+    "hero": {
+      "image": { "src": "photos/pond-house-dusk", "alt": "House beside a pond at dusk" },
+      "kicker": "KATIC · India",
+      "title": {
+        "lines": ["Designing Spaces."],
+        "accent": "Building Possibilities.",
+        "accentOnNewLine": true
+      },
+      "lead": "Architecture, interiors, construction and property care across Kerala and South India.",
+      "primaryCta": {
+        "kind": "link",
+        "label": "Explore Our Projects",
+        "href": "/works#works-list"
+      },
+      "secondaryCta": { "kind": "contact", "label": "Start a Project" }
+    },
+    "blocks": [
+      {
+        "type": "split",
+        "image": {
+          "src": "photos/brick-veranda-garden",
+          "alt": "Brick veranda overlooking a tropical garden"
+        },
+        "caption": "Courtyard light · Kochi",
+        "kicker": "KATIC in South India",
+        "title": ["Rooted in Kochi.", "Growing across", "the south."],
+        "lead": "Our established office in Kochi serves clients across Kerala, and we are expanding into Chennai and Bangalore.",
+        "body": "Regional service coverage is shown separately from our physical offices — we take on projects across Kerala, Tamil Nadu, Karnataka and other serviceable locations."
+      },
+      {
+        "type": "cards",
+        "header": {
+          "kicker": "Our locations",
+          "title": ["Where to", "find us"],
+          "lead": "Kochi is our existing office. Chennai and Bangalore are expanding locations."
+        },
+        "columns": 3,
+        "items": [
+          {
+            "href": "#india-contact",
+            "contact": true,
+            "image": "photos/backwaters-aerial",
+            "alt": "Aerial view of the Kochi backwaters at sunrise",
+            "tag": "Office",
+            "meta": "Kerala",
+            "title": "Kochi",
+            "text": "Katic Designs Studio, 14 Ridgeline Road, Countryside District, 400001 · hello@katicdesigns.com",
+            "moreLabel": "Contact the Kochi office"
+          },
+          {
+            "image": "photos/hillside-house-greenery",
+            "alt": "House set into a green hillside under monsoon clouds",
+            "tag": "Expanding",
+            "meta": "Tamil Nadu",
+            "title": "Chennai",
+            "text": "Serving projects in and around Chennai. Office details coming soon."
+          },
+          {
+            "image": "photos/urban-street-houses",
+            "alt": "Street of urban houses after rain",
+            "tag": "Expanding",
+            "meta": "Karnataka",
+            "title": "Bangalore",
+            "text": "Serving projects in and around Bangalore. Office details coming soon."
+          }
+        ]
+      },
+      {
+        "type": "related",
+        "header": {
+          "kicker": "Our services",
+          "title": ["Everything under", "one roof"],
+          "cta": { "label": "All Services", "href": "/services" }
+        },
+        "columns": 4,
+        "services": [
+          "architecture",
+          "interior",
+          "construction",
+          "turnkey",
+          "renovation",
+          "exterior",
+          "property-care"
+        ],
+        "plant": { "asset": "plants/hanging-pothos", "corner": "top-right", "width": 150 }
+      },
+      {
+        "type": "divisionCards",
+        "header": { "kicker": "Our divisions", "title": ["One vision.", "Five divisions."] },
+        "columns": 5,
+        "divisions": ["design", "interior", "infrastructure", "developers", "care"]
+      },
+      {
+        "type": "indiaProjects",
+        "id": "india-projects",
+        "header": {
+          "kicker": "Our projects",
+          "title": ["Selected work", "in India"],
+          "lead": "Project type and location, with location filters."
+        },
+        "filtersLabel": "Filter projects by location",
+        "filters": [
+          { "value": "all", "label": "All" },
+          { "value": "kochi", "label": "Kochi" },
+          { "value": "kerala", "label": "Rest of Kerala" }
+        ],
+        "items": [
+          {
+            "project": "canal-house",
+            "meta": "Residential · Architecture · Panampilly Nagar, Kochi",
+            "area": "kochi"
+          },
+          {
+            "project": "harbour-loft",
+            "meta": "Residential · Interiors · Marine Drive, Kochi",
+            "area": "kochi"
+          },
+          {
+            "project": "mattancherry-studio",
+            "meta": "Commercial · Interiors · Mattancherry, Kochi",
+            "area": "kochi"
+          },
+          {
+            "project": "palm-veil-residence",
+            "meta": "Residential · Villa · Thrissur, Kerala",
+            "area": "kerala"
+          },
+          {
+            "project": "house-of-three-courts",
+            "meta": "Residential · Construction · Kottayam, Kerala",
+            "area": "kerala"
+          },
+          {
+            "project": "greenfield-school-campus",
+            "meta": "Institutional · Architecture · Kottayam, Kerala",
+            "area": "kerala"
+          }
+        ]
+      },
+      {
+        "type": "features",
+        "header": { "kicker": "Why KATIC", "title": ["Why clients", "choose us"] },
+        "columns": 4,
+        "items": [
+          {
+            "icon": "team",
+            "title": "Integrated capabilities",
+            "text": "Design, interiors, construction and care in one team."
+          },
+          {
+            "icon": "compass",
+            "title": "Design expertise",
+            "text": "Architecture shaped by climate and context."
+          },
+          {
+            "icon": "crane",
+            "title": "Coordinated execution",
+            "text": "Our own site teams and factory."
+          },
+          {
+            "icon": "clock",
+            "title": "Project management",
+            "text": "One programme, one point of contact."
+          }
+        ]
+      },
+      {
+        "type": "process",
+        "header": { "kicker": "Our approach", "title": ["From first call", "to handover"] },
+        "steps": [
+          {
+            "icon": "search",
+            "title": "Consultation",
+            "text": "Understanding your site, needs and budget."
+          },
+          {
+            "icon": "compass",
+            "title": "Design",
+            "text": "Architecture and interiors resolved together."
+          },
+          {
+            "icon": "crane",
+            "title": "Execution",
+            "text": "Built by our teams with regular updates."
+          },
+          {
+            "icon": "key",
+            "title": "Handover",
+            "text": "Walkthrough, documentation and aftercare."
+          }
+        ]
+      }
+    ],
+    "contact": {
+      "id": "india-contact",
+      "kicker": "Start your project",
+      "heading": { "lines": ["Start Your Project"], "accent": "in India" },
+      "lead": "For clients in Kerala, Tamil Nadu, Karnataka and other serviceable locations.",
+      "channels": ["email", "phone", "whatsapp"],
+      "form": {
+        "service": { "mode": "select" },
+        "extraFields": [
+          {
+            "name": "ptype",
+            "label": "Project Type",
+            "options": ["Residential", "Commercial", "Institutional", "Hospitality"]
+          },
+          {
+            "name": "loc",
+            "label": "Project Location",
+            "options": [
+              "Kochi",
+              "Elsewhere in Kerala",
+              "Chennai / Tamil Nadu",
+              "Bangalore / Karnataka",
+              "Other"
+            ]
+          }
+        ],
+        "prefillLocation": "India"
+      }
+    }
+  }
+}

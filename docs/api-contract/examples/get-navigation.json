@@ -1,0 +1,143 @@
+{
+  "data": {
+    "header": [
+      { "key": "home", "label": "Home", "href": "/" },
+      { "key": "about", "label": "About", "href": "/about" },
+      {
+        "key": "services",
+        "label": "Services",
+        "href": "/services",
+        "dropdown": {
+          "groups": [
+            {
+              "label": "Design",
+              "links": [
+                { "label": "Architectural Design", "href": "/services/architecture" },
+                { "label": "Interior Design", "href": "/services/interior" },
+                { "label": "Exterior & Landscape Design", "href": "/services/exterior" }
+              ]
+            },
+            {
+              "label": "Construction",
+              "links": [
+                { "label": "Construction & Execution", "href": "/services/construction" },
+                { "label": "Turnkey Projects", "href": "/services/turnkey" },
+                { "label": "Renovation & Remodeling", "href": "/services/renovation" },
+                { "label": "Property Care & Maintenance", "href": "/services/property-care" }
+              ]
+            }
+          ],
+          "all": { "label": "All Services →", "href": "/services" }
+        }
+      },
+      {
+        "key": "projects",
+        "label": "Projects",
+        "href": "/works#works-list",
+        "dropdown": {
+          "groups": [
+            {
+              "label": "Sectors",
+              "links": [
+                { "label": "Residential", "href": "/works?category=residential#works-list" },
+                { "label": "Commercial", "href": "/works?category=commercial#works-list" },
+                { "label": "Institutional", "href": "/works?category=institutional#works-list" },
+                { "label": "Hospitality", "href": "/works?category=hospitality#works-list" }
+              ]
+            },
+            {
+              "label": "Disciplines",
+              "links": [
+                { "label": "Architecture", "href": "/works?category=architecture#works-list" },
+                { "label": "Interiors", "href": "/works?category=interiors#works-list" },
+                { "label": "Villas / Flats", "href": "/works?category=villas#works-list" }
+              ]
+            }
+          ],
+          "all": { "label": "All Projects →", "href": "/works#works-list" }
+        }
+      },
+      {
+        "key": "divisions",
+        "label": "Divisions",
+        "href": "/divisions/design",
+        "dropdown": {
+          "groups": [
+            {
+              "label": "Divisions",
+              "links": [
+                { "label": "KATIC Design", "href": "/divisions/design" },
+                { "label": "KATIC Interior", "href": "/divisions/interior" },
+                { "label": "KATIC Infrastructure", "href": "/divisions/infrastructure" },
+                { "label": "KATIC Developers", "href": "/divisions/developers" },
+                { "label": "KATIC Care", "href": "/divisions/care" }
+              ]
+            }
+          ],
+          "all": { "label": "About KATIC →", "href": "/about#about-divisions" }
+        }
+      },
+      { "key": "reviews", "label": "Reviews", "href": "/reviews" },
+      { "key": "blogs", "label": "Blogs", "href": "/blog" },
+      {
+        "key": "location",
+        "label": "Location",
+        "href": "/locations/india",
+        "dropdown": {
+          "groups": [
+            {
+              "label": "Locations",
+              "links": [
+                { "label": "India", "href": "/locations/india" },
+                { "label": "Dubai", "href": "/locations/dubai" }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "footer": [
+      {
+        "title": "Explore",
+        "links": [
+          { "label": "Home", "href": "/" },
+          { "label": "About", "href": "/about" },
+          { "label": "Projects", "href": "/works" },
+          { "label": "Client Reviews", "href": "/reviews" },
+          { "label": "Blogs", "href": "/blog" },
+          { "label": "News", "href": "/news" }
+        ]
+      },
+      {
+        "title": "Services",
+        "links": [
+          { "label": "All Services", "href": "/services" },
+          { "label": "Architectural Design", "href": "/services/architecture" },
+          { "label": "Interior Design", "href": "/services/interior" },
+          { "label": "Construction & Execution", "href": "/services/construction" },
+          { "label": "Turnkey Projects", "href": "/services/turnkey" },
+          { "label": "Renovation & Remodeling", "href": "/services/renovation" },
+          { "label": "Exterior & Landscape Design", "href": "/services/exterior" },
+          { "label": "Property Care & Maintenance", "href": "/services/property-care" }
+        ]
+      },
+      {
+        "title": "Divisions",
+        "links": [
+          { "label": "KATIC Design", "href": "/divisions/design" },
+          { "label": "KATIC Interior", "href": "/divisions/interior" },
+          { "label": "KATIC Infrastructure", "href": "/divisions/infrastructure" },
+          { "label": "KATIC Developers", "href": "/divisions/developers" },
+          { "label": "KATIC Care", "href": "/divisions/care" }
+        ]
+      },
+      {
+        "title": "Locations",
+        "links": [
+          { "label": "India", "href": "/locations/india" },
+          { "label": "Dubai", "href": "/locations/dubai" }
+        ]
+      }
+    ]
+  }
+}

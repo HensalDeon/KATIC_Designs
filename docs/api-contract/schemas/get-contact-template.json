@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "kicker": { "type": "string" },
+    "heading": {
+      "type": "object",
+      "properties": {
+        "lines": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+        "accent": { "type": "string" }
+      },
+      "required": ["lines"],
+      "additionalProperties": false
+    },
+    "lead": { "type": "string" },
+    "channels": {
+      "readOnly": true,
+      "type": "array",
+      "items": { "type": "string", "enum": ["email", "phone", "whatsapp"] }
+    },
+    "form": {
+      "type": "object",
+      "properties": {
+        "service": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "mode": { "type": "string", "const": "select" },
+                "defaultService": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                }
+              },
+              "required": ["mode"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "mode": { "type": "string", "const": "hidden" },
+                "service": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                }
+              },
+              "required": ["mode", "service"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "extraFields": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "label": { "type": "string" },
+              "options": { "readOnly": true, "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["name", "label", "options"],
+            "additionalProperties": false
+          }
+        },
+        "note": { "type": "string" },
+        "prefillLocation": { "type": "string" }
+      },
+      "required": ["service"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["kicker", "heading", "lead", "channels", "form"],
+  "additionalProperties": false
+}

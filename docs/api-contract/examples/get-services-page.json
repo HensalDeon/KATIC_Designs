@@ -1,0 +1,290 @@
+{
+  "data": {
+    "seo": {
+      "title": "Architecture, Interior & Construction Services | Katic Designs",
+      "description": "Architectural design, interior design, construction, turnkey projects, renovation, landscape and property care for homes and commercial spaces in Kerala and the UAE."
+    },
+    "hero": {
+      "image": { "src": "photos/dark-lounge-interior", "alt": "" },
+      "kicker": "Integrated design and build",
+      "titleLines": ["Architecture,", "Interiors &", "Construction —"],
+      "accent": "Under One Vision",
+      "lead": "Katic Designs brings architecture, interior design, construction and related services together to create complete spaces across Kerala and the UAE.",
+      "cta": { "label": "Explore Our Work", "href": "/works" },
+      "indexLabel": "OUR SERVICES"
+    },
+    "whatWeDo": {
+      "kicker": "Integrated practice",
+      "title": "What We Do",
+      "statement": "One studio. One standard. One continuous line from first sketch to final handover.",
+      "lead": "KATIC is an integrated practice: architecture, interiors, construction and care delivered by one team, from concept to completion.",
+      "body": "Our architects, interior designers and site teams work as one, aligning ideas, materials, budgets and craft from the start.",
+      "cta": { "label": "Our Process", "href": "/services/architecture#process" },
+      "steps": [
+        { "icon": "compass", "title": "Concept", "text": "Brief, site and possibility." },
+        { "icon": "compass", "title": "Design", "text": "Architecture and interiors." },
+        { "icon": "crane", "title": "Build", "text": "Coordination and execution." },
+        { "icon": "key", "title": "Complete", "text": "Details, handover and care." }
+      ]
+    },
+    "blocks": [
+      {
+        "slug": "architecture",
+        "tone": "light",
+        "contrast": "standard",
+        "reverse": false,
+        "icon": "leaf",
+        "tagline": "SITE · CLIMATE · FORM",
+        "ctaLabel": "Explore Architectural Design",
+        "image": {
+          "src": "photos/house-reflecting-pool",
+          "alt": "House behind a reflecting pool",
+          "label": "SITE · CLIMATE · FORM"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/brick-courtyard-garden",
+            "alt": "Brick courtyard with planting and a pool",
+            "label": "VILLA 01"
+          },
+          {
+            "src": "photos/spiral-stair-courtyard",
+            "alt": "Spiral stair beside a planted courtyard",
+            "label": "VILLA 02"
+          },
+          {
+            "src": "photos/coastal-terrace-house",
+            "alt": "Low house with a landscaped terrace by the sea",
+            "label": "VILLA 03"
+          },
+          {
+            "src": "photos/brick-jali-facade",
+            "alt": "Brick jali facade above garden steps",
+            "label": "VILLA 04"
+          }
+        ]
+      },
+      {
+        "slug": "interior",
+        "tone": "dark",
+        "contrast": "standard",
+        "reverse": true,
+        "icon": "layers",
+        "tagline": "MATERIAL · MOOD · FUNCTION",
+        "ctaLabel": "Explore Interior Design",
+        "image": {
+          "src": "photos/sofa-jali-detail",
+          "alt": "Sofa with cushions in front of a jali screen",
+          "label": "MATERIAL · MOOD · FUNCTION"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/living-room-tv-wall",
+            "alt": "Living room with a timber TV wall",
+            "label": "LIVING"
+          },
+          {
+            "src": "photos/living-room-garden-doors",
+            "alt": "Living room opening to a garden through glass doors",
+            "label": "LOUNGE"
+          },
+          {
+            "src": "photos/kitchen-island-teak",
+            "alt": "Kitchen island with teak and stone",
+            "label": "KITCHEN"
+          },
+          {
+            "src": "photos/bedroom-teak-screen",
+            "alt": "Bedroom with a teak screen and wardrobe",
+            "label": "BEDROOM"
+          }
+        ]
+      },
+      {
+        "slug": "construction",
+        "tone": "light",
+        "contrast": "high",
+        "reverse": false,
+        "icon": "shield",
+        "tagline": "PLAN · BUILD · INSPECT",
+        "ctaLabel": "Explore Construction",
+        "image": {
+          "src": "photos/house-under-construction",
+          "alt": "House under construction in a forest clearing",
+          "label": "PLAN · BUILD · INSPECT"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/construction-team-drawings",
+            "alt": "Construction team reviewing drawings on site",
+            "label": "SITE 01"
+          },
+          {
+            "src": "photos/site-review-timber-screen",
+            "alt": "Architect and client reviewing drawings beside a timber lattice on site",
+            "label": "SITE 02"
+          },
+          {
+            "src": "photos/massing-model",
+            "alt": "White massing model on a dark background",
+            "label": "MODEL"
+          },
+          {
+            "src": "photos/architect-site-drawings",
+            "alt": "Architect reviewing drawings on a forested site",
+            "label": "SURVEY"
+          }
+        ]
+      },
+      {
+        "slug": "turnkey",
+        "tone": "dark",
+        "contrast": "standard",
+        "reverse": true,
+        "icon": "key",
+        "tagline": "BRIEF TO HANDOVER",
+        "ctaLabel": "Explore Turnkey Projects",
+        "image": {
+          "src": "photos/two-storey-house-lawn",
+          "alt": "Two-storey house with deep overhangs above a lawn",
+          "label": "BRIEF TO HANDOVER"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/courtyard-facade-night",
+            "alt": "Courtyard facade lit at night",
+            "label": "FACADE"
+          },
+          {
+            "src": "photos/formal-dining-room",
+            "alt": "Formal dining room with a chandelier",
+            "label": "DINING"
+          },
+          {
+            "src": "photos/courtyard-tree-timber-balconies",
+            "alt": "Planted courtyard with a tree and timber balconies",
+            "label": "COURTYARD"
+          },
+          {
+            "src": "photos/house-reflecting-pool-garden",
+            "alt": "House with a long reflecting pool through the garden",
+            "label": "RESIDENCE"
+          }
+        ]
+      },
+      {
+        "slug": "renovation",
+        "tone": "light",
+        "contrast": "standard",
+        "reverse": false,
+        "icon": "tools",
+        "tagline": "RETHINK · RESTORE · RENEW",
+        "ctaLabel": "Explore Renovation",
+        "image": {
+          "src": "photos/brick-house-arched-windows-night",
+          "alt": "Brick house with arched windows lit at night",
+          "label": "RETHINK · RESTORE · RENEW"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/kerala-house-pond",
+            "alt": "Traditional Kerala house with tiled roofs around a pond",
+            "label": "HOME"
+          },
+          {
+            "src": "photos/garden-veranda-chairs",
+            "alt": "Garden veranda with cane chairs",
+            "label": "WELLNESS"
+          },
+          {
+            "src": "photos/commercial-facade-dusk",
+            "alt": "Industrial-style commercial building lit at dusk",
+            "label": "ATELIER"
+          },
+          {
+            "src": "photos/timber-house-night",
+            "alt": "Timber house lit at night after rain",
+            "label": "MONSOON"
+          }
+        ]
+      },
+      {
+        "slug": "exterior",
+        "tone": "dark",
+        "contrast": "high",
+        "reverse": true,
+        "icon": "door",
+        "tagline": "FACADE · GARDEN · OUTDOOR",
+        "ctaLabel": "Explore Exterior & Landscape",
+        "image": {
+          "src": "photos/courtyard-tree-timber-balconies",
+          "alt": "Planted courtyard with a tree and timber balconies",
+          "label": "FACADE · GARDEN · OUTDOOR"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/house-rain-garden",
+            "alt": "Two-storey house with a rain garden and textured walls",
+            "label": "RAIN GARDEN"
+          },
+          {
+            "src": "photos/brick-garden-walkway",
+            "alt": "Brick-walled garden walkway",
+            "label": "COURTYARD"
+          },
+          {
+            "src": "photos/apartment-living-sea-view",
+            "alt": "Apartment living room with sea views",
+            "label": "TERRACE"
+          },
+          {
+            "src": "photos/contemporary-villa-entrance",
+            "alt": "Contemporary villa with stone cladding and a landscaped entrance path",
+            "label": "VILLA"
+          }
+        ]
+      },
+      {
+        "slug": "property-care",
+        "tone": "light",
+        "contrast": "standard",
+        "reverse": false,
+        "icon": "shield",
+        "tagline": "INSPECT · MAINTAIN · SUPPORT",
+        "ctaLabel": "Explore Property Care",
+        "image": {
+          "src": "photos/homeowners-walkthrough",
+          "alt": "Two homeowners walking through a finished interior with timber shelving",
+          "label": "INSPECT · MAINTAIN · SUPPORT"
+        },
+        "thumbnails": [
+          {
+            "src": "photos/teak-stair-handrail",
+            "alt": "Teak stair handrail detail",
+            "label": "DETAIL"
+          },
+          {
+            "src": "photos/bathroom-kota-stone",
+            "alt": "Bathroom with Kota stone and a courtyard view",
+            "label": "BATH"
+          },
+          {
+            "src": "photos/timber-screen-atrium",
+            "alt": "Atrium with timber screens, a steel handrail and planting",
+            "label": "SCREENS"
+          },
+          {
+            "src": "photos/brick-house-garden-path",
+            "alt": "Brick house behind a garden path",
+            "label": "HOME"
+          }
+        ]
+      }
+    ],
+    "whatWeDeliver": {
+      "kicker": "What we deliver",
+      "titleLines": ["Seven services.", "One point of", "responsibility."],
+      "lead": "Every KATIC service on one page. Open any service for its full page, process, projects and enquiry form."
+    }
+  }
+}

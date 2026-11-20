@@ -1,0 +1,46 @@
+{
+  "data": {
+    "slug": "designing-for-kerala-monsoon",
+    "title": "Designing Homes for the Kerala Monsoon",
+    "category": "Architecture",
+    "publishedAt": "2026-10-14",
+    "views": 940,
+    "cover": "photos/house-rain-garden",
+    "author": "KATIC Design Studio",
+    "excerpt": "Deep eaves, raised plinths and planted courtyards: how architecture can welcome the rain instead of fighting it.",
+    "body": [
+      {
+        "type": "p",
+        "text": "For four months a year, Kerala homes live with heavy rain, high humidity and soft, diffused light. The best houses here don’t resist the monsoon — they are designed around it."
+      },
+      { "type": "h", "text": "Start with the roof" },
+      {
+        "type": "p",
+        "text": "Generous overhangs protect walls and openings from driving rain and keep rooms cool through the rest of the year. Sloped roofs with well-sized gutters move water away quickly, and a raised plinth keeps the floor dry during heavy downpours."
+      },
+      {
+        "type": "img",
+        "image": "photos/two-storey-house-lawn",
+        "caption": "Deep overhangs shading the south garden elevation."
+      },
+      { "type": "h", "text": "Let the air move" },
+      {
+        "type": "p",
+        "text": "Aligned openings, courtyards and high-level vents keep air moving and help with humidity. Cross-ventilated rooms dry out faster, smell fresher and need less mechanical cooling."
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Overhangs of at least 900 mm on exposed elevations",
+          "Courtyards with drainage designed for peak rainfall",
+          "Breathable finishes such as lime plaster on external walls",
+          "Covered transitions between indoor and outdoor spaces"
+        ]
+      },
+      {
+        "type": "p",
+        "text": "Designed this way, the monsoon becomes part of daily life: the sound of rain in the courtyard, soft light in the living room and a home that stays comfortable all year."
+      }
+    ]
+  }
+}

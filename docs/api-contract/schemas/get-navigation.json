@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "header": {
+      "readOnly": true,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "href": { "type": "string", "minLength": 1 },
+          "key": {
+            "type": "string",
+            "enum": [
+              "home",
+              "about",
+              "services",
+              "projects",
+              "divisions",
+              "reviews",
+              "blogs",
+              "location"
+            ]
+          },
+          "dropdown": {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "readOnly": true,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": { "type": "string" },
+                    "links": {
+                      "readOnly": true,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": ["label", "links"],
+                  "additionalProperties": false
+                }
+              },
+              "all": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "href": { "type": "string", "minLength": 1 }
+                },
+                "required": ["label", "href"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["groups"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["label", "href", "key"],
+        "additionalProperties": false
+      }
+    },
+    "footer": {
+      "readOnly": true,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "links": {
+            "readOnly": true,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "href": { "type": "string", "minLength": 1 }
+              },
+              "required": ["label", "href"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["title", "links"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["header", "footer"],
+  "additionalProperties": false
+}

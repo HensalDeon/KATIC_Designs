@@ -1,0 +1,148 @@
+{
+  "data": {
+    "seo": {
+      "title": "Client Reviews & Testimonials | Katic Designs",
+      "description": "What homeowners and businesses say about working with Katic Designs on design and build projects."
+    },
+    "hero": {
+      "image": { "src": "photos/dark-lounge-interior", "alt": "Dark lounge interior with artwork" },
+      "kicker": "Client experiences",
+      "title": { "lines": ["Spaces That Speak", "for"], "accent": "Themselves." },
+      "lead": "Hear from clients who worked with Katic Designs across architecture, interiors and construction.",
+      "cta": { "label": "Start Your Project", "href": "/#start" }
+    },
+    "trust": {
+      "kicker": "A considered way of working",
+      "title": ["Built on trust.", "Defined by", "experience."],
+      "text": "Every project is a collaboration. From the first conversation to the final detail, we work closely with our clients to create spaces that reflect their needs, lifestyle and aspirations.",
+      "cta": { "label": "About Katic", "href": "/about" },
+      "image": {
+        "src": "photos/open-pavilion-lounge-night",
+        "alt": "Open timber pavilion lounge at night"
+      },
+      "caption": {
+        "label": "SPACES MADE PERSONAL",
+        "text": "A warm, lived-in interior shaped around everyday rituals."
+      }
+    },
+    "clients": {
+      "kicker": "Representative client experiences • copy pending approval",
+      "title": ["What our clients", "say"],
+      "text": "Thoughtful partnerships, described through anonymized representative experiences across homes, workplaces and complete builds.",
+      "testimonials": ["home-kochi", "ernakulam", "thrissur", "kozhikode", "arch", "alappuzha"],
+      "note": "Representative testimonials — replace with approved client copy before publication.",
+      "cta": { "label": "View Our Work", "href": "/works#works-list" }
+    },
+    "expertise": {
+      "kicker": "Reviews by expertise",
+      "title": ["Experience across", "every discipline"],
+      "cta": { "label": "Explore Services", "href": "/services" },
+      "cards": [
+        {
+          "service": "architecture",
+          "title": "Architecture",
+          "text": "Residential and commercial architecture shaped by site, light, context and the way people move through space.",
+          "icon": "house",
+          "image": {
+            "src": "photos/arched-courtyard-terrace",
+            "alt": "Courtyard terrace with arches and patterned tiles"
+          }
+        },
+        {
+          "service": "interior",
+          "title": "Interior Design",
+          "text": "Planning, materials, detailing and execution brought together to create expressive, enduring interiors.",
+          "icon": "sofa",
+          "image": {
+            "src": "photos/open-pavilion-lounge-night",
+            "alt": "Open timber pavilion lounge at night"
+          }
+        },
+        {
+          "service": "construction",
+          "title": "Construction",
+          "text": "Quality, coordination and site execution managed with discipline, transparency and close attention to detail.",
+          "icon": "crane",
+          "image": {
+            "src": "photos/granite-kitchen",
+            "alt": "Kitchen with granite worktops and white cabinets"
+          }
+        },
+        {
+          "service": "turnkey",
+          "title": "Turnkey Projects",
+          "text": "One integrated design-and-build team, aligning vision, decisions and delivery from first brief to handover.",
+          "icon": "key",
+          "image": {
+            "src": "photos/games-room-billiards",
+            "alt": "Games room with a billiards table"
+          }
+        }
+      ]
+    },
+    "story": {
+      "kicker": "Featured representative story • pending client approval",
+      "title": ["From brief to built"],
+      "facts": ["PRIVATE FAMILY RESIDENCE", "ARCHITECTURE + INTERIORS", "CENTRAL KERALA"],
+      "images": [
+        {
+          "src": "photos/dark-lounge-interior",
+          "alt": "Dark lounge with cream sofas, a ring pendant and botanical artwork"
+        },
+        {
+          "src": "photos/granite-kitchen",
+          "alt": "Kitchen with granite worktops and white cabinets"
+        },
+        { "src": "photos/games-room-billiards", "alt": "Games room with a billiards table" },
+        {
+          "src": "photos/open-pavilion-lounge-night",
+          "alt": "Open timber pavilion lounge at night"
+        }
+      ],
+      "quote": "“We wanted a home that could feel calm every day, welcome our extended family, and still remain connected to the garden. Katic helped us make each decision with confidence—from the first plan to the final material. The completed home feels generous without being excessive, and deeply personal without trying too hard.”",
+      "attribution": "— Homeowner · Representative testimonial pending approval",
+      "rows": [
+        {
+          "icon": "star",
+          "title": "The requirement",
+          "text": "A private family home that balanced togetherness and retreat, with natural light, garden views and practical space for multigenerational living."
+        },
+        {
+          "icon": "compass",
+          "title": "The design journey",
+          "text": "The plan evolved through close workshops around routines, privacy and material character. Architecture, interiors and site coordination moved as one conversation."
+        },
+        {
+          "icon": "star",
+          "title": "The outcome",
+          "text": "A warm, light-filled residence with clear circulation, crafted details and flexible spaces that now support both quiet weekdays and large family gatherings."
+        }
+      ],
+      "cta": { "label": "View Project", "href": "/works/the-courtyard-house" }
+    },
+    "projects": {
+      "kicker": "Projects behind the reviews",
+      "title": ["See the spaces. Meet", "the stories."],
+      "text": "A selection of completed spaces connected to the representative experiences shared above.",
+      "cta": { "label": "Explore Our Work", "href": "/works#works-list" },
+      "projects": [
+        "courtyard-residence",
+        "garden-house",
+        "the-social-kitchen",
+        "quiet-play-house",
+        "monsoon-court",
+        "studio-commons"
+      ]
+    },
+    "cta": {
+      "image": {
+        "src": "photos/garden-room-window-seat",
+        "alt": "Garden room with tall timber windows, built-in seating and tropical planting"
+      },
+      "kicker": "Begin a conversation",
+      "title": ["Ready to Create Your", "Own Space?"],
+      "text": "Tell us about your project and let’s start a conversation.",
+      "cta": { "label": "Start Your Project", "href": "/#start" }
+    }
+  }
+}

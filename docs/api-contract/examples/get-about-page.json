@@ -1,0 +1,175 @@
+{
+  "data": {
+    "seo": {
+      "title": "About Katic Designs | Architecture & Interior Design Studio, Kochi",
+      "description": "Founded in 2013 in Kochi, Katic Designs brings architects, interior designers and site teams together to design and build eco-conscious homes and buildings."
+    },
+    "hero": {
+      "image": {
+        "src": "photos/design-studio-3d-model",
+        "alt": "Design workstation showing a 3D building model"
+      },
+      "kicker": "Katic Designs · Kerala & UAE",
+      "title": ["Designing Spaces.", "Shaping", { "accent": "Experiences." }],
+      "lead": "Katic Designs is an architecture, interior design and construction practice creating thoughtful spaces across Kerala and the UAE.",
+      "primaryCta": { "label": "Explore Our Approach", "href": "/about#about-approach" },
+      "secondaryCta": { "label": "View Our Projects", "href": "/works#works-list" },
+      "labels": ["ABOUT \\ 01", "OUR STORY ↓"]
+    },
+    "intro": {
+      "kicker": "Who we are",
+      "title": ["Architecture With", "Purpose"],
+      "lead": "We believe good design begins with understanding people, place and how a space will be experienced.",
+      "body": "KATIC brings architecture, interiors, construction, development and property care together in one practice. Our studio works closely with homeowners, developers and businesses from the first conversation to the final handover. By listening before drawing and coordinating every detail, we turn practical needs, local context and individual character into spaces made to last.",
+      "cta": { "label": "Meet the Founder", "href": "/about#about-founder" },
+      "images": [
+        {
+          "src": "photos/granite-kitchen",
+          "alt": "Kitchen with granite worktops and white cabinets"
+        },
+        {
+          "src": "photos/arched-courtyard-terrace",
+          "alt": "Courtyard terrace with arches and patterned tiles"
+        }
+      ],
+      "studio": {
+        "label": "STUDIO",
+        "text": "One team. One vision. Every detail connected.",
+        "places": "Kochi · Kannur · Dubai"
+      }
+    },
+    "philosophy": {
+      "kicker": "Our Philosophy",
+      "title": "Designed Around You",
+      "image": {
+        "src": "photos/open-pavilion-lounge-night",
+        "alt": "Open timber pavilion lounge at night"
+      },
+      "caption": "Light · Material · Proportion",
+      "lead": "Our design philosophy balances functionality, character, comfort, context and timeless design.",
+      "body": "Every plan is tested against daily life: how morning light enters, how people move, where conversation happens, and what will still feel relevant years from now.",
+      "tags": ["FUNCTIONALITY", "CHARACTER", "COMFORT", "CONTEXT", "TIMELESSNESS"],
+      "cta": { "label": "Our Approach", "href": "/about#about-approach" }
+    },
+    "approach": {
+      "kicker": "Our approach",
+      "title": ["From Vision", "to Reality"],
+      "lead": "Our master process summarised in five stages — the same discipline on every project, whatever its size.",
+      "cta": { "label": "See the Full Process", "href": "/#home-process", "variant": "dark" },
+      "steps": [
+        {
+          "icon": "search",
+          "title": "Understand",
+          "text": "Site, brief, budget and the way you live or work."
+        },
+        {
+          "icon": "compass",
+          "title": "Plan",
+          "text": "Programme, approvals, budget and the right team."
+        },
+        {
+          "icon": "compass",
+          "title": "Design",
+          "text": "Architecture and interiors resolved together."
+        },
+        { "icon": "crane", "title": "Execute", "text": "Built by our own teams to the drawing." },
+        { "icon": "shield", "title": "Support", "text": "Handover, aftercare and property care." }
+      ]
+    },
+    "services": {
+      "kicker": "Our services",
+      "title": ["Everything your project", "needs. Under one roof."],
+      "lead": "Seven services, one team and one point of responsibility.",
+      "cta": { "label": "Explore All Services", "href": "/services", "variant": "outline" },
+      "items": [
+        "architecture",
+        "interior",
+        "construction",
+        "turnkey",
+        "renovation",
+        "exterior",
+        "property-care"
+      ]
+    },
+    "divisions": {
+      "kicker": "Our divisions",
+      "title": ["One vision.", "Five divisions."],
+      "lead": "Specialist divisions that work together on every KATIC project.",
+      "items": ["design", "interior", "infrastructure", "developers", "care"]
+    },
+    "founder": {
+      "kicker": "Founder’s note · The vision behind KATIC",
+      "name": "FOUNDER NAME",
+      "role": "FOUNDER & PRINCIPAL ARCHITECT",
+      "paragraphs": [
+        "Founder Name leads Katic Designs with a people-, place-, and detail-focused approach across Kerala and the UAE.",
+        "The practice is built around listening, site sensitivity, and a calm, consistent architectural language that translates from concept through construction."
+      ],
+      "quote": "“Our vision is simple: one team that designs, builds and cares for spaces people are proud to live and work in.”",
+      "photo": { "src": "people/founder", "alt": "Portrait of the founder in the studio" }
+    },
+    "experience": {
+      "kicker": "Built on experience",
+      "title": ["Built on", "Experience"],
+      "lead": "Experience across residential, commercial and interior projects in Kerala and UAE.",
+      "cta": { "label": "View Projects", "href": "/works#works-list" },
+      "stats": [
+        {
+          "value": "11+",
+          "label": "Years of practice",
+          "caption": "A decade of design and delivery."
+        },
+        {
+          "value": "200+",
+          "label": "Spaces delivered",
+          "caption": "Homes, workplaces and hospitality."
+        },
+        { "value": "2", "label": "Regions", "caption": "Kerala and the United Arab Emirates." },
+        { "value": "6", "label": "Disciplines", "caption": "One integrated creative vision." }
+      ]
+    },
+    "team": {
+      "kicker": "Management team",
+      "title": ["The People Behind", "the Vision"],
+      "body": "The people guiding strategy, design direction and delivery across Kerala and the UAE.",
+      "members": [
+        {
+          "name": "Manager Name 01",
+          "role": "DESIGN DIRECTOR",
+          "bio": "Leads design strategy, material direction and the translation of briefs into thoughtful built environments.",
+          "photo": { "src": "people/team-member-01", "alt": "Portrait of the design director" }
+        },
+        {
+          "name": "Manager Name 02",
+          "role": "OPERATIONS LEAD",
+          "bio": "Oversees project coordination, timelines and delivery across architecture, interiors and construction.",
+          "photo": { "src": "people/team-member-02", "alt": "Portrait of the operations lead" }
+        },
+        {
+          "name": "Manager Name 03",
+          "role": "CLIENT PARTNER",
+          "bio": "Builds long-term relationships and helps clients align their goals with the right design and delivery path.",
+          "photo": { "src": "people/team-member-03", "alt": "Portrait of the client partner" }
+        },
+        {
+          "name": "Manager Name 04",
+          "role": "STUDIO MANAGER",
+          "bio": "Coordinates studio workflow, resourcing and the day-to-day systems that keep projects moving smoothly.",
+          "photo": { "src": "people/team-member-04", "alt": "Portrait of the studio manager" }
+        }
+      ]
+    },
+    "works": {
+      "kicker": "Selected works",
+      "title": "OUR WORK SPEAKS",
+      "body": "Homes, workplaces and interiors united by clarity, craft and the way people truly live.",
+      "cta": { "label": "View All Projects", "href": "/works#works-list" },
+      "tiles": [
+        { "project": "obsidian-lounge-kochi", "layout": "big" },
+        { "project": "villa-noor", "layout": "tall" },
+        { "project": "the-courtyard-house", "layout": "small" },
+        { "project": "canvas-kitchen", "layout": "small" }
+      ]
+    }
+  }
+}

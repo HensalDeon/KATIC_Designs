@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "readOnly": true,
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "enum": [
+          "discovery",
+          "concept",
+          "design",
+          "engineering",
+          "construction",
+          "completion",
+          "handover",
+          "aftercare"
+        ]
+      },
+      "title": { "type": "string" },
+      "text": { "type": "string" },
+      "icon": {
+        "type": "string",
+        "enum": [
+          "search",
+          "compass",
+          "crane",
+          "shield",
+          "key",
+          "leaf",
+          "layers",
+          "tools",
+          "door",
+          "house",
+          "office",
+          "target",
+          "eye",
+          "badge-check",
+          "check-circle",
+          "kitchen",
+          "wardrobe",
+          "team",
+          "star",
+          "facade",
+          "sofa",
+          "bulb",
+          "clock",
+          "pin",
+          "truck",
+          "coin",
+          "message"
+        ]
+      }
+    },
+    "required": ["id", "title", "text", "icon"],
+    "additionalProperties": false
+  }
+}

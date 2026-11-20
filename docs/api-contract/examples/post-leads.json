@@ -1,0 +1,17 @@
+{
+  "name": "Jane Doe",
+  "email": "jane@email.com",
+  "phone": "+91 98470 00000",
+  "service": "Interior Design",
+  "location": "Kerala",
+  "timeline": "3–6 months",
+  "details": "A three-bedroom apartment in Kochi.",
+  "source": {
+    "form": "popup",
+    "path": "/services/interior",
+    "title": "Interior Designers in Kochi, Kerala"
+  },
+  "submittedAt": "2026-11-20T12:00:00.000Z",
+  "subject": "Project enquiry — Interior Design (Interior Designers in Kochi, Kerala)",
+  "userAgent": "Mozilla/5.0 …"
+}
