@@ -17,12 +17,7 @@ import {
   type SectionHeaderContent,
   TESTIMONIALS_HEADER,
 } from "@/content/blocks";
-import { divisions } from "@/content/divisions";
-import { PROCESS_STAGES } from "@/content/process-stages";
-import { getProject, projectHref } from "@/content/projects";
-import { relatedServices } from "@/content/related-services";
-import { SECTORS } from "@/content/sectors";
-import { testimonials } from "@/content/testimonials";
+import { type ContentRefs, getRefs } from "@/lib/data";
 import type { Tone } from "@/lib/tone";
 
 import { withContactTarget } from "./block-plan";
@@ -60,11 +55,13 @@ type BlockSectionProps = {
 /**
  * Renders one generic content block (`section.ks`, docs/analysis/03 §1, 04 §3) with the shared
  * section library (Phase 3): a `ContentSection` (tone, rhythm, `.kh` header, plant) around the
- * body component of its type. Shared entities referenced by id are resolved here.
+ * body component of its type. Shared entities referenced by id are resolved here, from the data
+ * layer's collections (`getRefs()`).
  *
  * The switch is exhaustive: adding a member to `ContentBlock` fails the build until it has a case.
  */
-export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
+export async function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
+  const refs = await getRefs();
   const headerProps = (header: SectionHeaderContent) =>
     toHeaderProps(header, context.titleClassName);
   const base = {
@@ -114,7 +111,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
         <ContentSection {...shell} header={headerProps(block.header)}>
           <ProcessSteps
             steps={block.steps.map((step) =>
-              typeof step === "string" ? PROCESS_STAGES[step] : step,
+              typeof step === "string" ? refs.processStage(step) : step,
             )}
           />
         </ContentSection>
@@ -123,7 +120,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
       return (
         <ContentSection {...shell} header={headerProps(block.header)}>
           <SectorGrid
-            sectors={block.sectors.map((key) => SECTORS[key])}
+            sectors={block.sectors.map(refs.sector)}
             {...(block.extra ? { extra: block.extra } : {})}
           />
         </ContentSection>
@@ -134,7 +131,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
           <CardGrid
             variant="project"
             columns={block.columns}
-            items={block.items.map(projectCard)}
+            items={block.items.map((item) => projectCard(item, refs))}
           />
         </ContentSection>
       );
@@ -144,7 +141,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
           <CardGrid
             variant="product"
             columns={block.columns}
-            items={block.items.map(productCard)}
+            items={block.items.map((item) => productCard(item, refs))}
           />
         </ContentSection>
       );
@@ -177,7 +174,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
           <CardGrid
             variant="service"
             columns={block.columns}
-            items={relatedServices(block.services)}
+            items={refs.relatedServices(block.services)}
           />
         </ContentSection>
       );
@@ -188,7 +185,7 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
             variant="service"
             columns={block.columns}
             moreLabel={DIVISION_MORE_LABEL}
-            items={divisions(block.divisions).map((division) => ({
+            items={refs.divisions(block.divisions).map((division) => ({
               href: division.href,
               image: division.image,
               alt: division.alt,
@@ -199,11 +196,11 @@ export function BlockSection({ block, tone, context = {} }: BlockSectionProps) {
         </ContentSection>
       );
     case "divisions":
-      return <DivisionsStrip {...base} items={divisions(block.divisions)} />;
+      return <DivisionsStrip {...base} items={refs.divisions(block.divisions)} />;
     case "testimonials":
       return (
         <ContentSection {...shell} header={headerProps(block.header ?? TESTIMONIALS_HEADER)}>
-          <Testimonials items={testimonials(block.testimonials)} />
+          <Testimonials items={refs.testimonials(block.testimonials)} />
         </ContentSection>
       );
     default:
@@ -224,10 +221,13 @@ function toHeaderProps(
   };
 }
 
-function projectCard({ project: slug, meta, image, tag }: ProjectCardContent): CardItem {
-  const project = getProject(slug);
+function projectCard(
+  { project: slug, meta, image, tag }: ProjectCardContent,
+  refs: ContentRefs,
+): CardItem {
+  const project = refs.project(slug);
   return {
-    href: projectHref(project),
+    href: refs.projectHref(project),
     image: image?.src ?? project.cover,
     alt: image?.alt ?? project.coverAlt,
     title: project.name,
@@ -236,13 +236,16 @@ function projectCard({ project: slug, meta, image, tag }: ProjectCardContent): C
   };
 }
 
-function productCard({ title, text, image, alt, project }: ProductCardContent): CardItem {
+function productCard(
+  { title, text, image, alt, project }: ProductCardContent,
+  refs: ContentRefs,
+): CardItem {
   return {
     image,
     alt,
     title,
     text,
-    ...(project ? { href: projectHref(getProject(project)) } : {}),
+    ...(project ? { href: refs.projectHref({ slug: project }) } : {}),
   };
 }
 

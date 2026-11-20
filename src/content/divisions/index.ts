@@ -1,24 +1,12 @@
 import { DIVISION_SLUGS, type DivisionSlug, routes } from "@/lib/routes";
-
-import type { MediaId } from "../media";
+import type { Division } from "@/lib/schemas/entities";
 
 /**
  * The five KATIC divisions. Name, description and card image are identical in the header
  * dropdown, the division cards (`.kc-grid.c5`) and the divisions strips (`.kdiv`)
  * (docs/analysis/04 §3; original `NAV` config and `#about-divisions`).
  */
-export type Division = {
-  readonly slug: DivisionSlug;
-  readonly href: string;
-  /** Full name, e.g. "KATIC Design". */
-  readonly name: string;
-  /** The part after "KATIC", shown in orange in the division hero. */
-  readonly accent: string;
-  readonly description: string;
-  /** Card image (`.kc .im`). */
-  readonly image: MediaId;
-  readonly alt: string;
-};
+export type { Division };
 
 export const DIVISIONS = {
   design: {

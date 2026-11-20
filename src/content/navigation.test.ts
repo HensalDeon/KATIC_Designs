@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { activeNavKey, HEADER_NAV } from "./navigation";
+import { activeNavKey } from "@/lib/routes/nav";
+
+import { HEADER_NAV } from "./navigation";
 import { serviceForPath } from "./services";
 
 describe("activeNavKey", () => {

@@ -5,6 +5,7 @@ import { ArticlePage } from "@/components/blog/article-page";
 import { JsonLd } from "@/components/seo/json-ld";
 import { media } from "@/content/media";
 import { articleSeo, getPost, POSTS } from "@/content/posts";
+import { getSite, getTrailLabels, listPostCategories } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { articleTrail } from "@/lib/seo/breadcrumbs";
 import { blogPostingLd, breadcrumbLd } from "@/lib/seo/json-ld";
@@ -24,11 +25,14 @@ export function generateStaticParams(): { slug: string }[] {
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const post = getPost((await params).slug);
   if (!post) notFound();
-  return pageMetadata({
-    path: routes.article(post.slug),
-    ...articleSeo(post),
-    article: { publishedTime: post.publishedAt, section: post.category },
-  });
+  return pageMetadata(
+    {
+      path: routes.article(post.slug),
+      ...articleSeo(post),
+      article: { publishedTime: post.publishedAt, section: post.category },
+    },
+    await getSite(),
+  );
 }
 
 /**
@@ -38,11 +42,21 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
 export default async function ArticleRoute({ params }: PageProps<"/blog/[slug]">) {
   const post = getPost((await params).slug);
   if (!post) notFound();
+  const [site, categories, labels] = await Promise.all([
+    getSite(),
+    listPostCategories(),
+    getTrailLabels(),
+  ]);
+  const category = categories.find((entry) => entry.name === post.category);
+  if (!category) throw new Error(`Unknown post category: ${post.category}`);
   return (
     <>
       <ArticlePage post={post} />
       <JsonLd
-        data={[blogPostingLd(post, media[post.cover].image.src), breadcrumbLd(articleTrail(post))]}
+        data={[
+          blogPostingLd(post, site, media[post.cover].image.src),
+          breadcrumbLd(articleTrail(post, category, labels)),
+        ]}
       />
     </>
   );

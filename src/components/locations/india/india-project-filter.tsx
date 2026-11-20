@@ -3,7 +3,7 @@
 import { type ReactNode, useRef, useState } from "react";
 
 import { UrlParamFilter } from "@/components/filters/url-param-filter";
-import { cardGridVariants } from "@/components/sections/card-grid";
+import { cardGridVariants } from "@/components/sections/card-grid-variants";
 import { resultCountLabel } from "@/components/works/portfolio-layout";
 import type { IndiaFilter } from "@/content/locations/india";
 import { useFlipReflow } from "@/hooks/use-flip-reflow";

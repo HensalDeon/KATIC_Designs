@@ -6,11 +6,14 @@ import { ServicesHero } from "@/components/services-page/services-hero";
 import { WhatWeDeliver } from "@/components/services-page/what-we-deliver";
 import { WhatWeDo } from "@/components/services-page/what-we-do";
 import { SERVICE_BLOCKS, SERVICES_PAGE_SEO } from "@/content/services-page";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.services, ...SERVICES_PAGE_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.services, ...SERVICES_PAGE_SEO }, await getSite());
+}
 
 /**
  * Services overview (`#p-services`, docs/analysis/02 §3). Order and tones as rendered by the
