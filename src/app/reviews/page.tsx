@@ -8,6 +8,7 @@ import { ReviewsProjects } from "@/components/reviews/reviews-projects";
 import { ReviewsStory } from "@/components/reviews/reviews-story";
 import { ReviewsTrust } from "@/components/reviews/reviews-trust";
 import { REVIEWS_SEO } from "@/content/reviews";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -15,7 +16,9 @@ import { pageMetadata } from "@/lib/seo/metadata";
 export const ensureStatic = "navigation";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.reviews, ...REVIEWS_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.reviews, ...REVIEWS_SEO }, await getSite());
+}
 
 /**
  * Reviews (`#p-reviews`, original lines 4216–4379, docs/analysis/04 §9). Order and tones as the

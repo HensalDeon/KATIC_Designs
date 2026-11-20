@@ -1,25 +1,12 @@
+import type { Office, SiteContact, SiteSeo, SiteSettings } from "@/lib/schemas/site";
+
 /**
- * Site-wide settings. Will come from Laravel (`GET /settings`) in Phase 11.
+ * Site-wide settings. Served as one resource (`GET /settings`, `ContentRepository.getSite()`); the
+ * types are the schemas' (`src/lib/schemas/site.ts`).
  *
  * PLACEHOLDERS: phone, WhatsApp, address and social URLs are the original site's placeholders
  * (KI-C01, KI-C02, KI-C03). Replace them here once the client confirms the real values.
  */
-export type SocialNetwork = "instagram" | "facebook" | "linkedin" | "x";
-
-export type SiteSettings = {
-  readonly name: string;
-  readonly email: string;
-  readonly phone: { readonly display: string; readonly href: `tel:${string}` };
-  readonly whatsapp: { readonly number: string };
-  readonly address: { readonly lines: readonly string[]; readonly mapsUrl: string };
-  readonly socials: readonly {
-    readonly network: SocialNetwork;
-    readonly label: string;
-    readonly url: string;
-  }[];
-  readonly credit: { readonly label: string; readonly url: string };
-};
-
 export const SITE = {
   name: "Katic Designs",
   email: "hello@katicdesigns.com",
@@ -36,7 +23,7 @@ export const SITE = {
     { network: "x", label: "X", url: "https://x.com/" },
   ],
   credit: { label: "crafted@ateliergroupcompany", url: "https://ateliergroupcompany.com/" },
-} as const satisfies SiteSettings;
+} as const satisfies SiteContact;
 
 /**
  * Home page SEO (the original's `<head>` and `#p-home` `data-title` / `data-desc`) and the site's
@@ -61,35 +48,15 @@ export const SITE_SEO = {
     height: 630,
     alt: "Courtyard home designed and built by Katic Designs in Kochi, Kerala",
   },
-} as const;
+} as const satisfies SiteSeo;
 
-export type Weekday =
-  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+const MON_FRI = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const;
 
 /**
  * The two offices as structured data (the original's `HomeAndConstructionBusiness` JSON-LD). Only
  * confirmed facts: street addresses and phone numbers are still placeholders (KI-C01, KI-C02,
  * KI-C04), so they are left out rather than published to search engines.
  */
-export type Office = {
-  readonly id: "kochi" | "dubai";
-  readonly name: string;
-  readonly email: string;
-  readonly address: {
-    readonly locality: string;
-    readonly region?: string;
-    readonly country: "IN" | "AE";
-  };
-  /** Opening hours as the site displays them, 24-hour local time. */
-  readonly hours: {
-    readonly days: readonly Weekday[];
-    readonly opens: string;
-    readonly closes: string;
-  };
-};
-
-const MON_FRI = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const;
-
 export const OFFICES = {
   // TODO(content): KI-C02 street address and postcode, KI-C01 phone; add them once confirmed.
   kochi: {
@@ -111,8 +78,9 @@ export const OFFICES = {
   },
 } as const satisfies { readonly [K in Office["id"]]: Office & { readonly id: K } };
 
-/** `https://wa.me/<number>` with an optional pre-filled message. */
-export function whatsappUrl(text?: string): string {
-  const base = `https://wa.me/${SITE.whatsapp.number}`;
-  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
-}
+/** The `/settings` resource as the static repository serves it. */
+export const SITE_SETTINGS = {
+  ...SITE,
+  seo: SITE_SEO,
+  offices: OFFICES,
+} as const satisfies SiteSettings;

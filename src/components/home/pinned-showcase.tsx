@@ -7,15 +7,16 @@ import { ButtonLink } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Lead } from "@/components/ui/text";
-import { HOME_WORKS, type HomeWorksContent } from "@/content/home/works";
-import { media } from "@/content/media";
-import { getProjects, type Project, projectHref, projectLocationLine } from "@/content/projects";
+import type { HomeWorksContent } from "@/content/home/works";
+import { type Project, projectLocationLine } from "@/content/projects";
+import { getRefs } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
 
 import { ShowcaseStage } from "./pinned-showcase-stage";
 
 export type PinnedShowcaseProps = {
-  /** Section copy, tabs and the projects shown (default: the home page's). */
-  readonly content?: HomeWorksContent;
+  /** Section copy, tabs and the projects shown (`getHomePage().works`). */
+  readonly content: HomeWorksContent;
   /** Section id (deep links); the original's is `home-works`. */
   readonly id?: string;
 };
@@ -42,8 +43,9 @@ const CARD_SIZES = canvasSizes(568, "82vw", "82vw");
  *
  * Server component; the tabs and the scroll-driven track are the client island `ShowcaseStage`.
  */
-export function PinnedShowcase({ content = HOME_WORKS, id = "home-works" }: PinnedShowcaseProps) {
-  const projects = getProjects(content.projects);
+export async function PinnedShowcase({ content, id = "home-works" }: PinnedShowcaseProps) {
+  const refs = await getRefs();
+  const projects = refs.projects(content.projects);
 
   return (
     <ShowcaseStage
@@ -89,18 +91,32 @@ export function PinnedShowcase({ content = HOME_WORKS, id = "home-works" }: Pinn
       cards={projects.map((project) => ({
         slug: project.slug,
         categories: project.categories,
-        content: <ShowcaseCard project={project} linkLabel={content.cardLinkLabel} />,
+        content: (
+          <ShowcaseCard
+            project={project}
+            href={refs.projectHref(project)}
+            linkLabel={content.cardLinkLabel}
+          />
+        ),
       }))}
     />
   );
 }
 
 /** Card content (`.sc-card` children): cover, shade and caption. Positioned by `ShowcaseStage`. */
-function ShowcaseCard({ project, linkLabel }: { project: Project; linkLabel: string }) {
+function ShowcaseCard({
+  project,
+  href,
+  linkLabel,
+}: {
+  project: Project;
+  href: string;
+  linkLabel: string;
+}) {
   return (
     <>
       <Image
-        src={media[project.cover].image}
+        src={resolveMedia(project.cover)}
         alt={project.coverAlt}
         sizes={CARD_SIZES}
         className="absolute inset-0 size-full object-cover"
@@ -119,7 +135,7 @@ function ShowcaseCard({ project, linkLabel }: { project: Project; linkLabel: str
         </h3>
         <p className="mt-8 font-display text-[13px] text-mist">{projectLocationLine(project)}</p>
         <Link
-          href={projectHref(project)}
+          href={href}
           className="mt-12 inline-block font-display text-[11.5px] font-medium tracking-[0.14em] text-brand uppercase transition-colors hover:text-[#ffb08a]"
         >
           {linkLabel}

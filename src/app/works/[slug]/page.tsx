@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ProjectPage } from "@/components/project/project-page";
 import { JsonLd } from "@/components/seo/json-ld";
 import { builtProjectSlugs, getProjectDetail } from "@/content/project-details";
+import { getProject, getSite, getTrailLabels } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { projectTrail } from "@/lib/seo/breadcrumbs";
 import { breadcrumbLd } from "@/lib/seo/json-ld";
@@ -28,16 +29,18 @@ export async function generateMetadata({ params }: PageProps<"/works/[slug]">): 
   const detail = getProjectDetail((await params).slug);
   if (!detail) notFound();
   // The original's `data-title` (already ends in the brand) and `data-desc`.
-  return pageMetadata({ path: routes.project(detail.slug), ...detail.seo });
+  return pageMetadata({ path: routes.project(detail.slug), ...detail.seo }, await getSite());
 }
 
 export default async function ProjectDetailPage({ params }: PageProps<"/works/[slug]">) {
   const detail = getProjectDetail((await params).slug);
   if (!detail) notFound();
+  const [project, labels] = await Promise.all([getProject(detail.slug), getTrailLabels()]);
+  if (!project) throw new Error(`Unknown project: ${detail.slug}`);
   return (
     <>
       <ProjectPage detail={detail} />
-      <JsonLd data={breadcrumbLd(projectTrail(detail.slug))} />
+      <JsonLd data={breadcrumbLd(projectTrail(project, labels))} />
     </>
   );
 }

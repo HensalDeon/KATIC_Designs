@@ -8,9 +8,9 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { HOME_ABOUT, type HomeAboutContent, type HomeStat } from "@/content/home/about";
-import { media } from "@/content/media";
+import type { HomeAboutContent, HomeStat } from "@/content/home/about";
 import { cn } from "@/lib/cn";
+import { resolveMedia } from "@/lib/media/resolve";
 import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
@@ -19,7 +19,7 @@ import { RichTextRuns, TitleLines } from "./title-lines";
 import { ValueIcon } from "./value-icon";
 
 type AboutTeaserProps = {
-  readonly content?: HomeAboutContent;
+  readonly content: HomeAboutContent;
 };
 
 /** Hairline used above the kicker and under the "EST." line (`.topline`, `.estline`). */
@@ -52,7 +52,7 @@ function StatValue({ stat }: { readonly stat: HomeStat }) {
  * with their line icons. A bougainvillea hangs top-right (behind the text on phones). Every block
  * the original lists in its reveal map (E16) reveals on scroll.
  */
-export function AboutTeaser({ content = HOME_ABOUT }: AboutTeaserProps) {
+export function AboutTeaser({ content }: AboutTeaserProps) {
   return (
     <Section
       tone="light"
@@ -62,7 +62,7 @@ export function AboutTeaser({ content = HOME_ABOUT }: AboutTeaserProps) {
       className="isolate text-ink"
     >
       <Image
-        src={media["plants/bougainvillea"].image}
+        src={resolveMedia("plants/bougainvillea")}
         alt=""
         aria-hidden
         sizes={fixedCanvasSizes(171)}
@@ -101,7 +101,7 @@ export function AboutTeaser({ content = HOME_ABOUT }: AboutTeaserProps) {
               heading={content.partnersKicker}
               logos={content.partners.map((partner) => ({
                 ...partner,
-                logo: media[partner.logo].image,
+                logo: resolveMedia(partner.logo),
               }))}
             />
             <Reveal>

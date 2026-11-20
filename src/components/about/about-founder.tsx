@@ -5,13 +5,13 @@ import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { ABOUT_FOUNDER, type AboutFounderContent } from "@/content/about";
+import type { AboutFounderContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 const PARAGRAPH = "max-w-500 font-sans text-[17px] leading-[1.75]";
 
 type AboutFounderProps = {
-  readonly content?: AboutFounderContent;
+  readonly content: AboutFounderContent;
 };
 
 /**
@@ -20,7 +20,7 @@ type AboutFounderProps = {
  * 696px portrait, vertically centred. One column below 1100px; a 360px portrait on phones.
  * The name and first paragraph are client placeholders (KI-C04).
  */
-export function AboutFounder({ content = ABOUT_FOUNDER }: AboutFounderProps) {
+export function AboutFounder({ content }: AboutFounderProps) {
   const titleId = "about-founder-title";
   return (
     <Section tone="light" id="about-founder" aria-labelledby={titleId}>

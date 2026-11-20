@@ -9,13 +9,13 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
-import { ABOUT_INTRO, type AboutIntroContent } from "@/content/about";
+import type { AboutIntroContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 import { ABOUT_TITLE_CLASS, AboutColumns } from "./about-columns";
 
 type AboutIntroProps = {
-  readonly content?: AboutIntroContent;
+  readonly content: AboutIntroContent;
 };
 
 /**
@@ -27,7 +27,7 @@ type AboutIntroProps = {
  * Fixes: the section grows with its content instead of being zoomed down to one screen (KI-L13,
  * D4); the plant keeps its aspect ratio (KI-L08); image alts describe the photos (KI-A13).
  */
-export function AboutIntro({ content = ABOUT_INTRO }: AboutIntroProps) {
+export function AboutIntro({ content }: AboutIntroProps) {
   const titleId = "about-intro-title";
   const [small, large] = content.images;
   return (

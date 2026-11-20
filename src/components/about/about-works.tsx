@@ -8,10 +8,10 @@ import { Tag } from "@/components/ui/chip";
 import { Container } from "@/components/ui/container";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { ABOUT_WORKS, type AboutWorksContent, type AboutWorksTileLayout } from "@/content/about";
-import { media } from "@/content/media";
-import { getProject, projectHref } from "@/content/projects";
+import type { AboutWorksContent, AboutWorksTileLayout } from "@/content/about";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
 
 import { AboutColumns } from "./about-columns";
 import { ABOUT_DARK_OUTLINE_BUTTON } from "./about-experience";
@@ -34,7 +34,7 @@ const tileVariants = cva("max-lg:h-360", {
 const TILE_WIDTH: Record<AboutWorksTileLayout, number> = { big: 838, tall: 412, small: 410 };
 
 type AboutWorksProps = {
-  readonly content?: AboutWorksContent;
+  readonly content: AboutWorksContent;
 };
 
 /**
@@ -47,7 +47,8 @@ type AboutWorksProps = {
  * Fixes: the section grows instead of being zoomed down to 70% (KI-L13); tags and locations are
  * at least 11px on phones (KI-A10).
  */
-export function AboutWorks({ content = ABOUT_WORKS }: AboutWorksProps) {
+export async function AboutWorks({ content }: AboutWorksProps) {
+  const refs = await getRefs();
   const titleId = "about-works-title";
   return (
     <Section tone="dark" data-parity="sw" aria-labelledby={titleId}>
@@ -84,15 +85,15 @@ export function AboutWorks({ content = ABOUT_WORKS }: AboutWorksProps) {
 
         <ul className="mt-70 grid grid-cols-[410px_410px_412px] grid-rows-[460px_270px] gap-x-18 gap-y-17 max-lg:grid-cols-2 max-lg:grid-rows-none max-md:grid-cols-1">
           {content.tiles.map(({ project: slug, layout }) => {
-            const project = getProject(slug);
+            const project = refs.project(slug);
             return (
               <li key={slug} className={tileVariants({ layout })}>
                 <Link
-                  href={projectHref(project)}
+                  href={refs.projectHref(project)}
                   className="group relative block size-full overflow-hidden text-white after:absolute after:inset-0 after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_50%,rgba(0,0,0,0.55))] after:content-['']"
                 >
                   <Image
-                    src={media[project.cover].image}
+                    src={resolveMedia(project.cover)}
                     alt={project.coverAlt}
                     sizes={canvasSizes(TILE_WIDTH[layout], "50vw")}
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"

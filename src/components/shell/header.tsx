@@ -7,12 +7,13 @@ import { type PointerEvent, useEffect, useId, useRef, useState } from "react";
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { useShell } from "@/components/shell/shell-provider";
-import { activeNavKey, HEADER_NAV, type NavItem, type NavKey } from "@/content/navigation";
 import { useScrollSnapshot } from "@/hooks/use-scroll-snapshot";
 import { cn } from "@/lib/cn";
 import { fixedCanvasSizes } from "@/lib/media/sizes";
 import type { ImageSource } from "@/lib/media/types";
 import { routes } from "@/lib/routes";
+import { activeNavKey } from "@/lib/routes/nav";
+import type { NavItem, NavKey } from "@/lib/schemas/navigation";
 
 /** Scroll distance after which the header compacts (original `hdrState`). */
 const SCROLLED_AFTER = 40;
@@ -23,10 +24,17 @@ const PHONE_QUERY = "(max-width: 860px)";
  * Desktop: dropdowns open on hover or keyboard focus. Phones (≤860px): burger toggles a compact
  * panel; the first tap on an item with a submenu opens it, the second navigates.
  *
- * The logo comes in from the (server) root layout, so this island does not pull the whole media
- * manifest into every page's JavaScript.
+ * The logo and the menu come in from the (server) root layout: the logo resolved, so this island
+ * does not pull the whole media manifest into every page's JavaScript, and the menu from the
+ * navigation resource.
  */
-export function Header({ logo }: { readonly logo: ImageSource }) {
+export function Header({
+  logo,
+  nav,
+}: {
+  readonly logo: ImageSource;
+  readonly nav: readonly NavItem[];
+}) {
   const pathname = usePathname();
   const { menuOpen, setMenuOpen, enquiry } = useShell();
   const scrolled = useScrollSnapshot(() => window.scrollY > SCROLLED_AFTER, false);
@@ -172,7 +180,7 @@ export function Header({ logo }: { readonly logo: ImageSource }) {
           !menuOpen && "max-md:hidden",
         )}
       >
-        {HEADER_NAV.map((item) => (
+        {nav.map((item) => (
           <NavEntry
             key={item.key}
             item={item}

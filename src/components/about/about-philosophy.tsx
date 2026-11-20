@@ -9,19 +9,14 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import {
-  ABOUT_APPROACH,
-  ABOUT_PHILOSOPHY,
-  type AboutApproachContent,
-  type AboutPhilosophyContent,
-} from "@/content/about";
+import type { AboutApproachContent, AboutPhilosophyContent } from "@/content/about";
 import { cn } from "@/lib/cn";
 
 import { ABOUT_TITLE_CLASS } from "./about-columns";
 
 type AboutPhilosophyProps = {
-  readonly philosophy?: AboutPhilosophyContent;
-  readonly approach?: AboutApproachContent;
+  readonly philosophy: AboutPhilosophyContent;
+  readonly approach: AboutApproachContent;
 };
 
 /**
@@ -38,10 +33,7 @@ type AboutPhilosophyProps = {
  * unstyled (stacked, with a 122px gap above the button) because it sits outside a `.ks` (KI-L14).
  * One column below 1100px.
  */
-export function AboutPhilosophy({
-  philosophy = ABOUT_PHILOSOPHY,
-  approach = ABOUT_APPROACH,
-}: AboutPhilosophyProps) {
+export function AboutPhilosophy({ philosophy, approach }: AboutPhilosophyProps) {
   const titleId = "about-philosophy-title";
   return (
     <Section

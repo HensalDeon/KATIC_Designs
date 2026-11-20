@@ -1,5 +1,4 @@
-import { media, type MediaId } from "@/content/media";
-import type { ImageSource } from "@/lib/media/types";
+import type { MediaRef } from "@/lib/media/resolve";
 
 /**
  * `canvasSizes` lives in `@/lib/media/sizes` (no media manifest); client components import it from
@@ -8,8 +7,6 @@ import type { ImageSource } from "@/lib/media/types";
 export { canvasSizes } from "@/lib/media/sizes";
 
 /** An image given either by its id in the typed manifest or as a resolved source (e.g. from Laravel). */
-export type ImageInput = MediaId | ImageSource;
+export type ImageInput = MediaRef;
 
-export function resolveImage(image: ImageInput): ImageSource {
-  return typeof image === "string" ? media[image].image : image;
-}
+export { resolveMedia as resolveImage } from "@/lib/media/resolve";

@@ -1,14 +1,16 @@
 import { NewsCard } from "@/components/news/news-card";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { HOME_NEWS_TEASER, latestNews, type NewsItem } from "@/content/news";
+import type { NewsItem } from "@/content/news";
+import type { NewsTeaserCopy } from "@/lib/data";
 import { routes } from "@/lib/routes";
 
 import { HomeSectionHeader } from "./home-section-header";
 
 type NewsTeaserProps = {
-  /** Cards to show; defaults to the three newest items. */
-  readonly items?: readonly NewsItem[];
+  readonly copy: NewsTeaserCopy;
+  /** Cards to show: the three newest items. */
+  readonly items: readonly NewsItem[];
 };
 
 /**
@@ -17,8 +19,7 @@ type NewsTeaserProps = {
  * news page because there are no news detail pages yet (KI-F11; the original linked each card to
  * itself).
  */
-export function NewsTeaser({ items = latestNews(3) }: NewsTeaserProps) {
-  const copy = HOME_NEWS_TEASER;
+export function NewsTeaser({ copy, items }: NewsTeaserProps) {
   return (
     <Section tone="dark" spacing="home" id="home-news" aria-labelledby="home-news-title">
       <Container>

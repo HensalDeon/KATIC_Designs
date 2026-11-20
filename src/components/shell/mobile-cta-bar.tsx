@@ -2,8 +2,8 @@
 
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { ChatIcon, PhoneIcon } from "@/components/icons/contact-icons";
-import { useShell } from "@/components/shell/shell-provider";
-import { SITE, whatsappUrl } from "@/content/site";
+import { whatsappUrl } from "@/components/sections/contact-channels";
+import { useShell, useSite } from "@/components/shell/shell-provider";
 import { useScrollSnapshot } from "@/hooks/use-scroll-snapshot";
 import { cn } from "@/lib/cn";
 
@@ -27,6 +27,7 @@ const pill =
 /** Sticky quick-contact bar for phones (`.mcta`, ≤860px only), outside the zoomed canvas. */
 export function MobileCtaBar() {
   const { menuOpen, enquiry } = useShell();
+  const site = useSite();
   const scrolledIn = useScrollSnapshot(readVisible, false);
   const visible = scrolledIn && !menuOpen && !enquiry.isOpen;
 
@@ -41,14 +42,14 @@ export function MobileCtaBar() {
       )}
     >
       <a
-        href={SITE.phone.href}
+        href={site.phone.href}
         className={cn(pill, "border border-[#2a2a2a] bg-ink-2 px-14 max-xs:px-0")}
       >
         <PhoneIcon width={18} height={18} />
         <span className="max-xs:sr-only">Call</span>
       </a>
       <a
-        href={whatsappUrl()}
+        href={whatsappUrl(site)}
         target="_blank"
         rel="noopener"
         className={cn(pill, "border border-[#2a2a2a] bg-ink-2 px-14 max-xs:px-0")}

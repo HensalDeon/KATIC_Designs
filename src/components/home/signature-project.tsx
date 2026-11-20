@@ -8,14 +8,14 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { HOME_SIGNATURE, type HomeSignatureContent } from "@/content/home/signature";
-import { media } from "@/content/media";
+import type { HomeSignatureContent } from "@/content/home/signature";
+import { resolveMedia } from "@/lib/media/resolve";
 import { routes } from "@/lib/routes";
 
 import { TitleLines } from "./title-lines";
 
 type SignatureProjectProps = {
-  readonly content?: HomeSignatureContent;
+  readonly content: HomeSignatureContent;
 };
 
 /**
@@ -28,13 +28,13 @@ type SignatureProjectProps = {
  * card is a real link to the signature project page (the same target as "View Project"); the look
  * is unchanged apart from the focus ring.
  */
-export function SignatureProject({ content = HOME_SIGNATURE }: SignatureProjectProps) {
+export function SignatureProject({ content }: SignatureProjectProps) {
   const href = routes.project(content.projectSlug);
   return (
     <Section tone="dark" spacing="home" id="home-signature" aria-labelledby="home-signature-title">
       <ParallaxImage
         variant="signature"
-        src={media[content.background.image].image}
+        src={resolveMedia(content.background.image)}
         alt={content.background.alt}
         sizes="100vw"
         frameClassName="absolute inset-0 after:absolute after:inset-0 after:bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.72)_45%,rgba(0,0,0,0.9)_80%,#000_100%)] after:content-['']"
@@ -81,7 +81,7 @@ export function SignatureProject({ content = HOME_SIGNATURE }: SignatureProjectP
                 className="relative block size-full overflow-hidden bg-ink-2 after:absolute after:inset-0 after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_35%,rgba(0,0,0,0.72)_100%)] after:content-['']"
               >
                 <Image
-                  src={media[room.image].image}
+                  src={resolveMedia(room.image)}
                   alt=""
                   sizes="(max-width: 1099px) 72vw, 302px"
                   className="absolute inset-0 size-full object-cover"

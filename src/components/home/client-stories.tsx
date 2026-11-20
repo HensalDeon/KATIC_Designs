@@ -6,14 +6,14 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
 import { Lead } from "@/components/ui/text";
-import { type ClientStoriesContent, HOME_STORIES } from "@/content/home/stories";
-import { media } from "@/content/media";
+import type { ClientStoriesContent } from "@/content/home/stories";
 import { cn } from "@/lib/cn";
+import { resolveMedia } from "@/lib/media/resolve";
 
 import { ClientStoriesRotator } from "./client-stories-client";
 
 type ClientStoriesProps = {
-  readonly content?: ClientStoriesContent;
+  readonly content: ClientStoriesContent;
   readonly className?: string;
 };
 
@@ -38,7 +38,7 @@ function Lines({ lines }: { lines: readonly string[] }) {
  * from the top third so the face stays in frame (KI-L29). The kicker uses the text-safe orange on
  * white (KI-A11). Reveals as in the original (`.cs .kick`, `h2` clip, `.top p`, `.q`).
  */
-export function ClientStories({ content = HOME_STORIES, className }: ClientStoriesProps) {
+export function ClientStories({ content, className }: ClientStoriesProps) {
   return (
     <Section tone="light" id="home-stories" spacing="home" className={cn("text-ink", className)}>
       <Container data-part="wrap">
@@ -67,8 +67,8 @@ export function ClientStories({ content = HOME_STORIES, className }: ClientStori
             ...content,
             stories: content.stories.map((story) => ({
               ...story,
-              portrait: media[story.portrait].image,
-              project: media[story.project].image,
+              portrait: resolveMedia(story.portrait),
+              project: resolveMedia(story.project),
             })),
           }}
         />

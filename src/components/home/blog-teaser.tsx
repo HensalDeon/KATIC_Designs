@@ -4,17 +4,19 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { MoreArrow, moreLinkVariants } from "@/components/ui/text-link";
-import { media } from "@/content/media";
-import { formatPostDate, HOME_BLOG_TEASER, latestPosts, type Post } from "@/content/posts";
+import { formatPostDate, type Post } from "@/content/posts";
 import { cn } from "@/lib/cn";
+import type { BlogTeaserCopy } from "@/lib/data";
+import { resolveMedia } from "@/lib/media/resolve";
 import { fixedCanvasSizes } from "@/lib/media/sizes";
 import { routes } from "@/lib/routes";
 
 import { HomeSectionHeader } from "./home-section-header";
 
 type BlogTeaserProps = {
-  /** Newest first: the first is featured, the next three are listed. Defaults to the four newest posts. */
-  readonly posts?: readonly Post[];
+  readonly copy: BlogTeaserCopy;
+  /** Newest first: the first is featured, the next three are listed. */
+  readonly posts: readonly Post[];
 };
 
 /** Category and date row (`.kbh .meta`). */
@@ -40,8 +42,7 @@ function PostMeta({ post, className }: { readonly post: Post; readonly className
  * 1100px). The original's category chips (`.kbh-cats`) are hidden by its CSS, so they are not
  * rendered (KI-F14); the list rows' excerpts are hidden on the home page too.
  */
-export function BlogTeaser({ posts = latestPosts(4) }: BlogTeaserProps) {
-  const copy = HOME_BLOG_TEASER;
+export function BlogTeaser({ copy, posts }: BlogTeaserProps) {
   const [featured, ...rest] = posts;
   return (
     <Section tone="dark" spacing="home" id="home-blog" aria-labelledby="home-blog-title">
@@ -58,7 +59,7 @@ export function BlogTeaser({ posts = latestPosts(4) }: BlogTeaserProps) {
             <Link href={routes.article(featured.slug)} className="group block">
               <div className="relative h-290 overflow-hidden">
                 <Image
-                  src={media[featured.cover].image}
+                  src={resolveMedia(featured.cover)}
                   alt=""
                   sizes="(max-width: 1099px) 100vw, 683px"
                   className="size-full object-cover transition-transform duration-900 group-hover:scale-[1.04]"
@@ -89,7 +90,7 @@ export function BlogTeaser({ posts = latestPosts(4) }: BlogTeaserProps) {
                 >
                   <div className="h-88 overflow-hidden">
                     <Image
-                      src={media[post.cover].image}
+                      src={resolveMedia(post.cover)}
                       alt=""
                       sizes={fixedCanvasSizes(130)}
                       className="size-full object-cover transition-transform duration-800 group-hover:scale-[1.06]"

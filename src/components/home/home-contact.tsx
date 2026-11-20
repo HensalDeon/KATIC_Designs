@@ -1,8 +1,8 @@
 import { ContactFaq } from "@/components/sections/contact-faq";
-import { HOME_CONTACT, type HomeContactContent } from "@/content/home/contact";
+import type { HomeContactContent } from "@/content/home/contact";
 
 type HomeContactProps = {
-  readonly content?: HomeContactContent;
+  readonly content: HomeContactContent;
   readonly className?: string;
 };
 
@@ -13,7 +13,7 @@ type HomeContactProps = {
  * every width) instead of the inner pages' 120/80. Home's heading style is the reference for the
  * other pages' contact headings (KI-L34).
  */
-export function HomeContact({ content = HOME_CONTACT, className }: HomeContactProps) {
+export function HomeContact({ content, className }: HomeContactProps) {
   return (
     <ContactFaq
       tone="light"

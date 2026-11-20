@@ -3,11 +3,14 @@ import type { Metadata } from "next";
 import { BlockHero } from "@/components/blocks/block-hero";
 import { NewsList } from "@/components/news/news-list";
 import { NEWS_PAGE, NEWS_SEO } from "@/content/news";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.news, ...NEWS_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.news, ...NEWS_SEO }, await getSite());
+}
 
 /**
  * News (`#p-news`, original lines 4048–4053): the `.kh-hero` banner without buttons, then the

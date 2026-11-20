@@ -6,8 +6,9 @@ import { resolveImage, type SectionImage } from "@/components/sections/section-i
 import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { getProject, projectHref, type ProjectSlug } from "@/content/projects";
+import type { ProjectSlug } from "@/content/projects";
 import { cn } from "@/lib/cn";
+import { type ContentRefs, getRefs } from "@/lib/data";
 import type { Tone } from "@/lib/tone";
 
 import { ARCH_HEADER_COPY, ArchHeader } from "./arch-header";
@@ -51,12 +52,17 @@ type ArchProjectsProps = {
  * project card (563px photo) and four more in two columns (420px photos). Each card links to its
  * project and shows the photo (zooming to 1.03 over .8s on hover), an orange meta line, the name,
  * a sentence and an underlined "View Project ↗" on the right; the meta stacks under the text on
- * phones, where the grid is one column. Projects come from `src/content/projects.ts` (KI-D01).
+ * phones, where the grid is one column. Projects come from the data layer (`getRefs()`, KI-D01).
  *
  * Fixes: cards link to their own project instead of the generic `#project`; the meta line is
  * 11px on phones (KI-A10); the title scales 58 → 46 → 34 (KI-N04).
  */
-export function ArchProjects({ content, tone = "light", id = "arch-projects" }: ArchProjectsProps) {
+export async function ArchProjects({
+  content,
+  tone = "light",
+  id = "arch-projects",
+}: ArchProjectsProps) {
+  const refs = await getRefs();
   const titleId = `${id}-title`;
   return (
     <Section tone={tone} id={id} aria-labelledby={titleId}>
@@ -67,11 +73,11 @@ export function ArchProjects({ content, tone = "light", id = "arch-projects" }: 
         {/* One list: the featured card spans both columns, then the 2-column grid (56px apart). */}
         <ul className="mt-56 grid grid-cols-2 gap-x-55 gap-y-56 max-md:grid-cols-1">
           <li className="col-span-2 max-md:col-span-1">
-            <ProjectCard card={content.featured} size="featured" />
+            <ProjectCard card={content.featured} size="featured" refs={refs} />
           </li>
           {content.grid.map((card) => (
             <li key={card.project}>
-              <ProjectCard card={card} size="grid" />
+              <ProjectCard card={card} size="grid" refs={refs} />
             </li>
           ))}
         </ul>
@@ -96,13 +102,14 @@ const PHOTO_SIZES: Record<CardSize, string> = {
 type ProjectCardProps = {
   readonly card: ArchProjectCard;
   readonly size: CardSize;
+  readonly refs: ContentRefs;
 };
 
 /** `a.pc`: photo, then the meta row (text left, "View Project ↗" right). */
-function ProjectCard({ card, size }: ProjectCardProps) {
-  const project = getProject(card.project);
+function ProjectCard({ card, size, refs }: ProjectCardProps) {
+  const project = refs.project(card.project);
   return (
-    <Link href={projectHref(project)} className="group block">
+    <Link href={refs.projectHref(project)} className="group block">
       <span className={photoVariants({ size })}>
         <Image
           src={resolveImage(card.image?.src ?? project.cover)}

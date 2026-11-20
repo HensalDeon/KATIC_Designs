@@ -3,13 +3,16 @@ import type { Metadata } from "next";
 import { DubaiPage } from "@/components/locations/dubai/dubai-page";
 import { JsonLd } from "@/components/seo/json-ld";
 import { DUBAI_SEO } from "@/content/locations/dubai";
+import { getSite, getTrailLabels } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { locationTrail } from "@/lib/seo/breadcrumbs";
 import { breadcrumbLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.location("dubai"), ...DUBAI_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.location("dubai"), ...DUBAI_SEO }, await getSite());
+}
 
 /**
  * Dubai (`#p-dubai`, original lines 4097–4215, docs/analysis/04 §8). Order and tones as the
@@ -19,11 +22,11 @@ export const metadata: Metadata = pageMetadata({ path: routes.location("dubai"),
  * `data-fx=169`). Sections keep the original ids (`#dubai-context`, `#dubai-office`,
  * `#dubai-contact`). The footer comes from the layout.
  */
-export default function DubaiRoute() {
+export default async function DubaiRoute() {
   return (
     <>
       <DubaiPage />
-      <JsonLd data={breadcrumbLd(locationTrail("dubai"))} />
+      <JsonLd data={breadcrumbLd(locationTrail("dubai", await getTrailLabels()))} />
     </>
   );
 }
