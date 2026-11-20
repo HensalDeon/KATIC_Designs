@@ -1,0 +1,25 @@
+{
+  "data": {
+    "hero": {
+      "image": {
+        "src": "photos/modern-house-rain-dusk",
+        "alt": "Modern house on a rain-soaked evening"
+      },
+      "kicker": "News & updates",
+      "title": { "lines": ["News from"], "accent": "KATIC" },
+      "lead": "Studio announcements, completed projects and updates from our design, interiors, construction, development and care teams."
+    },
+    "list": {
+      "id": "news-list",
+      "kicker": "Latest",
+      "title": ["What’s new", "at KATIC"],
+      "lead": { "before": "For press and media enquiries, write to us at ", "after": "." },
+      "readMore": "Read more",
+      "empty": "There is no news to share yet. Please check back soon."
+    },
+    "seo": {
+      "title": "News & Updates | Katic Designs",
+      "description": "Studio announcements, completed projects and updates from Katic Designs and its divisions."
+    }
+  }
+}

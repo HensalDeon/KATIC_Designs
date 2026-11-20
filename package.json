@@ -31,6 +31,8 @@
     "perf:desktop": "PERF_PRESET=desktop lhci autorun",
     "parity:probe": "tsx tests/visual/probe.mts",
     "mock:laravel": "tsx scripts/mock-laravel/server.mts",
+    "api:contract": "tsx scripts/api-contract/generate.mts",
+    "api:contract:check": "tsx scripts/api-contract/generate.mts --check",
     "prepare": "husky"
   },
   "dependencies": {

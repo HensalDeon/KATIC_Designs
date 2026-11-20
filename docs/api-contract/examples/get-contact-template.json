@@ -1,0 +1,9 @@
+{
+  "data": {
+    "kicker": "Get in Touch",
+    "heading": { "lines": ["Have a Project in", "Mind?"] },
+    "lead": "Tell us a little about your site, timeline, and the service you need — we’ll get back to you within one business day to schedule a first conversation.",
+    "channels": ["email", "phone"],
+    "form": { "service": { "mode": "select" } }
+  }
+}

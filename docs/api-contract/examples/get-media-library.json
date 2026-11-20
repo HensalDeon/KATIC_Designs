@@ -1,0 +1,921 @@
+{
+  "data": [
+    {
+      "id": "brand/logo",
+      "url": "https://cms.katicdesigns.com/media/brand/logo.webp",
+      "width": 115,
+      "height": 65,
+      "alt": "Katic Designs"
+    },
+    {
+      "id": "partners/asian-paints",
+      "url": "https://cms.katicdesigns.com/media/partners/asian-paints.webp",
+      "width": 284,
+      "height": 142,
+      "alt": "Asian Paints"
+    },
+    {
+      "id": "partners/hettich",
+      "url": "https://cms.katicdesigns.com/media/partners/hettich.webp",
+      "width": 284,
+      "height": 142,
+      "alt": "Hettich"
+    },
+    {
+      "id": "partners/jaquar",
+      "url": "https://cms.katicdesigns.com/media/partners/jaquar.webp",
+      "width": 284,
+      "height": 142,
+      "alt": "Jaquar"
+    },
+    {
+      "id": "partners/kajaria",
+      "url": "https://cms.katicdesigns.com/media/partners/kajaria.webp",
+      "width": 284,
+      "height": 142,
+      "alt": "Kajaria"
+    },
+    {
+      "id": "people/client-avatar-01",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-01.webp",
+      "width": 240,
+      "height": 240,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-avatar-02",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-02.webp",
+      "width": 64,
+      "height": 64,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-avatar-03",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-03.webp",
+      "width": 240,
+      "height": 240,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-avatar-04",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-04.webp",
+      "width": 64,
+      "height": 64,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-avatar-05",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-05.webp",
+      "width": 64,
+      "height": 64,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-avatar-06",
+      "url": "https://cms.katicdesigns.com/media/people/client-avatar-06.webp",
+      "width": 240,
+      "height": 240,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-story-01",
+      "url": "https://cms.katicdesigns.com/media/people/client-story-01.webp",
+      "width": 560,
+      "height": 700,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-story-02",
+      "url": "https://cms.katicdesigns.com/media/people/client-story-02.webp",
+      "width": 560,
+      "height": 700,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-story-03",
+      "url": "https://cms.katicdesigns.com/media/people/client-story-03.webp",
+      "width": 560,
+      "height": 700,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/client-story-04",
+      "url": "https://cms.katicdesigns.com/media/people/client-story-04.webp",
+      "width": 560,
+      "height": 700,
+      "alt": "Client portrait"
+    },
+    {
+      "id": "people/founder",
+      "url": "https://cms.katicdesigns.com/media/people/founder.webp",
+      "width": 870,
+      "height": 870,
+      "alt": "Founder portrait in the studio"
+    },
+    {
+      "id": "people/team-member-01",
+      "url": "https://cms.katicdesigns.com/media/people/team-member-01.webp",
+      "width": 375,
+      "height": 375,
+      "alt": "Team member portrait"
+    },
+    {
+      "id": "people/team-member-02",
+      "url": "https://cms.katicdesigns.com/media/people/team-member-02.webp",
+      "width": 375,
+      "height": 375,
+      "alt": "Team member portrait"
+    },
+    {
+      "id": "people/team-member-03",
+      "url": "https://cms.katicdesigns.com/media/people/team-member-03.webp",
+      "width": 375,
+      "height": 375,
+      "alt": "Team member portrait"
+    },
+    {
+      "id": "people/team-member-04",
+      "url": "https://cms.katicdesigns.com/media/people/team-member-04.webp",
+      "width": 375,
+      "height": 375,
+      "alt": "Team member portrait"
+    },
+    {
+      "id": "photos/apartment-living-sea-view",
+      "url": "https://cms.katicdesigns.com/media/photos/apartment-living-sea-view.webp",
+      "width": 520,
+      "height": 520,
+      "alt": "Apartment living room with sea views"
+    },
+    {
+      "id": "photos/apartment-tower",
+      "url": "https://cms.katicdesigns.com/media/photos/apartment-tower.webp",
+      "width": 590,
+      "height": 590,
+      "alt": "Mid-rise apartment tower with planted balconies"
+    },
+    {
+      "id": "photos/arched-courtyard-terrace",
+      "url": "https://cms.katicdesigns.com/media/photos/arched-courtyard-terrace.webp",
+      "width": 1400,
+      "height": 1136,
+      "alt": "Courtyard terrace with arches and patterned tiles"
+    },
+    {
+      "id": "photos/architect-site-drawings",
+      "url": "https://cms.katicdesigns.com/media/photos/architect-site-drawings.webp",
+      "width": 870,
+      "height": 650,
+      "alt": "Architect reviewing drawings on a forested site"
+    },
+    {
+      "id": "photos/architect-sketching-plans",
+      "url": "https://cms.katicdesigns.com/media/photos/architect-sketching-plans.webp",
+      "width": 375,
+      "height": 465,
+      "alt": "Architect sketching plans beside a model"
+    },
+    {
+      "id": "photos/architectural-model-on-drawings",
+      "url": "https://cms.katicdesigns.com/media/photos/architectural-model-on-drawings.webp",
+      "width": 388,
+      "height": 322,
+      "alt": "Architectural model resting on drawings beside a window"
+    },
+    {
+      "id": "photos/backwaters-aerial",
+      "url": "https://cms.katicdesigns.com/media/photos/backwaters-aerial.webp",
+      "width": 450,
+      "height": 362,
+      "alt": "Aerial view of backwaters at sunrise"
+    },
+    {
+      "id": "photos/bathroom-kota-stone",
+      "url": "https://cms.katicdesigns.com/media/photos/bathroom-kota-stone.webp",
+      "width": 511,
+      "height": 511,
+      "alt": "Bathroom with Kota stone and a courtyard view"
+    },
+    {
+      "id": "photos/bedroom-teak-screen",
+      "url": "https://cms.katicdesigns.com/media/photos/bedroom-teak-screen.webp",
+      "width": 511,
+      "height": 511,
+      "alt": "Bedroom with a teak screen and wardrobe"
+    },
+    {
+      "id": "photos/brick-courtyard-garden",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-courtyard-garden.webp",
+      "width": 326,
+      "height": 326,
+      "alt": "Brick courtyard with planting and a pool"
+    },
+    {
+      "id": "photos/brick-courtyard-house-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-courtyard-house-dusk.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Brick courtyard house lit at dusk around a planted courtyard"
+    },
+    {
+      "id": "photos/brick-courtyard-house-dusk-panorama",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-courtyard-house-dusk-panorama.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Brick courtyard house and lit garden at dusk"
+    },
+    {
+      "id": "photos/brick-garden-walkway",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-garden-walkway.webp",
+      "width": 650,
+      "height": 650,
+      "alt": "Brick-walled garden walkway"
+    },
+    {
+      "id": "photos/brick-house-arched-windows-night",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-house-arched-windows-night.webp",
+      "width": 782,
+      "height": 525,
+      "alt": "Brick house with arched windows lit at night"
+    },
+    {
+      "id": "photos/brick-house-garden-path",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-house-garden-path.webp",
+      "width": 380,
+      "height": 472,
+      "alt": "Brick house behind a garden path"
+    },
+    {
+      "id": "photos/brick-jali-facade",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-jali-facade.webp",
+      "width": 326,
+      "height": 326,
+      "alt": "Brick jali facade above garden steps"
+    },
+    {
+      "id": "photos/brick-veranda-garden",
+      "url": "https://cms.katicdesigns.com/media/photos/brick-veranda-garden.webp",
+      "width": 900,
+      "height": 672,
+      "alt": "Brick veranda overlooking a tropical garden"
+    },
+    {
+      "id": "photos/bright-living-room",
+      "url": "https://cms.katicdesigns.com/media/photos/bright-living-room.webp",
+      "width": 777,
+      "height": 518,
+      "alt": "Bright living room with a grey sofa"
+    },
+    {
+      "id": "photos/canal-house-sunset",
+      "url": "https://cms.katicdesigns.com/media/photos/canal-house-sunset.webp",
+      "width": 968,
+      "height": 649,
+      "alt": "House beside a canal at sunset"
+    },
+    {
+      "id": "photos/city-view-living-room",
+      "url": "https://cms.katicdesigns.com/media/photos/city-view-living-room.webp",
+      "width": 1101,
+      "height": 912,
+      "alt": "Modern living room with a curved sofa and floor-to-ceiling city views"
+    },
+    {
+      "id": "photos/coastal-terrace-house",
+      "url": "https://cms.katicdesigns.com/media/photos/coastal-terrace-house.webp",
+      "width": 375,
+      "height": 253,
+      "alt": "Low house with a landscaped terrace by the sea"
+    },
+    {
+      "id": "photos/commercial-facade-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/commercial-facade-dusk.webp",
+      "width": 787,
+      "height": 634,
+      "alt": "Industrial-style commercial building lit at dusk"
+    },
+    {
+      "id": "photos/construction-team-drawings",
+      "url": "https://cms.katicdesigns.com/media/photos/construction-team-drawings.webp",
+      "width": 388,
+      "height": 312,
+      "alt": "Construction team reviewing drawings on site"
+    },
+    {
+      "id": "photos/contemporary-villa-entrance",
+      "url": "https://cms.katicdesigns.com/media/photos/contemporary-villa-entrance.webp",
+      "width": 950,
+      "height": 638,
+      "alt": "Contemporary villa with stone cladding and a landscaped entrance path"
+    },
+    {
+      "id": "photos/courtyard-facade-night",
+      "url": "https://cms.katicdesigns.com/media/photos/courtyard-facade-night.webp",
+      "width": 650,
+      "height": 650,
+      "alt": "Courtyard facade lit at night"
+    },
+    {
+      "id": "photos/courtyard-house-reflection-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/courtyard-house-reflection-dusk.webp",
+      "width": 1264,
+      "height": 848,
+      "alt": "Two-storey house reflected in a pool at dusk"
+    },
+    {
+      "id": "photos/courtyard-living-skylight",
+      "url": "https://cms.katicdesigns.com/media/photos/courtyard-living-skylight.webp",
+      "width": 1120,
+      "height": 625,
+      "alt": "Living room around an open planted courtyard under a skylight"
+    },
+    {
+      "id": "photos/courtyard-reflecting-pool",
+      "url": "https://cms.katicdesigns.com/media/photos/courtyard-reflecting-pool.webp",
+      "width": 825,
+      "height": 825,
+      "alt": "Shaded courtyard with a long reflecting water channel and palms"
+    },
+    {
+      "id": "photos/courtyard-tree-timber-balconies",
+      "url": "https://cms.katicdesigns.com/media/photos/courtyard-tree-timber-balconies.webp",
+      "width": 950,
+      "height": 709,
+      "alt": "Planted courtyard with a tree and timber balconies"
+    },
+    {
+      "id": "photos/dark-lounge-interior",
+      "url": "https://cms.katicdesigns.com/media/photos/dark-lounge-interior.webp",
+      "width": 1440,
+      "height": 810,
+      "alt": "Dark lounge interior with artwork"
+    },
+    {
+      "id": "photos/desert-villa-sunset",
+      "url": "https://cms.katicdesigns.com/media/photos/desert-villa-sunset.webp",
+      "width": 683,
+      "height": 550,
+      "alt": "Desert villa with an infinity pool at sunset"
+    },
+    {
+      "id": "photos/design-studio-3d-model",
+      "url": "https://cms.katicdesigns.com/media/photos/design-studio-3d-model.webp",
+      "width": 1440,
+      "height": 959,
+      "alt": "Design workstation showing a 3D building model"
+    },
+    {
+      "id": "photos/double-height-living-stair",
+      "url": "https://cms.katicdesigns.com/media/photos/double-height-living-stair.webp",
+      "width": 950,
+      "height": 950,
+      "alt": "Double-height living room with an open stair"
+    },
+    {
+      "id": "photos/family-lounge-garden-view",
+      "url": "https://cms.katicdesigns.com/media/photos/family-lounge-garden-view.webp",
+      "width": 968,
+      "height": 649,
+      "alt": "Family lounge opening to a shaded garden"
+    },
+    {
+      "id": "photos/formal-dining-room",
+      "url": "https://cms.katicdesigns.com/media/photos/formal-dining-room.webp",
+      "width": 387,
+      "height": 312,
+      "alt": "Formal dining room with a chandelier"
+    },
+    {
+      "id": "photos/games-room-billiards",
+      "url": "https://cms.katicdesigns.com/media/photos/games-room-billiards.webp",
+      "width": 478,
+      "height": 478,
+      "alt": "Games room with a billiards table"
+    },
+    {
+      "id": "photos/garden-path-modern-house",
+      "url": "https://cms.katicdesigns.com/media/photos/garden-path-modern-house.webp",
+      "width": 380,
+      "height": 472,
+      "alt": "Stone garden path leading to a white modern house"
+    },
+    {
+      "id": "photos/garden-room-window-seat",
+      "url": "https://cms.katicdesigns.com/media/photos/garden-room-window-seat.webp",
+      "width": 1600,
+      "height": 1066,
+      "alt": "Garden room with tall timber windows and a built-in seat"
+    },
+    {
+      "id": "photos/garden-veranda-chairs",
+      "url": "https://cms.katicdesigns.com/media/photos/garden-veranda-chairs.webp",
+      "width": 1600,
+      "height": 1067,
+      "alt": "Garden veranda with cane chairs"
+    },
+    {
+      "id": "photos/glass-courtyard-garden",
+      "url": "https://cms.katicdesigns.com/media/photos/glass-courtyard-garden.webp",
+      "width": 967,
+      "height": 722,
+      "alt": "Glazed courtyard garden at the centre of a house"
+    },
+    {
+      "id": "photos/glass-office-tower",
+      "url": "https://cms.katicdesigns.com/media/photos/glass-office-tower.webp",
+      "width": 782,
+      "height": 525,
+      "alt": "Glass office building with vertical fins"
+    },
+    {
+      "id": "photos/granite-kitchen",
+      "url": "https://cms.katicdesigns.com/media/photos/granite-kitchen.webp",
+      "width": 478,
+      "height": 478,
+      "alt": "Kitchen with granite worktops and white cabinets"
+    },
+    {
+      "id": "photos/heritage-studio-interior",
+      "url": "https://cms.katicdesigns.com/media/photos/heritage-studio-interior.webp",
+      "width": 520,
+      "height": 520,
+      "alt": "Studio inside a heritage building with a timber roof"
+    },
+    {
+      "id": "photos/hillside-house-greenery",
+      "url": "https://cms.katicdesigns.com/media/photos/hillside-house-greenery.webp",
+      "width": 675,
+      "height": 453,
+      "alt": "House set into a green hillside"
+    },
+    {
+      "id": "photos/hillside-villa-sunset",
+      "url": "https://cms.katicdesigns.com/media/photos/hillside-villa-sunset.webp",
+      "width": 782,
+      "height": 525,
+      "alt": "Villa on a hillside with palm trees at sunset"
+    },
+    {
+      "id": "photos/homeowners-walkthrough",
+      "url": "https://cms.katicdesigns.com/media/photos/homeowners-walkthrough.webp",
+      "width": 987,
+      "height": 795,
+      "alt": "Two homeowners walking through a finished interior with timber shelving"
+    },
+    {
+      "id": "photos/house-rain-garden",
+      "url": "https://cms.katicdesigns.com/media/photos/house-rain-garden.webp",
+      "width": 610,
+      "height": 610,
+      "alt": "Two-storey house with a rain garden and textured walls"
+    },
+    {
+      "id": "photos/house-reflecting-pool",
+      "url": "https://cms.katicdesigns.com/media/photos/house-reflecting-pool.webp",
+      "width": 1060,
+      "height": 791,
+      "alt": "House behind a reflecting pool"
+    },
+    {
+      "id": "photos/house-reflecting-pool-garden",
+      "url": "https://cms.katicdesigns.com/media/photos/house-reflecting-pool-garden.webp",
+      "width": 1025,
+      "height": 765,
+      "alt": "House with a long reflecting pool through the garden"
+    },
+    {
+      "id": "photos/house-timber-screen-porch",
+      "url": "https://cms.katicdesigns.com/media/photos/house-timber-screen-porch.webp",
+      "width": 587,
+      "height": 587,
+      "alt": "House with a timber screen entrance porch"
+    },
+    {
+      "id": "photos/house-under-construction",
+      "url": "https://cms.katicdesigns.com/media/photos/house-under-construction.webp",
+      "width": 972,
+      "height": 413,
+      "alt": "House under construction in a forest clearing"
+    },
+    {
+      "id": "photos/kerala-house-pond",
+      "url": "https://cms.katicdesigns.com/media/photos/kerala-house-pond.webp",
+      "width": 790,
+      "height": 636,
+      "alt": "Traditional Kerala house with tiled roofs around a pond"
+    },
+    {
+      "id": "photos/kitchen-island-teak",
+      "url": "https://cms.katicdesigns.com/media/photos/kitchen-island-teak.webp",
+      "width": 610,
+      "height": 757,
+      "alt": "Kitchen island with teak and stone"
+    },
+    {
+      "id": "photos/kitchen-joinery",
+      "url": "https://cms.katicdesigns.com/media/photos/kitchen-joinery.webp",
+      "width": 1440,
+      "height": 1028,
+      "alt": "Kitchen with timber joinery and stone floors"
+    },
+    {
+      "id": "photos/lakeside-house-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/lakeside-house-dusk.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Lakeside house lit at dusk"
+    },
+    {
+      "id": "photos/lakeside-pavilion-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/lakeside-pavilion-dusk.webp",
+      "width": 1376,
+      "height": 768,
+      "alt": "Low pavilion house reflected in water at dusk"
+    },
+    {
+      "id": "photos/laterite-wall-timber-door",
+      "url": "https://cms.katicdesigns.com/media/photos/laterite-wall-timber-door.webp",
+      "width": 375,
+      "height": 465,
+      "alt": "Laterite stone wall beside a timber door"
+    },
+    {
+      "id": "photos/lime-plaster-stair-detail",
+      "url": "https://cms.katicdesigns.com/media/photos/lime-plaster-stair-detail.webp",
+      "width": 575,
+      "height": 575,
+      "alt": "Lime plaster stair detail"
+    },
+    {
+      "id": "photos/living-room-garden-doors",
+      "url": "https://cms.katicdesigns.com/media/photos/living-room-garden-doors.webp",
+      "width": 837,
+      "height": 675,
+      "alt": "Living room opening to a garden through glass doors"
+    },
+    {
+      "id": "photos/living-room-tropical-wallpaper",
+      "url": "https://cms.katicdesigns.com/media/photos/living-room-tropical-wallpaper.webp",
+      "width": 1440,
+      "height": 959,
+      "alt": "Living room with tropical leaf wallpaper"
+    },
+    {
+      "id": "photos/living-room-tv-wall",
+      "url": "https://cms.katicdesigns.com/media/photos/living-room-tv-wall.webp",
+      "width": 388,
+      "height": 312,
+      "alt": "Living room with a timber TV wall"
+    },
+    {
+      "id": "photos/massing-model",
+      "url": "https://cms.katicdesigns.com/media/photos/massing-model.webp",
+      "width": 637,
+      "height": 427,
+      "alt": "White massing model on a dark background"
+    },
+    {
+      "id": "photos/minimal-interior-yellow-armchair",
+      "url": "https://cms.katicdesigns.com/media/photos/minimal-interior-yellow-armchair.webp",
+      "width": 777,
+      "height": 686,
+      "alt": "Minimal interior with a yellow armchair"
+    },
+    {
+      "id": "photos/modern-house-rain-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/modern-house-rain-dusk.webp",
+      "width": 987,
+      "height": 737,
+      "alt": "Modern house on a rain-soaked evening"
+    },
+    {
+      "id": "photos/narrow-urban-house-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/narrow-urban-house-dusk.webp",
+      "width": 380,
+      "height": 472,
+      "alt": "Narrow urban house lit at dusk"
+    },
+    {
+      "id": "photos/office-reception",
+      "url": "https://cms.katicdesigns.com/media/photos/office-reception.webp",
+      "width": 987,
+      "height": 551,
+      "alt": "Office reception with timber panelling"
+    },
+    {
+      "id": "photos/open-pavilion-lounge-night",
+      "url": "https://cms.katicdesigns.com/media/photos/open-pavilion-lounge-night.webp",
+      "width": 1600,
+      "height": 1066,
+      "alt": "Open timber pavilion lounge at night"
+    },
+    {
+      "id": "photos/ornate-bedroom-suite",
+      "url": "https://cms.katicdesigns.com/media/photos/ornate-bedroom-suite.webp",
+      "width": 1440,
+      "height": 800,
+      "alt": "Bedroom suite with a lattice ceiling and columns"
+    },
+    {
+      "id": "photos/pavilion-fins-facade",
+      "url": "https://cms.katicdesigns.com/media/photos/pavilion-fins-facade.webp",
+      "width": 883,
+      "height": 375,
+      "alt": "Pavilion building with vertical fins and a garden"
+    },
+    {
+      "id": "photos/pavilion-house-night",
+      "url": "https://cms.katicdesigns.com/media/photos/pavilion-house-night.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Glass pavilion house glowing at night"
+    },
+    {
+      "id": "photos/pond-house-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/pond-house-dusk.webp",
+      "width": 1376,
+      "height": 768,
+      "alt": "House beside a pond at dusk"
+    },
+    {
+      "id": "photos/riverside-house-night",
+      "url": "https://cms.katicdesigns.com/media/photos/riverside-house-night.webp",
+      "width": 380,
+      "height": 472,
+      "alt": "Riverside house glowing at night"
+    },
+    {
+      "id": "photos/sea-view-living-room",
+      "url": "https://cms.katicdesigns.com/media/photos/sea-view-living-room.webp",
+      "width": 605,
+      "height": 605,
+      "alt": "Living room with sea views"
+    },
+    {
+      "id": "photos/site-review-timber-screen",
+      "url": "https://cms.katicdesigns.com/media/photos/site-review-timber-screen.webp",
+      "width": 837,
+      "height": 675,
+      "alt": "Architect and client reviewing drawings beside a timber lattice on site"
+    },
+    {
+      "id": "photos/sofa-jali-detail",
+      "url": "https://cms.katicdesigns.com/media/photos/sofa-jali-detail.webp",
+      "width": 1600,
+      "height": 1066,
+      "alt": "Sofa with cushions in front of a jali screen"
+    },
+    {
+      "id": "photos/spiral-stair-courtyard",
+      "url": "https://cms.katicdesigns.com/media/photos/spiral-stair-courtyard.webp",
+      "width": 326,
+      "height": 326,
+      "alt": "Spiral stair beside a planted courtyard"
+    },
+    {
+      "id": "photos/studio-workspace",
+      "url": "https://cms.katicdesigns.com/media/photos/studio-workspace.webp",
+      "width": 512,
+      "height": 413,
+      "alt": "Design studio workspace with long timber desks"
+    },
+    {
+      "id": "photos/teak-stair-handrail",
+      "url": "https://cms.katicdesigns.com/media/photos/teak-stair-handrail.webp",
+      "width": 511,
+      "height": 511,
+      "alt": "Teak stair handrail detail"
+    },
+    {
+      "id": "photos/timber-entrance-door",
+      "url": "https://cms.katicdesigns.com/media/photos/timber-entrance-door.webp",
+      "width": 961,
+      "height": 1440,
+      "alt": "Dark timber entrance door with a potted plant"
+    },
+    {
+      "id": "photos/timber-gate-brick-wall",
+      "url": "https://cms.katicdesigns.com/media/photos/timber-gate-brick-wall.webp",
+      "width": 500,
+      "height": 335,
+      "alt": "Timber gate in a brick wall"
+    },
+    {
+      "id": "photos/timber-house-night",
+      "url": "https://cms.katicdesigns.com/media/photos/timber-house-night.webp",
+      "width": 782,
+      "height": 525,
+      "alt": "Timber house lit at night after rain"
+    },
+    {
+      "id": "photos/timber-lounge-chair",
+      "url": "https://cms.katicdesigns.com/media/photos/timber-lounge-chair.webp",
+      "width": 1600,
+      "height": 1066,
+      "alt": "Timber lounge chair by a curtained window"
+    },
+    {
+      "id": "photos/timber-screen-atrium",
+      "url": "https://cms.katicdesigns.com/media/photos/timber-screen-atrium.webp",
+      "width": 562,
+      "height": 314,
+      "alt": "Atrium with timber screens, a steel handrail and planting"
+    },
+    {
+      "id": "photos/two-storey-house-lawn",
+      "url": "https://cms.katicdesigns.com/media/photos/two-storey-house-lawn.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Two-storey house with deep overhangs above a lawn"
+    },
+    {
+      "id": "photos/urban-street-houses",
+      "url": "https://cms.katicdesigns.com/media/photos/urban-street-houses.webp",
+      "width": 766,
+      "height": 325,
+      "alt": "Street of urban houses after rain"
+    },
+    {
+      "id": "photos/veranda-living-pool-view",
+      "url": "https://cms.katicdesigns.com/media/photos/veranda-living-pool-view.webp",
+      "width": 512,
+      "height": 413,
+      "alt": "Veranda living area overlooking a pool"
+    },
+    {
+      "id": "photos/veranda-night-forest",
+      "url": "https://cms.katicdesigns.com/media/photos/veranda-night-forest.webp",
+      "width": 1440,
+      "height": 611,
+      "alt": "Veranda at night facing a forest"
+    },
+    {
+      "id": "photos/villa-pool-city-skyline",
+      "url": "https://cms.katicdesigns.com/media/photos/villa-pool-city-skyline.webp",
+      "width": 1376,
+      "height": 768,
+      "alt": "Villa with a pool and a city skyline at dusk"
+    },
+    {
+      "id": "photos/villa-pool-mountains",
+      "url": "https://cms.katicdesigns.com/media/photos/villa-pool-mountains.webp",
+      "width": 1440,
+      "height": 960,
+      "alt": "Villa exterior with a private pool and mountain views"
+    },
+    {
+      "id": "photos/villa-pool-skyline-dusk",
+      "url": "https://cms.katicdesigns.com/media/photos/villa-pool-skyline-dusk.webp",
+      "width": 1376,
+      "height": 768,
+      "alt": "Modern villa and pool with a city skyline at dusk"
+    },
+    {
+      "id": "photos/white-bathroom-checker-floor",
+      "url": "https://cms.katicdesigns.com/media/photos/white-bathroom-checker-floor.webp",
+      "width": 777,
+      "height": 1165,
+      "alt": "White bathroom with a checkerboard floor and plants"
+    },
+    {
+      "id": "photos/white-bathroom-checker-floor-small",
+      "url": "https://cms.katicdesigns.com/media/photos/white-bathroom-checker-floor-small.webp",
+      "width": 430,
+      "height": 644,
+      "alt": "White bathroom with a checkerboard floor and plants"
+    },
+    {
+      "id": "photos/white-hallway-stair",
+      "url": "https://cms.katicdesigns.com/media/photos/white-hallway-stair.webp",
+      "width": 1440,
+      "height": 959,
+      "alt": "White hallway with a timber stair"
+    },
+    {
+      "id": "plants/ageratum",
+      "url": "https://cms.katicdesigns.com/media/plants/ageratum.webp",
+      "width": 559,
+      "height": 406,
+      "alt": "Ageratum flowers"
+    },
+    {
+      "id": "plants/banana-leaf-plant",
+      "url": "https://cms.katicdesigns.com/media/plants/banana-leaf-plant.webp",
+      "width": 375,
+      "height": 436,
+      "alt": "Banana-leaf plant"
+    },
+    {
+      "id": "plants/bird-of-paradise-flower",
+      "url": "https://cms.katicdesigns.com/media/plants/bird-of-paradise-flower.webp",
+      "width": 597,
+      "height": 700,
+      "alt": "Bird-of-paradise flower"
+    },
+    {
+      "id": "plants/bird-of-paradise-terracotta",
+      "url": "https://cms.katicdesigns.com/media/plants/bird-of-paradise-terracotta.webp",
+      "width": 484,
+      "height": 720,
+      "alt": "Bird-of-paradise plant in a terracotta pot"
+    },
+    {
+      "id": "plants/bird-of-paradise-white-pot",
+      "url": "https://cms.katicdesigns.com/media/plants/bird-of-paradise-white-pot.webp",
+      "width": 518,
+      "height": 908,
+      "alt": "Bird-of-paradise plant in a white pot"
+    },
+    {
+      "id": "plants/bougainvillea",
+      "url": "https://cms.katicdesigns.com/media/plants/bougainvillea.webp",
+      "width": 326,
+      "height": 498,
+      "alt": "Hanging bougainvillea"
+    },
+    {
+      "id": "plants/boxwood",
+      "url": "https://cms.katicdesigns.com/media/plants/boxwood.webp",
+      "width": 640,
+      "height": 380,
+      "alt": "Boxwood hedge"
+    },
+    {
+      "id": "plants/cactus-group",
+      "url": "https://cms.katicdesigns.com/media/plants/cactus-group.webp",
+      "width": 521,
+      "height": 379,
+      "alt": "Group of potted cacti and succulents"
+    },
+    {
+      "id": "plants/coleus",
+      "url": "https://cms.katicdesigns.com/media/plants/coleus.webp",
+      "width": 640,
+      "height": 484,
+      "alt": "Coleus plant"
+    },
+    {
+      "id": "plants/croton",
+      "url": "https://cms.katicdesigns.com/media/plants/croton.webp",
+      "width": 295,
+      "height": 302,
+      "alt": "Croton plant"
+    },
+    {
+      "id": "plants/fern",
+      "url": "https://cms.katicdesigns.com/media/plants/fern.webp",
+      "width": 176,
+      "height": 179,
+      "alt": "Potted fern"
+    },
+    {
+      "id": "plants/hanging-pothos",
+      "url": "https://cms.katicdesigns.com/media/plants/hanging-pothos.webp",
+      "width": 249,
+      "height": 498,
+      "alt": "Hanging pothos"
+    },
+    {
+      "id": "plants/heliconia",
+      "url": "https://cms.katicdesigns.com/media/plants/heliconia.webp",
+      "width": 380,
+      "height": 992,
+      "alt": "Hanging heliconia flower"
+    },
+    {
+      "id": "plants/potted-plant-on-chair",
+      "url": "https://cms.katicdesigns.com/media/plants/potted-plant-on-chair.webp",
+      "width": 231,
+      "height": 409,
+      "alt": "Potted plant on a chair"
+    },
+    {
+      "id": "plants/schefflera",
+      "url": "https://cms.katicdesigns.com/media/plants/schefflera.webp",
+      "width": 443,
+      "height": 640,
+      "alt": "Schefflera in a pot"
+    },
+    {
+      "id": "plants/window-box-flowers",
+      "url": "https://cms.katicdesigns.com/media/plants/window-box-flowers.webp",
+      "width": 640,
+      "height": 185,
+      "alt": "Window box of flowers"
+    },
+    {
+      "id": "video/hero-poster-desktop",
+      "url": "https://cms.katicdesigns.com/media/video/hero-poster-desktop.webp",
+      "width": 1280,
+      "height": 720,
+      "alt": "Modern villa at dusk"
+    },
+    {
+      "id": "video/hero-poster-mobile",
+      "url": "https://cms.katicdesigns.com/media/video/hero-poster-mobile.webp",
+      "width": 720,
+      "height": 1280,
+      "alt": "Timber staircase in a dim interior"
+    }
+  ]
+}

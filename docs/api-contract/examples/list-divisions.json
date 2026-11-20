@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "slug": "design",
+      "href": "/divisions/design",
+      "name": "KATIC Design",
+      "accent": "Design",
+      "description": "Architecture, planning and facade design shaped by site, climate and purpose.",
+      "image": "photos/brick-courtyard-house-dusk",
+      "alt": "KATIC Design"
+    },
+    {
+      "slug": "interior",
+      "href": "/divisions/interior",
+      "name": "KATIC Interior",
+      "accent": "Interior",
+      "description": "Interiors, furniture and in-house manufacturing, from concept to finish.",
+      "image": "photos/city-view-living-room",
+      "alt": "KATIC Interior"
+    },
+    {
+      "slug": "infrastructure",
+      "href": "/divisions/infrastructure",
+      "name": "KATIC Infrastructure",
+      "accent": "Infrastructure",
+      "description": "Construction and execution for residential, commercial, institutional and hospitality projects.",
+      "image": "photos/house-under-construction",
+      "alt": "KATIC Infrastructure"
+    },
+    {
+      "slug": "developers",
+      "href": "/divisions/developers",
+      "name": "KATIC Developers",
+      "accent": "Developers",
+      "description": "Design-led residential and commercial developments, from land to handover.",
+      "image": "photos/villa-pool-city-skyline",
+      "alt": "KATIC Developers"
+    },
+    {
+      "slug": "care",
+      "href": "/divisions/care",
+      "name": "KATIC Care",
+      "accent": "Care",
+      "description": "Maintenance, repairs and ongoing care that protect your property’s value.",
+      "image": "photos/lakeside-house-dusk",
+      "alt": "KATIC Care"
+    }
+  ]
+}

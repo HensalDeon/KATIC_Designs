@@ -1,0 +1,298 @@
+{
+  "data": [
+    {
+      "slug": "designing-for-kerala-monsoon",
+      "title": "Designing Homes for the Kerala Monsoon",
+      "category": "Architecture",
+      "publishedAt": "2026-10-14",
+      "views": 940,
+      "cover": "photos/house-rain-garden",
+      "author": "KATIC Design Studio",
+      "excerpt": "Deep eaves, raised plinths and planted courtyards: how architecture can welcome the rain instead of fighting it.",
+      "body": [
+        {
+          "type": "p",
+          "text": "For four months a year, Kerala homes live with heavy rain, high humidity and soft, diffused light. The best houses here don’t resist the monsoon — they are designed around it."
+        },
+        { "type": "h", "text": "Start with the roof" },
+        {
+          "type": "p",
+          "text": "Generous overhangs protect walls and openings from driving rain and keep rooms cool through the rest of the year. Sloped roofs with well-sized gutters move water away quickly, and a raised plinth keeps the floor dry during heavy downpours."
+        },
+        {
+          "type": "img",
+          "image": "photos/two-storey-house-lawn",
+          "caption": "Deep overhangs shading the south garden elevation."
+        },
+        { "type": "h", "text": "Let the air move" },
+        {
+          "type": "p",
+          "text": "Aligned openings, courtyards and high-level vents keep air moving and help with humidity. Cross-ventilated rooms dry out faster, smell fresher and need less mechanical cooling."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Overhangs of at least 900 mm on exposed elevations",
+            "Courtyards with drainage designed for peak rainfall",
+            "Breathable finishes such as lime plaster on external walls",
+            "Covered transitions between indoor and outdoor spaces"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Designed this way, the monsoon becomes part of daily life: the sound of rain in the courtyard, soft light in the living room and a home that stays comfortable all year."
+        }
+      ]
+    },
+    {
+      "slug": "planning-an-interior-that-lasts",
+      "title": "Planning an Interior That Lasts",
+      "category": "Interior Design",
+      "publishedAt": "2026-10-02",
+      "views": 820,
+      "cover": "photos/sofa-jali-detail",
+      "author": "KATIC Interior",
+      "excerpt": "Five decisions that make the difference between an interior that dates quickly and one that ages well.",
+      "body": [
+        {
+          "type": "p",
+          "text": "Interiors that last are planned around routines, not trends. Before choosing colours or furniture, map how each room will actually be used at different times of day."
+        },
+        { "type": "h", "text": "Plan storage first" },
+        {
+          "type": "p",
+          "text": "Most clutter is a storage problem. Built-in storage designed at the start keeps rooms calm and saves floor space."
+        },
+        { "type": "h", "text": "Choose fewer, better materials" },
+        {
+          "type": "p",
+          "text": "A tight palette of durable materials — stone, timber, lime and metal — reads as calm and ages well. Sample everything in the actual room light before you decide."
+        },
+        {
+          "type": "img",
+          "image": "photos/timber-lounge-chair",
+          "caption": "Teak joinery along the courtyard edge."
+        },
+        { "type": "h", "text": "Layer the lighting" },
+        {
+          "type": "p",
+          "text": "Combine ambient, task and accent lighting so each room works for reading, cooking, gathering and resting."
+        }
+      ]
+    },
+    {
+      "slug": "choosing-natural-stone",
+      "title": "Choosing Natural Stone for Kerala Homes",
+      "category": "Materials & Finishes",
+      "publishedAt": "2026-09-18",
+      "views": 610,
+      "cover": "photos/bathroom-kota-stone",
+      "author": "KATIC Interior",
+      "excerpt": "Kota, granite, laterite and limestone compared for durability, comfort underfoot and maintenance in a humid climate.",
+      "body": [
+        {
+          "type": "p",
+          "text": "Stone is one of the most durable materials you can choose, but not every stone suits every room or climate."
+        },
+        { "type": "h", "text": "Kota stone" },
+        {
+          "type": "p",
+          "text": "Cool underfoot, quietly tonal and very hard wearing — ideal for verandas and living areas. A honed finish reduces slipperiness in wet weather."
+        },
+        { "type": "h", "text": "Granite" },
+        {
+          "type": "p",
+          "text": "Dense and stain-resistant, granite is a reliable choice for kitchen counters and external steps."
+        },
+        { "type": "h", "text": "Laterite" },
+        {
+          "type": "p",
+          "text": "Kerala’s traditional building stone gives walls warmth and texture, and breathes well in humid conditions."
+        },
+        {
+          "type": "p",
+          "text": "Whatever you choose, ask for large samples and see them wet and dry before deciding."
+        }
+      ]
+    },
+    {
+      "slug": "construction-quality-checklist",
+      "title": "A Construction Quality Checklist for Homeowners",
+      "category": "Construction",
+      "publishedAt": "2026-09-05",
+      "views": 1180,
+      "cover": "photos/house-under-construction",
+      "author": "KATIC Infrastructure",
+      "excerpt": "What to check at each stage of construction — from foundations to finishing — to make sure your home is built as drawn.",
+      "body": [
+        {
+          "type": "p",
+          "text": "Quality on site is the result of many small checks made at the right time. Here is what we inspect at each stage."
+        },
+        { "type": "h", "text": "Foundations and structure" },
+        {
+          "type": "ul",
+          "items": [
+            "Excavation depth and soil bearing confirmed",
+            "Reinforcement size, spacing and cover checked before every pour",
+            "Concrete cube tests recorded for each pour"
+          ]
+        },
+        { "type": "h", "text": "Services" },
+        {
+          "type": "p",
+          "text": "Electrical and plumbing routes are checked against the drawings before walls are closed, and pressure tests are carried out on all water lines."
+        },
+        { "type": "h", "text": "Finishing" },
+        {
+          "type": "p",
+          "text": "Plaster lines, floor levels, tile joints and paint coats are inspected room by room, and a snag list is shared before handover."
+        }
+      ]
+    },
+    {
+      "slug": "what-turnkey-really-means",
+      "title": "What “Turnkey” Really Means",
+      "category": "Turnkey Projects",
+      "publishedAt": "2026-08-21",
+      "views": 1320,
+      "cover": "photos/two-storey-house-lawn",
+      "author": "KATIC Design Studio",
+      "excerpt": "One team, one contract, one programme. How turnkey delivery works and when it is the right choice for your project.",
+      "body": [
+        {
+          "type": "p",
+          "text": "In a turnkey project, one team takes responsibility for design, approvals, construction, interiors and handover. You approve the brief, the budget and key decisions — we coordinate everything else."
+        },
+        { "type": "h", "text": "Why it works" },
+        {
+          "type": "p",
+          "text": "Fewer hand-offs mean fewer gaps between trades, faster decisions and a design that is built as intended."
+        },
+        { "type": "h", "text": "When to choose it" },
+        {
+          "type": "p",
+          "text": "Turnkey suits clients who want a single point of accountability and limited time to manage consultants and contractors."
+        },
+        {
+          "type": "img",
+          "image": "photos/courtyard-facade-night",
+          "caption": "A turnkey residence at handover."
+        }
+      ]
+    },
+    {
+      "slug": "renovating-an-older-home",
+      "title": "Renovating an Older Home Without Losing Its Character",
+      "category": "Renovation & Remodeling",
+      "publishedAt": "2026-08-07",
+      "views": 760,
+      "cover": "photos/brick-house-arched-windows-night",
+      "author": "KATIC Design Studio",
+      "excerpt": "How to decide what to keep, what to change and what to fix first when you renovate an older building.",
+      "body": [
+        {
+          "type": "p",
+          "text": "Older buildings often have qualities that are hard to recreate: thick walls, high ceilings, mature trees. Good renovation keeps these and fixes what no longer works."
+        },
+        { "type": "h", "text": "Survey before you design" },
+        {
+          "type": "p",
+          "text": "A structural and services survey reveals damp, cracks and outdated wiring before they become expensive surprises."
+        },
+        { "type": "h", "text": "Fix the envelope first" },
+        {
+          "type": "p",
+          "text": "Roof, waterproofing and drainage come before finishes. A dry building is the foundation of every other improvement."
+        }
+      ]
+    },
+    {
+      "slug": "gardens-for-the-tropics",
+      "title": "Low-Maintenance Gardens for the Tropics",
+      "category": "Exterior & Landscape",
+      "publishedAt": "2026-07-24",
+      "views": 880,
+      "cover": "photos/courtyard-tree-timber-balconies",
+      "author": "KATIC Design Studio",
+      "excerpt": "Native planting, shade and smart drainage for gardens that look good all year with little upkeep.",
+      "body": [
+        {
+          "type": "p",
+          "text": "A tropical garden can be lush without being demanding. The key is choosing plants and materials that suit the climate."
+        },
+        { "type": "h", "text": "Plant native" },
+        {
+          "type": "p",
+          "text": "Native species cope with heavy rain and dry spells, attract birds and insects, and need far less care."
+        },
+        { "type": "h", "text": "Design for water" },
+        {
+          "type": "p",
+          "text": "Permeable paving, swales and rain gardens let water soak in instead of flooding paths and foundations."
+        }
+      ]
+    },
+    {
+      "slug": "design-led-development",
+      "title": "Why Design Leads Value in Real Estate",
+      "category": "Real Estate & Development",
+      "publishedAt": "2026-07-10",
+      "views": 540,
+      "cover": "photos/apartment-tower",
+      "author": "KATIC Developers",
+      "excerpt": "Better light, better plans and better materials: why design-led developments hold their value for longer.",
+      "body": [
+        {
+          "type": "p",
+          "text": "Buyers notice light, air and good planning, even when they can’t name them. Developments designed around these qualities sell faster and age better."
+        },
+        { "type": "h", "text": "Plan for daily life" },
+        {
+          "type": "p",
+          "text": "Well-proportioned rooms, cross-ventilation and usable balconies matter more over time than headline amenities."
+        },
+        { "type": "h", "text": "Specify for the long term" },
+        {
+          "type": "p",
+          "text": "Durable materials reduce maintenance costs for owners and keep buildings looking good for longer."
+        }
+      ]
+    },
+    {
+      "slug": "pre-monsoon-maintenance",
+      "title": "A Pre-Monsoon Maintenance Checklist",
+      "category": "Property Care",
+      "publishedAt": "2026-06-26",
+      "views": 1050,
+      "cover": "photos/teak-stair-handrail",
+      "author": "KATIC Care",
+      "excerpt": "Ten checks to make before the rains arrive, from roof gutters to garden drainage.",
+      "body": [
+        {
+          "type": "p",
+          "text": "A few hours of inspection before the monsoon can prevent months of damp and repairs."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Clear gutters, downpipes and drains",
+            "Check roof tiles and sheets for cracks",
+            "Inspect terrace waterproofing and parapet joints",
+            "Re-seal window and door frames",
+            "Trim trees near the roof",
+            "Test sump pumps and outdoor electrical points",
+            "Clean garden drains and swales",
+            "Check for damp patches on walls",
+            "Service exterior timber with oil or sealant",
+            "Store outdoor furniture"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "KATIC Care offers pre-monsoon inspections as part of every maintenance plan."
+        }
+      ]
+    }
+  ]
+}

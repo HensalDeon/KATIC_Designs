@@ -1,0 +1,238 @@
+{
+  "data": {
+    "seo": {
+      "title": "Architects & Interior Designers in Dubai, UAE | Katic Designs",
+      "description": "Architecture, interior design, construction and turnkey projects for residential and commercial clients in Dubai and the UAE."
+    },
+    "hero": {
+      "image": {
+        "src": "photos/villa-pool-skyline-dusk",
+        "alt": "Modern villa and infinity pool with the Dubai skyline at dusk"
+      },
+      "kicker": "Katic Designs · Dubai",
+      "title": {
+        "lines": ["Architecture &", "Interior Design in"],
+        "accent": "Dubai.",
+        "accentOnNewLine": true
+      },
+      "lead": "Katic Designs creates residential and commercial spaces in Dubai through architecture, interior design, construction and turnkey project solutions.",
+      "primaryCta": { "kind": "contact", "label": "Start a Project", "href": "#dubai-contact" },
+      "secondaryCta": { "kind": "link", "label": "Explore Our Services", "href": "/services" },
+      "bar": {
+        "label": "UAE · RESIDENTIAL · COMMERCIAL",
+        "scroll": { "label": "SCROLL TO EXPLORE", "href": "#dubai-context" }
+      }
+    },
+    "blocks": [
+      {
+        "type": "dubaiContext",
+        "id": "dubai-context",
+        "image": {
+          "src": "photos/courtyard-reflecting-pool",
+          "alt": "Shaded courtyard with a long reflecting water channel and palms"
+        },
+        "caption": ["CLIMATE-AWARE LIVING", "Dubai, UAE"],
+        "kicker": "KATIC in Dubai",
+        "title": ["KATIC in", "Dubai."],
+        "body": "KATIC brings its integrated design-and-build practice to Dubai, with a local presence and the full capability of our India teams. Our approach responds to Dubai’s climate, contemporary urban environment, lifestyle and project requirements. We focus on thoughtful planning, natural light, materials, functionality and refined detailing.",
+        "cta": { "label": "Our Process", "href": "/services/architecture#process" }
+      },
+      {
+        "type": "related",
+        "header": {
+          "kicker": "Services in Dubai",
+          "title": ["Our services", "in Dubai"],
+          "lead": "Every KATIC service is available to clients in Dubai and the UAE.",
+          "cta": { "label": "All Services", "href": "/services", "variant": "dark" }
+        },
+        "columns": 4,
+        "services": [
+          "architecture",
+          "interior",
+          "construction",
+          "turnkey",
+          "renovation",
+          "exterior",
+          "property-care"
+        ]
+      },
+      {
+        "type": "divisionCards",
+        "header": { "kicker": "Our divisions", "title": ["One vision.", "Five divisions."] },
+        "columns": 5,
+        "divisions": ["design", "interior", "infrastructure", "developers", "care"]
+      },
+      {
+        "type": "split",
+        "image": {
+          "src": "photos/villa-pool-skyline-dusk",
+          "alt": "Modern villa and infinity pool with the Dubai skyline at dusk"
+        },
+        "caption": "Dubai → India",
+        "kicker": "Cross-border project collaboration",
+        "title": ["Living in Dubai.", "Building in India."],
+        "lead": "For Dubai-based clients building homes or investments in India, KATIC coordinates the whole project across both locations.",
+        "bullets": [
+          "Team coordination",
+          "Design & technical coordination",
+          "Construction support",
+          "Procurement & vendors",
+          "Agreed progress reporting",
+          "Site visits on your behalf"
+        ],
+        "cta": {
+          "kind": "contact",
+          "label": "Discuss a Cross-Border Project",
+          "variant": "primary"
+        }
+      },
+      {
+        "type": "process",
+        "header": {
+          "kicker": "India + Dubai connectivity",
+          "title": ["How it works", "in practice"],
+          "lead": "Clear responsibilities and regular updates, wherever you are."
+        },
+        "steps": [
+          {
+            "icon": "team",
+            "title": "Coordination",
+            "text": "Our Dubai contact works directly with teams across India."
+          },
+          {
+            "icon": "message",
+            "title": "Communication",
+            "text": "One point of contact across both locations and time zones."
+          },
+          {
+            "icon": "eye",
+            "title": "Progress updates",
+            "text": "Photo and video updates at agreed intervals."
+          },
+          {
+            "icon": "layers",
+            "title": "Milestone reviews",
+            "text": "Online reviews at each key milestone, with approvals."
+          },
+          {
+            "icon": "team",
+            "title": "Clear responsibilities",
+            "text": "A written scope that says who does what."
+          }
+        ]
+      },
+      {
+        "type": "features",
+        "header": { "kicker": "Why KATIC", "title": ["Why clients in", "Dubai choose us"] },
+        "columns": 4,
+        "items": [
+          {
+            "icon": "team",
+            "title": "Integrated capabilities",
+            "text": "Design, interiors, construction and care in one team."
+          },
+          {
+            "icon": "pin",
+            "title": "Local presence",
+            "text": "A Dubai contact who knows your project."
+          },
+          {
+            "icon": "pin",
+            "title": "Cross-border connectivity",
+            "text": "Projects in India managed from Dubai."
+          },
+          {
+            "icon": "team",
+            "title": "Clear responsibilities",
+            "text": "One contract and agreed reporting."
+          }
+        ]
+      },
+      {
+        "type": "dubaiOffice",
+        "id": "dubai-office",
+        "kicker": "Dubai office & contact",
+        "title": ["Visit or call", "our Dubai team"],
+        "details": [
+          {
+            "term": "Office",
+            "value": "KATIC Designs, Business Bay, Dubai, UAE",
+            "note": "Address placeholder — replace with the confirmed office address."
+          },
+          { "term": "Telephone", "value": "+971 0 000 0000", "href": "tel:+97100000000" },
+          {
+            "term": "Email",
+            "value": "dubai@katicdesigns.com",
+            "href": "mailto:dubai@katicdesigns.com"
+          },
+          { "term": "Hours", "value": "Mon–Fri · 9:00 AM–6:00 PM GST" }
+        ],
+        "directions": {
+          "label": "Get Directions",
+          "href": "https://www.google.com/maps/search/?api=1&query=Business+Bay+Dubai"
+        },
+        "image": {
+          "src": "photos/courtyard-reflecting-pool",
+          "alt": "Shaded courtyard with a long reflecting water channel and palms"
+        }
+      },
+      {
+        "type": "dubaiProjects",
+        "kicker": "Our work",
+        "title": ["Our Dubai", "Projects."],
+        "body": "Selected projects, prioritising our Dubai work. Projects from other locations are labelled with their city. Each project connects to its dedicated case study with project details, photography and services provided.",
+        "rows": [
+          {
+            "layout": "wide-first",
+            "cards": [
+              {
+                "project": "jumeirah-courtyard-house",
+                "label": "RESIDENTIAL VILLA",
+                "scope": "ARCHITECTURE"
+              },
+              {
+                "project": "palm-residence",
+                "label": "PRIVATE RESIDENCE",
+                "scope": "INTERIOR DESIGN"
+              }
+            ]
+          },
+          {
+            "layout": "narrow-first",
+            "cards": [
+              { "project": "desert-edge-villa", "label": "NEW BUILD", "scope": "TURNKEY PROJECT" },
+              {
+                "project": "difc-gallery-office",
+                "label": "COMMERCIAL WORKSPACE",
+                "scope": "INTERIOR DESIGN"
+              }
+            ]
+          }
+        ],
+        "cta": { "label": "View Our Work", "href": "/works#works-list" }
+      }
+    ],
+    "contact": {
+      "kicker": "Start your project",
+      "heading": { "lines": ["Start Your Project"], "accent": "in Dubai or India" },
+      "lead": "For projects in Dubai and the UAE, and for Dubai-based clients building across India.",
+      "channels": ["email", "phone", "whatsapp"],
+      "form": {
+        "service": { "mode": "select" },
+        "extraFields": [
+          {
+            "name": "location",
+            "label": "Project Location",
+            "options": ["Dubai / UAE", "Kerala, India", "Elsewhere in India"]
+          },
+          {
+            "name": "projectType",
+            "label": "Project Type",
+            "options": ["Residential", "Commercial", "Institutional", "Hospitality"]
+          }
+        ],
+        "prefillLocation": "Dubai, UAE"
+      }
+    }
+  }
+}

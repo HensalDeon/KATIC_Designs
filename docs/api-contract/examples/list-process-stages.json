@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "id": "discovery",
+      "title": "Discovery",
+      "text": "Site visit, brief, constraints and budget — the questions that shape everything after.",
+      "icon": "search"
+    },
+    {
+      "id": "concept",
+      "title": "Concept",
+      "text": "First massing studies and spatial ideas, tested against light, view and site logic.",
+      "icon": "compass"
+    },
+    {
+      "id": "design",
+      "title": "Design",
+      "text": "Detailed drawings, material decisions and a fully resolved design language.",
+      "icon": "compass"
+    },
+    {
+      "id": "engineering",
+      "title": "Engineering",
+      "text": "Structural and services design, engineered so the building stands as drawn.",
+      "icon": "crane"
+    },
+    {
+      "id": "construction",
+      "title": "Construction",
+      "text": "On-site execution supervised by our own team, built exactly to the drawing.",
+      "icon": "crane"
+    },
+    {
+      "id": "completion",
+      "title": "Completion",
+      "text": "Finishes, fit-out, snagging and quality checks until every detail is right.",
+      "icon": "check-circle"
+    },
+    {
+      "id": "handover",
+      "title": "Handover",
+      "text": "A guided walkthrough, documentation and keys to a space ready to live in.",
+      "icon": "key"
+    },
+    {
+      "id": "aftercare",
+      "title": "Aftercare",
+      "text": "Ongoing support, maintenance and care long after the project is complete.",
+      "icon": "shield"
+    }
+  ]
+}

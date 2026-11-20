@@ -1,0 +1,31 @@
+{
+  "data": {
+    "page": {
+      "seo": {
+        "title": "Architecture & Interior Design Blog | Katic Designs",
+        "description": "Ideas on architecture, interiors, materials, construction and caring for homes in Kerala's climate."
+      },
+      "hero": {
+        "image": "photos/brick-courtyard-house-dusk-panorama",
+        "kicker": "Journal",
+        "title": { "lines": ["Ideas on"], "accent": "Building Well" },
+        "lead": "Notes on architecture, interiors, materials, construction and caring for the spaces we live in."
+      },
+      "listHeading": "Articles",
+      "categoriesLabel": "Blog categories",
+      "allCategories": "All",
+      "readMore": "Read Article",
+      "loadMore": "Load More Articles",
+      "pageSize": 6,
+      "pageStep": 3
+    },
+    "article": {
+      "breadcrumb": "Blog",
+      "byline": "By",
+      "latestHeading": "Latest articles",
+      "latestCount": 4,
+      "allArticles": "All Articles",
+      "closing": { "prompt": "Planning a project?", "link": "Talk to the KATIC team" }
+    }
+  }
+}

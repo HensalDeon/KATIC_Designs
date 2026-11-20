@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "key": "residential",
+      "label": "SECTOR",
+      "title": "Residential",
+      "text": "Homes, villas and apartments shaped around daily life.",
+      "image": "photos/canal-house-sunset",
+      "alt": "House beside a canal at sunset",
+      "category": "residential"
+    },
+    {
+      "key": "commercial",
+      "label": "SECTOR",
+      "title": "Commercial",
+      "text": "Workplaces, retail and mixed-use spaces built for business.",
+      "image": "photos/commercial-facade-dusk",
+      "alt": "Industrial-style commercial building lit at dusk",
+      "category": "commercial"
+    },
+    {
+      "key": "institutional",
+      "label": "SECTOR",
+      "title": "Institutional",
+      "text": "Schools, healthcare and civic buildings for communities.",
+      "image": "photos/hillside-house-greenery",
+      "alt": "House set into a green hillside",
+      "category": "institutional"
+    },
+    {
+      "key": "hospitality",
+      "label": "SECTOR",
+      "title": "Hospitality",
+      "text": "Hotels, wellness and leisure spaces made to welcome.",
+      "image": "photos/garden-veranda-chairs",
+      "alt": "Garden veranda with cane chairs",
+      "category": "hospitality"
+    }
+  ]
+}

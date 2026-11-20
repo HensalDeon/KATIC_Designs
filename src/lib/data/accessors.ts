@@ -2,6 +2,9 @@ import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
 
+import { serverEnv } from "@/lib/env/server-env";
+
+import { LaravelRepository } from "./laravel/laravel-repository";
 import type { ContentRepository, PostFilter, ProjectFilter } from "./repository";
 import { StaticRepository } from "./static-repository";
 import { ALL_CONTENT_TAG, tags } from "./tags";
@@ -14,23 +17,36 @@ import { ALL_CONTENT_TAG, tags } from "./tags";
  * Each accessor is a `"use cache"` function: its result is part of the prerendered page (routes stay
  * fully static, `ensureStatic = "navigation"`), and it carries the tags of `./tags.ts` so Laravel
  * can revalidate exactly the pages that show a changed resource (`revalidateTag`). `cacheLife("max")`
- * is only the upper bound: content changes arrive by tag.
+ * is only the upper bound: content changes arrive by tag. With `DATA_SOURCE=laravel` the bound is
+ * `"days"` instead: a safety net that re-reads the API daily (in the background, stale content
+ * served meanwhile) should a webhook call ever be lost.
  */
 
 let repository: ContentRepository | undefined;
 
-/**
- * The repository behind the accessors. Static content today; Phase 11 adds `LaravelRepository`
- * behind `DATA_SOURCE=laravel`.
- */
+/** The repository behind the accessors: `src/content`, or the Laravel API (`DATA_SOURCE=laravel`). */
 export function getRepository(): ContentRepository {
-  repository ??= new StaticRepository();
+  repository ??= createRepository();
   return repository;
 }
 
+function createRepository(): ContentRepository {
+  const env = serverEnv();
+  if (env.DATA_SOURCE !== "laravel") return new StaticRepository();
+  // serverEnv() guarantees both in laravel mode; the fallbacks only satisfy the types.
+  return new LaravelRepository({
+    baseUrl: env.LARAVEL_API_URL ?? "",
+    token: env.LARAVEL_API_TOKEN ?? "",
+    timeoutMs: env.LARAVEL_API_TIMEOUT_MS,
+  });
+}
+
+const LARAVEL = process.env["DATA_SOURCE"] === "laravel";
+
 /** Common preamble of every cached read. */
 function cached(...resourceTags: string[]): void {
-  cacheLife("max");
+  if (LARAVEL) cacheLife("days");
+  else cacheLife("max");
   cacheTag(ALL_CONTENT_TAG, ...resourceTags);
 }
 

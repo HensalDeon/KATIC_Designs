@@ -1,0 +1,58 @@
+{
+  "data": {
+    "name": "Katic Designs",
+    "email": "hello@katicdesigns.com",
+    "phone": { "display": "+1 (000) 000-0000", "href": "tel:+10000000000" },
+    "whatsapp": { "number": "10000000000" },
+    "address": {
+      "lines": ["Katic Designs Studio", "14 Ridgeline Road", "Countryside District", "400001"],
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Katic+Designs+Kochi"
+    },
+    "socials": [
+      { "network": "instagram", "label": "Instagram", "url": "https://www.instagram.com/" },
+      { "network": "facebook", "label": "Facebook", "url": "https://www.facebook.com/" },
+      { "network": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/" },
+      { "network": "x", "label": "X", "url": "https://x.com/" }
+    ],
+    "credit": { "label": "crafted@ateliergroupcompany", "url": "https://ateliergroupcompany.com/" },
+    "seo": {
+      "title": "Architects, Interior Designers & Builders in Kochi, Kerala | Katic Designs",
+      "description": "Katic Designs is an architecture, interior design and construction studio in Kochi, Kerala and Dubai. Design, build, turnkey homes and property care under one roof.",
+      "locale": "en_IN",
+      "language": "en",
+      "geo": { "region": "IN-KL", "placename": "Kochi" },
+      "foundingDate": "2013",
+      "areaServed": ["Kerala", "South India", "Dubai", "United Arab Emirates"],
+      "ogImage": {
+        "path": "/og-image.jpg",
+        "width": 1200,
+        "height": 630,
+        "alt": "Courtyard home designed and built by Katic Designs in Kochi, Kerala"
+      }
+    },
+    "offices": {
+      "kochi": {
+        "id": "kochi",
+        "name": "Katic Designs — Kochi",
+        "email": "hello@katicdesigns.com",
+        "address": { "locality": "Kochi", "region": "Kerala", "country": "IN" },
+        "hours": {
+          "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "09:30",
+          "closes": "18:30"
+        }
+      },
+      "dubai": {
+        "id": "dubai",
+        "name": "Katic Designs — Dubai",
+        "email": "dubai@katicdesigns.com",
+        "address": { "locality": "Dubai", "country": "AE" },
+        "hours": {
+          "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "data": {
+    "slug": "the-courtyard-house",
+    "name": "The Courtyard House",
+    "location": "Thrissur, Kerala",
+    "region": "kerala",
+    "categories": ["residential", "architecture"],
+    "type": "Residential",
+    "scope": "Architecture",
+    "cover": "photos/arched-courtyard-terrace",
+    "coverAlt": "Courtyard terrace with arches and patterned tiles"
+  }
+}

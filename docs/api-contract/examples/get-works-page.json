@@ -1,0 +1,162 @@
+{
+  "data": {
+    "seo": {
+      "title": "Architecture & Interior Design Projects | Portfolio | Katic Designs",
+      "description": "Residential, commercial, institutional and hospitality projects by Katic Designs across Kerala, South India and Dubai."
+    },
+    "hero": {
+      "image": { "src": "photos/dark-lounge-interior", "alt": "Dark lounge interior with artwork" },
+      "kicker": "KATIC Projects · Kerala & UAE",
+      "title": ["Built Ideas.", { "accent": "Real Places." }],
+      "lead": "Explore architecture, interiors and construction projects across Kerala and UAE.",
+      "cta": { "label": "Explore Projects", "href": "/works#works-list" },
+      "current": {
+        "project": "the-courtyard-house",
+        "label": "Courtyard House",
+        "meta": "Kochi, Kerala · 2025"
+      }
+    },
+    "featured": {
+      "kicker": "Featured projects",
+      "title": ["A home shaped by", "light, shade and", "the monsoon."],
+      "text": "Our featured work pairs rigorous architecture with tactile interiors—designed as one continuous experience from first sketch to final detail.",
+      "project": "the-courtyard-house",
+      "name": "The Rain Court House",
+      "image": {
+        "src": "photos/house-reflecting-pool-garden",
+        "alt": "House with a long reflecting pool through the garden"
+      },
+      "tag": "Signature Residence · 2025",
+      "code": "KD / 024",
+      "crumb": ["KOCHI", "RESIDENTIAL", "ARCHITECTURE + INTERIORS"],
+      "heading": "Quiet rooms gather around a living courtyard.",
+      "description": "Designed for a multi-generational family, the residence turns inward to a rain garden that brings daylight, breeze and the sound of water into every room. Local stone, lime plaster and finely detailed teak temper the bold concrete shell.",
+      "cta": "View Project",
+      "stats": [
+        { "value": "6,800", "label": "SQ. FT." },
+        { "value": "18 mo", "label": "BUILD TIME" },
+        { "value": "A+", "label": "ENERGY GRADE" }
+      ]
+    },
+    "sectors": {
+      "kicker": "Project categories",
+      "title": ["Four sectors.", "One standard."],
+      "lead": "Browse our work by sector — each opens a filtered portfolio.",
+      "sectors": ["residential", "commercial", "institutional", "hospitality"]
+    },
+    "portfolio": {
+      "kicker": "Portfolio · Filter & explore",
+      "title": ["Places with", "purpose. Details", "with staying", "power."],
+      "text": "Browse a considered portfolio of residences, workplaces and hospitality spaces across Kerala and the UAE.",
+      "filters": [
+        { "label": "All", "category": "all" },
+        { "label": "Residential", "category": "residential" },
+        { "label": "Commercial", "category": "commercial" },
+        { "label": "Institutional", "category": "institutional" },
+        { "label": "Hospitality", "category": "hospitality" },
+        { "label": "Architecture", "category": "architecture" },
+        { "label": "Interiors", "category": "interiors" },
+        { "label": "Villas / Flats", "category": "villas" }
+      ],
+      "filtersLabel": "Filter projects by category",
+      "projects": [
+        "palm-veil-residence",
+        "cinder-house",
+        "nila-apartments",
+        "serein-wellness-club",
+        "house-of-three-courts",
+        "al-quoz-atelier",
+        "greenfield-school-campus",
+        "difc-gallery-office"
+      ],
+      "cardLinkLabel": "View Project"
+    },
+    "caseStudy": {
+      "project": "the-courtyard-house",
+      "image": {
+        "src": "photos/brick-courtyard-house-dusk",
+        "alt": "Brick courtyard house lit at dusk around a planted courtyard"
+      },
+      "caption": "Kakkanad · Kochi",
+      "kicker": "Selected case study",
+      "title": ["The Courtyard", "House"],
+      "lead": "Concept: a calm family home organised around a planted courtyard that draws light, rain and breeze into every room.",
+      "body": [
+        { "strong": "Challenge:" },
+        " a narrow, busy-road site with close neighbours, strong western heat and heavy monsoon rain. ",
+        { "strong": "Outcome:" },
+        " an inward-looking plan with deep overhangs, teak screens and cross-ventilation — private, cool and open to the landscape."
+      ],
+      "facts": ["Kakkanad, Kochi", "4,850 sq ft", "Architecture + Interiors", "Completed 2025"],
+      "cta": "View Case Study"
+    },
+    "capabilities": {
+      "kicker": "Our capabilities",
+      "title": ["Architecture,", "interior design,", "construction and", "turnkey projects."],
+      "text": "One integrated practice. Four disciplines working together to keep the original idea intact through every phase.",
+      "cards": [
+        {
+          "service": "architecture",
+          "title": "Architecture",
+          "text": "Climate-conscious homes and commercial spaces resolved from site to structure.",
+          "image": {
+            "src": "photos/architectural-model-on-drawings",
+            "alt": "Architectural model resting on drawings beside a window"
+          },
+          "icon": "leaf"
+        },
+        {
+          "service": "interior",
+          "title": "Interior Design",
+          "text": "Tactile, enduring interiors shaped around daily rituals and natural materiality.",
+          "image": {
+            "src": "photos/living-room-tv-wall",
+            "alt": "Living room with a timber TV wall"
+          },
+          "icon": "sofa"
+        },
+        {
+          "service": "construction",
+          "title": "Construction",
+          "text": "Disciplined site delivery with exacting quality, coordination and accountability.",
+          "image": {
+            "src": "photos/construction-team-drawings",
+            "alt": "Construction team reviewing drawings on site"
+          },
+          "icon": "crane"
+        },
+        {
+          "service": "turnkey",
+          "title": "Turnkey Projects",
+          "text": "One team from first conversation to a fully finished, ready-to-live space.",
+          "image": {
+            "src": "photos/formal-dining-room",
+            "alt": "Formal dining room with a chandelier"
+          },
+          "icon": "key"
+        }
+      ],
+      "cardLinkLabel": "Explore Service"
+    },
+    "divisions": {
+      "kicker": "Explore divisions",
+      "title": ["One vision.", "Five divisions."],
+      "divisions": ["design", "interior", "infrastructure", "developers", "care"]
+    },
+    "cta": {
+      "image": {
+        "src": "photos/pavilion-house-night",
+        "alt": "Glass pavilion house glowing at night"
+      },
+      "kicker": "Start a project",
+      "title": ["Your project could be", "next."],
+      "text": "Tell us what you want to build, where you are, and what matters most. We’ll bring the right disciplines to the table.",
+      "cta": { "label": "Start Your Project", "href": "/#start" },
+      "call": {
+        "label": "PREFER TO CALL?",
+        "phone": { "display": "+91 8086 000 600", "href": "tel:+918086000600" },
+        "hours": "Mon—Sat · 9:30 AM—6:30 PM IST"
+      }
+    }
+  }
+}

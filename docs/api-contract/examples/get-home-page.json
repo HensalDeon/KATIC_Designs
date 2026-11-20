@@ -1,0 +1,412 @@
+{
+  "data": {
+    "seo": {
+      "title": "Architects, Interior Designers & Builders in Kochi, Kerala | Katic Designs",
+      "description": "Katic Designs is an architecture, interior design and construction studio in Kochi, Kerala and Dubai. Design, build, turnkey homes and property care under one roof."
+    },
+    "hero": {
+      "eyebrow": "Residential & Interior Design Studio",
+      "title": ["Homes designed", "around how you", { "accent": "actually live" }],
+      "lead": "From first sketch to final walkthrough, we shape houses in the mountains and beyond into spaces that feel considered, warm, and entirely yours.",
+      "primaryCta": "Start a Project",
+      "secondaryCta": "View Our Projects",
+      "video": {
+        "desktopSrc": "/video/hero-desktop.mp4",
+        "mobileSrc": "/video/hero-mobile.mp4",
+        "desktopPoster": "video/hero-poster-desktop",
+        "mobilePoster": "video/hero-poster-mobile"
+      }
+    },
+    "about": {
+      "kicker": "About Katic Designs",
+      "title": ["We Build", { "accent": "Spaces" }, "That Endure."],
+      "established": "EST. 2013 · KOCHI, KERALA",
+      "paragraphs": [
+        [
+          "Founded in 2013 and headquartered in Kochi, Katic Designs is an architecture, interior design, and construction consultancy with a singular focus: ",
+          { "strong": "eco-conscious design that performs as beautifully as it looks." }
+        ],
+        [
+          "Every project begins with the same discipline — understand the site, harness natural light, and let the land speak first."
+        ]
+      ],
+      "partnersKicker": "General Partners",
+      "partners": [
+        { "name": "Jaquar", "logo": "partners/jaquar" },
+        { "name": "Asian Paints", "logo": "partners/asian-paints" },
+        { "name": "Kajaria", "logo": "partners/kajaria" },
+        { "name": "Hettich", "logo": "partners/hettich" }
+      ],
+      "cta": "About Us",
+      "stats": [
+        { "value": 200, "suffix": "+", "label": "Projects Delivered" },
+        { "value": 11, "suffix": "yrs", "label": "In Practice" },
+        { "value": 500, "suffix": "+", "label": "Families Housed" },
+        { "value": "Eco", "label": "Design Philosophy" }
+      ],
+      "values": [
+        {
+          "title": "Precision",
+          "text": "Every dimension, material, and detail is considered — nothing is arbitrary, everything earns its place.",
+          "icon": "target"
+        },
+        {
+          "title": "Innovation",
+          "text": "We bring fresh thinking to every brief — blending contemporary methods with time-tested building wisdom.",
+          "icon": "bulb"
+        },
+        {
+          "title": "Light",
+          "text": "Natural light is our first material. We sculpt it, direct it, and let it define the character of each space.",
+          "icon": "bulb"
+        },
+        {
+          "title": "Space",
+          "text": "We design how people move, breathe, and feel — not just what they see. Volume, proportion, and flow come first.",
+          "icon": "compass"
+        },
+        {
+          "title": "Craftsmanship",
+          "text": "Built to last a generation. We work with skilled artisans and trusted craftspeople who share our standard.",
+          "icon": "hand"
+        }
+      ]
+    },
+    "works": {
+      "kicker": "Selected Works",
+      "title": ["Selected", "Works"],
+      "lead": "A selection of residential, commercial, and civic commissions delivered across Kerala and beyond — each built to our founding principle of eco-conscious design.",
+      "cta": { "label": "View All Projects", "href": "/works" },
+      "filters": [
+        { "label": "All", "category": "all" },
+        { "label": "Residential", "category": "residential" },
+        { "label": "Commercial", "category": "commercial" },
+        { "label": "Architecture", "category": "architecture" },
+        { "label": "Interiors", "category": "interiors" },
+        { "label": "Villas / Flats", "category": "villas" }
+      ],
+      "projects": [
+        "obsidian-lounge",
+        "velvet-suite-penthouse",
+        "galicica-retreat",
+        "palm-veil-residence",
+        "cinder-house",
+        "nila-apartments",
+        "serein-wellness-club",
+        "house-of-three-courts",
+        "al-quoz-atelier",
+        "greenfield-school-campus",
+        "difc-gallery-office"
+      ],
+      "cardLinkLabel": "View Project"
+    },
+    "explorer": {
+      "kicker": "Our Services",
+      "title": "Services",
+      "lead": "One studio for every stage of your project — design, build, finish and care.",
+      "allLabel": "Explore all services",
+      "viewLabel": "View service",
+      "quoteLabel": "Get a quote",
+      "services": [
+        {
+          "slug": "architecture",
+          "name": "Architectural Design",
+          "group": "Design",
+          "description": "Homes and buildings planned around your site, climate and the way you live — from the first sketch to approved drawings.",
+          "highlights": ["Site study", "Concept & planning", "Elevations", "Approval drawings"],
+          "image": "photos/brick-courtyard-house-dusk"
+        },
+        {
+          "slug": "interior",
+          "name": "Interior Design",
+          "group": "Design",
+          "description": "Calm, practical interiors with materials, furniture and lighting chosen together — made in our own workshop.",
+          "highlights": ["Space planning", "Materials & finishes", "Custom furniture", "Lighting"],
+          "image": "photos/sofa-jali-detail"
+        },
+        {
+          "slug": "exterior",
+          "name": "Exterior & Landscape Design",
+          "group": "Design",
+          "description": "Facades, gardens and outdoor rooms designed with the building, so inside and outside feel like one place.",
+          "highlights": [
+            "Facade design",
+            "Gardens & courtyards",
+            "Outdoor living",
+            "Hardscape & lighting"
+          ],
+          "image": "photos/courtyard-tree-timber-balconies"
+        },
+        {
+          "slug": "construction",
+          "name": "Construction & Execution",
+          "group": "Construction",
+          "description": "Our own site teams build exactly to the drawing, with clear schedules and quality checks at every stage.",
+          "highlights": ["Civil & structure", "MEP coordination", "Site management", "Finishing"],
+          "image": "photos/house-under-construction"
+        },
+        {
+          "slug": "turnkey",
+          "name": "Turnkey Projects",
+          "group": "Construction",
+          "description": "One team and one contract, from design and approvals to construction, interiors and handover.",
+          "highlights": [
+            "Single point of contact",
+            "Fixed scope & budget",
+            "Design + build",
+            "Ready-to-move handover"
+          ],
+          "image": "photos/two-storey-house-lawn"
+        },
+        {
+          "slug": "renovation",
+          "name": "Renovation & Remodeling",
+          "group": "Construction",
+          "description": "Give an existing home or building new life — better light, better layout and modern services, keeping the character worth saving.",
+          "highlights": ["Condition survey", "Re-planning", "Kitchens & baths", "Facade upgrade"],
+          "image": "photos/garden-veranda-chairs"
+        },
+        {
+          "slug": "property-care",
+          "name": "Property Care & Maintenance",
+          "group": "Construction",
+          "description": "Planned maintenance and quick repairs that keep your property looking good and working well, year after year.",
+          "highlights": [
+            "Routine inspections",
+            "Repairs",
+            "Pre-monsoon checks",
+            "Priority support"
+          ],
+          "image": "photos/homeowners-walkthrough"
+        }
+      ]
+    },
+    "process": {
+      "kicker": "How A Landmark Gets Made",
+      "title": ["Seven Stages,", "One Continuous Build"],
+      "stages": [
+        {
+          "title": "Discovery",
+          "text": "Site visit, brief, constraints, and budget — the questions that shape everything after.",
+          "icon": "search",
+          "art": 0
+        },
+        {
+          "title": "Concept",
+          "text": "First massing studies and spatial ideas, tested against light, view, and site logic.",
+          "icon": "compass",
+          "art": 1
+        },
+        {
+          "title": "Design",
+          "text": "Detailed drawings, material decisions, and a fully resolved architectural language.",
+          "icon": "compass",
+          "art": 2
+        },
+        {
+          "title": "Engineering",
+          "text": "Structural and services design, engineered so the building stands as drawn.",
+          "icon": "crane",
+          "art": 3
+        },
+        {
+          "title": "Construction",
+          "text": "On-site execution supervised by our own team, built exactly to the drawing.",
+          "icon": "crane",
+          "art": 4
+        },
+        {
+          "title": "Interiors",
+          "text": "Spatial planning, finishes, joinery and lighting that complete the architecture.",
+          "icon": "sofa",
+          "art": 5
+        },
+        {
+          "title": "Handover",
+          "text": "A guided walkthrough, documentation and keys to a space ready to live in.",
+          "icon": "key",
+          "art": 6
+        }
+      ]
+    },
+    "signature": {
+      "kicker": "Step Inside",
+      "title": ["Signature", "Project"],
+      "text": "From the entrance to the last detail, each space is designed to work as one — kitchen, living, dining, and leisure areas sharing a single architectural language.",
+      "cta": "View Project",
+      "projectSlug": "the-courtyard-house",
+      "background": {
+        "image": "photos/villa-pool-mountains",
+        "alt": "Villa exterior with private pool"
+      },
+      "pill": "Signature Project",
+      "rooms": [
+        {
+          "title": "Kitchen",
+          "subtitle": "Katic Home — Interior",
+          "image": "photos/granite-kitchen"
+        },
+        {
+          "title": "Games Room",
+          "subtitle": "Katic Home — Interior",
+          "image": "photos/games-room-billiards"
+        },
+        {
+          "title": "Living Room",
+          "subtitle": "Katic Home — Interior",
+          "image": "photos/open-pavilion-lounge-night"
+        },
+        {
+          "title": "Reception",
+          "subtitle": "Katic Home — Interior",
+          "image": "photos/arched-courtyard-terrace"
+        }
+      ]
+    },
+    "divisions": {
+      "kicker": "Our Divisions",
+      "titleLines": ["One vision.", "Five divisions."],
+      "lead": "Specialist teams for design, interiors, construction, development and care — working together on every KATIC project.",
+      "cta": { "label": "About Our Divisions", "href": "/about#about-divisions" },
+      "exploreLabel": "Explore Division",
+      "label": "Our divisions",
+      "slides": [
+        {
+          "slug": "design",
+          "name": "KATIC Design",
+          "href": "/divisions/design",
+          "titleLines": ["Buildings shaped", "by site, climate", "and purpose."],
+          "description": "Architecture, planning and facade design that start with the land, the light and the way you want to live.",
+          "image": "photos/white-hallway-stair"
+        },
+        {
+          "slug": "interior",
+          "name": "KATIC Interior",
+          "href": "/divisions/interior",
+          "titleLines": ["Rooms designed,", "made and installed", "by one team."],
+          "description": "Interiors, joinery and lighting drawn in our studio and built in our own workshop — so what you approve is what arrives.",
+          "image": "photos/kitchen-joinery"
+        },
+        {
+          "slug": "infrastructure",
+          "name": "KATIC Infrastructure",
+          "href": "/divisions/infrastructure",
+          "titleLines": ["Where drawings", "become", "buildings."],
+          "description": "Construction and execution for homes, workplaces, institutions and hospitality, built to the drawing and on programme.",
+          "image": "photos/ornate-bedroom-suite"
+        },
+        {
+          "slug": "developers",
+          "name": "KATIC Developers",
+          "href": "/divisions/developers",
+          "titleLines": ["Homes built", "from land", "to handover."],
+          "description": "Design-led residential and commercial developments, planned and delivered by the same teams that design them.",
+          "image": "photos/living-room-tropical-wallpaper"
+        },
+        {
+          "slug": "care",
+          "name": "KATIC Care",
+          "href": "/divisions/care",
+          "titleLines": ["Spaces kept at", "their very best,", "year after year."],
+          "description": "Maintenance, repairs and inspections that protect your property’s value long after the keys are handed over.",
+          "image": "photos/timber-entrance-door"
+        }
+      ]
+    },
+    "stories": {
+      "kicker": "Client Stories",
+      "titleLines": ["From Brief", "To Built"],
+      "introLines": ["Direct feedback from the people we’ve built for —", "in their own words."],
+      "pill": "CLIENT STORY",
+      "cta": { "label": "VIEW ALL STORIES", "href": "/reviews" },
+      "stories": [
+        {
+          "quote": "Budget discipline without design compromise. That balance is rarer than it should be in this industry.",
+          "name": "K. Dimitrov",
+          "company": "Riverline Offices",
+          "portrait": "people/client-story-01",
+          "project": "photos/white-bathroom-checker-floor-small"
+        },
+        {
+          "quote": "Katic understood what we wanted from the beginning and translated it into a home that feels completely our own.",
+          "name": "Homeowner",
+          "company": "Residential Project · Kochi",
+          "portrait": "people/client-story-02",
+          "project": "photos/sofa-jali-detail"
+        },
+        {
+          "quote": "The team brought order to a complex process. Every choice felt considered, and the final spaces work beautifully for our day-to-day life.",
+          "name": "Private Client",
+          "company": "Interior Renovation · Ernakulam",
+          "portrait": "people/client-story-03",
+          "project": "photos/timber-lounge-chair"
+        },
+        {
+          "quote": "From early planning through site execution, communication stayed clear and the level of care never changed.",
+          "name": "Property Owner",
+          "company": "Turnkey Residence · Thrissur",
+          "portrait": "people/client-story-04",
+          "project": "photos/garden-veranda-chairs"
+        }
+      ]
+    },
+    "blogTeaser": {
+      "kicker": "Latest from the blog",
+      "title": ["Ideas on", "building well"],
+      "lead": "Notes on architecture, interiors, materials, construction and caring for the spaces we live in.",
+      "cta": "View All Articles",
+      "featuredLabel": "Featured",
+      "readMore": "Read Article"
+    },
+    "newsTeaser": {
+      "kicker": "In the news",
+      "title": ["Latest from", "KATIC"],
+      "lead": "Studio updates, completed projects and announcements from across our divisions.",
+      "cta": "View All News",
+      "readMore": "Read more"
+    },
+    "contact": {
+      "kicker": "Get in Touch",
+      "heading": { "lines": ["Have a Project in", "Mind?"] },
+      "lead": "Tell us a little about your site, timeline, and the service you need — we’ll get back to you within one business day to schedule a first conversation.",
+      "channels": ["email", "phone"],
+      "form": { "service": { "mode": "select" } },
+      "faq": {
+        "kicker": "Questions, answered",
+        "titleLines": ["Frequently asked", "questions"],
+        "items": [
+          {
+            "question": "What services does KATIC offer?",
+            "answer": "Architectural design, interior design, construction and execution, turnkey projects, renovation, exterior and landscape design, and property care — all under one roof.",
+            "link": { "label": "Explore all services", "href": "/services" }
+          },
+          {
+            "question": "Where do you work?",
+            "answer": "Across Kerala and South India from our Kochi office, and in Dubai and the UAE.",
+            "link": { "label": "See our locations", "href": "/locations/india" }
+          },
+          {
+            "question": "How does a project start?",
+            "answer": "With a conversation about your site, needs and budget, followed by a site visit and a proposal.",
+            "link": { "label": "Start a project", "action": "contact" }
+          },
+          {
+            "question": "Can one team handle design and construction?",
+            "answer": "Yes. Our turnkey service covers design, approvals, construction, interiors and handover under one contract.",
+            "link": { "label": "About turnkey projects", "href": "/services/turnkey" }
+          },
+          {
+            "question": "How long does a typical home take?",
+            "answer": "Design usually takes 2–4 months and construction 12–18 months, depending on size and finishes.",
+            "link": { "label": "See our process", "href": "/#home-process" }
+          },
+          {
+            "question": "Do you support clients after handover?",
+            "answer": "Yes. KATIC Care provides maintenance plans, repairs and ongoing support.",
+            "link": { "label": "About KATIC Care", "href": "/divisions/care" }
+          }
+        ]
+      }
+    }
+  }
+}

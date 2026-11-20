@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "name": "Architecture", "slug": "architecture" },
+    { "name": "Interior Design", "slug": "interior-design" },
+    { "name": "Materials & Finishes", "slug": "materials-finishes" },
+    { "name": "Construction", "slug": "construction" },
+    { "name": "Turnkey Projects", "slug": "turnkey-projects" },
+    { "name": "Renovation & Remodeling", "slug": "renovation-remodeling" },
+    { "name": "Exterior & Landscape", "slug": "exterior-landscape" },
+    { "name": "Real Estate & Development", "slug": "real-estate-development" },
+    { "name": "Property Care", "slug": "property-care" }
+  ]
+}

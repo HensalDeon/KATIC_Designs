@@ -88,32 +88,9 @@ import type { SiteSettings } from "@/lib/schemas/site";
  * - **References stay ids.** Pages carry `MediaId`s and entity slugs; the shared collections
  *   (`listProjects`, `listTestimonials`, …) and the media library resolve them (`getRefs()`).
  *
- * Resource map (API path → method):
- *
- * | API                            | Method                                        |
- * | ------------------------------ | --------------------------------------------- |
- * | `GET /settings`                | `getSite()`                                   |
- * | `GET /navigation`              | `getNavigation()`                             |
- * | `GET /media`                   | `getMediaLibrary()`                           |
- * | `GET /contact`                 | `getContactTemplate()`                        |
- * | `GET /projects?category=`      | `listProjects({ category })`                  |
- * | `GET /projects/{slug}`         | `getProject(slug)`, `getProjectPage(slug)`    |
- * | `GET /testimonials`            | `listTestimonials()`                          |
- * | `GET /process-stages`          | `listProcessStages()`                         |
- * | `GET /sectors`                 | `listSectors()`                               |
- * | `GET /divisions`               | `listDivisions()`                             |
- * | `GET /related-services`        | `listRelatedServices()`                       |
- * | `GET /services`                | `listServicePageSlugs()`                      |
- * | `GET /services/{slug}`         | `getServicePage(slug)` (FAQ embedded)         |
- * | `GET /divisions/{slug}`        | `listDivisionPageSlugs()`, `getDivisionPage()` |
- * | `GET /locations/{slug}`        | `getIndiaPage()`, `getDubaiPage()`            |
- * | `GET /posts?category=&page=`   | `listPosts({ category })` (all pages merged)  |
- * | `GET /posts/{slug}`            | `getPost(slug)`                               |
- * | `GET /post-categories`         | `listPostCategories()`                        |
- * | `GET /news`                    | `listNews()`                                  |
- * | `GET /faqs?page=`              | embedded in the page resources (`contact.faq`) |
- * | `GET /pages/{page}`            | `getHomePage()`, `getAboutPage()`, …          |
- * | `POST /leads`                  | not here: `src/app/api/leads` (LEADS_ENDPOINT) |
+ * Resource map: one REST resource per method, defined once in `./laravel/endpoints.ts` (path,
+ * schema, cache tags) and documented in docs/API_CONTRACT.md (`pnpm api:contract`). Leads are not
+ * here: `src/app/api/leads` forwards them to LEADS_ENDPOINT.
  */
 export type ContentRepository = {
   // Site shell -----------------------------------------------------------------------------------

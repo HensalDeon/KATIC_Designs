@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+    },
+    "phone": {
+      "type": "object",
+      "properties": {
+        "display": { "type": "string" },
+        "href": { "type": "string", "pattern": "^tel:[\\s\\S]{0,}$" }
+      },
+      "required": ["display", "href"],
+      "additionalProperties": false
+    },
+    "whatsapp": {
+      "type": "object",
+      "properties": { "number": { "type": "string", "pattern": "^\\d+$" } },
+      "required": ["number"],
+      "additionalProperties": false
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "lines": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+        "mapsUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["lines", "mapsUrl"],
+      "additionalProperties": false
+    },
+    "socials": {
+      "readOnly": true,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "network": { "type": "string", "enum": ["instagram", "facebook", "linkedin", "x"] },
+          "label": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        },
+        "required": ["network", "label", "url"],
+        "additionalProperties": false
+      }
+    },
+    "credit": {
+      "type": "object",
+      "properties": { "label": { "type": "string" }, "url": { "type": "string", "minLength": 1 } },
+      "required": ["label", "url"],
+      "additionalProperties": false
+    },
+    "seo": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "locale": { "type": "string" },
+        "language": { "type": "string" },
+        "geo": {
+          "type": "object",
+          "properties": { "region": { "type": "string" }, "placename": { "type": "string" } },
+          "required": ["region", "placename"],
+          "additionalProperties": false
+        },
+        "foundingDate": { "type": "string" },
+        "areaServed": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+        "ogImage": {
+          "type": "object",
+          "properties": {
+            "path": { "type": "string", "format": "starts_with", "pattern": "^\\/.*" },
+            "width": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+            "height": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+            "alt": { "type": "string" }
+          },
+          "required": ["path", "width", "height", "alt"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "locale",
+        "language",
+        "geo",
+        "foundingDate",
+        "areaServed",
+        "ogImage"
+      ],
+      "additionalProperties": false
+    },
+    "offices": {
+      "type": "object",
+      "properties": {
+        "kochi": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "enum": ["kochi", "dubai"] },
+            "name": { "type": "string" },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            "address": {
+              "type": "object",
+              "properties": {
+                "locality": { "type": "string" },
+                "region": { "type": "string" },
+                "country": { "type": "string", "enum": ["IN", "AE"] }
+              },
+              "required": ["locality", "country"],
+              "additionalProperties": false
+            },
+            "hours": {
+              "type": "object",
+              "properties": {
+                "days": {
+                  "readOnly": true,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                      "Sunday"
+                    ]
+                  }
+                },
+                "opens": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+                "closes": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
+              },
+              "required": ["days", "opens", "closes"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "name", "email", "address", "hours"],
+          "additionalProperties": false
+        },
+        "dubai": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "enum": ["kochi", "dubai"] },
+            "name": { "type": "string" },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            "address": {
+              "type": "object",
+              "properties": {
+                "locality": { "type": "string" },
+                "region": { "type": "string" },
+                "country": { "type": "string", "enum": ["IN", "AE"] }
+              },
+              "required": ["locality", "country"],
+              "additionalProperties": false
+            },
+            "hours": {
+              "type": "object",
+              "properties": {
+                "days": {
+                  "readOnly": true,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                      "Sunday"
+                    ]
+                  }
+                },
+                "opens": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+                "closes": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
+              },
+              "required": ["days", "opens", "closes"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "name", "email", "address", "hours"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["kochi", "dubai"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "phone",
+    "whatsapp",
+    "address",
+    "socials",
+    "credit",
+    "seo",
+    "offices"
+  ],
+  "additionalProperties": false
+}
