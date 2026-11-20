@@ -333,13 +333,15 @@ Built in three parallel groups (blog + article, news + thank-you, reviews).
 
 **Exit:** met. The site-wide live sign-off and decisions are in docs/PARITY.md and DECISIONS P10-01 to P10-06; every known issue has a final status; the client checklist is docs/CLIENT_CHECKLIST.md. `reference/` is kept until the Laravel integration is done.
 
-### Phase 11: Laravel readiness (~1 day of front-end work; the backend itself is separate)
+### Phase 11: Laravel readiness (front end) ✅ done 2026-11-20; the backend itself is separate
 
-- [ ] `docs/API_CONTRACT.md`: the REST resources the front end needs (`/settings`, `/navigation`, `/services/{slug}`, `/divisions/{slug}`, `/projects?category=`, `/projects/{slug}`, `/posts?category=&page=`, `/posts/{slug}`, `/news`, `/testimonials`, `/faqs?page=`, `POST /leads`), with JSON examples generated from the Zod schemas.
-- [ ] `LaravelRepository` implementing the same interface: `fetch` with `next: { tags }`, Zod parsing at the boundary, typed errors, timeouts.
-- [ ] `/api/revalidate` route (signed secret) so Laravel can trigger on-demand ISR when content changes.
-- [ ] Switch repositories with `DATA_SOURCE=static|laravel`; `/api/leads` forwards to the Laravel endpoint.
+- [x] `docs/API_CONTRACT.md`: the REST resources the front end needs (`/settings`, `/navigation`, `/services/{slug}`, `/divisions/{slug}`, `/projects?category=`, `/projects/{slug}`, `/posts?category=&page=`, `/posts/{slug}`, `/news`, `/testimonials`, `/faqs?page=`, `POST /leads`), with JSON examples generated from the Zod schemas.
+- [x] `LaravelRepository` implementing the same interface: `fetch` with `next: { tags }`, Zod parsing at the boundary, typed errors, timeouts.
+- [x] `/api/revalidate` route (signed secret) so Laravel can trigger on-demand ISR when content changes.
+- [x] Switch repositories with `DATA_SOURCE=static|laravel`; `/api/leads` forwards to the Laravel endpoint.
 - [ ] Once the Laravel integration is done: delete `reference/` (kept until then, decided 2026-11-20) and the tooling that only reads it (`scripts/reference/`, `scripts/art/export-original-art.mts`, the `ref:*` and `parity*` scripts, `tests/visual/`), and update README and the build guide.
+
+Also built: the data layer the plan assumed (D6, P11-01: Zod schemas for every resource, `ContentRepository`, every page migrated), a mock Laravel API, and env validation. **Exit (front end):** met. The whole e2e suite passes in static mode and in laravel mode against the mock, including revalidation and lead delivery. Open: the real Laravel API implementing docs/API_CONTRACT.md, then the `reference/` cleanup above.
 
 **Total: ~21–25 developer-days** for front-end parity, plus client content turnaround.
 
