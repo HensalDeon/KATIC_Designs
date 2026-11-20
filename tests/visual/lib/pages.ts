@@ -46,8 +46,12 @@ export const HIDE_CHROME_CSS: Readonly<Record<Site, string>> = {
   }`,
 };
 
-/** Motion captures also hide the hero videos (their frame depends on playback time). */
-export const HIDE_VIDEO_CSS = `video { visibility: hidden !important; }`;
+/**
+ * Motion captures also hide the hero videos (their frame depends on playback time), and the
+ * rebuild's server-rendered poster `<picture>` under ours: the original has no poster element
+ * there, so with its video hidden it shows black.
+ */
+export const HIDE_VIDEO_CSS = `video, [data-hero] picture { visibility: hidden !important; }`;
 
 /**
  * Neutralises the original's `fit()` auto-zoom (KI-L13). At ≥1100px, `fit()` sets an inline

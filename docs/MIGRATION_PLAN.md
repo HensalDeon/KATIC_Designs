@@ -315,21 +315,23 @@ Built in three parallel groups (blog + article, news + thank-you, reviews).
 
 **Exit:** met. Every non-pass in docs/PARITY.md is a deliberate fix (checked with the fix reverted) or image resampling; no reveals on these pages, as in the original. All suites are green (395 unit, 631 e2e).
 
-### Phase 10: Hardening and parity sign-off (~2–3 days)
+### Phase 10: Hardening and parity sign-off (~2–3 days) ✅ done 2026-11-20
 
-- [ ] Full visual-parity suite green at all 4 widths, plus spot checks at 1280, 1920 and 2560 (zoom > 1) and 1366×650 (short laptop).
-- [ ] Cross-browser: Chrome, Safari (macOS + iOS), Firefox, Edge; real-device check on iPhone and Android.
-- [ ] Accessibility: axe on every route, keyboard-only walkthrough, VoiceOver pass on nav, modal, lightbox, carousels and forms.
-- [ ] SEO:
+- [x] Full visual-parity run at all 4 widths against the live original, every section above 2% explained (docs/PARITY.md, final sign-off); geometry spot checks at 1280, 1920 and 2560 (zoom > 1) and 1366×650 (short laptop).
+- [x] Cross-browser: Chromium (all suites), WebKit (geometry suites + a full desktop run, P10-06), Firefox geometry in CI. **Manual before launch:** real iPhone (Safari), Android (Chrome), Edge, VoiceOver.
+- [x] Accessibility: axe on every route and interactive state (0 violations), scripted keyboard walkthrough, accessibility-tree checks. **Manual before launch:** a VoiceOver pass on nav, modal, lightbox, carousels and forms.
+- [x] SEO:
   - per-route metadata (titles and descriptions ported verbatim) and canonical URLs;
   - JSON-LD (Organization + 2× LocalBusiness site-wide; FAQPage only where FAQs render; BlogPosting on articles; BreadcrumbList);
   - `sitemap.xml`, `robots.txt`, OG images.
-- [ ] Performance: Lighthouse CI budgets, image `sizes` audit, video `preload="metadata"` + poster, font preloading.
-- [ ] Update KNOWN_ISSUES with final statuses; hand off a client content checklist.
-- [ ] Final cleanup: nothing ships or stays in the repo that the site doesn't need.
+- [x] Performance: Lighthouse CI budgets, image `sizes` audit, video `preload="metadata"` + poster, font preloading.
+- [x] Update KNOWN_ISSUES with final statuses; hand off a client content checklist.
+- [x] Final cleanup: nothing ships or stays in the repo that the site doesn't need.
   - Delete components, variants and props no page uses (the P7-04 list: `FaqSection`, `CtaBand` reviews, `Chip`, `UnderlineLink`, `MoreLink`, `Button`, `PageHero` enquiry, unused primitive variants) and any media in `src/content/media.ts` no page references.
   - Delete scripts and test helpers that only served the build (keep what CI, `pnpm parity` and the asset pipeline still run).
   - Local, git-ignored working folders: `.tmp/` (throwaway probes, deleted after every phase). `reference/` (original site, baseline captures, audit screenshots: 1.2 GB) stays until the Laravel integration is done (decided 2026-11-20), then it and the scripts that only read it (`scripts/reference/`, `scripts/art/export-original-art.mts`, `pnpm ref:*`, `pnpm parity`) are removed in Phase 11.
+
+**Exit:** met. The site-wide live sign-off and decisions are in docs/PARITY.md and DECISIONS P10-01 to P10-06; every known issue has a final status; the client checklist is docs/CLIENT_CHECKLIST.md. `reference/` is kept until the Laravel integration is done.
 
 ### Phase 11: Laravel readiness (~1 day of front-end work; the backend itself is separate)
 

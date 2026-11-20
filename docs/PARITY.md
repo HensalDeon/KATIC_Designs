@@ -239,3 +239,49 @@ Bracketed numbers are with the fix reverted (`--css`); 768/390 brackets use sett
 Footers are within 1% everywhere except where the stored capture is offset (KI-N12; ≤0.6% settled). A position probe of Reviews matches the original within 0.1px at all four widths once the fixes are reverted.
 
 **Motion check (animations on, 1440):** none of these original pages has `[data-rv]`, and the rebuild has no `[data-reveal]`. Every section is within 1.25% (most ≤0.33%); the reviews CTA parallax matches the original's −72/−36px and is static under reduced motion.
+
+---
+
+## Final sign-off: the whole site, live (Phase 10, 2026-11-20)
+
+The sections above were measured page by page against the stored baseline as each page was built. This sign-off re-measures **every route** against the original **served live and captured once settled** (`pnpm parity --live`, P10-04), which removes the stored baseline's capture offsets (KI-N12). Each section is measured as-is, then with the deliberate fixes reverted (`--no-fit --css tests/visual/reverts/titles.css`: no auto-zoom, KI-L13; title scale, KI-N04 / KI-L16). It runs after the approved darker button fill (#C55325, P10-02) and after two regressions it found were fixed (KI-N18).
+
+| Width | Sections | As-is pass / review / fail | Fixes reverted pass / review / fail |
+| ----- | -------- | -------------------------- | ----------------------------------- |
+| 1440  | 219      | 127 / 36 / 56              | 178 / 23 / 18                       |
+| 1024  | 219      | 130 / 8 / 81               | 181 / 7 / 31                        |
+| 768   | 219      | 153 / 24 / 42              | same (both reverts apply at ≥1024)  |
+| 390   | 219      | 133 / 31 / 55              | same                                |
+
+The two pinned home sections are compared by their own motion-on suites (`home-pinned`) at every width.
+
+**Every section still above 2% with the fixes reverted has a verified reason** (diff image or `pnpm parity:probe`):
+
+- **The darker button fill (P10-02):** contact sections (home, interior, factory, construction, renovation, Dubai: 2–4.5%), CTA bands at phone widths (project 7.8%, reviews 5.2%, works 3.1%), and footers at 390 (2.1–2.9%).
+- **Image resampling by `next/image`:** home divisions 2.39%, exterior sectors 2.05%, the project gallery at 390 (5.39%, plus a 1px offset).
+- **Deliberate layout fixes**, unchanged from the page ledgers above:
+  - KI-L14: About philosophy.
+  - KI-L08 / KI-L25: About intro, Dubai context.
+  - KI-L18 / KI-L17 / KI-L09: Services blocks.
+  - KI-L20 / KI-L21: Architecture process on phones, and the spacer removed from the intro. Live captures include the original's empty 230px spacer, so the intro now reads 34% / 15.6% reverted; the layout matches once the spacer is accounted for.
+  - KI-L11: contacts at 768/390.
+  - KI-L23: testimonials and galleries at 1024.
+  - KI-L28 / KI-C09: Works list, capabilities, project design response and related projects.
+  - KI-L24: project brief and materials.
+  - KI-L01 / KI-L29: home stories.
+  - KI-L30: home divisions at 768.
+  - Renovation before/after: the documented phone sizes.
+  - KI-N07: the `CtaBand` 80px padding at 1024.
+  - Home blog 2.89%: the original's runtime contrast fix.
+- **Decided deviations:** KI-N16, the Architecture FAQ heading keeps the shared size (4.2% / 7.2%); KI-N17, the Dubai office labels at 390 (26.4%).
+
+**Motion check (animations on, 1440, `--motion --no-fit`):** 202 sections: 164 pass, 26 review, 16 fail; every fail matches a reason above. The home hero first read 39.6% because the tool hid our video but not our poster; that's a tool artefact, now fixed (`HIDE_VIDEO_CSS`).
+
+**Wide and short screens** (1280×800, 1366×650, 1920×1080 and 2560×1440; 10 routes, both sites live):
+
+- No horizontal overflow; the original overflows on /works and /reviews.
+- The fixed header, contact rail, hero height and h1 position match the original to 0.1px at every size.
+- The pinned home sections and the zoom-geometry checks pass in Chromium at all four sizes, including progress 0 → 1 at 650px height.
+- Pixel parity at these sizes was not run.
+
+**Cross-browser (P10-06):** a full desktop run in WebKit found no app bugs. Its 107 differences are how WebKit reports computed values, macOS Tab-key behaviour, and APIs desktop WebKit lacks. Firefox geometry runs in CI. Real iOS Safari, Android Chrome, Edge and a VoiceOver pass remain manual checks before launch.
