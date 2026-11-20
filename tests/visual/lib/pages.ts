@@ -27,7 +27,7 @@ import path from "node:path";
 
 import { type Browser, type BrowserContext, type Page } from "@playwright/test";
 
-import { PARITY_VIEWPORTS, type ParityViewportId } from "../routes";
+import { ALL_VIEWPORTS, type ParityViewportId } from "../routes";
 import { heightsStable, splitList } from "./options";
 
 export type Site = "original" | "ours";
@@ -74,7 +74,7 @@ export function newParityContext(
   viewportId: ParityViewportId,
   options: { motion?: boolean } = {},
 ): Promise<BrowserContext> {
-  const viewport = PARITY_VIEWPORTS[viewportId];
+  const viewport = ALL_VIEWPORTS[viewportId];
   return browser.newContext({
     viewport: { width: viewport.width, height: viewport.height },
     deviceScaleFactor: 1,

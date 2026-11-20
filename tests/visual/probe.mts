@@ -12,7 +12,8 @@
  * Options:
  *   --route id          one route of tests/visual/routes.ts (required)
  *   --selector css      original selector, matched inside `.page.active` (required)
- *   --viewports a,b     desktop,laptop,tablet,mobile (default all four)
+ *   --viewports a,b     desktop,laptop,tablet,mobile (default all four); spot checks: hd,
+ *                       short-laptop, fhd, qhd (tests/visual/routes.ts SPOT_VIEWPORTS)
  *   --props a,b         computed-style properties, camelCase or kebab-case (default: box + type)
  *   --pseudo before     read `::before` / `::after` instead of the element
  *   --limit 10          max elements per site (visible elements only)
@@ -36,7 +37,7 @@ import { chromium, type Page } from "@playwright/test";
 
 import { diffRecords, parseProps, pick } from "./lib/options";
 import { newParityContext, NO_FIT_CSS, openSettled, readCssList } from "./lib/pages";
-import { PARITY_ROUTES, PARITY_VIEWPORTS, type ParityViewportId } from "./routes";
+import { PARITY_ROUTES, viewportIds } from "./routes";
 import { startOriginalServer } from "./serve-original.mjs";
 
 const DEFAULT_PROPS = [
@@ -93,12 +94,7 @@ if (!args.route || !args.selector) {
 }
 const [route] = pick(PARITY_ROUTES, args.route, (r) => r.id, "route");
 if (!route) throw new Error(`Unknown route ${args.route}`);
-const viewports = pick(
-  Object.keys(PARITY_VIEWPORTS) as ParityViewportId[],
-  args.viewports,
-  (v) => v,
-  "viewport",
-);
+const viewports = viewportIds(args.viewports);
 const props = parseProps(args.props, DEFAULT_PROPS);
 const pseudo = args.pseudo ? `::${args.pseudo.replace(/^:+/, "")}` : null;
 const limit = Number(args.limit);
