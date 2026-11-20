@@ -10,7 +10,7 @@
  * MOCK_LEADS_TOKEN is set, so does POST /leads. Unset = any token is accepted.
  *
  * Test controls (not part of the contract) live under /__mock:
- *   GET    /__mock/health
+ *   GET    /__mock/health                     → { ok, reads: { path: count } } (content reads served)
  *   GET    /__mock/leads                      → leads received so far
  *   DELETE /__mock/leads                      → forget them
  *   PUT    /__mock/leads/mode {"status":500}  → answer the next leads with 500 / 422 / 429 /

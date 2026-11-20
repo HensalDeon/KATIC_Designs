@@ -19,9 +19,10 @@ export const revalidateBodySchema = z.strictObject({
     .max(MAX_TAGS)
     .transform((tags) => [...new Set(tags)]),
   /**
-   * `false` (default): stale-while-revalidate (`revalidateTag(tag, "max")`): the next visit is
-   * served the old page while the new one renders. `true`: expire now (`{ expire: 0 }`): the next
-   * visit waits for fresh content. Use it for corrections that must not be seen again (e.g. legal).
+   * `false` (default): `revalidateTag(tag, "max")`, stale-while-revalidate. `true`:
+   * `revalidateTag(tag, { expire: 0 })`, which also expires the cached data. For a prerendered
+   * page both behave alike in practice (measured, docs/API_CONTRACT.md): the first visit after the
+   * call may still get the old HTML, and the visits after it get the new page.
    */
   immediate: z.boolean().optional(),
 });

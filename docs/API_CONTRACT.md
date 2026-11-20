@@ -27,7 +27,7 @@ Local stand-in: `pnpm mock:laravel` serves exactly this contract from the static
 
 `GET /media` is the media library: `{ id, url, width, height, alt?, blurDataURL? }` per asset.
 
-- **Ids are stable and path-like** (`photos/kitchen-joinery`). Laravel keeps the ids of the assets the site ships today; the site resolves those to its bundled, pre-optimised copies and only uses `url` for ids it does not bundle (new uploads).
+- **Ids are stable and path-like** (`photos/kitchen-joinery`). Laravel keeps the ids of the assets the site ships today; the site resolves those to its bundled, pre-optimised copies and only uses `url` for ids it does not bundle (new uploads). An upload id may appear wherever the schemas accept an image reference (`mediaRef`: heroes, section images, cards, galleries); the site swaps it for `{ src: url, width, height }` from this library before validating, and a page that inlines one is also revalidated by the tag `media`. An id that is in neither the bundle nor the library fails validation.
 - `url` is absolute, on `LARAVEL_MEDIA_URL` if set (a CDN or bucket, with a path prefix) or on the API's own origin. `next/image` optimises only that host and prefix (`images.remotePatterns` is derived from the same variables), so a URL anywhere else fails to render.
 - `width` and `height` are the intrinsic pixel size of the original (required: they prevent layout shift). `alt` is the default description of what the image depicts. `blurDataURL` is an optional tiny base64 placeholder.
 - Media URLs should be immutable (a new file gets a new URL, e.g. Spatie Media Library's `/storage/{id}/{file}` with conversions) so the optimiser's cache stays correct.
@@ -100,7 +100,7 @@ X-Katic-Signature: sha256=<hex>
   ```
 
 - **Body**: `{ "tags": string[], "immediate"?: boolean }`, no other keys. 1–100 tags, each matching `^[A-Za-z0-9][A-Za-z0-9:._/-]{0,127}$`; duplicates are ignored. Tags are listed per resource below; the tag `content` revalidates everything.
-- **`immediate`**: `false` (default) is stale-while-revalidate: the next visitor still gets the old page once while the new one renders in the background (`revalidateTag(tag, "max")`). `true` expires the pages so the next visitor waits for fresh content (`{ expire: 0 }`); use it for corrections that must never be shown again.
+- **`immediate`**: `false` (default) calls `revalidateTag(tag, "max")`, stale-while-revalidate; `true` calls `revalidateTag(tag, { expire: 0 })`, which also expires the cached data. Measured against the mock (Next 16.4, `next start`), a prerendered page behaves the same in both modes: the first visit after the call can still get the previous HTML and starts the re-render, and the visits after it get the new page, typically within a second. So a change is live on the second visit, not the first. Use `immediate` for corrections; it costs nothing extra.
 - **Responses** (JSON):
 
   | Status | Body                                                                                                | Meaning                                                       |
@@ -124,7 +124,7 @@ DATA_SOURCE=laravel LARAVEL_API_URL=http://127.0.0.1:3651/api/v1 LARAVEL_API_TOK
   pnpm build && pnpm start --port 3621
 ```
 
-The mock serves every resource below from `src/content`, the media files from `src/assets/images`, and records `POST /leads` (idempotent by key). Test controls under `/__mock` (not part of the contract): `GET|DELETE /__mock/leads`, `PUT /__mock/leads/mode {"status": 201|422|429|500|"timeout"}`, `PUT /__mock/override?path=/api/v1/…` (serve a given JSON body for a path) and `DELETE /__mock/override`. `MOCK_LARAVEL_TOKEN` / `MOCK_LEADS_TOKEN` make it require those bearer tokens.
+The mock serves every resource below from `src/content`, the media files from `src/assets/images`, and records `POST /leads` (idempotent by key). Test controls under `/__mock` (not part of the contract): `GET /__mock/health` (with a count of content reads per path), `GET|DELETE /__mock/leads`, `PUT /__mock/leads/mode {"status": 201|422|429|500|"timeout"}`, `PUT /__mock/override?path=/api/v1/…` (serve a given JSON body for a path) and `DELETE /__mock/override`. `MOCK_LARAVEL_TOKEN` / `MOCK_LEADS_TOKEN` make it require those bearer tokens.
 
 <!-- api-contract:generated:start -->
 
