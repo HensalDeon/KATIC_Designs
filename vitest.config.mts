@@ -4,7 +4,11 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
-    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // Next resolves `server-only` itself (no package); in unit tests it is a no-op.
+      "server-only": "next/dist/compiled/server-only/empty.js",
+    },
   },
   test: {
     include: [

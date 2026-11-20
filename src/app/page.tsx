@@ -14,15 +14,21 @@ import { SignatureProject } from "@/components/home/signature-project";
 import { JsonLd } from "@/components/seo/json-ld";
 import { HOME_CONTACT } from "@/content/home/contact";
 import { SITE_SEO } from "@/content/site";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { faqPageLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = pageMetadata({
-  path: routes.home,
-  title: SITE_SEO.title,
-  description: SITE_SEO.description,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(
+    {
+      path: routes.home,
+      title: SITE_SEO.title,
+      description: SITE_SEO.description,
+    },
+    await getSite(),
+  );
+}
 
 /**
  * Home (`#p-home`). Section order and tones as rendered by the original

@@ -11,6 +11,7 @@ import {
   WorksSectors,
 } from "@/components/works/works-sections";
 import { WORKS_SEO } from "@/content/works";
+import { getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -21,7 +22,9 @@ import { pageMetadata } from "@/lib/seo/metadata";
 export const ensureStatic = "navigation";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
-export const metadata: Metadata = pageMetadata({ path: routes.works, ...WORKS_SEO });
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({ path: routes.works, ...WORKS_SEO }, await getSite());
+}
 
 /**
  * Works (`#p-works`, original lines 3604–3781, docs/analysis/04 §1). Order and tones as the

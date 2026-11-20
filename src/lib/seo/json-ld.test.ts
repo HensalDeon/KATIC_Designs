@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import { DIVISIONS } from "@/content/divisions";
 import { HOME_CONTACT } from "@/content/home/contact";
-import { POST_CATEGORIES, POSTS } from "@/content/posts";
+import { HEADER_NAV } from "@/content/navigation";
+import { ARTICLE_PAGE, POST_CATEGORIES, postCategorySlug, POSTS } from "@/content/posts";
+import { getProject } from "@/content/projects";
+import { RELATED_SERVICES } from "@/content/related-services";
 import { builtServiceSlugs, getServicePage } from "@/content/service-pages";
-import { OFFICES } from "@/content/site";
+import { OFFICES, SITE_SETTINGS } from "@/content/site";
 import { DIVISION_SLUGS, LOCATION_SLUGS, routes } from "@/lib/routes";
 
 import {
@@ -13,6 +17,7 @@ import {
   locationTrail,
   projectTrail,
   serviceTrail,
+  type TrailLabels,
 } from "./breadcrumbs";
 import {
   blogPostingLd,
@@ -25,6 +30,21 @@ import {
   siteJsonLd,
 } from "./json-ld";
 import { absoluteUrl, PRODUCTION_SITE_URL, resolveSiteUrl } from "./site-url";
+
+const SITE = SITE_SETTINGS;
+const DIVISION_LIST = DIVISION_SLUGS.map((slug) => DIVISIONS[slug]);
+const LABELS: TrailLabels = {
+  nav: HEADER_NAV,
+  services: Object.values(RELATED_SERVICES),
+  divisions: DIVISION_LIST,
+  blog: ARTICLE_PAGE.breadcrumb,
+};
+
+function categoryOf(post: (typeof POSTS)[number]) {
+  const category = POST_CATEGORIES.find((entry) => entry.slug === postCategorySlug(post.category));
+  if (!category) throw new Error(post.category);
+  return category;
+}
 
 /** The values of a graph document, by `@type`. */
 function graphTypes(doc: ReturnType<typeof siteJsonLd>): string[] {
@@ -51,7 +71,7 @@ describe("site URL", () => {
 });
 
 describe("site-wide graph", () => {
-  const doc = siteJsonLd();
+  const doc = siteJsonLd(SITE, DIVISION_LIST);
 
   it("is Organization, two local businesses and the WebSite", () => {
     expect(graphTypes(doc)).toEqual([
@@ -69,12 +89,12 @@ describe("site-wide graph", () => {
   });
 
   it("links the offices to the organisation and their location pages", () => {
-    const kochi = localBusinessLd(OFFICES.kochi);
+    const kochi = localBusinessLd(OFFICES.kochi, SITE);
     expect(kochi.parentOrganization).toEqual({ "@id": LD_IDS.organization });
     expect(kochi.url).toBe(absoluteUrl(routes.location("india")));
     expect(kochi.address).toMatchObject({ addressLocality: "Kochi", addressCountry: "IN" });
     expect(kochi.makesOffer).toHaveLength(7);
-    const dubai = localBusinessLd(OFFICES.dubai);
+    const dubai = localBusinessLd(OFFICES.dubai, SITE);
     expect(dubai.url).toBe(absoluteUrl(routes.location("dubai")));
     expect(dubai.address).toEqual({
       "@type": "PostalAddress",
@@ -113,7 +133,7 @@ describe("BlogPosting", () => {
   if (!post) throw new Error("no posts");
 
   it("describes the article with an organisation author (KI-S02)", () => {
-    const doc = blogPostingLd(post, "/cover.webp");
+    const doc = blogPostingLd(post, SITE, "/cover.webp");
     expect(doc).toMatchObject({
       "@type": "BlogPosting",
       headline: post.title,
@@ -129,7 +149,7 @@ describe("BlogPosting", () => {
 
 describe("breadcrumbs", () => {
   it("numbers the trail and uses absolute URLs", () => {
-    const doc = breadcrumbLd(serviceTrail("architecture"));
+    const doc = breadcrumbLd(serviceTrail("architecture", LABELS));
     expect("itemListElement" in doc && doc.itemListElement).toEqual([
       { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
       { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
@@ -144,14 +164,27 @@ describe("breadcrumbs", () => {
 
   it("ends every trail on the page itself", () => {
     const trails = [
-      ...builtServiceSlugs().map((slug) => [serviceTrail(slug), routes.service(slug)] as const),
-      ...DIVISION_SLUGS.map((slug) => [divisionTrail(slug), routes.division(slug)] as const),
-      ...LOCATION_SLUGS.map((slug) => [locationTrail(slug), routes.location(slug)] as const),
-      [projectTrail("the-courtyard-house"), routes.project("the-courtyard-house")] as const,
-      ...POST_CATEGORIES.map(
-        (category) => [blogCategoryTrail(category), routes.blogCategory(category.slug)] as const,
+      ...builtServiceSlugs().map(
+        (slug) => [serviceTrail(slug, LABELS), routes.service(slug)] as const,
       ),
-      ...POSTS.map((post) => [articleTrail(post), routes.article(post.slug)] as const),
+      ...DIVISION_SLUGS.map(
+        (slug) => [divisionTrail(slug, LABELS), routes.division(slug)] as const,
+      ),
+      ...LOCATION_SLUGS.map(
+        (slug) => [locationTrail(slug, LABELS), routes.location(slug)] as const,
+      ),
+      [
+        projectTrail(getProject("the-courtyard-house"), LABELS),
+        routes.project("the-courtyard-house"),
+      ] as const,
+      ...POST_CATEGORIES.map(
+        (category) =>
+          [blogCategoryTrail(category, LABELS), routes.blogCategory(category.slug)] as const,
+      ),
+      ...POSTS.map(
+        (post) =>
+          [articleTrail(post, categoryOf(post), LABELS), routes.article(post.slug)] as const,
+      ),
     ];
     for (const [trail, path] of trails) {
       expect(trail[0]?.path).toBe("/");
@@ -161,7 +194,7 @@ describe("breadcrumbs", () => {
   });
 
   it("puts the factory under Interior Design", () => {
-    expect(serviceTrail("factory").map((crumb) => crumb.path)).toEqual([
+    expect(serviceTrail("factory", LABELS).map((crumb) => crumb.path)).toEqual([
       "/",
       "/services",
       "/services/interior",

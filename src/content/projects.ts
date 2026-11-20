@@ -1,6 +1,6 @@
 import { routes, type WorksCategory } from "@/lib/routes";
+import type { Project } from "@/lib/schemas/entities";
 
-import type { MediaId } from "./media";
 import { hasProjectDetail } from "./project-details";
 
 /**
@@ -36,26 +36,9 @@ export const PROJECT_TYPE_CATEGORY = {
 export type ProjectType = keyof typeof PROJECT_TYPE_CATEGORY;
 
 /** Coarse location group, for location pages and filters. */
-export type ProjectRegion = "kerala" | "uae" | "north-macedonia";
+export type ProjectRegion = Project["region"];
 
-export type Project = {
-  readonly slug: string;
-  readonly name: string;
-  /** As printed on cards, e.g. "Thrissur, Kerala". */
-  readonly location: string;
-  readonly region: ProjectRegion;
-  /** Filter categories (`data-cat`). */
-  readonly categories: readonly ProjectCategory[];
-  /** Pill label. */
-  readonly type: ProjectType;
-  /** What we delivered, as printed after the location ("Architecture", "Turnkey", …). */
-  readonly scope: string;
-  readonly year?: number;
-  /** Cover image (`.sc-card img`). */
-  readonly cover: MediaId;
-  /** Alt text of the cover image. */
-  readonly coverAlt: string;
-};
+export type { Project };
 
 const PROJECT_LIST = [
   {
@@ -512,6 +495,9 @@ const PROJECT_LIST = [
 export type ProjectSlug = (typeof PROJECT_LIST)[number]["slug"];
 
 export const PROJECTS: readonly Project[] = PROJECT_LIST;
+
+/** Every project slug, in the site's project order. */
+export const PROJECT_SLUGS: readonly ProjectSlug[] = PROJECT_LIST.map((project) => project.slug);
 
 const BY_SLUG = new Map<string, Project>(PROJECT_LIST.map((project) => [project.slug, project]));
 

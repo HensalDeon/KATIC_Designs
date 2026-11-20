@@ -1,19 +1,7 @@
 import { routes } from "@/lib/routes";
+import type { FooterColumn, Navigation, NavItem } from "@/lib/schemas/navigation";
 
-export type NavLink = { readonly label: string; readonly href: string };
-
-export type NavDropdown = {
-  readonly groups: readonly { readonly label: string; readonly links: readonly NavLink[] }[];
-  readonly all?: NavLink;
-};
-
-export type NavItem = NavLink & {
-  readonly key: NavKey;
-  readonly dropdown?: NavDropdown;
-};
-
-export type NavKey =
-  "home" | "about" | "services" | "projects" | "divisions" | "reviews" | "blogs" | "location";
+export type { FooterColumn, NavDropdown, NavItem, NavKey, NavLink } from "@/lib/schemas/navigation";
 
 /** Header navigation (the original's `V.home` config; other header variants were never used). */
 export const HEADER_NAV: readonly NavItem[] = [
@@ -113,33 +101,6 @@ export const HEADER_NAV: readonly NavItem[] = [
   },
 ];
 
-/** Header item highlighted for a pathname (original `ACTIVE` map; /news highlights nothing). */
-export function activeNavKey(pathname: string): NavKey | undefined {
-  const section = pathname.split("/")[1] ?? "";
-  switch (section) {
-    case "":
-      return "home";
-    case "about":
-      return "about";
-    case "services":
-      return "services";
-    case "works":
-      return "projects";
-    case "divisions":
-      return "divisions";
-    case "blog":
-      return "blogs";
-    case "locations":
-      return "location";
-    case "reviews":
-      return "reviews";
-    default:
-      return undefined;
-  }
-}
-
-export type FooterColumn = { readonly title: string; readonly links: readonly NavLink[] };
-
 /** Footer link columns (Address and Contact columns are built from SITE settings). */
 export const FOOTER_COLUMNS: readonly FooterColumn[] = [
   {
@@ -184,3 +145,6 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
     ],
   },
 ];
+
+/** The `/navigation` resource as the static repository serves it. */
+export const NAVIGATION = { header: HEADER_NAV, footer: FOOTER_COLUMNS } satisfies Navigation;

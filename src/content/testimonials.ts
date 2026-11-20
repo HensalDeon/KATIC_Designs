@@ -1,4 +1,4 @@
-import type { MediaId } from "./media";
+import type { Testimonial } from "@/lib/schemas/entities";
 
 /**
  * The global testimonial pool of the service pages (`.kq`); each page shows three of them
@@ -7,15 +7,7 @@ import type { MediaId } from "./media";
  * TODO(content): KI-C08. The original labels these "Representative copy — replace with approved
  * client testimonials." Replace them with approved quotes (and real names) from the client.
  */
-export type Testimonial = {
-  readonly id: TestimonialId;
-  readonly quote: string;
-  /** Who said it (`.who b`). */
-  readonly name: string;
-  /** Project type and place (`.who span`). */
-  readonly meta: string;
-  readonly avatar: MediaId;
-};
+export type { Testimonial };
 
 export const TESTIMONIAL_IDS = [
   "arch",

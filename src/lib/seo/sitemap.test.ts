@@ -4,6 +4,7 @@ import { builtDivisionSlugs } from "@/content/divisions/pages";
 import { POST_CATEGORIES, POSTS } from "@/content/posts";
 import { builtProjectSlugs } from "@/content/project-details";
 import { builtServiceSlugs } from "@/content/service-pages";
+import { SITE_SETTINGS } from "@/content/site";
 import { routes } from "@/lib/routes";
 
 import { pageMetadata } from "./metadata";
@@ -54,7 +55,7 @@ describe("sitemap", () => {
 
 describe("pageMetadata", () => {
   it("sets the canonical, Open Graph and Twitter card of a page", () => {
-    const metadata = pageMetadata({ path: "/about", title: "T", description: "D" });
+    const metadata = pageMetadata({ path: "/about", title: "T", description: "D" }, SITE_SETTINGS);
     expect(metadata.title).toEqual({ absolute: "T" });
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/about"));
     expect(metadata.openGraph).toMatchObject({
@@ -69,19 +70,25 @@ describe("pageMetadata", () => {
   });
 
   it("marks articles and noindex pages", () => {
-    const article = pageMetadata({
-      path: "/blog/x",
-      title: "T",
-      description: "D",
-      article: { publishedTime: "2026-10-14", section: "Architecture" },
-    });
+    const article = pageMetadata(
+      {
+        path: "/blog/x",
+        title: "T",
+        description: "D",
+        article: { publishedTime: "2026-10-14", section: "Architecture" },
+      },
+      SITE_SETTINGS,
+    );
     expect(article.openGraph).toMatchObject({ type: "article", publishedTime: "2026-10-14" });
-    const hidden = pageMetadata({
-      path: "/thank-you",
-      title: "T",
-      description: "D",
-      noindex: true,
-    });
+    const hidden = pageMetadata(
+      {
+        path: "/thank-you",
+        title: "T",
+        description: "D",
+        noindex: true,
+      },
+      SITE_SETTINGS,
+    );
     expect(hidden.robots).toEqual({ index: false });
   });
 });

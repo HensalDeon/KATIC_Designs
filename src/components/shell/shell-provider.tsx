@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { createContext, type ReactNode, use, useState } from "react";
 
 import { serviceForPath, type ServiceOption } from "@/content/services";
+import type { SiteContact } from "@/lib/schemas/site";
 
 type EnquiryOptions = { readonly service?: ServiceOption | undefined };
 
@@ -51,9 +52,16 @@ type ShellState = {
 };
 
 const ShellContext = createContext<ShellState | null>(null);
+const SiteContext = createContext<SiteContact | null>(null);
+
+type ShellProviderProps = {
+  /** Site settings for client islands (`useSite()`), read by the root layout. */
+  readonly site: SiteContact;
+  readonly children: ReactNode;
+};
 
 /** UI state shared by the header, overlays, quick-contact bar and inline contact forms. */
-export function ShellProvider({ children }: { children: ReactNode }) {
+export function ShellProvider({ site, children }: ShellProviderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -86,11 +94,25 @@ export function ShellProvider({ children }: { children: ReactNode }) {
     },
   };
 
-  return <ShellContext value={value}>{children}</ShellContext>;
+  return (
+    <SiteContext value={site}>
+      <ShellContext value={value}>{children}</ShellContext>
+    </SiteContext>
+  );
 }
 
 export function useShell(): ShellState {
   const state = use(ShellContext);
   if (!state) throw new Error("useShell must be used inside <ShellProvider>");
   return state;
+}
+
+/**
+ * Site settings (channels, address, socials) in client islands. Server components read them from
+ * the data layer (`getSite()`) instead.
+ */
+export function useSite(): SiteContact {
+  const site = use(SiteContext);
+  if (!site) throw new Error("useSite must be used inside <ShellProvider>");
+  return site;
 }

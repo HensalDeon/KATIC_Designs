@@ -9,6 +9,7 @@ import {
   POST_CATEGORIES,
   postsByCategory,
 } from "@/content/posts";
+import { getSite, getTrailLabels } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { blogCategoryTrail } from "@/lib/seo/breadcrumbs";
 import { breadcrumbLd } from "@/lib/seo/json-ld";
@@ -32,7 +33,10 @@ export async function generateMetadata({
 }: PageProps<"/blog/category/[category]">): Promise<Metadata> {
   const category = getPostCategory((await params).category);
   if (!category) notFound();
-  return pageMetadata({ path: routes.blogCategory(category.slug), ...blogCategorySeo(category) });
+  return pageMetadata(
+    { path: routes.blogCategory(category.slug), ...blogCategorySeo(category) },
+    await getSite(),
+  );
 }
 
 export default async function BlogCategoryPage({ params }: PageProps<"/blog/category/[category]">) {
@@ -41,7 +45,7 @@ export default async function BlogCategoryPage({ params }: PageProps<"/blog/cate
   return (
     <>
       <BlogPage posts={postsByCategory(category.slug)} category={category} />
-      <JsonLd data={breadcrumbLd(blogCategoryTrail(category))} />
+      <JsonLd data={breadcrumbLd(blogCategoryTrail(category, await getTrailLabels()))} />
     </>
   );
 }

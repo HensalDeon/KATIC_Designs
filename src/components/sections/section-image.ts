@@ -1,4 +1,5 @@
-import { media, type MediaId } from "@/content/media";
+import type { MediaId } from "@/content/media";
+import { resolveMedia } from "@/lib/media/resolve";
 import type { ImageSource } from "@/lib/media/types";
 
 /**
@@ -10,7 +11,5 @@ export type SectionImage = {
   readonly alt: string;
 };
 
-/** Resolves a `SectionImage` source to something `next/image` can render. */
-export function resolveImage(src: SectionImage["src"]): ImageSource {
-  return typeof src === "string" ? media[src].image : src;
-}
+/** Resolves a `SectionImage` source to something `next/image` can render (`resolveMedia`). */
+export const resolveImage: (src: SectionImage["src"]) => ImageSource = resolveMedia;

@@ -168,6 +168,9 @@ const ICONS = {
 
 export type ServiceIconName = keyof typeof ICONS;
 
+/** Every icon name, e.g. for validating content that names one (`src/lib/schemas`). */
+export const SERVICE_ICON_NAMES = Object.keys(ICONS) as readonly ServiceIconName[];
+
 type ServiceIconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
   name: ServiceIconName;
   /** Rendered size in px (`.nico` default 28; 20/22/30/34 in specific contexts). */
