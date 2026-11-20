@@ -6,10 +6,9 @@ import { type SubmitEvent, useEffect, useId, useRef, useState } from "react";
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { ServiceIcon } from "@/components/icons/service-icon";
 import { useToast } from "@/components/overlays/toast";
-import { useShell } from "@/components/shell/shell-provider";
+import { useShell, useSite } from "@/components/shell/shell-provider";
 import { Kicker } from "@/components/ui/kicker";
 import { SERVICE_NOT_SURE, SERVICE_OPTIONS } from "@/content/services";
-import { SITE } from "@/content/site";
 import { trackLead } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { rememberLead, submitLead, toLastLead } from "@/lib/leads/client";
@@ -39,6 +38,7 @@ const FIELD_ORDER: readonly LeadField[] = ["name", "email", "phone", "service"];
  */
 export function StartProjectDialog() {
   const { enquiry } = useShell();
+  const site = useSite();
   const router = useRouter();
   const toast = useToast();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -179,11 +179,11 @@ export function StartProjectDialog() {
           </ul>
           <div className="mt-auto grid gap-8 pt-16 font-display text-[12px] text-[#999] max-md:hidden">
             Prefer to talk?
-            <a href={SITE.phone.href} className="text-[13.5px] text-white hover:text-brand">
-              {SITE.phone.display}
+            <a href={site.phone.href} className="text-[13.5px] text-white hover:text-brand">
+              {site.phone.display}
             </a>
-            <a href={`mailto:${SITE.email}`} className="text-[13.5px] text-white hover:text-brand">
-              {SITE.email}
+            <a href={`mailto:${site.email}`} className="text-[13.5px] text-white hover:text-brand">
+              {site.email}
             </a>
           </div>
         </div>

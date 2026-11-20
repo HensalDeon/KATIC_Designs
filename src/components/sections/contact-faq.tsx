@@ -8,9 +8,10 @@ import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/cn";
+import { getSite } from "@/lib/data";
 import type { Tone } from "@/lib/tone";
 
-import { CONTACT_CHANNELS, type ContactChannel } from "./contact-channels";
+import { type ContactChannel, contactChannels } from "./contact-channels";
 import { ContactButton } from "./contact-link";
 import { phonePlantRoom, type PlantSpec } from "./content-section";
 import { EnquiryForm, type EnquiryFormConfig } from "./enquiry-form";
@@ -211,15 +212,16 @@ export function ContactFaq({
 /**
  * Email / phone / WhatsApp as a definition list. On the canvas the terms and values flow in one
  * wrapping row exactly like the original; on phones they become a two-column list with labels
- * baseline-aligned to their values (KI-L11).
+ * baseline-aligned to their values (KI-L11). Addresses come from the site settings.
  */
-function ContactInfo({
+async function ContactInfo({
   channels,
   typography,
 }: {
   channels: readonly ContactChannel[];
   typography: FaqTypography;
 }) {
+  const entries = contactChannels(await getSite());
   return (
     <dl
       className={cn(
@@ -229,7 +231,7 @@ function ContactInfo({
       )}
     >
       {channels.map((channel) => {
-        const { term, href, text, external } = CONTACT_CHANNELS[channel];
+        const { term, href, text, external } = entries[channel];
         return (
           <div key={channel} className="contents">
             <dt>{term}</dt>

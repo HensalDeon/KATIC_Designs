@@ -1,22 +1,14 @@
-import { routes, type ServiceSlug } from "@/lib/routes";
-
-import type { MediaId } from "./media";
+import { routes } from "@/lib/routes";
+import type { RelatedService } from "@/lib/schemas/entities";
 
 /**
  * Related-service cards (`.kc` service flavour). The original shows the same image, title and
  * description for a service everywhere; pages only choose which cards appear and in what order
  * (docs/analysis/03 §2.10). Factory has no card. Fields match `CardGrid` items.
  */
-export type RelatedService = {
-  readonly slug: RelatedServiceSlug;
-  readonly href: string;
-  readonly title: string;
-  readonly text: string;
-  readonly image: MediaId;
-  readonly alt: string;
-};
+export type { RelatedService };
 
-export type RelatedServiceSlug = Exclude<ServiceSlug, "factory">;
+export type RelatedServiceSlug = RelatedService["slug"];
 
 export const RELATED_SERVICES = {
   architecture: {

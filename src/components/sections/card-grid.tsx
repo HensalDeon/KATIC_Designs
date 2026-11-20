@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MoreLabel } from "@/components/ui/text-link";
 import { cn } from "@/lib/cn";
 
+import { cardGridVariants } from "./card-grid-variants";
 import { ContactLink } from "./contact-link";
 import { canvasSizes, type ImageInput, resolveImage } from "./section-media";
 
@@ -38,18 +39,6 @@ const DEFAULT_MORE_LABEL: Record<CardGridVariant, string> = {
   service: "Explore Service",
   product: "View Project",
 };
-
-/** The grid (`.kc-grid.cN`): N columns on the canvas, two below 1100px, one on phones. */
-export const cardGridVariants = cva("grid gap-24 max-lg:grid-cols-2 max-md:grid-cols-1", {
-  variants: {
-    columns: {
-      2: "grid-cols-2",
-      3: "grid-cols-3",
-      4: "grid-cols-4",
-      5: "grid-cols-5",
-    },
-  },
-});
 
 /** Image heights (`.kc .im`): 300px by default, c2 420, c4 260, c5 230, and c3 200 on the canvas. */
 const imageVariants = cva("relative overflow-hidden bg-[#eee] in-data-[tone=dark]:bg-ink-2", {
@@ -181,3 +170,5 @@ export function Card({
     <div className={cardClass}>{content}</div>
   );
 }
+
+export { cardGridVariants } from "./card-grid-variants";
