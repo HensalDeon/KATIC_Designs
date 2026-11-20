@@ -10,9 +10,9 @@ import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
-import type { TitleLines } from "@/content/blocks";
-import { media } from "@/content/media";
 import { cn } from "@/lib/cn";
+import { resolveMedia } from "@/lib/media/resolve";
+import type { TitleLines } from "@/lib/schemas/primitives";
 
 import type { DubaiBlockProps } from "./dubai-block-props";
 import { DUBAI_TITLE } from "./dubai-title";
@@ -44,7 +44,7 @@ const CACTUS_PHONE_WIDTH = 240;
  * `.pp` plants), computed here once from the image's aspect ratio (KI-N11).
  */
 function cactusPhoneRoom(): CSSProperties {
-  const { width, height } = media[CACTUS.asset].image;
+  const { width, height } = resolveMedia(CACTUS.asset);
   const room = CACTUS_PHONE_WIDTH * (height / width) * 0.95;
   return { "--plant-room": `${room.toFixed(2)}px` } as CSSProperties;
 }

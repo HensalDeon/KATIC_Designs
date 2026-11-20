@@ -6,19 +6,13 @@ import { CtaBand } from "@/components/sections/cta-band";
 import { resolveImage } from "@/components/sections/section-image";
 import { SectorGrid } from "@/components/sections/sector-grid";
 import { SplitFeature } from "@/components/sections/split-feature";
-import { divisions } from "@/content/divisions";
-import { getProject, projectHref } from "@/content/projects";
-import { SECTORS } from "@/content/sectors";
-import {
-  WORKS_CASE_STUDY,
-  WORKS_CTA,
-  WORKS_DIVISIONS,
-  WORKS_SECTORS,
-  type WorksCaseStudyContent,
-  type WorksCtaContent,
-  type WorksDivisionsContent,
-  type WorksSectorsContent,
-} from "@/content/works";
+import { getRefs } from "@/lib/data";
+import type {
+  WorksCaseStudyContent,
+  WorksCtaContent,
+  WorksDivisionsContent,
+  WorksSectorsContent,
+} from "@/lib/schemas/works";
 
 import { WORKS_TITLE_CLASS } from "./works-title";
 
@@ -30,11 +24,8 @@ const SPLIT_TITLE_CLASS = "[&_h2]:leading-[1.14] max-md:[&_h2]:leading-[1.14]";
  * four sector tiles (`.ksec`), each opening the portfolio filtered by its sector
  * (`/works?category=<sector>#works-list`). Black.
  */
-export function WorksSectors({
-  content = WORKS_SECTORS,
-}: {
-  readonly content?: WorksSectorsContent;
-}) {
+export async function WorksSectors({ content }: { readonly content: WorksSectorsContent }) {
+  const refs = await getRefs();
   return (
     <ContentSection
       tone="dark"
@@ -46,7 +37,7 @@ export function WorksSectors({
         titleClassName: WORKS_TITLE_CLASS,
       }}
     >
-      <SectorGrid sectors={content.sectors.map((key) => SECTORS[key])} />
+      <SectorGrid sectors={content.sectors.map((key) => refs.sector(key))} />
     </ContentSection>
   );
 }
@@ -57,11 +48,8 @@ export function WorksSectors({
  * the concept lead, challenge and outcome, four facts and "View Case Study" to the project page.
  * Black.
  */
-export function WorksCaseStudy({
-  content = WORKS_CASE_STUDY,
-}: {
-  readonly content?: WorksCaseStudyContent;
-}) {
+export async function WorksCaseStudy({ content }: { readonly content: WorksCaseStudyContent }) {
+  const refs = await getRefs();
   return (
     <ContentSection
       tone="dark"
@@ -79,7 +67,7 @@ export function WorksCaseStudy({
         cta={{
           kind: "link",
           label: content.cta,
-          href: projectHref(getProject(content.project)),
+          href: refs.projectHref(refs.project(content.project)),
           variant: "primary",
         }}
         className={SPLIT_TITLE_CLASS}
@@ -92,11 +80,8 @@ export function WorksCaseStudy({
  * "Explore divisions" (`#p-works section.ks.dk`, markup 3768): header without a lead, then the
  * five division cards (`.kc-grid.c5`, "Explore Division") from the shared divisions list. Black.
  */
-export function WorksDivisions({
-  content = WORKS_DIVISIONS,
-}: {
-  readonly content?: WorksDivisionsContent;
-}) {
+export async function WorksDivisions({ content }: { readonly content: WorksDivisionsContent }) {
+  const refs = await getRefs();
   return (
     <ContentSection
       tone="dark"
@@ -111,7 +96,7 @@ export function WorksDivisions({
         variant="service"
         columns={5}
         moreLabel="Explore Division"
-        items={divisions(content.divisions).map((division) => ({
+        items={refs.divisions(content.divisions).map((division) => ({
           href: division.href,
           image: division.image,
           alt: division.alt,
@@ -128,7 +113,7 @@ export function WorksDivisions({
  * "Prefer to call?" box. Its photo drifts with the scroll like the original's
  * `#p-works .ctasec>img` (E25, `ParallaxImage`; static with reduced motion).
  */
-export function WorksCta({ content = WORKS_CTA }: { readonly content?: WorksCtaContent }) {
+export function WorksCta({ content }: { readonly content: WorksCtaContent }) {
   return (
     <CtaBand
       variant="works"

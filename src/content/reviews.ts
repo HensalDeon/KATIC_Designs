@@ -1,10 +1,14 @@
-import type { ServiceIconName } from "@/components/icons/service-icon";
-import type { SectionImage } from "@/components/sections/section-image";
-import type { AccentTitle, TitleLines } from "@/content/blocks";
-import { routes, type ServiceSlug } from "@/lib/routes";
-
-import type { ProjectSlug } from "./projects";
-import type { TestimonialId } from "./testimonials";
+import { routes } from "@/lib/routes";
+import type {
+  ReviewsClientsContent,
+  ReviewsCtaContent,
+  ReviewsExpertiseContent,
+  ReviewsHeroContent,
+  ReviewsPageContent,
+  ReviewsProjectsContent,
+  ReviewsStoryContent,
+  ReviewsTrustContent,
+} from "@/lib/schemas/reviews";
 
 /**
  * Reviews (`#p-reviews`, original lines 4216–4379, page `<style>` 4217–4285;
@@ -14,9 +18,6 @@ import type { TestimonialId } from "./testimonials";
  *
  * Image alts describe the image instead of repeating headlines or carrying "↗" (KI-A13).
  */
-
-/** A link button (`.btn`). */
-export type ReviewsLink = { readonly label: string; readonly href: string };
 
 /**
  * Home's enquiry form (`#start`): Reviews has no contact section, so the original's
@@ -32,15 +33,7 @@ export const REVIEWS_SEO = {
   title: "Client Reviews & Testimonials | Katic Designs",
   description:
     "What homeowners and businesses say about working with Katic Designs on design and build projects.",
-} as const;
-
-export type ReviewsHeroContent = {
-  readonly image: SectionImage;
-  readonly kicker: string;
-  readonly title: AccentTitle;
-  readonly lead: string;
-  readonly cta: ReviewsLink;
-};
+} as const satisfies ReviewsPageContent["seo"];
 
 /** `.hero` (4287–4295): the same photo as the Works hero. */
 export const REVIEWS_HERO = {
@@ -50,16 +43,6 @@ export const REVIEWS_HERO = {
   lead: "Hear from clients who worked with Katic Designs across architecture, interiors and construction.",
   cta: { label: "Start Your Project", href: HOME_CONTACT_HREF },
 } as const satisfies ReviewsHeroContent;
-
-export type ReviewsTrustContent = {
-  readonly kicker: string;
-  readonly title: TitleLines;
-  readonly text: string;
-  readonly cta: ReviewsLink;
-  readonly image: SectionImage;
-  /** The dark caption box over the photo (`.bx`). */
-  readonly caption: { readonly label: string; readonly text: string };
-};
 
 /** `section.tr` (4297–4307). */
 export const REVIEWS_TRUST = {
@@ -74,15 +57,6 @@ export const REVIEWS_TRUST = {
   },
 } as const satisfies ReviewsTrustContent;
 
-export type ReviewsClientsContent = {
-  readonly kicker: string;
-  readonly title: TitleLines;
-  readonly text: string;
-  readonly testimonials: readonly TestimonialId[];
-  readonly note: string;
-  readonly cta: ReviewsLink;
-};
-
 /** `section.cl` (4309–4323): six testimonials from the shared pool, in the original's order. */
 export const REVIEWS_CLIENTS = {
   // TODO(content): KI-C08 placeholder kicker and note; replace once the client approves the quotes.
@@ -93,21 +67,6 @@ export const REVIEWS_CLIENTS = {
   note: "Representative testimonials — replace with approved client copy before publication.",
   cta: { label: "View Our Work", href: WORKS_LIST_HREF },
 } as const satisfies ReviewsClientsContent;
-
-export type ReviewsExpertiseCard = {
-  readonly service: ServiceSlug;
-  readonly title: string;
-  readonly text: string;
-  readonly icon: ServiceIconName;
-  readonly image: SectionImage;
-};
-
-export type ReviewsExpertiseContent = {
-  readonly kicker: string;
-  readonly title: TitleLines;
-  readonly cta: ReviewsLink;
-  readonly cards: readonly ReviewsExpertiseCard[];
-};
 
 /** `section.xp` (4324–4334): four discipline cards, each opening its service page. */
 export const REVIEWS_EXPERTISE = {
@@ -155,26 +114,6 @@ export const REVIEWS_EXPERTISE = {
   ],
 } as const satisfies ReviewsExpertiseContent;
 
-export type ReviewsStoryRow = {
-  readonly icon: ServiceIconName;
-  readonly title: string;
-  readonly text: string;
-};
-
-export type ReviewsStoryContent = {
-  readonly kicker: string;
-  readonly title: TitleLines;
-  /** Right-aligned uppercase facts beside the title (`.rt`). */
-  readonly facts: readonly string[];
-  /** The large photo, then the three thumbnails (`.big`, `.th`); all open the lightbox. */
-  readonly images: readonly [SectionImage, SectionImage, SectionImage, SectionImage];
-  /** Includes the original's curly quotes. */
-  readonly quote: string;
-  readonly attribution: string;
-  readonly rows: readonly ReviewsStoryRow[];
-  readonly cta: ReviewsLink;
-};
-
 /** `section.pp-host.bb` (4336–4352): the featured story. */
 export const REVIEWS_STORY = {
   // TODO(content): KI-C08 placeholder kicker and attribution; replace once the client approves.
@@ -214,14 +153,6 @@ export const REVIEWS_STORY = {
   cta: { label: "View Project", href: routes.project("the-courtyard-house") },
 } as const satisfies ReviewsStoryContent;
 
-export type ReviewsProjectsContent = {
-  readonly kicker: string;
-  readonly title: TitleLines;
-  readonly text: string;
-  readonly cta: ReviewsLink;
-  readonly projects: readonly ProjectSlug[];
-};
-
 /** `section.sp` (4353–4366): six project cards. */
 export const REVIEWS_PROJECTS = {
   kicker: "Projects behind the reviews",
@@ -237,14 +168,6 @@ export const REVIEWS_PROJECTS = {
     "studio-commons",
   ],
 } as const satisfies ReviewsProjectsContent;
-
-export type ReviewsCtaContent = {
-  readonly image: SectionImage;
-  readonly kicker: string;
-  readonly title: TitleLines;
-  readonly text: string;
-  readonly cta: ReviewsLink;
-};
 
 /** `section.ctasec` (4368–4376). */
 export const REVIEWS_CTA = {

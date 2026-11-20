@@ -1,7 +1,8 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 
-import { INDIA_PAGE, type IndiaBlock, type IndiaProjectsBlock } from "@/content/locations/india";
+import { INDIA_PAGE } from "@/content/locations/india";
 import { getProject, projectHref } from "@/content/projects";
+import type { IndiaBlock, IndiaProjectsBlock } from "@/lib/schemas/locations";
 
 /**
  * India (`/locations/india`, original `#p-india`, lines 4071–4096, docs/analysis/04 §7). Values are

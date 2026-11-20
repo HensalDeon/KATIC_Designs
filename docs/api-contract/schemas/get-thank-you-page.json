@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+    "lead": { "type": "string" },
+    "sourceLabel": { "type": "string" },
+    "serviceLabel": { "type": "string" },
+    "steps": {
+      "readOnly": true,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "icon": {
+            "type": "string",
+            "enum": [
+              "search",
+              "compass",
+              "crane",
+              "shield",
+              "key",
+              "leaf",
+              "layers",
+              "tools",
+              "door",
+              "house",
+              "office",
+              "target",
+              "eye",
+              "badge-check",
+              "check-circle",
+              "kitchen",
+              "wardrobe",
+              "team",
+              "star",
+              "facade",
+              "sofa",
+              "bulb",
+              "clock",
+              "pin",
+              "truck",
+              "coin",
+              "message"
+            ]
+          },
+          "title": { "type": "string" },
+          "text": { "type": "string" }
+        },
+        "required": ["icon", "title", "text"],
+        "additionalProperties": false
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "properties": {
+        "message": { "type": "string" },
+        "email": { "type": "string" },
+        "copy": { "type": "string" },
+        "copied": { "type": "string" }
+      },
+      "required": ["message", "email", "copy", "copied"],
+      "additionalProperties": false
+    },
+    "whatsapp": { "type": "string" },
+    "back": { "type": "string" },
+    "projects": {
+      "type": "object",
+      "properties": { "label": { "type": "string" }, "href": { "type": "string", "minLength": 1 } },
+      "required": ["label", "href"],
+      "additionalProperties": false
+    },
+    "seo": {
+      "type": "object",
+      "properties": { "title": { "type": "string" }, "description": { "type": "string" } },
+      "required": ["title", "description"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "title",
+    "lead",
+    "sourceLabel",
+    "serviceLabel",
+    "steps",
+    "fallback",
+    "whatsapp",
+    "back",
+    "projects",
+    "seo"
+  ],
+  "additionalProperties": false
+}

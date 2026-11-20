@@ -1,0 +1,10 @@
+{
+  "data": {
+    "testimonialsHeader": {
+      "kicker": "Client testimonials",
+      "title": ["In our clients’", "words"],
+      "lead": "Selected feedback from people we’ve designed and built for. Representative copy — replace with approved client testimonials.",
+      "cta": { "label": "Read All Client Reviews", "href": "/reviews", "variant": "dark" }
+    }
+  }
+}

@@ -7,8 +7,8 @@ import { Container } from "@/components/ui/container";
 import { HeroTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Lead } from "@/components/ui/text";
-import { REVIEWS_HERO, type ReviewsHeroContent } from "@/content/reviews";
 import { cn } from "@/lib/cn";
+import type { ReviewsHeroContent } from "@/lib/schemas/reviews";
 
 /**
  * Reviews hero (`#p-reviews .hero`, markup 4287–4295, page `<style>` 4218–4223): full-bleed photo
@@ -20,7 +20,7 @@ import { cn } from "@/lib/cn";
  * content sits at the bottom and the button is full width. Marked `data-hero` for the phone
  * quick-contact bar. The title scales to 62px below 1100px (KI-L16, `HeroTitle`).
  */
-export function ReviewsHero({ content = REVIEWS_HERO }: { readonly content?: ReviewsHeroContent }) {
+export function ReviewsHero({ content }: { readonly content: ReviewsHeroContent }) {
   const titleId = "reviews-hero-title";
   return (
     <section

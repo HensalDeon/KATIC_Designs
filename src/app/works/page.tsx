@@ -10,8 +10,7 @@ import {
   WorksDivisions,
   WorksSectors,
 } from "@/components/works/works-sections";
-import { WORKS_SEO } from "@/content/works";
-import { getSite } from "@/lib/data";
+import { getSite, getWorksPage } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -23,7 +22,8 @@ export const ensureStatic = "navigation";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
 export async function generateMetadata(): Promise<Metadata> {
-  return pageMetadata({ path: routes.works, ...WORKS_SEO }, await getSite());
+  const [page, site] = await Promise.all([getWorksPage(), getSite()]);
+  return pageMetadata({ path: routes.works, ...page.seo }, site);
 }
 
 /**
@@ -34,17 +34,18 @@ export async function generateMetadata(): Promise<Metadata> {
  * (the CTA goes to the home page's form); the footer comes from the layout. No reveal-on-scroll:
  * the original runs it on Home only (D7).
  */
-export default function WorksPage() {
+export default async function WorksPage() {
+  const page = await getWorksPage();
   return (
     <>
-      <WorksHero />
-      <FeaturedProject />
-      <WorksSectors />
-      <Portfolio />
-      <WorksCaseStudy />
-      <Capabilities />
-      <WorksDivisions />
-      <WorksCta />
+      <WorksHero content={page.hero} />
+      <FeaturedProject content={page.featured} />
+      <WorksSectors content={page.sectors} />
+      <Portfolio content={page.portfolio} />
+      <WorksCaseStudy content={page.caseStudy} />
+      <Capabilities content={page.capabilities} />
+      <WorksDivisions content={page.divisions} />
+      <WorksCta content={page.cta} />
     </>
   );
 }

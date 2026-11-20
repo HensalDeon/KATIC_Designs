@@ -1,12 +1,16 @@
-import type { ServiceIconName } from "@/components/icons/service-icon";
-import type { CtaBandCall } from "@/components/sections/cta-band";
-import type { SectionImage } from "@/components/sections/section-image";
-import { type DivisionSlug, routes, type ServiceSlug } from "@/lib/routes";
-
-import type { RichText, TitleLine } from "./home/hero";
-import type { ShowcaseFilter } from "./home/works";
-import type { ProjectSlug } from "./projects";
-import type { SectorKey } from "./sectors";
+import { WORKS_LIST_ID } from "@/components/works/portfolio-layout";
+import { routes } from "@/lib/routes";
+import type { PageSeo } from "@/lib/schemas/primitives";
+import type {
+  WorksCapabilitiesContent,
+  WorksCaseStudyContent,
+  WorksCtaContent,
+  WorksDivisionsContent,
+  WorksFeaturedContent,
+  WorksHeroContent,
+  WorksPortfolioContent,
+  WorksSectorsContent,
+} from "@/lib/schemas/works";
 
 /**
  * Works listing (`#p-works`, original lines 3604–3781, page `<style>` 3605–3693;
@@ -14,40 +18,16 @@ import type { SectorKey } from "./sectors";
  * projects referenced by slug (`src/content/projects.ts`, D6/KI-D01), never restated here. Will
  * come from Laravel (`GET /pages/works`) in Phase 11.
  *
- * Image alts describe the image instead of repeating headlines (KI-A13).
+ * Image alts describe the image instead of repeating headlines (KI-A13). Section types and their
+ * schemas: `src/lib/schemas/works.ts`.
  */
-
-/** A link button (`.btn`). */
-export type WorksLink = { readonly label: string; readonly href: string };
-
-export type WorksSeo = { readonly title: string; readonly description: string };
 
 /** `data-title` / `data-desc` of `#p-works` (the title already ends in "| Katic Designs"). */
 export const WORKS_SEO = {
   title: "Architecture & Interior Design Projects | Portfolio | Katic Designs",
   description:
     "Residential, commercial, institutional and hospitality projects by Katic Designs across Kerala, South India and Dubai.",
-} as const satisfies WorksSeo;
-
-/** The portfolio section id (`section.sw#works-list`); legacy `#works/works-list/<f>` links land here. */
-export const WORKS_LIST_ID = "works-list";
-
-export type WorksHeroContent = {
-  readonly image: SectionImage;
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly lead: string;
-  readonly cta: WorksLink;
-  /**
-   * The "current project" note at the right of the canvas (`a.cur`, hidden below 1100px). It links
-   * to `project`; the label and meta are printed as the original renders them.
-   */
-  readonly current: {
-    readonly project: ProjectSlug;
-    readonly label: string;
-    readonly meta: string;
-  };
-};
+} as const satisfies PageSeo;
 
 export const WORKS_HERO = {
   image: { src: "photos/dark-lounge-interior", alt: "Dark lounge interior with artwork" },
@@ -63,28 +43,6 @@ export const WORKS_HERO = {
     meta: "Kochi, Kerala · 2025",
   },
 } as const satisfies WorksHeroContent;
-
-export type WorksFeaturedContent = {
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly text: string;
-  /** The project the feature opens (`a.im` and "View Project"). */
-  readonly project: ProjectSlug;
-  /** Name printed over the photo. */
-  readonly name: string;
-  readonly image: SectionImage;
-  /** Dark tag at the top left of the photo (`.tag`). */
-  readonly tag: string;
-  /** Orange reference at the bottom right of the photo (`em`). */
-  readonly code: string;
-  /** Uppercase crumb, separated by orange slashes (`.crumb`). */
-  readonly crumb: readonly string[];
-  readonly heading: string;
-  readonly description: string;
-  readonly cta: string;
-  /** The three figures under a rule (`.sts`). */
-  readonly stats: readonly { readonly value: string; readonly label: string }[];
-};
 
 export const WORKS_FEATURED = {
   kicker: "Featured projects",
@@ -113,34 +71,12 @@ export const WORKS_FEATURED = {
   ],
 } as const satisfies WorksFeaturedContent;
 
-export type WorksSectorsContent = {
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly lead: string;
-  /** Sector tiles (`.ksec`), each opening the portfolio filtered by its sector. */
-  readonly sectors: readonly SectorKey[];
-};
-
 export const WORKS_SECTORS = {
   kicker: "Project categories",
   title: ["Four sectors.", "One standard."],
   lead: "Browse our work by sector — each opens a filtered portfolio.",
   sectors: ["residential", "commercial", "institutional", "hospitality"],
 } as const satisfies WorksSectorsContent;
-
-export type WorksPortfolioContent = {
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly text: string;
-  /** Filter buttons (`.fl button`), in the original order. */
-  readonly filters: readonly ShowcaseFilter[];
-  /** Accessible name of the filter group. */
-  readonly filtersLabel: string;
-  /** Cards in the original order (`.pj`). */
-  readonly projects: readonly ProjectSlug[];
-  /** Card link label (`.v`; the arrow is drawn by the component). */
-  readonly cardLinkLabel: string;
-};
 
 export const WORKS_PORTFOLIO = {
   kicker: "Portfolio · Filter & explore",
@@ -172,18 +108,6 @@ export const WORKS_PORTFOLIO = {
   cardLinkLabel: "View Project",
 } as const satisfies WorksPortfolioContent;
 
-export type WorksCaseStudyContent = {
-  readonly project: ProjectSlug;
-  readonly image: SectionImage;
-  readonly caption: string;
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly lead: string;
-  readonly body: RichText;
-  readonly facts: readonly string[];
-  readonly cta: string;
-};
-
 export const WORKS_CASE_STUDY = {
   project: "the-courtyard-house",
   image: {
@@ -205,22 +129,6 @@ export const WORKS_CASE_STUDY = {
   facts: ["Kakkanad, Kochi", "4,850 sq ft", "Architecture + Interiors", "Completed 2025"],
   cta: "View Case Study",
 } as const satisfies WorksCaseStudyContent;
-
-export type WorksCapability = {
-  readonly service: ServiceSlug;
-  readonly title: string;
-  readonly text: string;
-  readonly image: SectionImage;
-  readonly icon: ServiceIconName;
-};
-
-export type WorksCapabilitiesContent = {
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly text: string;
-  readonly cards: readonly WorksCapability[];
-  readonly cardLinkLabel: string;
-};
 
 export const WORKS_CAPABILITIES = {
   kicker: "Our capabilities",
@@ -267,26 +175,11 @@ export const WORKS_CAPABILITIES = {
   cardLinkLabel: "Explore Service",
 } as const satisfies WorksCapabilitiesContent;
 
-export type WorksDivisionsContent = {
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly divisions: readonly DivisionSlug[];
-};
-
 export const WORKS_DIVISIONS = {
   kicker: "Explore divisions",
   title: ["One vision.", "Five divisions."],
   divisions: ["design", "interior", "infrastructure", "developers", "care"],
 } as const satisfies WorksDivisionsContent;
-
-export type WorksCtaContent = {
-  readonly image: SectionImage;
-  readonly kicker: string;
-  readonly title: readonly TitleLine[];
-  readonly text: string;
-  readonly cta: WorksLink;
-  readonly call: CtaBandCall;
-};
 
 export const WORKS_CTA = {
   image: { src: "photos/pavilion-house-night", alt: "Glass pavilion house glowing at night" },

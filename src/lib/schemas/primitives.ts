@@ -117,6 +117,35 @@ export const accentTitleSchema = z.object({
   accentOnNewLine: z.boolean().exactOptional(),
 });
 
+export type TitleLines = z.infer<typeof titleLinesSchema>;
+export type AccentTitle = z.infer<typeof accentTitleSchema>;
+
+/** One line of a display title; `{ accent }` lines render orange (the `TitleLines` component). */
+export const titleLineSchema = z.union([z.string(), z.object({ accent: z.string() })]);
+export type TitleLine = z.infer<typeof titleLineSchema>;
+
+/** A paragraph with bold runs (`<b>` in the original; the `RichTextRuns` component). */
+export const richTextSchema = list(z.union([z.string(), z.object({ strong: z.string() })]));
+export type RichText = z.infer<typeof richTextSchema>;
+
+/** `data-title` / `data-desc` of a page (titles already end in the brand). */
+export const pageSeoSchema = z.object({ title: z.string(), description: z.string() });
+export type PageSeo = z.infer<typeof pageSeoSchema>;
+
+/** A plain link button. */
+export const linkSchema = z.object({ label: z.string(), href: hrefSchema });
+export type LinkContent = z.infer<typeof linkSchema>;
+
+/** A phone link (`tel:+91…`). */
+export const telHrefSchema = z.templateLiteral(["tel:", z.string()]);
+
+/** The "Prefer to call?" box of a CTA band (`CtaBandCall`). */
+export const ctaBandCallSchema = z.object({
+  label: z.string(),
+  phone: z.object({ display: z.string(), href: telHrefSchema }),
+  hours: z.string(),
+});
+
 /** A section's button: a link, the Start-a-Project popup, or "go to the page's contact form". */
 export const sectionActionSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("link"), label: z.string(), href: hrefSchema }),

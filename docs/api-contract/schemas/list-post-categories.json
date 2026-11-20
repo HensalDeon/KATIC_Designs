@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "readOnly": true,
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "enum": [
+          "Architecture",
+          "Interior Design",
+          "Materials & Finishes",
+          "Construction",
+          "Turnkey Projects",
+          "Renovation & Remodeling",
+          "Exterior & Landscape",
+          "Real Estate & Development",
+          "Property Care"
+        ]
+      },
+      "slug": {
+        "type": "string",
+        "enum": [
+          "architecture",
+          "interior-design",
+          "materials-finishes",
+          "construction",
+          "turnkey-projects",
+          "renovation-remodeling",
+          "exterior-landscape",
+          "real-estate-development",
+          "property-care"
+        ]
+      }
+    },
+    "required": ["name", "slug"],
+    "additionalProperties": false
+  }
+}

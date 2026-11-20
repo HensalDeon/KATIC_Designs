@@ -3,16 +3,17 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { getProjects } from "@/content/projects";
-import { WORKS_LIST_ID, WORKS_PORTFOLIO, type WorksPortfolioContent } from "@/content/works";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import type { WorksPortfolioContent } from "@/lib/schemas/works";
 
 import { PortfolioGrid } from "./portfolio-grid";
+import { WORKS_LIST_ID } from "./portfolio-layout";
 import { ProjectCard } from "./project-card";
 import { WORKS_TITLE_CLASS } from "./works-title";
 
 type PortfolioProps = {
-  readonly content?: WorksPortfolioContent;
+  readonly content: WorksPortfolioContent;
 };
 
 /**
@@ -25,9 +26,10 @@ type PortfolioProps = {
  * island that filters (`?category=`), reflows and animates them. Keeps the original id, so
  * `/works#works-list` and the legacy `#works/works-list/<f>` links land on it.
  */
-export function Portfolio({ content = WORKS_PORTFOLIO }: PortfolioProps) {
+export async function Portfolio({ content }: PortfolioProps) {
   const titleId = "works-list-title";
-  const projects = getProjects(content.projects);
+  const refs = await getRefs();
+  const projects = refs.projects(content.projects);
   return (
     <Section tone="light" id={WORKS_LIST_ID} aria-labelledby={titleId}>
       <Container size="wide">
@@ -49,7 +51,13 @@ export function Portfolio({ content = WORKS_PORTFOLIO }: PortfolioProps) {
           cards={projects.map((project) => ({
             slug: project.slug,
             categories: project.categories,
-            content: <ProjectCard project={project} linkLabel={content.cardLinkLabel} />,
+            content: (
+              <ProjectCard
+                project={project}
+                href={refs.projectHref(project)}
+                linkLabel={content.cardLinkLabel}
+              />
+            ),
           }))}
         />
       </Container>

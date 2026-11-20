@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "testimonialsHeader": {
+      "type": "object",
+      "properties": {
+        "kicker": { "type": "string" },
+        "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+        "lead": { "type": "string" },
+        "cta": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "href": { "type": "string", "minLength": 1 },
+            "variant": {
+              "type": "string",
+              "enum": ["outline", "dark", "outline-light", "outline-ink"]
+            }
+          },
+          "required": ["label", "href"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["kicker", "title"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["testimonialsHeader"],
+  "additionalProperties": false
+}

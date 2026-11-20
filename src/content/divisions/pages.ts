@@ -1,10 +1,12 @@
 import { DIVISION_SLUGS, type DivisionSlug } from "@/lib/routes";
+import type { DivisionPage } from "@/lib/schemas/divisions";
 
 import { CARE_DIVISION_PAGE } from "./care";
 import { DESIGN_DIVISION_PAGE } from "./design";
 import { DEVELOPERS_DIVISION_PAGE } from "./developers";
 import { INFRASTRUCTURE_DIVISION_PAGE } from "./infrastructure";
 import { INTERIOR_DIVISION_PAGE } from "./interior";
+import { divisionPageBlocks } from "./shared";
 import type { DivisionPageContent } from "./types";
 
 export type { DivisionPageContent } from "./types";
@@ -33,4 +35,13 @@ export function getDivisionPage(slug: string): DivisionPageContent | undefined {
 /** Slugs of the built pages, in the site's division order. */
 export function builtDivisionSlugs(): DivisionSlug[] {
   return DIVISION_SLUGS.filter((slug) => DIVISION_PAGES[slug] !== undefined);
+}
+
+/**
+ * The `/divisions/{slug}` resource of a built page: the authored page with its blocks in render
+ * order, the closing "Explore our divisions" grid included (`divisionPageBlocks`).
+ */
+export function divisionPageResource(slug: string): DivisionPage | undefined {
+  const page = getDivisionPage(slug);
+  return page && { ...page, blocks: divisionPageBlocks(page) };
 }

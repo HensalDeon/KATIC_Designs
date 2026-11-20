@@ -1,0 +1,3264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "seo": {
+      "type": "object",
+      "properties": { "title": { "type": "string" }, "description": { "type": "string" } },
+      "required": ["title", "description"],
+      "additionalProperties": false
+    },
+    "hero": {
+      "type": "object",
+      "properties": {
+        "variant": { "type": "string", "enum": ["service", "architecture"] },
+        "image": {
+          "type": "object",
+          "properties": {
+            "src": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "brand/logo",
+                    "partners/asian-paints",
+                    "partners/hettich",
+                    "partners/jaquar",
+                    "partners/kajaria",
+                    "people/client-avatar-01",
+                    "people/client-avatar-02",
+                    "people/client-avatar-03",
+                    "people/client-avatar-04",
+                    "people/client-avatar-05",
+                    "people/client-avatar-06",
+                    "people/client-story-01",
+                    "people/client-story-02",
+                    "people/client-story-03",
+                    "people/client-story-04",
+                    "people/founder",
+                    "people/team-member-01",
+                    "people/team-member-02",
+                    "people/team-member-03",
+                    "people/team-member-04",
+                    "photos/apartment-living-sea-view",
+                    "photos/apartment-tower",
+                    "photos/arched-courtyard-terrace",
+                    "photos/architect-site-drawings",
+                    "photos/architect-sketching-plans",
+                    "photos/architectural-model-on-drawings",
+                    "photos/backwaters-aerial",
+                    "photos/bathroom-kota-stone",
+                    "photos/bedroom-teak-screen",
+                    "photos/brick-courtyard-garden",
+                    "photos/brick-courtyard-house-dusk",
+                    "photos/brick-courtyard-house-dusk-panorama",
+                    "photos/brick-garden-walkway",
+                    "photos/brick-house-arched-windows-night",
+                    "photos/brick-house-garden-path",
+                    "photos/brick-jali-facade",
+                    "photos/brick-veranda-garden",
+                    "photos/bright-living-room",
+                    "photos/canal-house-sunset",
+                    "photos/city-view-living-room",
+                    "photos/coastal-terrace-house",
+                    "photos/commercial-facade-dusk",
+                    "photos/construction-team-drawings",
+                    "photos/contemporary-villa-entrance",
+                    "photos/courtyard-facade-night",
+                    "photos/courtyard-house-reflection-dusk",
+                    "photos/courtyard-living-skylight",
+                    "photos/courtyard-reflecting-pool",
+                    "photos/courtyard-tree-timber-balconies",
+                    "photos/dark-lounge-interior",
+                    "photos/desert-villa-sunset",
+                    "photos/design-studio-3d-model",
+                    "photos/double-height-living-stair",
+                    "photos/family-lounge-garden-view",
+                    "photos/formal-dining-room",
+                    "photos/games-room-billiards",
+                    "photos/garden-path-modern-house",
+                    "photos/garden-room-window-seat",
+                    "photos/garden-veranda-chairs",
+                    "photos/glass-courtyard-garden",
+                    "photos/glass-office-tower",
+                    "photos/granite-kitchen",
+                    "photos/heritage-studio-interior",
+                    "photos/hillside-house-greenery",
+                    "photos/hillside-villa-sunset",
+                    "photos/homeowners-walkthrough",
+                    "photos/house-rain-garden",
+                    "photos/house-reflecting-pool",
+                    "photos/house-reflecting-pool-garden",
+                    "photos/house-timber-screen-porch",
+                    "photos/house-under-construction",
+                    "photos/kerala-house-pond",
+                    "photos/kitchen-island-teak",
+                    "photos/kitchen-joinery",
+                    "photos/lakeside-house-dusk",
+                    "photos/lakeside-pavilion-dusk",
+                    "photos/laterite-wall-timber-door",
+                    "photos/lime-plaster-stair-detail",
+                    "photos/living-room-garden-doors",
+                    "photos/living-room-tropical-wallpaper",
+                    "photos/living-room-tv-wall",
+                    "photos/massing-model",
+                    "photos/minimal-interior-yellow-armchair",
+                    "photos/modern-house-rain-dusk",
+                    "photos/narrow-urban-house-dusk",
+                    "photos/office-reception",
+                    "photos/open-pavilion-lounge-night",
+                    "photos/ornate-bedroom-suite",
+                    "photos/pavilion-fins-facade",
+                    "photos/pavilion-house-night",
+                    "photos/pond-house-dusk",
+                    "photos/riverside-house-night",
+                    "photos/sea-view-living-room",
+                    "photos/site-review-timber-screen",
+                    "photos/sofa-jali-detail",
+                    "photos/spiral-stair-courtyard",
+                    "photos/studio-workspace",
+                    "photos/teak-stair-handrail",
+                    "photos/timber-entrance-door",
+                    "photos/timber-gate-brick-wall",
+                    "photos/timber-house-night",
+                    "photos/timber-lounge-chair",
+                    "photos/timber-screen-atrium",
+                    "photos/two-storey-house-lawn",
+                    "photos/urban-street-houses",
+                    "photos/veranda-living-pool-view",
+                    "photos/veranda-night-forest",
+                    "photos/villa-pool-city-skyline",
+                    "photos/villa-pool-mountains",
+                    "photos/villa-pool-skyline-dusk",
+                    "photos/white-bathroom-checker-floor",
+                    "photos/white-bathroom-checker-floor-small",
+                    "photos/white-hallway-stair",
+                    "plants/ageratum",
+                    "plants/banana-leaf-plant",
+                    "plants/bird-of-paradise-flower",
+                    "plants/bird-of-paradise-terracotta",
+                    "plants/bird-of-paradise-white-pot",
+                    "plants/bougainvillea",
+                    "plants/boxwood",
+                    "plants/cactus-group",
+                    "plants/coleus",
+                    "plants/croton",
+                    "plants/fern",
+                    "plants/hanging-pothos",
+                    "plants/heliconia",
+                    "plants/potted-plant-on-chair",
+                    "plants/schefflera",
+                    "plants/window-box-flowers",
+                    "video/hero-poster-desktop",
+                    "video/hero-poster-mobile"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "src": { "type": "string", "minLength": 1 },
+                    "width": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "height": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "blurDataURL": { "type": "string" }
+                  },
+                  "required": ["src", "width", "height"],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "alt": { "type": "string" }
+          },
+          "required": ["src", "alt"],
+          "additionalProperties": false
+        },
+        "kicker": { "type": "string" },
+        "title": {
+          "type": "object",
+          "properties": {
+            "lines": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+            "accent": { "type": "string" },
+            "accentOnNewLine": { "type": "boolean" }
+          },
+          "required": ["lines", "accent"],
+          "additionalProperties": false
+        },
+        "lead": { "type": "string" },
+        "primaryCta": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "link" },
+                "label": { "type": "string" },
+                "href": { "type": "string", "minLength": 1 }
+              },
+              "required": ["kind", "label", "href"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "enquiry" },
+                "label": { "type": "string" },
+                "service": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                }
+              },
+              "required": ["kind", "label"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "contact" },
+                "label": { "type": "string" },
+                "service": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                },
+                "href": { "type": "string", "minLength": 1 }
+              },
+              "required": ["kind", "label"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "secondaryCta": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "link" },
+                "label": { "type": "string" },
+                "href": { "type": "string", "minLength": 1 }
+              },
+              "required": ["kind", "label", "href"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "enquiry" },
+                "label": { "type": "string" },
+                "service": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                }
+              },
+              "required": ["kind", "label"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": { "type": "string", "const": "contact" },
+                "label": { "type": "string" },
+                "service": {
+                  "type": "string",
+                  "enum": [
+                    "Architectural Design",
+                    "Interior Design",
+                    "Construction & Execution",
+                    "Turnkey Projects",
+                    "Renovation & Remodeling",
+                    "Exterior & Landscape Design",
+                    "Property Care & Maintenance"
+                  ]
+                },
+                "href": { "type": "string", "minLength": 1 }
+              },
+              "required": ["kind", "label"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "caption": { "type": "string" }
+      },
+      "required": ["image", "kicker", "title"],
+      "additionalProperties": false
+    },
+    "blocks": {
+      "readOnly": true,
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "split" },
+                  "image": {
+                    "type": "object",
+                    "properties": {
+                      "src": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "brand/logo",
+                              "partners/asian-paints",
+                              "partners/hettich",
+                              "partners/jaquar",
+                              "partners/kajaria",
+                              "people/client-avatar-01",
+                              "people/client-avatar-02",
+                              "people/client-avatar-03",
+                              "people/client-avatar-04",
+                              "people/client-avatar-05",
+                              "people/client-avatar-06",
+                              "people/client-story-01",
+                              "people/client-story-02",
+                              "people/client-story-03",
+                              "people/client-story-04",
+                              "people/founder",
+                              "people/team-member-01",
+                              "people/team-member-02",
+                              "people/team-member-03",
+                              "people/team-member-04",
+                              "photos/apartment-living-sea-view",
+                              "photos/apartment-tower",
+                              "photos/arched-courtyard-terrace",
+                              "photos/architect-site-drawings",
+                              "photos/architect-sketching-plans",
+                              "photos/architectural-model-on-drawings",
+                              "photos/backwaters-aerial",
+                              "photos/bathroom-kota-stone",
+                              "photos/bedroom-teak-screen",
+                              "photos/brick-courtyard-garden",
+                              "photos/brick-courtyard-house-dusk",
+                              "photos/brick-courtyard-house-dusk-panorama",
+                              "photos/brick-garden-walkway",
+                              "photos/brick-house-arched-windows-night",
+                              "photos/brick-house-garden-path",
+                              "photos/brick-jali-facade",
+                              "photos/brick-veranda-garden",
+                              "photos/bright-living-room",
+                              "photos/canal-house-sunset",
+                              "photos/city-view-living-room",
+                              "photos/coastal-terrace-house",
+                              "photos/commercial-facade-dusk",
+                              "photos/construction-team-drawings",
+                              "photos/contemporary-villa-entrance",
+                              "photos/courtyard-facade-night",
+                              "photos/courtyard-house-reflection-dusk",
+                              "photos/courtyard-living-skylight",
+                              "photos/courtyard-reflecting-pool",
+                              "photos/courtyard-tree-timber-balconies",
+                              "photos/dark-lounge-interior",
+                              "photos/desert-villa-sunset",
+                              "photos/design-studio-3d-model",
+                              "photos/double-height-living-stair",
+                              "photos/family-lounge-garden-view",
+                              "photos/formal-dining-room",
+                              "photos/games-room-billiards",
+                              "photos/garden-path-modern-house",
+                              "photos/garden-room-window-seat",
+                              "photos/garden-veranda-chairs",
+                              "photos/glass-courtyard-garden",
+                              "photos/glass-office-tower",
+                              "photos/granite-kitchen",
+                              "photos/heritage-studio-interior",
+                              "photos/hillside-house-greenery",
+                              "photos/hillside-villa-sunset",
+                              "photos/homeowners-walkthrough",
+                              "photos/house-rain-garden",
+                              "photos/house-reflecting-pool",
+                              "photos/house-reflecting-pool-garden",
+                              "photos/house-timber-screen-porch",
+                              "photos/house-under-construction",
+                              "photos/kerala-house-pond",
+                              "photos/kitchen-island-teak",
+                              "photos/kitchen-joinery",
+                              "photos/lakeside-house-dusk",
+                              "photos/lakeside-pavilion-dusk",
+                              "photos/laterite-wall-timber-door",
+                              "photos/lime-plaster-stair-detail",
+                              "photos/living-room-garden-doors",
+                              "photos/living-room-tropical-wallpaper",
+                              "photos/living-room-tv-wall",
+                              "photos/massing-model",
+                              "photos/minimal-interior-yellow-armchair",
+                              "photos/modern-house-rain-dusk",
+                              "photos/narrow-urban-house-dusk",
+                              "photos/office-reception",
+                              "photos/open-pavilion-lounge-night",
+                              "photos/ornate-bedroom-suite",
+                              "photos/pavilion-fins-facade",
+                              "photos/pavilion-house-night",
+                              "photos/pond-house-dusk",
+                              "photos/riverside-house-night",
+                              "photos/sea-view-living-room",
+                              "photos/site-review-timber-screen",
+                              "photos/sofa-jali-detail",
+                              "photos/spiral-stair-courtyard",
+                              "photos/studio-workspace",
+                              "photos/teak-stair-handrail",
+                              "photos/timber-entrance-door",
+                              "photos/timber-gate-brick-wall",
+                              "photos/timber-house-night",
+                              "photos/timber-lounge-chair",
+                              "photos/timber-screen-atrium",
+                              "photos/two-storey-house-lawn",
+                              "photos/urban-street-houses",
+                              "photos/veranda-living-pool-view",
+                              "photos/veranda-night-forest",
+                              "photos/villa-pool-city-skyline",
+                              "photos/villa-pool-mountains",
+                              "photos/villa-pool-skyline-dusk",
+                              "photos/white-bathroom-checker-floor",
+                              "photos/white-bathroom-checker-floor-small",
+                              "photos/white-hallway-stair",
+                              "plants/ageratum",
+                              "plants/banana-leaf-plant",
+                              "plants/bird-of-paradise-flower",
+                              "plants/bird-of-paradise-terracotta",
+                              "plants/bird-of-paradise-white-pot",
+                              "plants/bougainvillea",
+                              "plants/boxwood",
+                              "plants/cactus-group",
+                              "plants/coleus",
+                              "plants/croton",
+                              "plants/fern",
+                              "plants/hanging-pothos",
+                              "plants/heliconia",
+                              "plants/potted-plant-on-chair",
+                              "plants/schefflera",
+                              "plants/window-box-flowers",
+                              "video/hero-poster-desktop",
+                              "video/hero-poster-mobile"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "src": { "type": "string", "minLength": 1 },
+                              "width": {
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "height": {
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "blurDataURL": { "type": "string" }
+                            },
+                            "required": ["src", "width", "height"],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "alt": { "type": "string" }
+                    },
+                    "required": ["src", "alt"],
+                    "additionalProperties": false
+                  },
+                  "caption": { "type": "string" },
+                  "kicker": { "type": "string" },
+                  "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                  "lead": { "type": "string" },
+                  "body": { "type": "string" },
+                  "bullets": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                  "cta": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "light", "primary"]
+                          },
+                          "kind": { "type": "string", "const": "link" },
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 }
+                        },
+                        "required": ["kind", "label", "href"],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "light", "primary"]
+                          },
+                          "kind": { "type": "string", "const": "enquiry" },
+                          "label": { "type": "string" },
+                          "service": {
+                            "type": "string",
+                            "enum": [
+                              "Architectural Design",
+                              "Interior Design",
+                              "Construction & Execution",
+                              "Turnkey Projects",
+                              "Renovation & Remodeling",
+                              "Exterior & Landscape Design",
+                              "Property Care & Maintenance"
+                            ]
+                          }
+                        },
+                        "required": ["kind", "label"],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "light", "primary"]
+                          },
+                          "kind": { "type": "string", "const": "contact" },
+                          "label": { "type": "string" },
+                          "service": {
+                            "type": "string",
+                            "enum": [
+                              "Architectural Design",
+                              "Interior Design",
+                              "Construction & Execution",
+                              "Turnkey Projects",
+                              "Renovation & Remodeling",
+                              "Exterior & Landscape Design",
+                              "Property Care & Maintenance"
+                            ]
+                          },
+                          "href": { "type": "string", "minLength": 1 }
+                        },
+                        "required": ["kind", "label"],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "reverse": { "type": "boolean" }
+                },
+                "required": ["type", "image", "kicker", "title"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "rows" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "enum": [
+                            "search",
+                            "compass",
+                            "crane",
+                            "shield",
+                            "key",
+                            "leaf",
+                            "layers",
+                            "tools",
+                            "door",
+                            "house",
+                            "office",
+                            "target",
+                            "eye",
+                            "badge-check",
+                            "check-circle",
+                            "kitchen",
+                            "wardrobe",
+                            "team",
+                            "star",
+                            "facade",
+                            "sofa",
+                            "bulb",
+                            "clock",
+                            "pin",
+                            "truck",
+                            "coin",
+                            "message"
+                          ]
+                        },
+                        "title": { "type": "string" },
+                        "text": { "type": "string" },
+                        "href": { "type": "string", "minLength": 1 }
+                      },
+                      "required": ["icon", "title", "text"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "features" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "enum": [
+                            "search",
+                            "compass",
+                            "crane",
+                            "shield",
+                            "key",
+                            "leaf",
+                            "layers",
+                            "tools",
+                            "door",
+                            "house",
+                            "office",
+                            "target",
+                            "eye",
+                            "badge-check",
+                            "check-circle",
+                            "kitchen",
+                            "wardrobe",
+                            "team",
+                            "star",
+                            "facade",
+                            "sofa",
+                            "bulb",
+                            "clock",
+                            "pin",
+                            "truck",
+                            "coin",
+                            "message"
+                          ]
+                        },
+                        "title": { "type": "string" },
+                        "text": { "type": "string" },
+                        "artIcon": {
+                          "type": "string",
+                          "enum": [
+                            "house",
+                            "tower",
+                            "civic",
+                            "hotel",
+                            "frame",
+                            "network",
+                            "pipes",
+                            "finish",
+                            "calendar",
+                            "gantt",
+                            "team",
+                            "stack",
+                            "progress",
+                            "magnifier",
+                            "room",
+                            "floorplan",
+                            "remodel",
+                            "swatches",
+                            "furniture",
+                            "lamp",
+                            "crane",
+                            "counter",
+                            "wardrobe",
+                            "fluted",
+                            "door",
+                            "desk",
+                            "board",
+                            "plan2",
+                            "building",
+                            "elevation",
+                            "consult",
+                            "plot",
+                            "growth",
+                            "bridge",
+                            "layers",
+                            "pin",
+                            "globe",
+                            "doc",
+                            "path",
+                            "shield",
+                            "tools",
+                            "scaffold",
+                            "tree",
+                            "bolt",
+                            "brace",
+                            "warehouse",
+                            "facadeNew",
+                            "renoHouse",
+                            "bath",
+                            "hammer"
+                          ]
+                        }
+                      },
+                      "required": ["icon", "title", "text"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "columns", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "process" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "steps": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "discovery",
+                            "concept",
+                            "design",
+                            "engineering",
+                            "construction",
+                            "completion",
+                            "handover",
+                            "aftercare"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "icon": {
+                              "type": "string",
+                              "enum": [
+                                "search",
+                                "compass",
+                                "crane",
+                                "shield",
+                                "key",
+                                "leaf",
+                                "layers",
+                                "tools",
+                                "door",
+                                "house",
+                                "office",
+                                "target",
+                                "eye",
+                                "badge-check",
+                                "check-circle",
+                                "kitchen",
+                                "wardrobe",
+                                "team",
+                                "star",
+                                "facade",
+                                "sofa",
+                                "bulb",
+                                "clock",
+                                "pin",
+                                "truck",
+                                "coin",
+                                "message"
+                              ]
+                            },
+                            "title": { "type": "string" },
+                            "text": { "type": "string" },
+                            "artStage": {
+                              "anyOf": [
+                                { "type": "number", "const": 0 },
+                                { "type": "number", "const": 1 },
+                                { "type": "number", "const": 2 },
+                                { "type": "number", "const": 3 },
+                                { "type": "number", "const": 4 },
+                                { "type": "number", "const": 5 },
+                                { "type": "number", "const": 6 }
+                              ]
+                            }
+                          },
+                          "required": ["icon", "title", "text"],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  }
+                },
+                "required": ["type", "header", "steps"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "sectors" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "sectors": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["residential", "commercial", "institutional", "hospitality"]
+                    }
+                  },
+                  "extra": {
+                    "type": "object",
+                    "properties": {
+                      "label": { "type": "string" },
+                      "title": { "type": "string" },
+                      "text": { "type": "string" },
+                      "image": {
+                        "type": "string",
+                        "enum": [
+                          "brand/logo",
+                          "partners/asian-paints",
+                          "partners/hettich",
+                          "partners/jaquar",
+                          "partners/kajaria",
+                          "people/client-avatar-01",
+                          "people/client-avatar-02",
+                          "people/client-avatar-03",
+                          "people/client-avatar-04",
+                          "people/client-avatar-05",
+                          "people/client-avatar-06",
+                          "people/client-story-01",
+                          "people/client-story-02",
+                          "people/client-story-03",
+                          "people/client-story-04",
+                          "people/founder",
+                          "people/team-member-01",
+                          "people/team-member-02",
+                          "people/team-member-03",
+                          "people/team-member-04",
+                          "photos/apartment-living-sea-view",
+                          "photos/apartment-tower",
+                          "photos/arched-courtyard-terrace",
+                          "photos/architect-site-drawings",
+                          "photos/architect-sketching-plans",
+                          "photos/architectural-model-on-drawings",
+                          "photos/backwaters-aerial",
+                          "photos/bathroom-kota-stone",
+                          "photos/bedroom-teak-screen",
+                          "photos/brick-courtyard-garden",
+                          "photos/brick-courtyard-house-dusk",
+                          "photos/brick-courtyard-house-dusk-panorama",
+                          "photos/brick-garden-walkway",
+                          "photos/brick-house-arched-windows-night",
+                          "photos/brick-house-garden-path",
+                          "photos/brick-jali-facade",
+                          "photos/brick-veranda-garden",
+                          "photos/bright-living-room",
+                          "photos/canal-house-sunset",
+                          "photos/city-view-living-room",
+                          "photos/coastal-terrace-house",
+                          "photos/commercial-facade-dusk",
+                          "photos/construction-team-drawings",
+                          "photos/contemporary-villa-entrance",
+                          "photos/courtyard-facade-night",
+                          "photos/courtyard-house-reflection-dusk",
+                          "photos/courtyard-living-skylight",
+                          "photos/courtyard-reflecting-pool",
+                          "photos/courtyard-tree-timber-balconies",
+                          "photos/dark-lounge-interior",
+                          "photos/desert-villa-sunset",
+                          "photos/design-studio-3d-model",
+                          "photos/double-height-living-stair",
+                          "photos/family-lounge-garden-view",
+                          "photos/formal-dining-room",
+                          "photos/games-room-billiards",
+                          "photos/garden-path-modern-house",
+                          "photos/garden-room-window-seat",
+                          "photos/garden-veranda-chairs",
+                          "photos/glass-courtyard-garden",
+                          "photos/glass-office-tower",
+                          "photos/granite-kitchen",
+                          "photos/heritage-studio-interior",
+                          "photos/hillside-house-greenery",
+                          "photos/hillside-villa-sunset",
+                          "photos/homeowners-walkthrough",
+                          "photos/house-rain-garden",
+                          "photos/house-reflecting-pool",
+                          "photos/house-reflecting-pool-garden",
+                          "photos/house-timber-screen-porch",
+                          "photos/house-under-construction",
+                          "photos/kerala-house-pond",
+                          "photos/kitchen-island-teak",
+                          "photos/kitchen-joinery",
+                          "photos/lakeside-house-dusk",
+                          "photos/lakeside-pavilion-dusk",
+                          "photos/laterite-wall-timber-door",
+                          "photos/lime-plaster-stair-detail",
+                          "photos/living-room-garden-doors",
+                          "photos/living-room-tropical-wallpaper",
+                          "photos/living-room-tv-wall",
+                          "photos/massing-model",
+                          "photos/minimal-interior-yellow-armchair",
+                          "photos/modern-house-rain-dusk",
+                          "photos/narrow-urban-house-dusk",
+                          "photos/office-reception",
+                          "photos/open-pavilion-lounge-night",
+                          "photos/ornate-bedroom-suite",
+                          "photos/pavilion-fins-facade",
+                          "photos/pavilion-house-night",
+                          "photos/pond-house-dusk",
+                          "photos/riverside-house-night",
+                          "photos/sea-view-living-room",
+                          "photos/site-review-timber-screen",
+                          "photos/sofa-jali-detail",
+                          "photos/spiral-stair-courtyard",
+                          "photos/studio-workspace",
+                          "photos/teak-stair-handrail",
+                          "photos/timber-entrance-door",
+                          "photos/timber-gate-brick-wall",
+                          "photos/timber-house-night",
+                          "photos/timber-lounge-chair",
+                          "photos/timber-screen-atrium",
+                          "photos/two-storey-house-lawn",
+                          "photos/urban-street-houses",
+                          "photos/veranda-living-pool-view",
+                          "photos/veranda-night-forest",
+                          "photos/villa-pool-city-skyline",
+                          "photos/villa-pool-mountains",
+                          "photos/villa-pool-skyline-dusk",
+                          "photos/white-bathroom-checker-floor",
+                          "photos/white-bathroom-checker-floor-small",
+                          "photos/white-hallway-stair",
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers",
+                          "video/hero-poster-desktop",
+                          "video/hero-poster-mobile"
+                        ]
+                      },
+                      "alt": { "type": "string" },
+                      "category": {
+                        "type": "string",
+                        "enum": [
+                          "residential",
+                          "commercial",
+                          "institutional",
+                          "hospitality",
+                          "architecture",
+                          "interiors",
+                          "villas"
+                        ]
+                      }
+                    },
+                    "required": ["label", "title", "text", "image", "alt"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["type", "header", "sectors"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "projects" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 2 },
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "project": {
+                          "type": "string",
+                          "enum": [
+                            "obsidian-lounge",
+                            "velvet-suite-penthouse",
+                            "galicica-retreat",
+                            "palm-veil-residence",
+                            "cinder-house",
+                            "nila-apartments",
+                            "serein-wellness-club",
+                            "house-of-three-courts",
+                            "al-quoz-atelier",
+                            "greenfield-school-campus",
+                            "difc-gallery-office",
+                            "obsidian-lounge-kochi",
+                            "villa-noor",
+                            "the-courtyard-house",
+                            "canvas-kitchen",
+                            "harbour-loft",
+                            "desert-edge-villa",
+                            "palm-ridge-villa",
+                            "nila-workspace",
+                            "house-of-monsoon",
+                            "the-old-mill-renewal",
+                            "community-health-pavilion",
+                            "canopy-house",
+                            "jumeirah-courtyard-house",
+                            "river-edge-villa",
+                            "linear-courtyard-home",
+                            "garden-fold-house",
+                            "canal-house",
+                            "mattancherry-studio",
+                            "hillside-commons",
+                            "palm-residence",
+                            "courtyard-residence",
+                            "garden-house",
+                            "the-social-kitchen",
+                            "quiet-play-house",
+                            "monsoon-court",
+                            "studio-commons"
+                          ]
+                        },
+                        "meta": { "type": "string" },
+                        "image": {
+                          "type": "object",
+                          "properties": {
+                            "src": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "brand/logo",
+                                    "partners/asian-paints",
+                                    "partners/hettich",
+                                    "partners/jaquar",
+                                    "partners/kajaria",
+                                    "people/client-avatar-01",
+                                    "people/client-avatar-02",
+                                    "people/client-avatar-03",
+                                    "people/client-avatar-04",
+                                    "people/client-avatar-05",
+                                    "people/client-avatar-06",
+                                    "people/client-story-01",
+                                    "people/client-story-02",
+                                    "people/client-story-03",
+                                    "people/client-story-04",
+                                    "people/founder",
+                                    "people/team-member-01",
+                                    "people/team-member-02",
+                                    "people/team-member-03",
+                                    "people/team-member-04",
+                                    "photos/apartment-living-sea-view",
+                                    "photos/apartment-tower",
+                                    "photos/arched-courtyard-terrace",
+                                    "photos/architect-site-drawings",
+                                    "photos/architect-sketching-plans",
+                                    "photos/architectural-model-on-drawings",
+                                    "photos/backwaters-aerial",
+                                    "photos/bathroom-kota-stone",
+                                    "photos/bedroom-teak-screen",
+                                    "photos/brick-courtyard-garden",
+                                    "photos/brick-courtyard-house-dusk",
+                                    "photos/brick-courtyard-house-dusk-panorama",
+                                    "photos/brick-garden-walkway",
+                                    "photos/brick-house-arched-windows-night",
+                                    "photos/brick-house-garden-path",
+                                    "photos/brick-jali-facade",
+                                    "photos/brick-veranda-garden",
+                                    "photos/bright-living-room",
+                                    "photos/canal-house-sunset",
+                                    "photos/city-view-living-room",
+                                    "photos/coastal-terrace-house",
+                                    "photos/commercial-facade-dusk",
+                                    "photos/construction-team-drawings",
+                                    "photos/contemporary-villa-entrance",
+                                    "photos/courtyard-facade-night",
+                                    "photos/courtyard-house-reflection-dusk",
+                                    "photos/courtyard-living-skylight",
+                                    "photos/courtyard-reflecting-pool",
+                                    "photos/courtyard-tree-timber-balconies",
+                                    "photos/dark-lounge-interior",
+                                    "photos/desert-villa-sunset",
+                                    "photos/design-studio-3d-model",
+                                    "photos/double-height-living-stair",
+                                    "photos/family-lounge-garden-view",
+                                    "photos/formal-dining-room",
+                                    "photos/games-room-billiards",
+                                    "photos/garden-path-modern-house",
+                                    "photos/garden-room-window-seat",
+                                    "photos/garden-veranda-chairs",
+                                    "photos/glass-courtyard-garden",
+                                    "photos/glass-office-tower",
+                                    "photos/granite-kitchen",
+                                    "photos/heritage-studio-interior",
+                                    "photos/hillside-house-greenery",
+                                    "photos/hillside-villa-sunset",
+                                    "photos/homeowners-walkthrough",
+                                    "photos/house-rain-garden",
+                                    "photos/house-reflecting-pool",
+                                    "photos/house-reflecting-pool-garden",
+                                    "photos/house-timber-screen-porch",
+                                    "photos/house-under-construction",
+                                    "photos/kerala-house-pond",
+                                    "photos/kitchen-island-teak",
+                                    "photos/kitchen-joinery",
+                                    "photos/lakeside-house-dusk",
+                                    "photos/lakeside-pavilion-dusk",
+                                    "photos/laterite-wall-timber-door",
+                                    "photos/lime-plaster-stair-detail",
+                                    "photos/living-room-garden-doors",
+                                    "photos/living-room-tropical-wallpaper",
+                                    "photos/living-room-tv-wall",
+                                    "photos/massing-model",
+                                    "photos/minimal-interior-yellow-armchair",
+                                    "photos/modern-house-rain-dusk",
+                                    "photos/narrow-urban-house-dusk",
+                                    "photos/office-reception",
+                                    "photos/open-pavilion-lounge-night",
+                                    "photos/ornate-bedroom-suite",
+                                    "photos/pavilion-fins-facade",
+                                    "photos/pavilion-house-night",
+                                    "photos/pond-house-dusk",
+                                    "photos/riverside-house-night",
+                                    "photos/sea-view-living-room",
+                                    "photos/site-review-timber-screen",
+                                    "photos/sofa-jali-detail",
+                                    "photos/spiral-stair-courtyard",
+                                    "photos/studio-workspace",
+                                    "photos/teak-stair-handrail",
+                                    "photos/timber-entrance-door",
+                                    "photos/timber-gate-brick-wall",
+                                    "photos/timber-house-night",
+                                    "photos/timber-lounge-chair",
+                                    "photos/timber-screen-atrium",
+                                    "photos/two-storey-house-lawn",
+                                    "photos/urban-street-houses",
+                                    "photos/veranda-living-pool-view",
+                                    "photos/veranda-night-forest",
+                                    "photos/villa-pool-city-skyline",
+                                    "photos/villa-pool-mountains",
+                                    "photos/villa-pool-skyline-dusk",
+                                    "photos/white-bathroom-checker-floor",
+                                    "photos/white-bathroom-checker-floor-small",
+                                    "photos/white-hallway-stair",
+                                    "plants/ageratum",
+                                    "plants/banana-leaf-plant",
+                                    "plants/bird-of-paradise-flower",
+                                    "plants/bird-of-paradise-terracotta",
+                                    "plants/bird-of-paradise-white-pot",
+                                    "plants/bougainvillea",
+                                    "plants/boxwood",
+                                    "plants/cactus-group",
+                                    "plants/coleus",
+                                    "plants/croton",
+                                    "plants/fern",
+                                    "plants/hanging-pothos",
+                                    "plants/heliconia",
+                                    "plants/potted-plant-on-chair",
+                                    "plants/schefflera",
+                                    "plants/window-box-flowers",
+                                    "video/hero-poster-desktop",
+                                    "video/hero-poster-mobile"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "src": { "type": "string", "minLength": 1 },
+                                    "width": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "height": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "blurDataURL": { "type": "string" }
+                                  },
+                                  "required": ["src", "width", "height"],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "alt": { "type": "string" }
+                          },
+                          "required": ["src", "alt"],
+                          "additionalProperties": false
+                        },
+                        "tag": { "type": "string" }
+                      },
+                      "required": ["project", "meta"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "columns", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "products" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 2 },
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": { "type": "string" },
+                        "text": { "type": "string" },
+                        "image": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "brand/logo",
+                                "partners/asian-paints",
+                                "partners/hettich",
+                                "partners/jaquar",
+                                "partners/kajaria",
+                                "people/client-avatar-01",
+                                "people/client-avatar-02",
+                                "people/client-avatar-03",
+                                "people/client-avatar-04",
+                                "people/client-avatar-05",
+                                "people/client-avatar-06",
+                                "people/client-story-01",
+                                "people/client-story-02",
+                                "people/client-story-03",
+                                "people/client-story-04",
+                                "people/founder",
+                                "people/team-member-01",
+                                "people/team-member-02",
+                                "people/team-member-03",
+                                "people/team-member-04",
+                                "photos/apartment-living-sea-view",
+                                "photos/apartment-tower",
+                                "photos/arched-courtyard-terrace",
+                                "photos/architect-site-drawings",
+                                "photos/architect-sketching-plans",
+                                "photos/architectural-model-on-drawings",
+                                "photos/backwaters-aerial",
+                                "photos/bathroom-kota-stone",
+                                "photos/bedroom-teak-screen",
+                                "photos/brick-courtyard-garden",
+                                "photos/brick-courtyard-house-dusk",
+                                "photos/brick-courtyard-house-dusk-panorama",
+                                "photos/brick-garden-walkway",
+                                "photos/brick-house-arched-windows-night",
+                                "photos/brick-house-garden-path",
+                                "photos/brick-jali-facade",
+                                "photos/brick-veranda-garden",
+                                "photos/bright-living-room",
+                                "photos/canal-house-sunset",
+                                "photos/city-view-living-room",
+                                "photos/coastal-terrace-house",
+                                "photos/commercial-facade-dusk",
+                                "photos/construction-team-drawings",
+                                "photos/contemporary-villa-entrance",
+                                "photos/courtyard-facade-night",
+                                "photos/courtyard-house-reflection-dusk",
+                                "photos/courtyard-living-skylight",
+                                "photos/courtyard-reflecting-pool",
+                                "photos/courtyard-tree-timber-balconies",
+                                "photos/dark-lounge-interior",
+                                "photos/desert-villa-sunset",
+                                "photos/design-studio-3d-model",
+                                "photos/double-height-living-stair",
+                                "photos/family-lounge-garden-view",
+                                "photos/formal-dining-room",
+                                "photos/games-room-billiards",
+                                "photos/garden-path-modern-house",
+                                "photos/garden-room-window-seat",
+                                "photos/garden-veranda-chairs",
+                                "photos/glass-courtyard-garden",
+                                "photos/glass-office-tower",
+                                "photos/granite-kitchen",
+                                "photos/heritage-studio-interior",
+                                "photos/hillside-house-greenery",
+                                "photos/hillside-villa-sunset",
+                                "photos/homeowners-walkthrough",
+                                "photos/house-rain-garden",
+                                "photos/house-reflecting-pool",
+                                "photos/house-reflecting-pool-garden",
+                                "photos/house-timber-screen-porch",
+                                "photos/house-under-construction",
+                                "photos/kerala-house-pond",
+                                "photos/kitchen-island-teak",
+                                "photos/kitchen-joinery",
+                                "photos/lakeside-house-dusk",
+                                "photos/lakeside-pavilion-dusk",
+                                "photos/laterite-wall-timber-door",
+                                "photos/lime-plaster-stair-detail",
+                                "photos/living-room-garden-doors",
+                                "photos/living-room-tropical-wallpaper",
+                                "photos/living-room-tv-wall",
+                                "photos/massing-model",
+                                "photos/minimal-interior-yellow-armchair",
+                                "photos/modern-house-rain-dusk",
+                                "photos/narrow-urban-house-dusk",
+                                "photos/office-reception",
+                                "photos/open-pavilion-lounge-night",
+                                "photos/ornate-bedroom-suite",
+                                "photos/pavilion-fins-facade",
+                                "photos/pavilion-house-night",
+                                "photos/pond-house-dusk",
+                                "photos/riverside-house-night",
+                                "photos/sea-view-living-room",
+                                "photos/site-review-timber-screen",
+                                "photos/sofa-jali-detail",
+                                "photos/spiral-stair-courtyard",
+                                "photos/studio-workspace",
+                                "photos/teak-stair-handrail",
+                                "photos/timber-entrance-door",
+                                "photos/timber-gate-brick-wall",
+                                "photos/timber-house-night",
+                                "photos/timber-lounge-chair",
+                                "photos/timber-screen-atrium",
+                                "photos/two-storey-house-lawn",
+                                "photos/urban-street-houses",
+                                "photos/veranda-living-pool-view",
+                                "photos/veranda-night-forest",
+                                "photos/villa-pool-city-skyline",
+                                "photos/villa-pool-mountains",
+                                "photos/villa-pool-skyline-dusk",
+                                "photos/white-bathroom-checker-floor",
+                                "photos/white-bathroom-checker-floor-small",
+                                "photos/white-hallway-stair",
+                                "plants/ageratum",
+                                "plants/banana-leaf-plant",
+                                "plants/bird-of-paradise-flower",
+                                "plants/bird-of-paradise-terracotta",
+                                "plants/bird-of-paradise-white-pot",
+                                "plants/bougainvillea",
+                                "plants/boxwood",
+                                "plants/cactus-group",
+                                "plants/coleus",
+                                "plants/croton",
+                                "plants/fern",
+                                "plants/hanging-pothos",
+                                "plants/heliconia",
+                                "plants/potted-plant-on-chair",
+                                "plants/schefflera",
+                                "plants/window-box-flowers",
+                                "video/hero-poster-desktop",
+                                "video/hero-poster-mobile"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "src": { "type": "string", "minLength": 1 },
+                                "width": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "height": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "blurDataURL": { "type": "string" }
+                              },
+                              "required": ["src", "width", "height"],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "alt": { "type": "string" },
+                        "project": {
+                          "type": "string",
+                          "enum": [
+                            "obsidian-lounge",
+                            "velvet-suite-penthouse",
+                            "galicica-retreat",
+                            "palm-veil-residence",
+                            "cinder-house",
+                            "nila-apartments",
+                            "serein-wellness-club",
+                            "house-of-three-courts",
+                            "al-quoz-atelier",
+                            "greenfield-school-campus",
+                            "difc-gallery-office",
+                            "obsidian-lounge-kochi",
+                            "villa-noor",
+                            "the-courtyard-house",
+                            "canvas-kitchen",
+                            "harbour-loft",
+                            "desert-edge-villa",
+                            "palm-ridge-villa",
+                            "nila-workspace",
+                            "house-of-monsoon",
+                            "the-old-mill-renewal",
+                            "community-health-pavilion",
+                            "canopy-house",
+                            "jumeirah-courtyard-house",
+                            "river-edge-villa",
+                            "linear-courtyard-home",
+                            "garden-fold-house",
+                            "canal-house",
+                            "mattancherry-studio",
+                            "hillside-commons",
+                            "palm-residence",
+                            "courtyard-residence",
+                            "garden-house",
+                            "the-social-kitchen",
+                            "quiet-play-house",
+                            "monsoon-court",
+                            "studio-commons"
+                          ]
+                        }
+                      },
+                      "required": ["title", "text", "image", "alt"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "columns", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "cards" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 2 },
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "href": { "type": "string", "minLength": 1 },
+                        "contact": { "type": "boolean" },
+                        "image": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "brand/logo",
+                                "partners/asian-paints",
+                                "partners/hettich",
+                                "partners/jaquar",
+                                "partners/kajaria",
+                                "people/client-avatar-01",
+                                "people/client-avatar-02",
+                                "people/client-avatar-03",
+                                "people/client-avatar-04",
+                                "people/client-avatar-05",
+                                "people/client-avatar-06",
+                                "people/client-story-01",
+                                "people/client-story-02",
+                                "people/client-story-03",
+                                "people/client-story-04",
+                                "people/founder",
+                                "people/team-member-01",
+                                "people/team-member-02",
+                                "people/team-member-03",
+                                "people/team-member-04",
+                                "photos/apartment-living-sea-view",
+                                "photos/apartment-tower",
+                                "photos/arched-courtyard-terrace",
+                                "photos/architect-site-drawings",
+                                "photos/architect-sketching-plans",
+                                "photos/architectural-model-on-drawings",
+                                "photos/backwaters-aerial",
+                                "photos/bathroom-kota-stone",
+                                "photos/bedroom-teak-screen",
+                                "photos/brick-courtyard-garden",
+                                "photos/brick-courtyard-house-dusk",
+                                "photos/brick-courtyard-house-dusk-panorama",
+                                "photos/brick-garden-walkway",
+                                "photos/brick-house-arched-windows-night",
+                                "photos/brick-house-garden-path",
+                                "photos/brick-jali-facade",
+                                "photos/brick-veranda-garden",
+                                "photos/bright-living-room",
+                                "photos/canal-house-sunset",
+                                "photos/city-view-living-room",
+                                "photos/coastal-terrace-house",
+                                "photos/commercial-facade-dusk",
+                                "photos/construction-team-drawings",
+                                "photos/contemporary-villa-entrance",
+                                "photos/courtyard-facade-night",
+                                "photos/courtyard-house-reflection-dusk",
+                                "photos/courtyard-living-skylight",
+                                "photos/courtyard-reflecting-pool",
+                                "photos/courtyard-tree-timber-balconies",
+                                "photos/dark-lounge-interior",
+                                "photos/desert-villa-sunset",
+                                "photos/design-studio-3d-model",
+                                "photos/double-height-living-stair",
+                                "photos/family-lounge-garden-view",
+                                "photos/formal-dining-room",
+                                "photos/games-room-billiards",
+                                "photos/garden-path-modern-house",
+                                "photos/garden-room-window-seat",
+                                "photos/garden-veranda-chairs",
+                                "photos/glass-courtyard-garden",
+                                "photos/glass-office-tower",
+                                "photos/granite-kitchen",
+                                "photos/heritage-studio-interior",
+                                "photos/hillside-house-greenery",
+                                "photos/hillside-villa-sunset",
+                                "photos/homeowners-walkthrough",
+                                "photos/house-rain-garden",
+                                "photos/house-reflecting-pool",
+                                "photos/house-reflecting-pool-garden",
+                                "photos/house-timber-screen-porch",
+                                "photos/house-under-construction",
+                                "photos/kerala-house-pond",
+                                "photos/kitchen-island-teak",
+                                "photos/kitchen-joinery",
+                                "photos/lakeside-house-dusk",
+                                "photos/lakeside-pavilion-dusk",
+                                "photos/laterite-wall-timber-door",
+                                "photos/lime-plaster-stair-detail",
+                                "photos/living-room-garden-doors",
+                                "photos/living-room-tropical-wallpaper",
+                                "photos/living-room-tv-wall",
+                                "photos/massing-model",
+                                "photos/minimal-interior-yellow-armchair",
+                                "photos/modern-house-rain-dusk",
+                                "photos/narrow-urban-house-dusk",
+                                "photos/office-reception",
+                                "photos/open-pavilion-lounge-night",
+                                "photos/ornate-bedroom-suite",
+                                "photos/pavilion-fins-facade",
+                                "photos/pavilion-house-night",
+                                "photos/pond-house-dusk",
+                                "photos/riverside-house-night",
+                                "photos/sea-view-living-room",
+                                "photos/site-review-timber-screen",
+                                "photos/sofa-jali-detail",
+                                "photos/spiral-stair-courtyard",
+                                "photos/studio-workspace",
+                                "photos/teak-stair-handrail",
+                                "photos/timber-entrance-door",
+                                "photos/timber-gate-brick-wall",
+                                "photos/timber-house-night",
+                                "photos/timber-lounge-chair",
+                                "photos/timber-screen-atrium",
+                                "photos/two-storey-house-lawn",
+                                "photos/urban-street-houses",
+                                "photos/veranda-living-pool-view",
+                                "photos/veranda-night-forest",
+                                "photos/villa-pool-city-skyline",
+                                "photos/villa-pool-mountains",
+                                "photos/villa-pool-skyline-dusk",
+                                "photos/white-bathroom-checker-floor",
+                                "photos/white-bathroom-checker-floor-small",
+                                "photos/white-hallway-stair",
+                                "plants/ageratum",
+                                "plants/banana-leaf-plant",
+                                "plants/bird-of-paradise-flower",
+                                "plants/bird-of-paradise-terracotta",
+                                "plants/bird-of-paradise-white-pot",
+                                "plants/bougainvillea",
+                                "plants/boxwood",
+                                "plants/cactus-group",
+                                "plants/coleus",
+                                "plants/croton",
+                                "plants/fern",
+                                "plants/hanging-pothos",
+                                "plants/heliconia",
+                                "plants/potted-plant-on-chair",
+                                "plants/schefflera",
+                                "plants/window-box-flowers",
+                                "video/hero-poster-desktop",
+                                "video/hero-poster-mobile"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "src": { "type": "string", "minLength": 1 },
+                                "width": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "height": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "blurDataURL": { "type": "string" }
+                              },
+                              "required": ["src", "width", "height"],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "alt": { "type": "string" },
+                        "title": { "type": "string" },
+                        "meta": { "type": "string" },
+                        "text": { "type": "string" },
+                        "tag": { "type": "string" },
+                        "moreLabel": { "type": "string" }
+                      },
+                      "required": ["image", "alt", "title"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "moreLabel": { "type": "string" }
+                },
+                "required": ["type", "header", "columns", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "gallery" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "items": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "image": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "brand/logo",
+                                "partners/asian-paints",
+                                "partners/hettich",
+                                "partners/jaquar",
+                                "partners/kajaria",
+                                "people/client-avatar-01",
+                                "people/client-avatar-02",
+                                "people/client-avatar-03",
+                                "people/client-avatar-04",
+                                "people/client-avatar-05",
+                                "people/client-avatar-06",
+                                "people/client-story-01",
+                                "people/client-story-02",
+                                "people/client-story-03",
+                                "people/client-story-04",
+                                "people/founder",
+                                "people/team-member-01",
+                                "people/team-member-02",
+                                "people/team-member-03",
+                                "people/team-member-04",
+                                "photos/apartment-living-sea-view",
+                                "photos/apartment-tower",
+                                "photos/arched-courtyard-terrace",
+                                "photos/architect-site-drawings",
+                                "photos/architect-sketching-plans",
+                                "photos/architectural-model-on-drawings",
+                                "photos/backwaters-aerial",
+                                "photos/bathroom-kota-stone",
+                                "photos/bedroom-teak-screen",
+                                "photos/brick-courtyard-garden",
+                                "photos/brick-courtyard-house-dusk",
+                                "photos/brick-courtyard-house-dusk-panorama",
+                                "photos/brick-garden-walkway",
+                                "photos/brick-house-arched-windows-night",
+                                "photos/brick-house-garden-path",
+                                "photos/brick-jali-facade",
+                                "photos/brick-veranda-garden",
+                                "photos/bright-living-room",
+                                "photos/canal-house-sunset",
+                                "photos/city-view-living-room",
+                                "photos/coastal-terrace-house",
+                                "photos/commercial-facade-dusk",
+                                "photos/construction-team-drawings",
+                                "photos/contemporary-villa-entrance",
+                                "photos/courtyard-facade-night",
+                                "photos/courtyard-house-reflection-dusk",
+                                "photos/courtyard-living-skylight",
+                                "photos/courtyard-reflecting-pool",
+                                "photos/courtyard-tree-timber-balconies",
+                                "photos/dark-lounge-interior",
+                                "photos/desert-villa-sunset",
+                                "photos/design-studio-3d-model",
+                                "photos/double-height-living-stair",
+                                "photos/family-lounge-garden-view",
+                                "photos/formal-dining-room",
+                                "photos/games-room-billiards",
+                                "photos/garden-path-modern-house",
+                                "photos/garden-room-window-seat",
+                                "photos/garden-veranda-chairs",
+                                "photos/glass-courtyard-garden",
+                                "photos/glass-office-tower",
+                                "photos/granite-kitchen",
+                                "photos/heritage-studio-interior",
+                                "photos/hillside-house-greenery",
+                                "photos/hillside-villa-sunset",
+                                "photos/homeowners-walkthrough",
+                                "photos/house-rain-garden",
+                                "photos/house-reflecting-pool",
+                                "photos/house-reflecting-pool-garden",
+                                "photos/house-timber-screen-porch",
+                                "photos/house-under-construction",
+                                "photos/kerala-house-pond",
+                                "photos/kitchen-island-teak",
+                                "photos/kitchen-joinery",
+                                "photos/lakeside-house-dusk",
+                                "photos/lakeside-pavilion-dusk",
+                                "photos/laterite-wall-timber-door",
+                                "photos/lime-plaster-stair-detail",
+                                "photos/living-room-garden-doors",
+                                "photos/living-room-tropical-wallpaper",
+                                "photos/living-room-tv-wall",
+                                "photos/massing-model",
+                                "photos/minimal-interior-yellow-armchair",
+                                "photos/modern-house-rain-dusk",
+                                "photos/narrow-urban-house-dusk",
+                                "photos/office-reception",
+                                "photos/open-pavilion-lounge-night",
+                                "photos/ornate-bedroom-suite",
+                                "photos/pavilion-fins-facade",
+                                "photos/pavilion-house-night",
+                                "photos/pond-house-dusk",
+                                "photos/riverside-house-night",
+                                "photos/sea-view-living-room",
+                                "photos/site-review-timber-screen",
+                                "photos/sofa-jali-detail",
+                                "photos/spiral-stair-courtyard",
+                                "photos/studio-workspace",
+                                "photos/teak-stair-handrail",
+                                "photos/timber-entrance-door",
+                                "photos/timber-gate-brick-wall",
+                                "photos/timber-house-night",
+                                "photos/timber-lounge-chair",
+                                "photos/timber-screen-atrium",
+                                "photos/two-storey-house-lawn",
+                                "photos/urban-street-houses",
+                                "photos/veranda-living-pool-view",
+                                "photos/veranda-night-forest",
+                                "photos/villa-pool-city-skyline",
+                                "photos/villa-pool-mountains",
+                                "photos/villa-pool-skyline-dusk",
+                                "photos/white-bathroom-checker-floor",
+                                "photos/white-bathroom-checker-floor-small",
+                                "photos/white-hallway-stair",
+                                "plants/ageratum",
+                                "plants/banana-leaf-plant",
+                                "plants/bird-of-paradise-flower",
+                                "plants/bird-of-paradise-terracotta",
+                                "plants/bird-of-paradise-white-pot",
+                                "plants/bougainvillea",
+                                "plants/boxwood",
+                                "plants/cactus-group",
+                                "plants/coleus",
+                                "plants/croton",
+                                "plants/fern",
+                                "plants/hanging-pothos",
+                                "plants/heliconia",
+                                "plants/potted-plant-on-chair",
+                                "plants/schefflera",
+                                "plants/window-box-flowers",
+                                "video/hero-poster-desktop",
+                                "video/hero-poster-mobile"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "src": { "type": "string", "minLength": 1 },
+                                "width": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "height": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "blurDataURL": { "type": "string" }
+                              },
+                              "required": ["src", "width", "height"],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "alt": { "type": "string" },
+                        "caption": { "type": "string" },
+                        "wide": { "type": "boolean" }
+                      },
+                      "required": ["image", "alt", "caption"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "items"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "beforeAfter" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "pairs": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "before": {
+                          "type": "object",
+                          "properties": {
+                            "image": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "brand/logo",
+                                    "partners/asian-paints",
+                                    "partners/hettich",
+                                    "partners/jaquar",
+                                    "partners/kajaria",
+                                    "people/client-avatar-01",
+                                    "people/client-avatar-02",
+                                    "people/client-avatar-03",
+                                    "people/client-avatar-04",
+                                    "people/client-avatar-05",
+                                    "people/client-avatar-06",
+                                    "people/client-story-01",
+                                    "people/client-story-02",
+                                    "people/client-story-03",
+                                    "people/client-story-04",
+                                    "people/founder",
+                                    "people/team-member-01",
+                                    "people/team-member-02",
+                                    "people/team-member-03",
+                                    "people/team-member-04",
+                                    "photos/apartment-living-sea-view",
+                                    "photos/apartment-tower",
+                                    "photos/arched-courtyard-terrace",
+                                    "photos/architect-site-drawings",
+                                    "photos/architect-sketching-plans",
+                                    "photos/architectural-model-on-drawings",
+                                    "photos/backwaters-aerial",
+                                    "photos/bathroom-kota-stone",
+                                    "photos/bedroom-teak-screen",
+                                    "photos/brick-courtyard-garden",
+                                    "photos/brick-courtyard-house-dusk",
+                                    "photos/brick-courtyard-house-dusk-panorama",
+                                    "photos/brick-garden-walkway",
+                                    "photos/brick-house-arched-windows-night",
+                                    "photos/brick-house-garden-path",
+                                    "photos/brick-jali-facade",
+                                    "photos/brick-veranda-garden",
+                                    "photos/bright-living-room",
+                                    "photos/canal-house-sunset",
+                                    "photos/city-view-living-room",
+                                    "photos/coastal-terrace-house",
+                                    "photos/commercial-facade-dusk",
+                                    "photos/construction-team-drawings",
+                                    "photos/contemporary-villa-entrance",
+                                    "photos/courtyard-facade-night",
+                                    "photos/courtyard-house-reflection-dusk",
+                                    "photos/courtyard-living-skylight",
+                                    "photos/courtyard-reflecting-pool",
+                                    "photos/courtyard-tree-timber-balconies",
+                                    "photos/dark-lounge-interior",
+                                    "photos/desert-villa-sunset",
+                                    "photos/design-studio-3d-model",
+                                    "photos/double-height-living-stair",
+                                    "photos/family-lounge-garden-view",
+                                    "photos/formal-dining-room",
+                                    "photos/games-room-billiards",
+                                    "photos/garden-path-modern-house",
+                                    "photos/garden-room-window-seat",
+                                    "photos/garden-veranda-chairs",
+                                    "photos/glass-courtyard-garden",
+                                    "photos/glass-office-tower",
+                                    "photos/granite-kitchen",
+                                    "photos/heritage-studio-interior",
+                                    "photos/hillside-house-greenery",
+                                    "photos/hillside-villa-sunset",
+                                    "photos/homeowners-walkthrough",
+                                    "photos/house-rain-garden",
+                                    "photos/house-reflecting-pool",
+                                    "photos/house-reflecting-pool-garden",
+                                    "photos/house-timber-screen-porch",
+                                    "photos/house-under-construction",
+                                    "photos/kerala-house-pond",
+                                    "photos/kitchen-island-teak",
+                                    "photos/kitchen-joinery",
+                                    "photos/lakeside-house-dusk",
+                                    "photos/lakeside-pavilion-dusk",
+                                    "photos/laterite-wall-timber-door",
+                                    "photos/lime-plaster-stair-detail",
+                                    "photos/living-room-garden-doors",
+                                    "photos/living-room-tropical-wallpaper",
+                                    "photos/living-room-tv-wall",
+                                    "photos/massing-model",
+                                    "photos/minimal-interior-yellow-armchair",
+                                    "photos/modern-house-rain-dusk",
+                                    "photos/narrow-urban-house-dusk",
+                                    "photos/office-reception",
+                                    "photos/open-pavilion-lounge-night",
+                                    "photos/ornate-bedroom-suite",
+                                    "photos/pavilion-fins-facade",
+                                    "photos/pavilion-house-night",
+                                    "photos/pond-house-dusk",
+                                    "photos/riverside-house-night",
+                                    "photos/sea-view-living-room",
+                                    "photos/site-review-timber-screen",
+                                    "photos/sofa-jali-detail",
+                                    "photos/spiral-stair-courtyard",
+                                    "photos/studio-workspace",
+                                    "photos/teak-stair-handrail",
+                                    "photos/timber-entrance-door",
+                                    "photos/timber-gate-brick-wall",
+                                    "photos/timber-house-night",
+                                    "photos/timber-lounge-chair",
+                                    "photos/timber-screen-atrium",
+                                    "photos/two-storey-house-lawn",
+                                    "photos/urban-street-houses",
+                                    "photos/veranda-living-pool-view",
+                                    "photos/veranda-night-forest",
+                                    "photos/villa-pool-city-skyline",
+                                    "photos/villa-pool-mountains",
+                                    "photos/villa-pool-skyline-dusk",
+                                    "photos/white-bathroom-checker-floor",
+                                    "photos/white-bathroom-checker-floor-small",
+                                    "photos/white-hallway-stair",
+                                    "plants/ageratum",
+                                    "plants/banana-leaf-plant",
+                                    "plants/bird-of-paradise-flower",
+                                    "plants/bird-of-paradise-terracotta",
+                                    "plants/bird-of-paradise-white-pot",
+                                    "plants/bougainvillea",
+                                    "plants/boxwood",
+                                    "plants/cactus-group",
+                                    "plants/coleus",
+                                    "plants/croton",
+                                    "plants/fern",
+                                    "plants/hanging-pothos",
+                                    "plants/heliconia",
+                                    "plants/potted-plant-on-chair",
+                                    "plants/schefflera",
+                                    "plants/window-box-flowers",
+                                    "video/hero-poster-desktop",
+                                    "video/hero-poster-mobile"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "src": { "type": "string", "minLength": 1 },
+                                    "width": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "height": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "blurDataURL": { "type": "string" }
+                                  },
+                                  "required": ["src", "width", "height"],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "alt": { "type": "string" }
+                          },
+                          "required": ["image", "alt"],
+                          "additionalProperties": false
+                        },
+                        "after": {
+                          "type": "object",
+                          "properties": {
+                            "image": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "brand/logo",
+                                    "partners/asian-paints",
+                                    "partners/hettich",
+                                    "partners/jaquar",
+                                    "partners/kajaria",
+                                    "people/client-avatar-01",
+                                    "people/client-avatar-02",
+                                    "people/client-avatar-03",
+                                    "people/client-avatar-04",
+                                    "people/client-avatar-05",
+                                    "people/client-avatar-06",
+                                    "people/client-story-01",
+                                    "people/client-story-02",
+                                    "people/client-story-03",
+                                    "people/client-story-04",
+                                    "people/founder",
+                                    "people/team-member-01",
+                                    "people/team-member-02",
+                                    "people/team-member-03",
+                                    "people/team-member-04",
+                                    "photos/apartment-living-sea-view",
+                                    "photos/apartment-tower",
+                                    "photos/arched-courtyard-terrace",
+                                    "photos/architect-site-drawings",
+                                    "photos/architect-sketching-plans",
+                                    "photos/architectural-model-on-drawings",
+                                    "photos/backwaters-aerial",
+                                    "photos/bathroom-kota-stone",
+                                    "photos/bedroom-teak-screen",
+                                    "photos/brick-courtyard-garden",
+                                    "photos/brick-courtyard-house-dusk",
+                                    "photos/brick-courtyard-house-dusk-panorama",
+                                    "photos/brick-garden-walkway",
+                                    "photos/brick-house-arched-windows-night",
+                                    "photos/brick-house-garden-path",
+                                    "photos/brick-jali-facade",
+                                    "photos/brick-veranda-garden",
+                                    "photos/bright-living-room",
+                                    "photos/canal-house-sunset",
+                                    "photos/city-view-living-room",
+                                    "photos/coastal-terrace-house",
+                                    "photos/commercial-facade-dusk",
+                                    "photos/construction-team-drawings",
+                                    "photos/contemporary-villa-entrance",
+                                    "photos/courtyard-facade-night",
+                                    "photos/courtyard-house-reflection-dusk",
+                                    "photos/courtyard-living-skylight",
+                                    "photos/courtyard-reflecting-pool",
+                                    "photos/courtyard-tree-timber-balconies",
+                                    "photos/dark-lounge-interior",
+                                    "photos/desert-villa-sunset",
+                                    "photos/design-studio-3d-model",
+                                    "photos/double-height-living-stair",
+                                    "photos/family-lounge-garden-view",
+                                    "photos/formal-dining-room",
+                                    "photos/games-room-billiards",
+                                    "photos/garden-path-modern-house",
+                                    "photos/garden-room-window-seat",
+                                    "photos/garden-veranda-chairs",
+                                    "photos/glass-courtyard-garden",
+                                    "photos/glass-office-tower",
+                                    "photos/granite-kitchen",
+                                    "photos/heritage-studio-interior",
+                                    "photos/hillside-house-greenery",
+                                    "photos/hillside-villa-sunset",
+                                    "photos/homeowners-walkthrough",
+                                    "photos/house-rain-garden",
+                                    "photos/house-reflecting-pool",
+                                    "photos/house-reflecting-pool-garden",
+                                    "photos/house-timber-screen-porch",
+                                    "photos/house-under-construction",
+                                    "photos/kerala-house-pond",
+                                    "photos/kitchen-island-teak",
+                                    "photos/kitchen-joinery",
+                                    "photos/lakeside-house-dusk",
+                                    "photos/lakeside-pavilion-dusk",
+                                    "photos/laterite-wall-timber-door",
+                                    "photos/lime-plaster-stair-detail",
+                                    "photos/living-room-garden-doors",
+                                    "photos/living-room-tropical-wallpaper",
+                                    "photos/living-room-tv-wall",
+                                    "photos/massing-model",
+                                    "photos/minimal-interior-yellow-armchair",
+                                    "photos/modern-house-rain-dusk",
+                                    "photos/narrow-urban-house-dusk",
+                                    "photos/office-reception",
+                                    "photos/open-pavilion-lounge-night",
+                                    "photos/ornate-bedroom-suite",
+                                    "photos/pavilion-fins-facade",
+                                    "photos/pavilion-house-night",
+                                    "photos/pond-house-dusk",
+                                    "photos/riverside-house-night",
+                                    "photos/sea-view-living-room",
+                                    "photos/site-review-timber-screen",
+                                    "photos/sofa-jali-detail",
+                                    "photos/spiral-stair-courtyard",
+                                    "photos/studio-workspace",
+                                    "photos/teak-stair-handrail",
+                                    "photos/timber-entrance-door",
+                                    "photos/timber-gate-brick-wall",
+                                    "photos/timber-house-night",
+                                    "photos/timber-lounge-chair",
+                                    "photos/timber-screen-atrium",
+                                    "photos/two-storey-house-lawn",
+                                    "photos/urban-street-houses",
+                                    "photos/veranda-living-pool-view",
+                                    "photos/veranda-night-forest",
+                                    "photos/villa-pool-city-skyline",
+                                    "photos/villa-pool-mountains",
+                                    "photos/villa-pool-skyline-dusk",
+                                    "photos/white-bathroom-checker-floor",
+                                    "photos/white-bathroom-checker-floor-small",
+                                    "photos/white-hallway-stair",
+                                    "plants/ageratum",
+                                    "plants/banana-leaf-plant",
+                                    "plants/bird-of-paradise-flower",
+                                    "plants/bird-of-paradise-terracotta",
+                                    "plants/bird-of-paradise-white-pot",
+                                    "plants/bougainvillea",
+                                    "plants/boxwood",
+                                    "plants/cactus-group",
+                                    "plants/coleus",
+                                    "plants/croton",
+                                    "plants/fern",
+                                    "plants/hanging-pothos",
+                                    "plants/heliconia",
+                                    "plants/potted-plant-on-chair",
+                                    "plants/schefflera",
+                                    "plants/window-box-flowers",
+                                    "video/hero-poster-desktop",
+                                    "video/hero-poster-mobile"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "src": { "type": "string", "minLength": 1 },
+                                    "width": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "height": {
+                                      "type": "integer",
+                                      "exclusiveMinimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "blurDataURL": { "type": "string" }
+                                  },
+                                  "required": ["src", "width", "height"],
+                                  "additionalProperties": false
+                                }
+                              ]
+                            },
+                            "alt": { "type": "string" }
+                          },
+                          "required": ["image", "alt"],
+                          "additionalProperties": false
+                        },
+                        "title": { "type": "string" },
+                        "meta": { "type": "string" },
+                        "text": { "type": "string" }
+                      },
+                      "required": ["before", "after", "title", "meta", "text"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["type", "header", "pairs"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "related" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 2 },
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "services": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "architecture",
+                        "interior",
+                        "construction",
+                        "turnkey",
+                        "renovation",
+                        "exterior",
+                        "property-care"
+                      ]
+                    }
+                  }
+                },
+                "required": ["type", "header", "columns", "services"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "divisionCards" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "anyOf": [
+                      { "type": "number", "const": 2 },
+                      { "type": "number", "const": 3 },
+                      { "type": "number", "const": 4 },
+                      { "type": "number", "const": 5 }
+                    ]
+                  },
+                  "divisions": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["design", "interior", "infrastructure", "developers", "care"]
+                    }
+                  }
+                },
+                "required": ["type", "header", "columns", "divisions"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "type": { "type": "string", "const": "divisions" },
+                  "divisions": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["design", "interior", "infrastructure", "developers", "care"]
+                    }
+                  }
+                },
+                "required": ["type", "divisions"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "minLength": 1 },
+                  "tone": { "type": "string", "enum": ["light", "dark"] },
+                  "plant": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "plants/ageratum",
+                          "plants/banana-leaf-plant",
+                          "plants/bird-of-paradise-flower",
+                          "plants/bird-of-paradise-terracotta",
+                          "plants/bird-of-paradise-white-pot",
+                          "plants/bougainvillea",
+                          "plants/boxwood",
+                          "plants/cactus-group",
+                          "plants/coleus",
+                          "plants/croton",
+                          "plants/fern",
+                          "plants/hanging-pothos",
+                          "plants/heliconia",
+                          "plants/potted-plant-on-chair",
+                          "plants/schefflera",
+                          "plants/window-box-flowers"
+                        ]
+                      },
+                      "corner": {
+                        "type": "string",
+                        "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                      },
+                      "width": { "type": "number", "exclusiveMinimum": 0 }
+                    },
+                    "required": ["asset", "corner", "width"],
+                    "additionalProperties": false
+                  },
+                  "type": { "type": "string", "const": "testimonials" },
+                  "header": {
+                    "type": "object",
+                    "properties": {
+                      "kicker": { "type": "string" },
+                      "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                      "lead": { "type": "string" },
+                      "cta": {
+                        "type": "object",
+                        "properties": {
+                          "label": { "type": "string" },
+                          "href": { "type": "string", "minLength": 1 },
+                          "variant": {
+                            "type": "string",
+                            "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                          }
+                        },
+                        "required": ["label", "href"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": ["kicker", "title"],
+                    "additionalProperties": false
+                  },
+                  "testimonials": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "arch",
+                        "home-kochi",
+                        "thrissur",
+                        "ernakulam",
+                        "kozhikode",
+                        "alappuzha"
+                      ]
+                    }
+                  }
+                },
+                "required": ["type", "testimonials"],
+                "additionalProperties": false
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "tone": { "type": "string", "enum": ["light", "dark"] },
+              "plant": {
+                "type": "object",
+                "properties": {
+                  "asset": {
+                    "type": "string",
+                    "enum": [
+                      "plants/ageratum",
+                      "plants/banana-leaf-plant",
+                      "plants/bird-of-paradise-flower",
+                      "plants/bird-of-paradise-terracotta",
+                      "plants/bird-of-paradise-white-pot",
+                      "plants/bougainvillea",
+                      "plants/boxwood",
+                      "plants/cactus-group",
+                      "plants/coleus",
+                      "plants/croton",
+                      "plants/fern",
+                      "plants/hanging-pothos",
+                      "plants/heliconia",
+                      "plants/potted-plant-on-chair",
+                      "plants/schefflera",
+                      "plants/window-box-flowers"
+                    ]
+                  },
+                  "corner": {
+                    "type": "string",
+                    "enum": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                  },
+                  "width": { "type": "number", "exclusiveMinimum": 0 }
+                },
+                "required": ["asset", "corner", "width"],
+                "additionalProperties": false
+              },
+              "type": { "type": "string", "const": "indiaProjects" },
+              "header": {
+                "type": "object",
+                "properties": {
+                  "kicker": { "type": "string" },
+                  "title": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+                  "lead": { "type": "string" },
+                  "cta": {
+                    "type": "object",
+                    "properties": {
+                      "label": { "type": "string" },
+                      "href": { "type": "string", "minLength": 1 },
+                      "variant": {
+                        "type": "string",
+                        "enum": ["outline", "dark", "outline-light", "outline-ink"]
+                      }
+                    },
+                    "required": ["label", "href"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["kicker", "title"],
+                "additionalProperties": false
+              },
+              "filtersLabel": { "type": "string" },
+              "filters": {
+                "readOnly": true,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "anyOf": [
+                        { "type": "string", "enum": ["kochi", "kerala"] },
+                        { "type": "string", "const": "all" }
+                      ]
+                    },
+                    "label": { "type": "string" }
+                  },
+                  "required": ["value", "label"],
+                  "additionalProperties": false
+                }
+              },
+              "items": {
+                "readOnly": true,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "project": {
+                      "type": "string",
+                      "enum": [
+                        "obsidian-lounge",
+                        "velvet-suite-penthouse",
+                        "galicica-retreat",
+                        "palm-veil-residence",
+                        "cinder-house",
+                        "nila-apartments",
+                        "serein-wellness-club",
+                        "house-of-three-courts",
+                        "al-quoz-atelier",
+                        "greenfield-school-campus",
+                        "difc-gallery-office",
+                        "obsidian-lounge-kochi",
+                        "villa-noor",
+                        "the-courtyard-house",
+                        "canvas-kitchen",
+                        "harbour-loft",
+                        "desert-edge-villa",
+                        "palm-ridge-villa",
+                        "nila-workspace",
+                        "house-of-monsoon",
+                        "the-old-mill-renewal",
+                        "community-health-pavilion",
+                        "canopy-house",
+                        "jumeirah-courtyard-house",
+                        "river-edge-villa",
+                        "linear-courtyard-home",
+                        "garden-fold-house",
+                        "canal-house",
+                        "mattancherry-studio",
+                        "hillside-commons",
+                        "palm-residence",
+                        "courtyard-residence",
+                        "garden-house",
+                        "the-social-kitchen",
+                        "quiet-play-house",
+                        "monsoon-court",
+                        "studio-commons"
+                      ]
+                    },
+                    "meta": { "type": "string" },
+                    "area": { "type": "string", "enum": ["kochi", "kerala"] }
+                  },
+                  "required": ["project", "meta", "area"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["id", "type", "header", "filtersLabel", "filters", "items"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "kicker": { "type": "string" },
+        "heading": {
+          "type": "object",
+          "properties": {
+            "lines": { "readOnly": true, "type": "array", "items": { "type": "string" } },
+            "accent": { "type": "string" }
+          },
+          "required": ["lines"],
+          "additionalProperties": false
+        },
+        "lead": { "type": "string" },
+        "channels": {
+          "readOnly": true,
+          "type": "array",
+          "items": { "type": "string", "enum": ["email", "phone", "whatsapp"] }
+        },
+        "form": {
+          "type": "object",
+          "properties": {
+            "service": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "mode": { "type": "string", "const": "select" },
+                    "defaultService": {
+                      "type": "string",
+                      "enum": [
+                        "Architectural Design",
+                        "Interior Design",
+                        "Construction & Execution",
+                        "Turnkey Projects",
+                        "Renovation & Remodeling",
+                        "Exterior & Landscape Design",
+                        "Property Care & Maintenance"
+                      ]
+                    }
+                  },
+                  "required": ["mode"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "mode": { "type": "string", "const": "hidden" },
+                    "service": {
+                      "type": "string",
+                      "enum": [
+                        "Architectural Design",
+                        "Interior Design",
+                        "Construction & Execution",
+                        "Turnkey Projects",
+                        "Renovation & Remodeling",
+                        "Exterior & Landscape Design",
+                        "Property Care & Maintenance"
+                      ]
+                    }
+                  },
+                  "required": ["mode", "service"],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "extraFields": {
+              "readOnly": true,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string" },
+                  "options": { "readOnly": true, "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["name", "label", "options"],
+                "additionalProperties": false
+              }
+            },
+            "note": { "type": "string" },
+            "prefillLocation": { "type": "string" }
+          },
+          "required": ["service"],
+          "additionalProperties": false
+        },
+        "id": { "type": "string", "minLength": 1 }
+      },
+      "required": ["kicker", "heading", "lead", "channels", "form", "id"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["seo", "hero", "blocks", "contact"],
+  "additionalProperties": false
+}

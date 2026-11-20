@@ -1,7 +1,7 @@
 import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import type { ProjectMaterialsContent } from "@/content/project-details";
+import type { ProjectMaterialsContent } from "@/lib/schemas/project-details";
 
 import { ProjectHeading, ProjectImage, ProjectStatement, ProjectTwo } from "./project-ui";
 

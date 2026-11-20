@@ -10,14 +10,14 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { getProject, projectHref } from "@/content/projects";
-import { WORKS_FEATURED, type WorksFeaturedContent } from "@/content/works";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import type { WorksFeaturedContent } from "@/lib/schemas/works";
 
 import { WORKS_TITLE_CLASS } from "./works-title";
 
 type FeaturedProjectProps = {
-  readonly content?: WorksFeaturedContent;
+  readonly content: WorksFeaturedContent;
 };
 
 /**
@@ -27,11 +27,12 @@ type FeaturedProjectProps = {
  * "View Project" and three figures. One column below 1100px.
  *
  * The card and button open the featured project's page (KI-F09); the name printed over the photo is
- * kept as rendered (KI-F10, see `WORKS_FEATURED`). Tiny labels are 11px on phones (KI-A10).
+ * kept as rendered (KI-F10, see `WORKS_FEATURED` in `src/content/works.ts`). Tiny labels are 11px on phones (KI-A10).
  */
-export function FeaturedProject({ content = WORKS_FEATURED }: FeaturedProjectProps) {
+export async function FeaturedProject({ content }: FeaturedProjectProps) {
   const titleId = "works-featured-title";
-  const href = projectHref(getProject(content.project));
+  const refs = await getRefs();
+  const href = refs.projectHref(refs.project(content.project));
   return (
     <Section tone="light" data-parity="ft1" aria-labelledby={titleId}>
       <Container size="wide">

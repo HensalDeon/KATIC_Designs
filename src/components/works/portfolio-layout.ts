@@ -8,7 +8,8 @@ import { routes, WORKS_CATEGORIES, type WorksCategory } from "@/lib/routes";
 /** A portfolio filter: a category or every project. */
 export type WorksFilterValue = WorksCategory | "all";
 
-const PORTFOLIO_ID = "works-list";
+/** The portfolio section id (`section.sw#works-list`); legacy `#works/works-list/<f>` links land here. */
+export const WORKS_LIST_ID = "works-list";
 
 /**
  * The filter named by a `?category=` value. Missing, empty and unknown values show every project,
@@ -22,7 +23,7 @@ export function parseWorksCategory(value: string | null | undefined): WorksFilte
 
 /** Shareable URL of a filter state; it lands on the portfolio (`/works?category=x#works-list`). */
 export function worksFilterHref(filter: WorksFilterValue): string {
-  return filter === "all" ? `${routes.works}#${PORTFOLIO_ID}` : routes.worksCategory(filter);
+  return filter === "all" ? `${routes.works}#${WORKS_LIST_ID}` : routes.worksCategory(filter);
 }
 
 /**

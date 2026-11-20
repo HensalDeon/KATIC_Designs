@@ -3,7 +3,8 @@
     "page": {
       "seo": {
         "title": "Architecture & Interior Design Blog | Katic Designs",
-        "description": "Ideas on architecture, interiors, materials, construction and caring for homes in Kerala's climate."
+        "description": "Ideas on architecture, interiors, materials, construction and caring for homes in Kerala's climate.",
+        "categoryTitle": "{category} Articles | Katic Designs Blog"
       },
       "hero": {
         "image": "photos/brick-courtyard-house-dusk-panorama",
@@ -12,6 +13,7 @@
         "lead": "Notes on architecture, interiors, materials, construction and caring for the spaces we live in."
       },
       "listHeading": "Articles",
+      "categoryHeading": "{category} articles",
       "categoriesLabel": "Blog categories",
       "allCategories": "All",
       "readMore": "Read Article",
@@ -20,6 +22,7 @@
       "pageStep": 3
     },
     "article": {
+      "seoTitle": "{title} — Katic Designs",
       "breadcrumb": "Blog",
       "byline": "By",
       "latestHeading": "Latest articles",

@@ -213,6 +213,7 @@
       }
     ],
     "contact": {
+      "id": "dubai-contact",
       "kicker": "Start your project",
       "heading": { "lines": ["Start Your Project"], "accent": "in Dubai or India" },
       "lead": "For projects in Dubai and the UAE, and for Dubai-based clients building across India.",

@@ -134,6 +134,15 @@
             "text": "Installed and finished on site with KATIC Infrastructure."
           }
         ]
+      },
+      {
+        "type": "divisionCards",
+        "header": {
+          "kicker": "Explore our divisions",
+          "title": ["One vision.", "Five divisions."]
+        },
+        "columns": 4,
+        "divisions": ["design", "infrastructure", "developers", "care"]
       }
     ]
   }

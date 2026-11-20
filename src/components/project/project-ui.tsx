@@ -6,8 +6,8 @@ import { resolveImage, type SectionImage } from "@/components/sections/section-i
 import { ButtonLink, buttonVariants } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
-import type { ProjectLink, ProjectSectionHeading } from "@/content/project-details";
 import { cn } from "@/lib/cn";
+import type { ProjectLink, ProjectSectionHeading } from "@/lib/schemas/project-details";
 
 /**
  * Shared pieces of the project detail sections (`#p-project`, original lines 3782–3977): the

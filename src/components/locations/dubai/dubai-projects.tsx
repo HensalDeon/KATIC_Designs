@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import Image from "next/image";
 import Link from "next/link";
+import type { z } from "zod";
 
 import { LineBreaks } from "@/components/blocks/title-text";
 import { canvasSizes, resolveImage } from "@/components/sections/section-media";
@@ -9,20 +10,21 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import type { TitleLines } from "@/content/blocks";
-import { getProject, projectHref, type ProjectSlug } from "@/content/projects";
 import { cn } from "@/lib/cn";
+import { getRefs } from "@/lib/data";
+import type { Project, projectSlugSchema } from "@/lib/schemas/entities";
+import type { TitleLines } from "@/lib/schemas/primitives";
 
 import type { DubaiBlockProps } from "./dubai-block-props";
 import { DUBAI_TITLE } from "./dubai-title";
 
 /**
- * A mosaic card: the project by slug (name, location, cover and link come from `projects.ts`), with
+ * A mosaic card: the project by slug (name, location, cover and link come from the project), with
  * the card's own two labels. Cards describe the same project differently across pages (KI-D01:
  * "TURNKEY PROJECT" here, "Turnkey" elsewhere), so the labels are verbatim per card, not derived.
  */
 export type MosaicCard = {
-  readonly project: ProjectSlug;
+  readonly project: z.infer<typeof projectSlugSchema>;
   /** Small caps line over the photo, e.g. "RESIDENTIAL VILLA". */
   readonly label: string;
   /** Right end of the caption under the photo, e.g. "ARCHITECTURE". */
@@ -83,10 +85,11 @@ const CARD_WIDTHS: Record<MosaicRowLayout, readonly [number, number]> = {
  * Fixes: the label and name sit in one bottom-anchored column, so a name that wraps on phones no
  * longer covers the label (KI-L10); labels and captions are 11px on phones (KI-A10); the kicker on
  * black is brand orange (KI-A11); the title scales 58 → 46 → 34 (KI-N04). Cards link through
- * `projectHref` (P7-02).
+ * `projectHref` (P7-02, `getRefs`).
  */
-export function DubaiProjects({ content, tone, id }: DubaiBlockProps<DubaiProjectsContent>) {
+export async function DubaiProjects({ content, tone, id }: DubaiBlockProps<DubaiProjectsContent>) {
   const titleId = "dubai-projects-title";
+  const refs = await getRefs();
   return (
     <Section tone={tone} id={id} data-parity="s5" aria-labelledby={titleId}>
       <Container>
@@ -104,15 +107,20 @@ export function DubaiProjects({ content, tone, id }: DubaiBlockProps<DubaiProjec
 
         {content.rows.map((row) => (
           <ul key={row.cards.map((card) => card.project).join()} className={rowVariants(row)}>
-            {row.cards.map((card, index) => (
-              <li key={card.project}>
-                <ProjectTile
-                  card={card}
-                  layout={row.layout}
-                  width={CARD_WIDTHS[row.layout][index]}
-                />
-              </li>
-            ))}
+            {row.cards.map((card, index) => {
+              const project = refs.project(card.project);
+              return (
+                <li key={card.project}>
+                  <ProjectTile
+                    card={card}
+                    project={project}
+                    href={refs.projectHref(project)}
+                    layout={row.layout}
+                    width={CARD_WIDTHS[row.layout][index]}
+                  />
+                </li>
+              );
+            })}
           </ul>
         ))}
 
@@ -134,16 +142,19 @@ export function DubaiProjects({ content, tone, id }: DubaiBlockProps<DubaiProjec
 
 function ProjectTile({
   card,
+  project,
+  href,
   layout,
   width = 0,
 }: {
   card: MosaicCard;
+  project: Project;
+  href: string;
   layout: MosaicRowLayout;
   width: number | undefined;
 }) {
-  const project = getProject(card.project);
   return (
-    <Link href={projectHref(project)} className="group block text-white">
+    <Link href={href} className="group block text-white">
       <span
         className={cn(
           photoVariants({ layout }),

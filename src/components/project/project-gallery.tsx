@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 import { canvasSizes } from "@/components/sections/section-media";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import type { ProjectGalleryContent, ProjectGalleryRowLayout } from "@/content/project-details";
+import type { ProjectGalleryContent, ProjectGalleryRowLayout } from "@/lib/schemas/project-details";
 
 import { ProjectHeading, ProjectImage } from "./project-ui";
 

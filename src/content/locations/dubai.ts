@@ -1,24 +1,17 @@
-import type { DubaiContextContent } from "@/components/locations/dubai/dubai-context";
-import type { DubaiHeroContent } from "@/components/locations/dubai/dubai-hero";
-import type { DubaiOfficeContent } from "@/components/locations/dubai/dubai-office";
-import type { DubaiProjectsContent } from "@/components/locations/dubai/dubai-projects";
-import type { ContactSectionContent } from "@/components/sections/contact-section";
-import type { BlockBase, ContentBlock } from "@/content/blocks";
 import { OFFICES } from "@/content/site";
 import { routes } from "@/lib/routes";
+import type { DubaiBlock, DubaiPageContent, DubaiSeo } from "@/lib/schemas/locations";
 
 /**
  * Dubai location page (`#p-dubai`, original lines 4097–4215, page `<style>` 4098–4156; spec in
  * docs/analysis/04 §8): SEO, the bespoke banner, the ordered blocks (generic `ContentBlock`s plus
  * three Dubai-only ones) and the page's own contact section, verbatim from the original. Shared
  * entities (services, divisions, projects) are referenced by slug, never restated (D6, KI-D01).
- * Will come from Laravel (`GET /locations/dubai`) in Phase 11.
+ * Will come from Laravel (`GET /locations/dubai`, schema in `src/lib/schemas/locations.ts`).
  *
  * Image alts describe the image instead of repeating headlines (KI-A13). Placeholders the original
  * shows to visitors are kept and marked `TODO(content)` (D10).
  */
-
-export type DubaiSeo = { readonly title: string; readonly description: string };
 
 /** `data-title` / `data-desc` of `#p-dubai` (the title already ends in "| Katic Designs"). */
 export const DUBAI_SEO = {
@@ -34,18 +27,6 @@ export const DUBAI_IDS = {
   /** The contact section, as the original renames it at runtime (`<page>-contact`). */
   contact: "dubai-contact",
 } as const;
-
-/** "KATIC in Dubai" (`section.s1#dubai-context`): see `DubaiContext`. */
-export type DubaiContextBlock = BlockBase & { readonly type: "dubaiContext" } & DubaiContextContent;
-/** Office and contact details (`section.ks#dubai-office .koff`): see `DubaiOffice`. */
-export type DubaiOfficeBlock = BlockBase & { readonly type: "dubaiOffice" } & DubaiOfficeContent;
-/** Project mosaic (`section.s5`): see `DubaiProjects`. */
-export type DubaiProjectsBlock = BlockBase & {
-  readonly type: "dubaiProjects";
-} & DubaiProjectsContent;
-
-/** Every block the Dubai page can render, in the shared stack (`BlockStack`). */
-export type DubaiBlock = ContentBlock | DubaiContextBlock | DubaiOfficeBlock | DubaiProjectsBlock;
 
 /** Banner (`#p-dubai .hero`, lines 4157–4167). */
 export const DUBAI_HERO = {
@@ -66,7 +47,7 @@ export const DUBAI_HERO = {
     label: "UAE · RESIDENTIAL · COMMERCIAL",
     scroll: { label: "SCROLL TO EXPLORE", href: `#${DUBAI_IDS.context}` },
   },
-} as const satisfies DubaiHeroContent;
+} as const satisfies DubaiPageContent["hero"];
 
 /**
  * The page's blocks in the original's order. Tones alternate from white after the hero, which is
@@ -267,6 +248,7 @@ export const DUBAI_BLOCKS = [
  * are the site placeholders (KI-C01).
  */
 export const DUBAI_CONTACT = {
+  id: DUBAI_IDS.contact,
   kicker: "Start your project",
   heading: { lines: ["Start Your Project"], accent: "in Dubai or India" },
   lead: "For projects in Dubai and the UAE, and for Dubai-based clients building across India.",
@@ -288,4 +270,4 @@ export const DUBAI_CONTACT = {
     // The original's PREFILL (`dubai: {loc:'Dubai, UAE'}`) on "go to contact".
     prefillLocation: "Dubai, UAE",
   },
-} as const satisfies ContactSectionContent;
+} as const satisfies DubaiPageContent["contact"];

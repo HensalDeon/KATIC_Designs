@@ -1,6 +1,8 @@
 import { z } from "zod";
 
+import { aboutPageSchema } from "@/lib/schemas/about";
 import { blockDefaultsSchema, contactTemplateSchema } from "@/lib/schemas/blocks";
+import { divisionPageSchema } from "@/lib/schemas/divisions";
 import {
   divisionSchema,
   processStageSchema,
@@ -9,11 +11,20 @@ import {
   sectorSchema,
   testimonialSchema,
 } from "@/lib/schemas/entities";
+import { homePageSchema } from "@/lib/schemas/home";
+import { dubaiPageSchema, indiaPageSchema } from "@/lib/schemas/locations";
 import { mediaLibrarySchema } from "@/lib/schemas/media";
 import { navigationSchema } from "@/lib/schemas/navigation";
+import { newsItemSchema, newsPageSchema } from "@/lib/schemas/news";
+import { blogPageSchema, postCategorySchema, postSchema } from "@/lib/schemas/posts";
 import { divisionSlugSchema, list, serviceSlugSchema } from "@/lib/schemas/primitives";
+import { projectDetailSchema } from "@/lib/schemas/project-details";
+import { reviewsPageSchema } from "@/lib/schemas/reviews";
 import { servicePageSchema } from "@/lib/schemas/service-pages";
+import { servicesPageSchema } from "@/lib/schemas/services-page";
 import { siteSettingsSchema } from "@/lib/schemas/site";
+import { thankYouPageSchema } from "@/lib/schemas/thank-you";
+import { worksPageSchema } from "@/lib/schemas/works";
 
 import type { ContentRepository } from "../repository";
 import { ALL_CONTENT_TAG } from "../tags";
@@ -144,7 +155,7 @@ export const ENDPOINTS = {
   },
   getServicesPage: {
     path: "/pages/services",
-    schema: null,
+    schema: servicesPageSchema,
     tags: ["page:services"],
     summary: "The /services overview page.",
   },
@@ -158,7 +169,7 @@ export const ENDPOINTS = {
   },
   getDivisionPage: {
     path: "/divisions/{slug}",
-    schema: null,
+    schema: divisionPageSchema,
     notFound: true,
     tags: ["divisions", "division:{slug}"],
     summary: "One division page.",
@@ -168,13 +179,13 @@ export const ENDPOINTS = {
   // Locations ----------------------------------------------------------------------------------
   getIndiaPage: {
     path: "/locations/india",
-    schema: null,
+    schema: indiaPageSchema,
     tags: ["location:india"],
     summary: "The India location page.",
   },
   getDubaiPage: {
     path: "/locations/dubai",
-    schema: null,
+    schema: dubaiPageSchema,
     tags: ["location:dubai"],
     summary: "The Dubai location page.",
   },
@@ -188,7 +199,7 @@ export const ENDPOINTS = {
   },
   getProjectPage: {
     path: "/projects/{slug}/page",
-    schema: null,
+    schema: projectDetailSchema,
     notFound: true,
     tags: ["projects", "project:{slug}"],
     summary: "A project's detail page (case study).",
@@ -196,7 +207,7 @@ export const ENDPOINTS = {
   },
   getWorksPage: {
     path: "/pages/works",
-    schema: null,
+    schema: worksPageSchema,
     tags: ["page:works"],
     summary: "The /works page.",
   },
@@ -204,20 +215,20 @@ export const ENDPOINTS = {
   // Blog and news ------------------------------------------------------------------------------
   listPostCategories: {
     path: "/post-categories",
-    schema: null,
+    schema: list(postCategorySchema),
     tags: ["posts"],
     summary: "Blog categories (name and slug).",
   },
   listPosts: {
     path: "/posts",
     query: ["category"],
-    schema: null,
+    schema: list(postSchema),
     tags: ["posts"],
     summary: "Posts newest first; `?category=` is a category slug.",
   },
   getPost: {
     path: "/posts/{slug}",
-    schema: null,
+    schema: postSchema,
     notFound: true,
     tags: ["posts", "post:{slug}"],
     summary: "One article.",
@@ -225,19 +236,19 @@ export const ENDPOINTS = {
   },
   getBlogPage: {
     path: "/pages/blog",
-    schema: null,
+    schema: blogPageSchema,
     tags: ["page:blog"],
     summary: "Copy of the blog listing and article templates.",
   },
   listNews: {
     path: "/news",
-    schema: null,
+    schema: list(newsItemSchema),
     tags: ["news"],
     summary: "News items newest first.",
   },
   getNewsPage: {
     path: "/pages/news",
-    schema: null,
+    schema: newsPageSchema,
     tags: ["page:news"],
     summary: "The /news page.",
   },
@@ -245,25 +256,25 @@ export const ENDPOINTS = {
   // Pages --------------------------------------------------------------------------------------
   getHomePage: {
     path: "/pages/home",
-    schema: null,
+    schema: homePageSchema,
     tags: ["page:home"],
     summary: "The home page sections.",
   },
   getAboutPage: {
     path: "/pages/about",
-    schema: null,
+    schema: aboutPageSchema,
     tags: ["page:about"],
     summary: "The /about page sections.",
   },
   getReviewsPage: {
     path: "/pages/reviews",
-    schema: null,
+    schema: reviewsPageSchema,
     tags: ["page:reviews"],
     summary: "The /reviews page sections.",
   },
   getThankYouPage: {
     path: "/pages/thank-you",
-    schema: null,
+    schema: thankYouPageSchema,
     tags: ["page:thank-you"],
     summary: "The /thank-you page copy.",
   },

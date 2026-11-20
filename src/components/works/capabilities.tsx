@@ -9,14 +9,14 @@ import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/heading";
 import { Kicker } from "@/components/ui/kicker";
 import { Section } from "@/components/ui/section";
-import { WORKS_CAPABILITIES, type WorksCapabilitiesContent } from "@/content/works";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/routes";
+import type { WorksCapabilitiesContent } from "@/lib/schemas/works";
 
 import { WORKS_TITLE_CLASS } from "./works-title";
 
 type CapabilitiesProps = {
-  readonly content?: WorksCapabilitiesContent;
+  readonly content: WorksCapabilitiesContent;
 };
 
 /**
@@ -25,7 +25,7 @@ type CapabilitiesProps = {
  * 60px down, then four service cards (258px photo with icon and "+", a ruled 21px title, text and
  * "Explore Service →"; the photo zooms to 1.05 on hover). Two columns below 1100px, one on phones.
  */
-export function Capabilities({ content = WORKS_CAPABILITIES }: CapabilitiesProps) {
+export function Capabilities({ content }: CapabilitiesProps) {
   const titleId = "works-capabilities-title";
   return (
     <Section tone="light" data-parity="xp" aria-labelledby={titleId}>

@@ -7,8 +7,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Plant } from "@/components/ui/plant";
 import { Section } from "@/components/ui/section";
-import { REVIEWS_STORY, type ReviewsStoryContent } from "@/content/reviews";
 import { cn } from "@/lib/cn";
+import type { ReviewsStoryContent } from "@/lib/schemas/reviews";
 
 import { ReviewsHeading, SplitHeader } from "./reviews-ui";
 
@@ -33,11 +33,7 @@ const GALLERY = "reviews-story";
  * Fixes: each photo has its own descriptive alt instead of "From brief to built" ×4 (KI-A13); the
  * row titles are headings (h3) under the section title; the facts are 11px on phones (KI-A10).
  */
-export function ReviewsStory({
-  content = REVIEWS_STORY,
-}: {
-  readonly content?: ReviewsStoryContent;
-}) {
+export function ReviewsStory({ content }: { readonly content: ReviewsStoryContent }) {
   const room = phonePlantRoom(PLANT);
   const [main, ...thumbs] = content.images;
 

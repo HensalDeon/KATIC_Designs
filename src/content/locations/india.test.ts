@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { getProject } from "@/content/projects";
+import type { IndiaBlock, IndiaProjectsBlock } from "@/lib/schemas/locations";
 
-import { INDIA_PAGE, type IndiaBlock, type IndiaProjectsBlock } from "./india";
+import { INDIA_PAGE } from "./india";
 
 const blocks: readonly IndiaBlock[] = INDIA_PAGE.blocks;
 const projects = blocks.find(

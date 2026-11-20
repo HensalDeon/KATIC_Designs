@@ -7,8 +7,7 @@ import { ReviewsHero } from "@/components/reviews/reviews-hero";
 import { ReviewsProjects } from "@/components/reviews/reviews-projects";
 import { ReviewsStory } from "@/components/reviews/reviews-story";
 import { ReviewsTrust } from "@/components/reviews/reviews-trust";
-import { REVIEWS_SEO } from "@/content/reviews";
-import { getSite } from "@/lib/data";
+import { getReviewsPage, getSite } from "@/lib/data";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -17,7 +16,8 @@ export const ensureStatic = "navigation";
 
 // The original's `data-title` / `data-desc` (the title already ends in the brand).
 export async function generateMetadata(): Promise<Metadata> {
-  return pageMetadata({ path: routes.reviews, ...REVIEWS_SEO }, await getSite());
+  const [page, site] = await Promise.all([getReviewsPage(), getSite()]);
+  return pageMetadata({ path: routes.reviews, ...page.seo }, site);
 }
 
 /**
@@ -28,16 +28,17 @@ export async function generateMetadata(): Promise<Metadata> {
  * form) and no reveal-on-scroll: the original runs it on Home only (D7). The footer comes from the
  * layout.
  */
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const page = await getReviewsPage();
   return (
     <>
-      <ReviewsHero />
-      <ReviewsTrust />
-      <ReviewsClients />
-      <ReviewsExpertise />
-      <ReviewsStory />
-      <ReviewsProjects />
-      <ReviewsCta />
+      <ReviewsHero content={page.hero} />
+      <ReviewsTrust content={page.trust} />
+      <ReviewsClients content={page.clients} />
+      <ReviewsExpertise content={page.expertise} />
+      <ReviewsStory content={page.story} />
+      <ReviewsProjects content={page.projects} />
+      <ReviewsCta content={page.cta} />
     </>
   );
 }
