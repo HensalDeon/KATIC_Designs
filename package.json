@@ -30,6 +30,7 @@
     "perf:mobile": "PERF_PRESET=mobile lhci autorun",
     "perf:desktop": "PERF_PRESET=desktop lhci autorun",
     "parity:probe": "tsx tests/visual/probe.mts",
+    "mock:laravel": "tsx scripts/mock-laravel/server.mts",
     "prepare": "husky"
   },
   "dependencies": {
