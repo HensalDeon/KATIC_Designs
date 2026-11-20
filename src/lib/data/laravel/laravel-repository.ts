@@ -27,7 +27,10 @@ type Repo = ContentRepository;
 /** The resolved value of repository method `K`. */
 type Result<K extends EndpointName> = Awaited<ReturnType<Repo[K]>>;
 
-/** Pass-through for resources whose schema is not written yet (see `ENDPOINTS[…].schema`). */
+/**
+ * The raw read: the response is parsed with the resource's schema only after CMS uploads are
+ * inlined (`#inlineUploads`), so it is fetched unvalidated first.
+ */
 const UNVALIDATED = z.unknown();
 
 const BUNDLED_MEDIA: ReadonlySet<string> = new Set(Object.keys(media));
